@@ -1,0 +1,120 @@
+---
+title: Button
+description: Button component using @base-ui/react/button
+---
+
+The Button uses `@base-ui/react/button` as the primitive. Install when your style is `base-nova`, `base-vega`, etc.
+
+<ComponentPreview>
+  <div className="flex flex-wrap items-center gap-2 md:flex-row">
+    <Button variant="outline">Button</Button>
+    <Button variant="outline" size="icon" aria-label="Submit">
+      <ArrowUpIcon />
+    </Button>
+  </div>
+</ComponentPreview>
+
+## Install
+
+```bash
+npx shadcn@latest add @uxio/button
+```
+
+Configure your registry in `components.json`:
+
+```json
+{
+  "registries": {
+    "@uxio": "https://ui.uxio.dev/r/styles/{style}/{name}.json"
+  }
+}
+```
+
+The correct variant (base or radix) is resolved automatically from your `components.json` style.
+
+## Usage
+
+```tsx
+import { Button } from "@/components/ui/button"
+
+<Button variant="outline">Button</Button>
+```
+
+## Variants
+
+- **default**: Primary button style
+- **outline**: Bordered outline style
+- **secondary**: Secondary background
+- **ghost**: Minimal hover style
+- **destructive**: For dangerous actions
+- **link**: Text link style
+
+## Sizes
+
+- **default**, **xs**, **sm**, **lg**
+- **icon**, **icon-xs**, **icon-sm**, **icon-lg**
+
+## Examples
+
+### Default
+
+<ComponentPreview>
+  <Button>Button</Button>
+</ComponentPreview>
+
+### Outline
+
+<ComponentPreview>
+  <Button variant="outline">Outline</Button>
+</ComponentPreview>
+
+### Secondary
+
+<ComponentPreview>
+  <Button variant="secondary">Secondary</Button>
+</ComponentPreview>
+
+### Ghost
+
+<ComponentPreview>
+  <Button variant="ghost">Ghost</Button>
+</ComponentPreview>
+
+### Destructive
+
+<ComponentPreview>
+  <Button variant="destructive">Destructive</Button>
+</ComponentPreview>
+
+### Link
+
+<ComponentPreview>
+  <Button variant="link">Link</Button>
+</ComponentPreview>
+
+### Sizes
+
+<ComponentPreview>
+  <div className="flex flex-wrap items-center gap-2">
+    <Button size="xs" variant="outline">Extra Small</Button>
+    <Button size="sm" variant="outline">Small</Button>
+    <Button variant="outline">Default</Button>
+    <Button size="lg" variant="outline">Large</Button>
+  </div>
+</ComponentPreview>
+
+### As Link
+
+Base UI Button does not support `asChild`. Use `buttonVariants` with an `<a>` tag for link styling:
+
+```tsx
+import { buttonVariants } from "@/components/ui/button"
+
+<a href="#" className={buttonVariants({ variant: "secondary", size: "sm" })}>
+  Login
+</a>
+```
+
+<ComponentPreview>
+  <ButtonAsLink />
+</ComponentPreview>

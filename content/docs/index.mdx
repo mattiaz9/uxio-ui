@@ -1,0 +1,35 @@
+---
+title: Introduction
+description: Welcome to uxio UI documentation
+---
+
+# uxio UI
+
+An open-source UI library based on shadcn/ui, distributed via the
+[shadcn registry](https://ui.shadcn.com/docs/registry).
+
+## Component Categories
+
+- **[Overrides](/docs/overrides/radix/button)**: Enhancements of existing shadcn components (Base UI
+  and Radix variants)
+- **Layout**: Layout components
+- **UI**: Custom uxio UI components
+
+## Installation
+
+Configure your registry in `components.json`:
+
+```json
+{
+  "registries": {
+    "@uxio": "https://ui.uxio.dev/r/styles/{style}/{name}.json"
+  }
+}
+```
+
+Add components using the shadcn CLI. The correct variant (base or radix) is resolved automatically
+from your `components.json` style.
+
+```bash
+npx shadcn@latest add @uxio/button
+```

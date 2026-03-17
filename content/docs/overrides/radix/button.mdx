@@ -1,0 +1,123 @@
+---
+title: Button
+description: Button component using @radix-ui/react-slot for asChild support
+---
+
+The Button uses `@radix-ui/react-slot` for `asChild` support. Install when your style is `radix-nova`, `radix-vega`, etc.
+
+<ComponentPreview>
+  <div className="flex flex-wrap items-center gap-2 md:flex-row">
+    <ButtonRadix variant="outline">Button</ButtonRadix>
+    <ButtonRadix variant="outline" size="icon" aria-label="Submit">
+      <ArrowUpIcon />
+    </ButtonRadix>
+  </div>
+</ComponentPreview>
+
+## Install
+
+```bash
+npx shadcn@latest add @uxio/button
+```
+
+Configure your registry in `components.json`:
+
+```json
+{
+  "registries": {
+    "@uxio": "https://ui.uxio.dev/r/styles/{style}/{name}.json"
+  }
+}
+```
+
+The correct variant (base or radix) is resolved automatically from your `components.json` style.
+
+## Usage
+
+```tsx
+import { Button } from "@/components/ui/button"
+
+<Button variant="outline">Button</Button>
+```
+
+## Variants
+
+- **default**: Primary button style
+- **outline**: Bordered outline style
+- **secondary**: Secondary background
+- **ghost**: Minimal hover style
+- **destructive**: For dangerous actions
+- **link**: Text link style
+
+## Sizes
+
+- **default**, **xs**, **sm**, **lg**
+- **icon**, **icon-xs**, **icon-sm**, **icon-lg**
+
+## Examples
+
+### Default
+
+<ComponentPreview>
+  <ButtonRadix>Button</ButtonRadix>
+</ComponentPreview>
+
+### Outline
+
+<ComponentPreview>
+  <ButtonRadix variant="outline">Outline</ButtonRadix>
+</ComponentPreview>
+
+### Secondary
+
+<ComponentPreview>
+  <ButtonRadix variant="secondary">Secondary</ButtonRadix>
+</ComponentPreview>
+
+### Ghost
+
+<ComponentPreview>
+  <ButtonRadix variant="ghost">Ghost</ButtonRadix>
+</ComponentPreview>
+
+### Destructive
+
+<ComponentPreview>
+  <ButtonRadix variant="destructive">Destructive</ButtonRadix>
+</ComponentPreview>
+
+### Link
+
+<ComponentPreview>
+  <ButtonRadix variant="link">Link</ButtonRadix>
+</ComponentPreview>
+
+### Sizes
+
+<ComponentPreview>
+  <div className="flex flex-wrap items-center gap-2">
+    <ButtonRadix size="xs" variant="outline">Extra Small</ButtonRadix>
+    <ButtonRadix size="sm" variant="outline">Small</ButtonRadix>
+    <ButtonRadix variant="outline">Default</ButtonRadix>
+    <ButtonRadix size="lg" variant="outline">Large</ButtonRadix>
+  </div>
+</ComponentPreview>
+
+### As Child
+
+Use the `asChild` prop to make another component (like a link) look like a button:
+
+```tsx
+import { Link } from "@tanstack/react-router"
+import { Button } from "@/components/ui/button"
+
+<Button asChild>
+  <Link to="/login">Login</Link>
+</Button>
+```
+
+<ComponentPreview>
+  <ButtonRadix asChild>
+    <a href="#login">Login</a>
+  </ButtonRadix>
+</ComponentPreview>

@@ -1,0 +1,70 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "htmlWhitespaceSensitivity": "ignore",
+  "printWidth": 100,
+  "singleQuote": false,
+  "semi": false,
+  "useTabs": false,
+  "bracketSpacing": true,
+  "proseWrap": "always",
+  "arrowParens": "always",
+  "trailingComma": "all",
+  "sortImports": {
+    "newlinesBetween": false,
+    "customGroups": [
+      {
+        "groupName": "react",
+        "elementNamePattern": ["react", "react-dom"],
+        "modifiers": ["value"],
+      },
+      {
+        "groupName": "tanstack",
+        "elementNamePattern": ["@tanstack/**"],
+        "modifiers": ["value"],
+      },
+      {
+        "groupName": "icons",
+        "elementNamePattern": ["lucide-react", "@heroicons/**", "@icons-pack/react-simple-icons"],
+        "modifiers": ["value"],
+      },
+      {
+        "groupName": "assets",
+        "elementNamePattern": ["@/assets/**", "@/components/assets/**"],
+        "modifiers": ["value"],
+      },
+    ],
+    "groups": [
+      "react",
+      "tanstack",
+      "value-builtin",
+      "value-external",
+      "unknown",
+      {
+        "newlinesBetween": true,
+      },
+      "icons",
+      "assets",
+      {
+        "newlinesBetween": true,
+      },
+      "value-parent",
+      "value-sibling",
+      "value-index",
+      "value-internal",
+      {
+        "newlinesBetween": true,
+      },
+      "type-parent",
+      "type-sibling",
+      "type-index",
+      "type-internal",
+      "type-import",
+    ],
+  },
+  "sortTailwindcss": {
+    "stylesheet": "./src/styles/app.css",
+    "functions": ["clsx", "cva", "cn"],
+  },
+  "sortPackageJson": false,
+  "ignorePatterns": ["vite.config.ts", "source.config.ts", ".source/**", "*.gen.ts"],
+}

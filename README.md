@@ -1,36 +1,96 @@
-# TanStack Start - Basic Example
+# uxio UI
 
-This is the basic TanStack Start example, demonstrating the fundamentals of building applications with TanStack Router and TanStack Start.
+An open-source UI library based on [shadcn/ui](https://ui.shadcn.com), distributed via the
+[shadcn registry](https://ui.shadcn.com/docs/registry).
 
-- [TanStack Router Docs](https://tanstack.com/router)
+**Registry URL:** [ui.uxio.dev](https://ui.uxio.dev)
 
-It's deployed automagically with Netlify!
+## Stack
 
-- [Netlify](https://netlify.com/)
+- **Framework:** [TanStack Start](https://tanstack.com/start)
+- **Documentation:** [Fumadocs](https://www.fumadocs.dev)
+- **UI:** Tailwind CSS 4 + [shadcn/ui](https://ui.shadcn.com)
+- **Linting/Formatting:** [Oxlint](https://oxc.rs/docs/guide/usage/linter) +
+  [Oxfmt](https://oxc.rs/docs/guide/usage/formatter)
+- **Deployment:** Nitro on Vercel (static prerendering)
 
-## Start a new project based on this example
+## Component Categories
 
-To start a new project based on this example, run:
+- **Overrides:** Enhancements of existing shadcn components
+- **Layout:** Layout components
+- **UI:** Custom uxio UI components
 
-```sh
-npx gitpick TanStack/router/tree/main/examples/react/start-basic start-basic
+## Installation
+
+Add components using the shadcn CLI. The correct variant (base or radix) is resolved automatically
+from your `components.json` style. Radix is the default.
+
+```bash
+# Add @uxio to your components.json registries, then:
+npx shadcn@latest add @uxio/button
 ```
 
-## Getting Started
+Configure your registry in `components.json`:
 
-From your terminal:
+```json
+{
+  "registries": {
+    "@uxio": "https://ui.uxio.dev/r/styles/{style}/{name}.json"
+  }
+}
+```
 
-```sh
+## Development
+
+```bash
 pnpm install
 pnpm dev
 ```
 
-This starts your app in development mode, rebuilding assets on file changes.
-
 ## Build
 
-To build the app for production:
-
-```sh
-pnpm build
+```bash
+pnpm run build
 ```
+
+This runs:
+
+1. `registry:build` - Builds the shadcn registry JSON files
+2. `vite build` - Builds the app with static prerendering
+3. `tsc --noEmit` - Type checking
+
+## Scripts
+
+- `pnpm dev` - Start development server
+- `pnpm build` - Build for production
+- `pnpm preview` - Preview production build
+- `pnpm run registry:build` - Build registry JSON files only
+- `pnpm run lint` - Run oxlint
+- `pnpm run format` - Format with oxfmt
+- `pnpm run format:check` - Check formatting
+
+## Project Structure
+
+```
+├── content/docs/          # Fumadocs MDX content
+├── public/r/              # Registry JSON (generated)
+├── registry/              # Registry component source
+│   └── uxio/
+│       ├── overrides-button-base/ # Base UI button
+│       └── overrides-button-radix/ # Radix button
+├── src/
+│   ├── components/
+│   │   └── ui/           # shadcn components (used by app)
+│   ├── lib/
+│   ├── routes/
+│   └── styles/
+├── registry.json          # Registry manifest
+└── source.config.ts       # Fumadocs MDX config
+```
+
+## Adding New Components
+
+1. Create component in `registry/uxio/[category]-[name]/`
+2. Add entry to `registry.json`
+3. Run `pnpm run registry:build`
+4. Add documentation in `content/docs/`

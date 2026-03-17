@@ -14,6 +14,12 @@ importers:
       '@fontsource-variable/geist':
         specifier: ^5.2.8
         version: 5.2.8
+      '@fontsource/quantico':
+        specifier: ^5.2.7
+        version: 5.2.7
+      '@fontsource/tomorrow':
+        specifier: ^5.2.8
+        version: 5.2.8
       '@radix-ui/react-slot':
         specifier: ^1.2.4
         version: 1.2.4(@types/react@19.2.14)(react@19.2.4)
@@ -47,6 +53,9 @@ importers:
       lucide-react:
         specifier: ^0.577.0
         version: 0.577.0(react@19.2.4)
+      next-themes:
+        specifier: ^0.4.6
+        version: 0.4.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       react:
         specifier: ^19.0.0
         version: 19.2.4
@@ -93,6 +102,9 @@ importers:
       tailwindcss:
         specifier: ^4.1.18
         version: 4.2.1
+      tsx:
+        specifier: ^4.19.0
+        version: 4.21.0
       typescript:
         specifier: ^5.7.2
         version: 5.9.3
@@ -467,6 +479,12 @@ packages:
 
   '@fontsource-variable/geist@5.2.8':
     resolution: {integrity: sha512-cJ6m9e+8MQ5dCYJsLylfZrgBh6KkG4bOLckB35Tr9J/EqdkEM6QllH5PxqP1dhTvFup+HtMRPuz9xOjxXJggxw==}
+
+  '@fontsource/quantico@5.2.7':
+    resolution: {integrity: sha512-V8mZGguOmc7CtECQyGnBZ+GWElARkQmgTqrwlRYAWwE66m31QiktFu6vYHH0G1U0aJ1QziYMXNZxMDNfF9Z2Bw==}
+
+  '@fontsource/tomorrow@5.2.8':
+    resolution: {integrity: sha512-g3s6EpjhEXB1qW35LVmKLaHOruWEHBz7MomiJBVkLaW+IqLVavV9hI74g+c3DMnNJ7/09yw6odrhfpFIakJBoA==}
 
   '@formatjs/fast-memoize@3.1.1':
     resolution: {integrity: sha512-CbNbf+tlJn1baRnPkNePnBqTLxGliG6DDgNa/UtV66abwIjwsliPMOt0172tzxABYzSuxZBZfcp//qI8AvBWPg==}
@@ -4547,6 +4565,10 @@ snapshots:
   '@floating-ui/utils@0.2.11': {}
 
   '@fontsource-variable/geist@5.2.8': {}
+
+  '@fontsource/quantico@5.2.7': {}
+
+  '@fontsource/tomorrow@5.2.8': {}
 
   '@formatjs/fast-memoize@3.1.1': {}
 
