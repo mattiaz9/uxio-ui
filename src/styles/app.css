@@ -1,9 +1,10 @@
 @import "tailwindcss" source("../");
 @source "../../registry";
 @source "../examples/*/ui";
+
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "fumadocs-ui/css/neutral.css";
+@import "fumadocs-ui/css/shadcn.css";
 @import "fumadocs-ui/css/preset.css";
 @import "@fontsource-variable/geist";
 @import "@fontsource/tomorrow";
@@ -162,7 +163,7 @@
   --accent: oklch(0.269 0 0);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
-  --success: oklch(0.68 0.30 145.52);
+  --success: oklch(0.68 0.3 145.52);
   --info: oklch(0.72 0.38 250);
   --warning: oklch(0.78 0.14 72.83);
   --border: oklch(1 0 0 / 10%);
