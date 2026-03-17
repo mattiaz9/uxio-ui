@@ -33,4 +33,5 @@
   "[svg]": {
     "editor.defaultFormatter": "jock.svg",
   },
+  "tailwindCSS.classFunctions": ["clsx", "cva", "cn"],
 }

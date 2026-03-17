@@ -170,6 +170,18 @@
     @apply bg-destructive/10 hover:bg-destructive/20 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/20 text-destructive focus-visible:border-destructive/40 dark:hover:bg-destructive/30;
   }
 
+  .cn-button-variant-success {
+    @apply bg-success/10 hover:bg-success/20 focus-visible:ring-success/20 dark:focus-visible:ring-success/40 dark:bg-success/20 text-success focus-visible:border-success/40 dark:hover:bg-success/30;
+  }
+
+  .cn-button-variant-info {
+    @apply bg-info/10 hover:bg-info/20 focus-visible:ring-info/20 dark:focus-visible:ring-info/40 dark:bg-info/20 text-info focus-visible:border-info/40 dark:hover:bg-info/30;
+  }
+
+  .cn-button-variant-warning {
+    @apply bg-warning/10 hover:bg-warning/20 focus-visible:ring-warning/20 dark:focus-visible:ring-warning/40 dark:bg-warning/20 text-warning focus-visible:border-warning/40 dark:hover:bg-warning/30;
+  }
+
   .cn-button-variant-link {
     @apply text-primary underline-offset-4 hover:underline;
   }

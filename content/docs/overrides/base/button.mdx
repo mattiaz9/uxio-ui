@@ -3,16 +3,8 @@ title: Button
 description: Button component using @base-ui/react/button
 ---
 
-The Button uses `@base-ui/react/button` as the primitive. Install when your style is `base-nova`, `base-vega`, etc.
-
-<ComponentPreview>
-  <div className="flex flex-wrap items-center gap-2 md:flex-row">
-    <Button variant="outline">Button</Button>
-    <Button variant="outline" size="icon" aria-label="Submit">
-      <ArrowUpIcon />
-    </Button>
-  </div>
-</ComponentPreview>
+The Button uses `@base-ui/react/button` as the primitive. Install when your style is `base-nova`,
+`base-vega`, etc.
 
 ## Install
 
@@ -32,89 +24,55 @@ Configure your registry in `components.json`:
 
 The correct variant (base or radix) is resolved automatically from your `components.json` style.
 
-## Usage
+## Extended Features
 
-```tsx
-import { Button } from "@/components/ui/button"
+This override extends the original shadcn Button with additional semantic color variants.
 
-<Button variant="outline">Button</Button>
+- [Semantic Colors](#semantic-colors)
+- [Success Variant](#success-variant)
+- [Info Variant](#info-variant)
+- [Warning Variant](#warning-variant)
+- [Loading](#loading)
+
+### Semantic Colors
+
+Three new CSS variables are added to the theme (with dark mode equivalents). Add these to your
+`:root` and `.dark` in your global CSS:
+
+```css
+:root {
+  --success: oklch(0.62 0.36 145.52);
+  --info: oklch(0.71 0.45 250);
+  --warning: oklch(0.73 0.16 72.83);
+}
+
+.dark {
+  --success: oklch(0.68 0.3 145.52);
+  --info: oklch(0.72 0.38 250);
+  --warning: oklch(0.78 0.14 72.83);
+}
 ```
 
-## Variants
+### Success Variant
 
-- **default**: Primary button style
-- **outline**: Bordered outline style
-- **secondary**: Secondary background
-- **ghost**: Minimal hover style
-- **destructive**: For dangerous actions
-- **link**: Text link style
+For positive actions like confirmations or completed states.
 
-## Sizes
+<ComponentPreview name="base/button-success" />
 
-- **default**, **xs**, **sm**, **lg**
-- **icon**, **icon-xs**, **icon-sm**, **icon-lg**
+### Info Variant
 
-## Examples
+For informational actions or neutral highlights.
 
-### Default
+<ComponentPreview name="base/button-info" />
 
-<ComponentPreview>
-  <Button>Button</Button>
-</ComponentPreview>
+### Warning Variant
 
-### Outline
+For cautionary actions that require attention.
 
-<ComponentPreview>
-  <Button variant="outline">Outline</Button>
-</ComponentPreview>
+<ComponentPreview name="base/button-warning" />
 
-### Secondary
+### Loading
 
-<ComponentPreview>
-  <Button variant="secondary">Secondary</Button>
-</ComponentPreview>
+Use the `loading` prop to show a spinner and disable the button during async actions.
 
-### Ghost
-
-<ComponentPreview>
-  <Button variant="ghost">Ghost</Button>
-</ComponentPreview>
-
-### Destructive
-
-<ComponentPreview>
-  <Button variant="destructive">Destructive</Button>
-</ComponentPreview>
-
-### Link
-
-<ComponentPreview>
-  <Button variant="link">Link</Button>
-</ComponentPreview>
-
-### Sizes
-
-<ComponentPreview>
-  <div className="flex flex-wrap items-center gap-2">
-    <Button size="xs" variant="outline">Extra Small</Button>
-    <Button size="sm" variant="outline">Small</Button>
-    <Button variant="outline">Default</Button>
-    <Button size="lg" variant="outline">Large</Button>
-  </div>
-</ComponentPreview>
-
-### As Link
-
-Base UI Button does not support `asChild`. Use `buttonVariants` with an `<a>` tag for link styling:
-
-```tsx
-import { buttonVariants } from "@/components/ui/button"
-
-<a href="#" className={buttonVariants({ variant: "secondary", size: "sm" })}>
-  Login
-</a>
-```
-
-<ComponentPreview>
-  <ButtonAsLink />
-</ComponentPreview>
+<ComponentPreview name="base/button-loading" />
