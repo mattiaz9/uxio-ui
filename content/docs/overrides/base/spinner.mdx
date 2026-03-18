@@ -7,6 +7,18 @@ The Spinner override replaces the default Loader2 spinner with a tick-based desi
 
 ## Install
 
+Configure your registry in `components.json`:
+
+```json
+{
+  "registries": {
+    "@uxio": "https://ui.uxio.dev/r/styles/{style}/{name}.json"
+  }
+}
+```
+
+Then run:
+
 ```bash
 npx shadcn@latest add @uxio/spinner
 ```

@@ -50,12 +50,13 @@ const DEFAULT_STYLE = "nova";
 
 interface ItemConfig {
   name: string;
+  type?: "registry:ui" | "registry:style";
   title: string;
   description: string | { base: string; radix: string };
   categories?: string[];
   dependencies?: string[] | { base: string[]; radix: string[] };
   registryDependencies?: string[];
-  cssVars?: { theme?: Record<string, string> };
+  cssVars?: { theme?: Record<string, string>; light?: Record<string, string>; dark?: Record<string, string> };
   css?: Record<string, unknown>;
 }
 
@@ -291,6 +292,32 @@ async function main() {
     const base = getBaseForStyle(style);
 
     for (const config of configs) {
+      const itemType = config.type ?? "registry:ui";
+
+      if (itemType === "registry:style") {
+        const styleItem = {
+          $schema: "https://ui.shadcn.com/schema/registry-item.json",
+          name: config.name,
+          type: "registry:style" as const,
+          title: config.title,
+          description:
+            typeof config.description === "string"
+              ? config.description
+              : config.description.base,
+          categories: config.categories ?? [],
+          ...(config.cssVars && { cssVars: config.cssVars }),
+          ...(config.css && { css: config.css }),
+        };
+        writeFileSync(
+          resolve(outDir, `${config.name}.json`),
+          JSON.stringify(styleItem, null, 2),
+        );
+        console.log(
+          `  ${chalk.green("➜")}  ${chalk.bold("Built:")}   ${chalk.cyan(`${style}/${config.name}.json`)}`,
+        );
+        continue;
+      }
+
       const dirs = allDirs.get(config.name);
       if (!dirs) {
         console.warn(
@@ -317,7 +344,7 @@ async function main() {
     homepage: "https://ui.uxio.dev",
     items: configs.map((c) => ({
       name: c.name,
-      type: "registry:ui" as const,
+      type: (c.type ?? "registry:ui") as "registry:ui" | "registry:style",
       title: c.title,
       description: getIndexDescription(c),
       categories: c.categories ?? [],

@@ -1,5 +1,29 @@
 [
   {
+    "name": "semantic-colors",
+    "type": "registry:style",
+    "title": "Semantic Colors",
+    "description": "Adds --success, --info, and --warning CSS variables for semantic color variants.",
+    "categories": ["styles"],
+    "cssVars": {
+      "light": {
+        "success": "oklch(0.62 0.36 145.52)",
+        "info": "oklch(0.71 0.45 250)",
+        "warning": "oklch(0.73 0.16 72.8)"
+      },
+      "dark": {
+        "success": "oklch(0.62 0.36 145.52)",
+        "info": "oklch(0.71 0.45 250)",
+        "warning": "oklch(0.73 0.16 72.8)"
+      },
+      "theme": {
+        "color-success": "var(--success)",
+        "color-info": "var(--info)",
+        "color-warning": "var(--warning)"
+      }
+    }
+  },
+  {
     "name": "spinner",
     "type": "registry:ui",
     "title": "Spinner",
@@ -43,6 +67,6 @@
         "tailwind-merge"
       ]
     },
-    "registryDependencies": ["spinner"]
+    "registryDependencies": ["@uxio/semantic-colors", "spinner"]
   }
 ]
