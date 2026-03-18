@@ -1,0 +1,40 @@
+---
+title: Alert Dialog
+description: Alert dialog component using radix-ui
+---
+
+The Alert Dialog uses `radix-ui` for the primitive. Install when your style is `radix-nova`,
+`radix-vega`, etc.
+
+## Install
+
+Configure your registry in `components.json`:
+
+```json
+{
+  "registries": {
+    "@uxio": "https://ui.uxio.dev/r/styles/{style}/{name}.json"
+  }
+}
+```
+
+Then run:
+
+```bash
+npx shadcn@latest add @uxio/alert-dialog
+```
+
+The correct variant (base or radix) is resolved automatically from your `components.json` style.
+
+## Extended Features
+
+This override extends the original shadcn Alert Dialog with a content background change.
+
+- [Popover Background](#popover-background)
+
+### Popover Background
+
+The dialog content uses `bg-popover` instead of `bg-background` for a subtle visual distinction
+from the page background.
+
+<ComponentPreview name="radix/alert-dialog-default" />

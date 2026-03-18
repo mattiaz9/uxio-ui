@@ -1,9 +1,9 @@
 import * as React from "react"
-import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
+import { Slot } from "radix-ui"
 
-import { Spinner } from "@/registry/uxio/overrides-spinner/spinner"
 import { cn } from "@/lib/utils"
+import { Spinner } from "@/registry/uxio/overrides-spinner/spinner"
 
 const buttonVariants = cva(
   "cn-button group/button inline-flex shrink-0 items-center justify-center whitespace-nowrap transition-all outline-none select-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
@@ -52,7 +52,7 @@ function Button({
     asChild?: boolean
     loading?: boolean
   }) {
-  const Comp = asChild ? Slot : "button"
+  const Comp = asChild ? Slot.Root : "button"
   return (
     <Comp
       data-slot="button"

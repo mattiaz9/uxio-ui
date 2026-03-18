@@ -177,5 +177,29 @@
       ]
     },
     "registryDependencies": ["@uxio/semantic-colors", "spinner"]
+  },
+  {
+    "name": "alert-dialog",
+    "type": "registry:ui",
+    "title": "Alert Dialog",
+    "description": "Alert dialog with content background using bg-popover instead of bg-background.",
+    "categories": ["overrides"],
+    "dependencies": {
+      "base": [
+        "@base-ui/react/alert-dialog",
+        "class-variance-authority",
+        "clsx",
+        "lucide-react",
+        "tailwind-merge"
+      ],
+      "radix": [
+        "radix-ui",
+        "class-variance-authority",
+        "clsx",
+        "lucide-react",
+        "tailwind-merge"
+      ]
+    },
+    "registryDependencies": ["button"]
   }
 ]

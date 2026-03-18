@@ -1,6 +1,6 @@
 {
   "title": "Overrides",
-  "pages": ["[Alert](/docs/overrides/radix/alert)", "[Badge](/docs/overrides/radix/badge)", "[Button](/docs/overrides/radix/button)", "[Spinner](/docs/overrides/radix/spinner)"],
+  "pages": ["[Alert](/docs/overrides/radix/alert)", "[Alert Dialog](/docs/overrides/radix/alert-dialog)", "[Badge](/docs/overrides/radix/badge)", "[Button](/docs/overrides/radix/button)", "[Spinner](/docs/overrides/radix/spinner)"],
   "collapsible": false,
   "defaultOpen": true
 }
