@@ -16,6 +16,7 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync } from "fs";
 import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
+import chalk from "chalk";
 import { createStyleMap, transformStyle } from "shadcn/utils";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -190,7 +191,7 @@ async function copyUIToExamples() {
       );
     }
 
-    console.log(`Copied ${base}/ui/ to examples`);
+    console.log(`  ${chalk.green("➜")}  ${chalk.bold("Copied:")}   ${chalk.cyan(`${base}/ui/`)}`);
   }
 }
 
@@ -206,7 +207,7 @@ async function main() {
     }
 
     writeFileSync(outFile, JSON.stringify(item, null, 2));
-    console.log(`Built ${style}/button.json`);
+    console.log(`  ${chalk.green("➜")}  ${chalk.bold("Built:")}   ${chalk.cyan(`${style}/button.json`)}`);
   }
 
   // Also write a flat registry.json for the index (used by shadcn search)
@@ -230,7 +231,7 @@ async function main() {
     resolve(OUTPUT, "registry.json"),
     JSON.stringify(registryIndex, null, 2)
   );
-  console.log("Built registry.json");
+  console.log(`  ${chalk.green("➜")}  ${chalk.bold("Built:")}   ${chalk.cyan("registry.json")}`);
 
   // Copy styled components into examples for docs previews
   await copyUIToExamples();
