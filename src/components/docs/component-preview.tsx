@@ -9,6 +9,7 @@ function transformSource(source: string): string {
   return source
     .replace(/from\s*"\.\/ui\/button"/g, 'from "@/components/ui/button"')
     .replace(/from\s*"\.\/ui\/spinner"/g, 'from "@/components/ui/spinner"')
+    .replace(/from\s*"\.\/ui\/alert"/g, 'from "@/components/ui/alert"')
 }
 
 function CopyButton({ code }: { code: string }) {

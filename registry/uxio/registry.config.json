@@ -120,6 +120,18 @@
     }
   },
   {
+    "name": "alert",
+    "type": "registry:ui",
+    "title": "Alert",
+    "description": "Extended alert component with semantic color variants (info, success, warning).",
+    "categories": ["overrides"],
+    "dependencies": {
+      "base": ["class-variance-authority", "clsx", "tailwind-merge"],
+      "radix": ["class-variance-authority", "clsx", "tailwind-merge"]
+    },
+    "registryDependencies": ["@uxio/semantic-colors"]
+  },
+  {
     "name": "button",
     "type": "registry:ui",
     "title": "Button",
