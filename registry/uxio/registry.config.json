@@ -24,6 +24,80 @@
     }
   },
   {
+    "name": "tw-config-extended",
+    "type": "registry:style",
+    "title": "Tailwind Config Extended",
+    "description": "",
+    "categories": ["styles"],
+    "registryDependencies": ["@uxio/tw-extra-utils", "@uxio/tw-container-extended"]
+  },
+  {
+    "name": "tw-extra-utils",
+    "type": "registry:style",
+    "title": "Tailwind Utils",
+    "description": "",
+    "categories": ["styles"],
+    "cssVars": {
+      "theme": {
+        "--breakpoint-2xs": "23.5rem",
+        "--breakpoint-xs": "30rem",
+        "--breakpoint-sm": "40rem",
+        "--breakpoint-md": "48rem",
+        "--breakpoint-lg": "64rem",
+        "--breakpoint-xl": "80rem",
+        "--breakpoint-2xl": "96rem",
+        "--leading-tighter": "1.1",
+        "--text-2xs": "0.625rem",
+        "--text-2xs--line-height": "0.85rem"
+      }
+    },
+    "css": {
+      "@custom-variant scrollviewport (& > [data-radix-scroll-area-viewport] > div)": {},
+      "@custom-variant scrollviewportcontainer (& > [data-radix-scroll-area-viewport] > div)": {},
+      "@custom-variant scrollbar-v (& > [data-orientation=vertical])": {},
+      "@custom-variant scrollbar-h (& > [data-orientation=horizontal])": {},
+      "@custom-variant first-children (& > :first-child:not(:last-child))": {},
+      "@custom-variant last-children (& > :last-child:not(:first-child))": {},
+      "@custom-variant middle-children (& > :not(:first-child):not(:last-child))": {},
+      "@utility absolute-center": {
+        "position": "absolute",
+        "left": "50%",
+        "top": "50%",
+        "--tw-translate-x": "-50%",
+        "--tw-translate-y": "-50%",
+        "translate": "var(--tw-translate-x) var(--tw-translate-y)"
+      }
+    }
+  },
+  {
+    "name": "tw-container-extended",
+    "type": "registry:style",
+    "title": "Tailwind Container Extra",
+    "description": "",
+    "categories": ["styles"],
+    "css": {
+      "@layer base": {
+        "body": {
+          "--container-max-width": "100%",
+          "--container-padding": "1rem",
+          "--container-inset": "var(--container-padding)",
+          "@media (width >=theme(--breakpoint-xs))": {
+            "--container-padding": "1.5rem"
+          },
+          "@media (width >=theme(--breakpoint-xl))": {
+            "--container-max-width": "90rem",
+            "--container-inset": "calc(50vw - min(100vw, var(--container-max-width)) / 2 + var(--container-padding))"
+          }
+        }
+      },
+      "@utility container": {
+        "margin-inline": "auto",
+        "padding-inline": "var(--container-padding, 1rem)",
+        "max-width": "var(--container-max-width, 100%)"
+      }
+    }
+  },
+  {
     "name": "spinner",
     "type": "registry:ui",
     "title": "Spinner",
