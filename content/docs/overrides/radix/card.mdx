@@ -3,8 +3,16 @@ title: Card
 description: Card component with default and destructive variants
 ---
 
-The Card uses the same structure as the shadcn Card. Install when your style is
-`radix-nova`, `radix-vega`, etc.
+The Card uses the same structure as the shadcn Card. Install when your style is `radix-nova`,
+`radix-vega`, etc.
+
+## Extended Features
+
+This override extends the original shadcn Card with a variant prop (default/destructive) and adds a
+background to the card footer.
+
+- [Default Variant](#default-variant)
+- [Destructive Variant](#destructive-variant)
 
 ## Install
 
@@ -26,13 +34,7 @@ npx shadcn@latest add @uxio/card
 
 The correct variant (base or radix) is resolved automatically from your `components.json` style.
 
-## Extended Features
-
-This override extends the original shadcn Card with a variant prop (default/destructive) using class variance authority.
-
-- [Default Variant](#default-variant)
-- [Destructive Variant](#destructive-variant)
-- [Style Changes](#style-changes)
+## Examples
 
 ### Default Variant
 
@@ -42,14 +44,7 @@ The default variant provides standard card styling.
 
 ### Destructive Variant
 
-Use the destructive variant for warnings, errors, or destructive actions. It adds a subtle destructive ring and footer styling.
+Use the destructive variant for warnings, errors, or destructive actions. It adds a subtle
+destructive ring and footer styling.
 
 <ComponentPreview name="radix/card-destructive" />
-
-### Style Changes
-
-The following changes apply to the default style (no examples needed):
-
-- **`data-variant`**: The card has an extra attribute `data-variant={variant}` for styling hooks.
-- **Destructive ring**: When `variant="destructive"`, the card has `ring-destructive/30 dark:ring-destructive/60` applied.
-- **Footer styling**: The footer has added classes for destructive variant support: `border-t bg-muted group-data-[variant=destructive]/card:[.border-t]:border-destructive/30 group-data-[variant=destructive]/card:[.border-t]:bg-destructive/5`.

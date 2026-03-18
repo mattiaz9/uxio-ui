@@ -6,6 +6,16 @@ description: Button component using @radix-ui/react-slot for asChild support
 The Button uses `@radix-ui/react-slot` for `asChild` support. Install when your style is
 `radix-nova`, `radix-vega`, etc.
 
+## Extended Features
+
+This override extends the original shadcn Button with additional semantic color variants.
+
+- [Semantic Colors](#semantic-colors)
+- [Success Variant](#success-variant)
+- [Info Variant](#info-variant)
+- [Warning Variant](#warning-variant)
+- [Loading](#loading)
+
 ## Install
 
 Configure your registry in `components.json`:
@@ -26,16 +36,6 @@ npx shadcn@latest add @uxio/button
 
 The correct variant (base or radix) is resolved automatically from your `components.json` style.
 
-## Extended Features
-
-This override extends the original shadcn Button with additional semantic color variants.
-
-- [Semantic Colors](#semantic-colors)
-- [Success Variant](#success-variant)
-- [Info Variant](#info-variant)
-- [Warning Variant](#warning-variant)
-- [Loading](#loading)
-
 ### Semantic Colors
 
 The Button depends on the `semantic-colors` registry style extension, which adds these CSS variables
@@ -46,6 +46,8 @@ automatically when you install the button. The same values are used for both lig
 | `--success`| `oklch(0.62 0.36 145.52)`|
 | `--info`   | `oklch(0.71 0.45 250)`   |
 | `--warning`| `oklch(0.73 0.16 72.83)` |
+
+## Examples
 
 ### Success Variant
 

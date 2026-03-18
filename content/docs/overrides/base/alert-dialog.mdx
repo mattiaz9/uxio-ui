@@ -6,6 +6,12 @@ description: Alert dialog component using @base-ui/react/alert-dialog
 The Alert Dialog uses `@base-ui/react/alert-dialog` as the primitive. Install when your style is
 `base-nova`, `base-vega`, etc.
 
+## Extended Features
+
+This override extends the original shadcn Alert Dialog with a content background change.
+
+- [Popover Background](#popover-background)
+
 ## Install
 
 Configure your registry in `components.json`:
@@ -26,15 +32,11 @@ npx shadcn@latest add @uxio/alert-dialog
 
 The correct variant (base or radix) is resolved automatically from your `components.json` style.
 
-## Extended Features
-
-This override extends the original shadcn Alert Dialog with a content background change.
-
-- [Popover Background](#popover-background)
-
 ### Popover Background
 
 The dialog content uses `bg-popover` instead of `bg-background` for a subtle visual distinction
 from the page background.
+
+## Examples
 
 <ComponentPreview name="base/alert-dialog-default" />
