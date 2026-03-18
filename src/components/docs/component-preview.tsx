@@ -10,6 +10,7 @@ function transformSource(source: string): string {
     .replace(/from\s*"\.\/ui\/button"/g, 'from "@/components/ui/button"')
     .replace(/from\s*"\.\/ui\/spinner"/g, 'from "@/components/ui/spinner"')
     .replace(/from\s*"\.\/ui\/alert"/g, 'from "@/components/ui/alert"')
+    .replace(/from\s*"\.\/ui\/badge"/g, 'from "@/components/ui/badge"')
 }
 
 function CopyButton({ code }: { code: string }) {

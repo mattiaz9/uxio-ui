@@ -132,6 +132,29 @@
     "registryDependencies": ["@uxio/semantic-colors"]
   },
   {
+    "name": "badge",
+    "type": "registry:ui",
+    "title": "Badge",
+    "description": "Extended badge component with semantic color variants (info, success, warning).",
+    "categories": ["overrides"],
+    "dependencies": {
+      "base": [
+        "@base-ui/react/merge-props",
+        "@base-ui/react/use-render",
+        "class-variance-authority",
+        "clsx",
+        "tailwind-merge"
+      ],
+      "radix": [
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "tailwind-merge"
+      ]
+    },
+    "registryDependencies": ["@uxio/semantic-colors"]
+  },
+  {
     "name": "button",
     "type": "registry:ui",
     "title": "Button",

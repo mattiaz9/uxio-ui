@@ -33,5 +33,6 @@ user-invocable: true
   - Add a brief description and installation instructions. For reference look at
     `content/docs/overrides/{base}/button.mdx`
   - Add a ToC for the extended features including a example for each feature. For now just use a
-    dummy example with the default component.
-  - The dummy example should be placed in `src/examples/{base}/{name}-default.tsx`
+    default example with the default component features, unless instruction about the extended
+    features are provided.
+  - The examples should be placed in `src/examples/{base}/{name}-{feature}.tsx`.

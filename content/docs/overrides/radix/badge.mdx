@@ -1,0 +1,65 @@
+---
+title: Badge
+description: Badge component using @radix-ui/react-slot for asChild support
+---
+
+The Badge uses `@radix-ui/react-slot` for `asChild` support. Install when your style is
+`radix-nova`, `radix-vega`, etc.
+
+## Install
+
+Configure your registry in `components.json`:
+
+```json
+{
+  "registries": {
+    "@uxio": "https://ui.uxio.dev/r/styles/{style}/{name}.json"
+  }
+}
+```
+
+Then run:
+
+```bash
+npx shadcn@latest add @uxio/badge
+```
+
+The correct variant (base or radix) is resolved automatically from your `components.json` style.
+
+## Extended Features
+
+This override extends the original shadcn Badge with additional semantic color variants.
+
+- [Semantic Colors](#semantic-colors)
+- [Success Variant](#success-variant)
+- [Info Variant](#info-variant)
+- [Warning Variant](#warning-variant)
+
+### Semantic Colors
+
+The Badge depends on the `semantic-colors` registry style extension, which adds these CSS variables
+automatically when you install the badge. The same values are used for both light and dark mode:
+
+| Variable   | Value                    |
+| ---------- | ------------------------ |
+| `--success`| `oklch(0.62 0.36 145.52)`|
+| `--info`   | `oklch(0.71 0.45 250)`   |
+| `--warning`| `oklch(0.73 0.16 72.83)` |
+
+### Success Variant
+
+For positive states like completed or confirmed.
+
+<ComponentPreview name="radix/badge-success" />
+
+### Info Variant
+
+For informational highlights or neutral status.
+
+<ComponentPreview name="radix/badge-info" />
+
+### Warning Variant
+
+For cautionary states that require attention.
+
+<ComponentPreview name="radix/badge-warning" />
