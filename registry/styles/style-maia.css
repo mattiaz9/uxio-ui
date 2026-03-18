@@ -174,4 +174,39 @@
   .cn-badge-variant-warning {
     @apply bg-warning/10 [a]:hover:bg-warning/20 focus-visible:ring-warning/20 dark:focus-visible:ring-warning/40 text-warning dark:bg-warning/20;
   }
+
+  /* MARK: Card */
+  .cn-card {
+    @apply ring-foreground/10 bg-card text-card-foreground gap-4 overflow-hidden rounded-4xl py-4 text-sm ring-1 has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 data-[size=sm]:gap-3 data-[size=sm]:py-3 data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-t-4xl *:[img:last-child]:rounded-b-4xl;
+  }
+
+  .cn-card-header {
+    @apply gap-1 rounded-t-4xl px-4 group-data-[size=sm]/card:px-3 [.border-b]:pb-4 group-data-[size=sm]/card:[.border-b]:pb-3;
+  }
+
+  .cn-card-title {
+    @apply text-base leading-snug font-medium group-data-[size=sm]/card:text-sm;
+  }
+
+  .cn-card-description {
+    @apply text-muted-foreground text-sm;
+  }
+
+  .cn-card-action {
+  }
+
+  .cn-card-content {
+    @apply px-4 group-data-[size=sm]/card:px-3;
+  }
+
+  .cn-card-footer {
+    @apply bg-muted/50 rounded-b-4xl border-t p-4 group-data-[size=sm]/card:p-3;
+  }
+
+  .cn-card-variant-default {
+  }
+
+  .cn-card-variant-destructive {
+    @apply ring-destructive/30 dark:ring-destructive/60;
+  }
 }

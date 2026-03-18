@@ -32,6 +32,7 @@ user-invocable: true
 - Add docs pages for each framework used in `content/docs/overrides/{base}/{name}.mdx`
   - Add a brief description and installation instructions. For reference look at
     `content/docs/overrides/{base}/button.mdx`
+  - Add links in `content/docs/overrides/meta.json` for the new component.
   - Add a ToC for the extended features including a example for each feature. For now just use a
     default example with the default component features, unless instruction about the extended
     features are provided.

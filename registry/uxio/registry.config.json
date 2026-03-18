@@ -179,6 +179,17 @@
     "registryDependencies": ["@uxio/semantic-colors", "spinner"]
   },
   {
+    "name": "card",
+    "type": "registry:ui",
+    "title": "Card",
+    "description": "Extended card component with default and destructive variants.",
+    "categories": ["overrides"],
+    "dependencies": {
+      "base": ["class-variance-authority", "clsx", "tailwind-merge"],
+      "radix": ["class-variance-authority", "clsx", "tailwind-merge"]
+    }
+  },
+  {
     "name": "alert-dialog",
     "type": "registry:ui",
     "title": "Alert Dialog",
