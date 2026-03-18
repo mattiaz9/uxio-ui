@@ -3,7 +3,7 @@ import { resolve, dirname } from "path"
 import { fileURLToPath } from "url"
 
 /**
- * Vite plugin that watches the registry folder and src/components/ui/spinner.tsx,
+ * Vite plugin that watches the registry folder
  * and runs the registry build script when changes are detected.
  *
  * This keeps the registry JSON and example components in sync during development.

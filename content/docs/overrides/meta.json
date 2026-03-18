@@ -1,6 +1,6 @@
 {
   "title": "Overrides",
-  "pages": ["[Button](/docs/overrides/radix/button)"],
+  "pages": ["[Button](/docs/overrides/radix/button)", "[Spinner](/docs/overrides/radix/spinner)"],
   "collapsible": false,
   "defaultOpen": true
 }

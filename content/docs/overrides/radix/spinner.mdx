@@ -1,0 +1,28 @@
+---
+title: Spinner
+description: Tick-based spinner override — a redesign of the original shadcn spinner
+---
+
+The Spinner override replaces the default Loader2 spinner with a tick-based design.
+
+## Install
+
+```bash
+npx shadcn@latest add @uxio/spinner
+```
+
+The animation CSS is automatically injected into your project's globals file when you add the component (via shadcn registry `css` and `cssVars`).
+
+## Props
+
+- `size` — Size of the spinner (default: 1em)
+- `ticksCount` — Number of ticks (default: 12)
+- `tickWidth` — Width of each tick (default: "8%")
+- `className` — Additional classes
+
+## Usage
+
+```tsx
+<Spinner />
+<Spinner className="size-8" ticksCount={8} />
+```

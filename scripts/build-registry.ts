@@ -2,15 +2,18 @@
 /**
  * Build uxio registry with shadcn-style structure: styles/{style}/{name}.json
  *
- * Matches shadcn's approach:
- * 1. Reads style CSS (style-nova.css, style-vega.css, etc.) to create a style map
- * 2. Transforms component source: replaces cn-* placeholders with actual Tailwind
- * 3. Outputs registry JSON with transformed content per style
- * 4. Copies nova-styled components into src/examples/{base}/ui/ for docs previews
+ * Auto-discovers components from registry/uxio/ directory structure and reads
+ * shared config from registry/uxio/registry.config.json.
  *
- * The CLI replaces {style} in the registry URL with the project's components.json
- * style (e.g. base-nova, radix-nova), so users run `npx shadcn add @uxio/button`
- * and get the correct variant with styles baked in.
+ * Directory conventions:
+ *   overrides-{name}-base/   → Base UI variant
+ *   overrides-{name}-radix/  → Radix variant
+ *   overrides-{name}/        → Shared (same for all bases)
+ *
+ * Config drives: title, description, dependencies, registryDependencies,
+ * css, cssVars, categories. The build script merges css/cssVars from
+ * registryDependencies automatically so animation definitions are never
+ * duplicated.
  */
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync } from "fs";
@@ -23,9 +26,10 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
 const OUTPUT = resolve(ROOT, "public/r");
 const REGISTRY_STYLES = resolve(ROOT, "registry/styles");
+const REGISTRY_COMPONENTS = resolve(ROOT, "registry/uxio");
 const EXAMPLES_DIR = resolve(ROOT, "src/examples");
+const CONFIG_PATH = resolve(REGISTRY_COMPONENTS, "registry.config.json");
 
-// All shadcn style names (base + style or radix + style)
 const STYLES = [
   "base-nova",
   "radix-nova",
@@ -39,32 +43,121 @@ const STYLES = [
   "radix-mira",
 ] as const;
 
-const BASE_DEPS = [
-  "@base-ui/react/button",
-  "class-variance-authority",
-  "clsx",
-  "lucide-react",
-  "tailwind-merge",
-];
+const BASES = ["base", "radix"] as const;
+const DEFAULT_STYLE = "nova";
 
-const RADIX_DEPS = [
-  "@radix-ui/react-slot",
-  "class-variance-authority",
-  "clsx",
-  "lucide-react",
-  "tailwind-merge",
-];
+// ---------------------------------------------------------------------------
+// Config types
+// ---------------------------------------------------------------------------
 
-const SPINNER_PATH = resolve(ROOT, "src/components/ui/spinner.tsx");
+interface ItemConfig {
+  name: string;
+  title: string;
+  description: string | { base: string; radix: string };
+  categories?: string[];
+  dependencies?: string[] | { base: string[]; radix: string[] };
+  registryDependencies?: string[];
+  cssVars?: { theme?: Record<string, string> };
+  css?: Record<string, unknown>;
+}
+
+// ---------------------------------------------------------------------------
+// Directory scanning
+// ---------------------------------------------------------------------------
+
+interface ComponentDirs {
+  shared?: string;
+  base?: string;
+  radix?: string;
+}
+
+function scanComponents(): Map<string, ComponentDirs> {
+  const map = new Map<string, ComponentDirs>();
+  const dirs = readdirSync(REGISTRY_COMPONENTS, { withFileTypes: true })
+    .filter((d) => d.isDirectory() && d.name.startsWith("overrides-"));
+
+  for (const d of dirs) {
+    const withoutPrefix = d.name.replace(/^overrides-/, "");
+    let name: string;
+    let variant: "shared" | "base" | "radix";
+
+    if (withoutPrefix.endsWith("-base")) {
+      name = withoutPrefix.replace(/-base$/, "");
+      variant = "base";
+    } else if (withoutPrefix.endsWith("-radix")) {
+      name = withoutPrefix.replace(/-radix$/, "");
+      variant = "radix";
+    } else {
+      name = withoutPrefix;
+      variant = "shared";
+    }
+
+    if (!map.has(name)) map.set(name, {});
+    map.get(name)![variant] = d.name;
+  }
+
+  return map;
+}
+
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
 
 function getBaseForStyle(style: string): "base" | "radix" {
   return style.startsWith("base-") ? "base" : "radix";
 }
 
-/** Map style name (e.g. base-nova) to style CSS file name (e.g. nova) */
 function getStyleName(style: string): string {
   return style.replace(/^(base|radix)-/, "");
 }
+
+function getDependencies(config: ItemConfig, base: "base" | "radix"): string[] {
+  if (!config.dependencies) return [];
+  if (Array.isArray(config.dependencies)) return config.dependencies;
+  return config.dependencies[base] ?? [];
+}
+
+function getDescription(config: ItemConfig, base: "base" | "radix"): string {
+  if (typeof config.description === "string") return config.description;
+  return config.description[base];
+}
+
+function getIndexDescription(config: ItemConfig): string {
+  if (typeof config.description === "string") return config.description;
+  return config.description.base;
+}
+
+/**
+ * Rewrite `@/registry/uxio/overrides-…/file` imports.
+ * - consumer: → `@/components/ui/file`  (what end-users receive)
+ * - example:  → `./file`                (local examples folder)
+ */
+function rewriteRegistryImports(
+  content: string,
+  mode: "consumer" | "example",
+): string {
+  const replacement =
+    mode === "consumer" ? "@/components/ui/$1" : "./$1";
+  return content.replace(
+    /@\/registry\/uxio\/overrides-[^/]+\/([^"']+)/g,
+    replacement,
+  );
+}
+
+function readComponentFiles(
+  dirPath: string,
+): Array<{ filename: string; content: string }> {
+  return readdirSync(dirPath)
+    .filter((f) => f.endsWith(".tsx") || f.endsWith(".ts"))
+    .map((f) => ({
+      filename: f,
+      content: readFileSync(resolve(dirPath, f), "utf-8"),
+    }));
+}
+
+// ---------------------------------------------------------------------------
+// Registry item types
+// ---------------------------------------------------------------------------
 
 interface RegistryItem {
   $schema: string;
@@ -74,80 +167,77 @@ interface RegistryItem {
   description: string;
   dependencies: string[];
   registryDependencies: string[];
-  files: Array<{
-    path: string;
-    content: string;
-    type: "registry:ui";
-  }>;
+  files: Array<{ path: string; content: string; type: "registry:ui" }>;
   categories: string[];
+  cssVars?: { theme?: Record<string, string> };
+  css?: Record<string, unknown>;
 }
 
-async function buildButtonItem(style: string): Promise<RegistryItem> {
-  const base = getBaseForStyle(style);
-  const styleName = getStyleName(style);
-  const sourcePath =
-    base === "base"
-      ? resolve(ROOT, "registry/uxio/overrides-button-base/button.tsx")
-      : resolve(ROOT, "registry/uxio/overrides-button-radix/button.tsx");
+// ---------------------------------------------------------------------------
+// Build a single registry item for a given style
+// ---------------------------------------------------------------------------
 
-  const styleCssPath = resolve(REGISTRY_STYLES, `style-${styleName}.css`);
-  if (!existsSync(styleCssPath)) {
-    throw new Error(`Style CSS not found: ${styleCssPath}`);
+async function buildItem(
+  config: ItemConfig,
+  dirs: ComponentDirs,
+  allDirs: Map<string, ComponentDirs>,
+  style: string,
+  styleMap: ReturnType<typeof createStyleMap>,
+): Promise<RegistryItem> {
+  const base = getBaseForStyle(style);
+  const dirName = dirs[base] ?? dirs.shared;
+  if (!dirName) {
+    throw new Error(`No directory found for "${config.name}" (${base})`);
   }
 
-  const styleCss = readFileSync(styleCssPath, "utf-8");
-  const styleMap = createStyleMap(styleCss);
+  const dirPath = resolve(REGISTRY_COMPONENTS, dirName);
+  const sourceFiles = readComponentFiles(dirPath);
 
-  const source = readFileSync(sourcePath, "utf-8");
-  const content = await transformStyle(source, { styleMap });
-
-  const spinnerContent = existsSync(SPINNER_PATH)
-    ? readFileSync(SPINNER_PATH, "utf-8")
-    : null;
-
-  const files: RegistryItem["files"] = [
-    {
-      path: `registry/uxio/overrides-button-${base}/button.tsx`,
-      content,
-      type: "registry:ui",
-    },
-  ];
-
-  if (spinnerContent) {
+  const files: RegistryItem["files"] = [];
+  for (const { filename, content: raw } of sourceFiles) {
+    let content = await transformStyle(raw, { styleMap });
+    content = rewriteRegistryImports(content, "consumer");
     files.push({
-      path: "components/ui/spinner.tsx",
-      content: spinnerContent,
+      path: `components/ui/${filename}`,
+      content,
       type: "registry:ui",
     });
   }
 
-  return {
+  for (const depName of config.registryDependencies ?? []) {
+    const depDirs = allDirs.get(depName);
+    if (!depDirs) continue;
+    const depDirName = depDirs[base] ?? depDirs.shared;
+    if (!depDirName) continue;
+    const depPath = resolve(REGISTRY_COMPONENTS, depDirName);
+    for (const { filename, content } of readComponentFiles(depPath)) {
+      if (files.some((f) => f.path === `components/ui/${filename}`)) continue;
+      files.push({ path: `components/ui/${filename}`, content, type: "registry:ui" });
+    }
+  }
+
+  const item: RegistryItem = {
     $schema: "https://ui.shadcn.com/schema/registry-item.json",
-    name: "button",
+    name: config.name,
     type: "registry:ui",
-    title: "Button",
-    description:
-      base === "base"
-        ? "Button component built on Base UI"
-        : "Button component built on Radix UI Slot (with asChild support)",
-    dependencies: base === "base" ? BASE_DEPS : RADIX_DEPS,
-    registryDependencies: ["spinner"],
+    title: config.title,
+    description: getDescription(config, base),
+    dependencies: getDependencies(config, base),
+    registryDependencies: config.registryDependencies ?? [],
     files,
-    categories: ["overrides"],
+    categories: config.categories ?? [],
   };
+
+  if (config.cssVars) item.cssVars = config.cssVars;
+  if (config.css) item.css = config.css;
+  return item;
 }
 
-const BASES = ["base", "radix"] as const;
-const DEFAULT_STYLE = "nova";
+// ---------------------------------------------------------------------------
+// Copy nova-styled components into src/examples/{base}/ui/ for docs previews
+// ---------------------------------------------------------------------------
 
-/**
- * Copy nova-styled UI components into src/examples/{base}/ui/.
- *
- * Same as shadcn's copyUIToExamples(): reads registry sources with cn-*
- * placeholders, applies transformStyle with the default style (nova),
- * rewrites imports for the examples context, and writes to disk.
- */
-async function copyUIToExamples() {
+async function copyUIToExamples(allDirs: Map<string, ComponentDirs>) {
   const styleCss = readFileSync(
     resolve(REGISTRY_STYLES, `style-${DEFAULT_STYLE}.css`),
     "utf-8",
@@ -160,81 +250,91 @@ async function copyUIToExamples() {
       mkdirSync(targetDir, { recursive: true });
     }
 
-    // Find all component source files for this base
-    const registryDir = resolve(ROOT, `registry/uxio`);
-    const componentDirs = readdirSync(registryDir, { withFileTypes: true })
-      .filter((d) => d.isDirectory() && d.name.endsWith(`-${base}`))
-      .map((d) => d.name);
+    for (const [, dirs] of allDirs) {
+      const dirName = dirs[base] ?? dirs.shared;
+      if (!dirName) continue;
 
-    for (const dir of componentDirs) {
-      const srcDir = resolve(registryDir, dir);
-      const files = readdirSync(srcDir).filter((f) => f.endsWith(".tsx"));
-
-      for (const file of files) {
-        const source = readFileSync(resolve(srcDir, file), "utf-8");
+      const srcDir = resolve(REGISTRY_COMPONENTS, dirName);
+      for (const f of readdirSync(srcDir).filter((n) => n.endsWith(".tsx") || n.endsWith(".ts"))) {
+        const source = readFileSync(resolve(srcDir, f), "utf-8");
         let content = await transformStyle(source, { styleMap });
-
-        content = content.replace(
-          /@\/components\/ui\/spinner/g,
-          "./spinner",
-        );
-
-        writeFileSync(resolve(targetDir, file), content);
+        content = rewriteRegistryImports(content, "example");
+        writeFileSync(resolve(targetDir, f), content);
       }
     }
 
-    // Copy shared UI deps (spinner)
-    if (existsSync(SPINNER_PATH)) {
-      writeFileSync(
-        resolve(targetDir, "spinner.tsx"),
-        readFileSync(SPINNER_PATH, "utf-8"),
-      );
-    }
-
-    console.log(`  ${chalk.green("➜")}  ${chalk.bold("Copied:")}   ${chalk.cyan(`${base}/ui/`)}`);
+    console.log(
+      `  ${chalk.green("➜")}  ${chalk.bold("Copied:")}   ${chalk.cyan(`${base}/ui/`)}`,
+    );
   }
 }
 
-async function main() {
-  // Build styles/{style}/button.json for each style
-  for (const style of STYLES) {
-    const item = await buildButtonItem(style);
-    const outDir = resolve(OUTPUT, "styles", style);
-    const outFile = resolve(outDir, "button.json");
+// ---------------------------------------------------------------------------
+// Main
+// ---------------------------------------------------------------------------
 
+async function main() {
+  const configs: ItemConfig[] = JSON.parse(readFileSync(CONFIG_PATH, "utf-8"));
+  const allDirs = scanComponents();
+
+  for (const style of STYLES) {
+    const outDir = resolve(OUTPUT, "styles", style);
     if (!existsSync(outDir)) {
       mkdirSync(outDir, { recursive: true });
     }
 
-    writeFileSync(outFile, JSON.stringify(item, null, 2));
-    console.log(`  ${chalk.green("➜")}  ${chalk.bold("Built:")}   ${chalk.cyan(`${style}/button.json`)}`);
+    const styleName = getStyleName(style);
+    const styleCssPath = resolve(REGISTRY_STYLES, `style-${styleName}.css`);
+    if (!existsSync(styleCssPath)) {
+      throw new Error(`Style CSS not found: ${styleCssPath}`);
+    }
+    const styleCss = readFileSync(styleCssPath, "utf-8");
+    const styleMap = createStyleMap(styleCss);
+    const base = getBaseForStyle(style);
+
+    for (const config of configs) {
+      const dirs = allDirs.get(config.name);
+      if (!dirs) {
+        console.warn(
+          `  ${chalk.yellow("⚠")}  No directory found for "${config.name}", skipping`,
+        );
+        continue;
+      }
+      if (!dirs.shared && !dirs[base]) continue;
+
+      const item = await buildItem(config, dirs, allDirs, style, styleMap);
+      writeFileSync(
+        resolve(outDir, `${config.name}.json`),
+        JSON.stringify(item, null, 2),
+      );
+      console.log(
+        `  ${chalk.green("➜")}  ${chalk.bold("Built:")}   ${chalk.cyan(`${style}/${config.name}.json`)}`,
+      );
+    }
   }
 
-  // Also write a flat registry.json for the index (used by shadcn search)
   const registryIndex = {
     $schema: "https://ui.shadcn.com/schema/registry.json",
     name: "uxio",
     homepage: "https://ui.uxio.dev",
-    items: [
-      {
-        name: "button",
-        type: "registry:ui",
-        title: "Button",
-        description:
-          "Button component. Resolves to Base UI or Radix variant based on your components.json style.",
-        categories: ["overrides"],
-      },
-    ],
+    items: configs.map((c) => ({
+      name: c.name,
+      type: "registry:ui" as const,
+      title: c.title,
+      description: getIndexDescription(c),
+      categories: c.categories ?? [],
+    })),
   };
 
   writeFileSync(
     resolve(OUTPUT, "registry.json"),
-    JSON.stringify(registryIndex, null, 2)
+    JSON.stringify(registryIndex, null, 2),
   );
-  console.log(`  ${chalk.green("➜")}  ${chalk.bold("Built:")}   ${chalk.cyan("registry.json")}`);
+  console.log(
+    `  ${chalk.green("➜")}  ${chalk.bold("Built:")}   ${chalk.cyan("registry.json")}`,
+  );
 
-  // Copy styled components into examples for docs previews
-  await copyUIToExamples();
+  await copyUIToExamples(allDirs);
 }
 
 main().catch((err) => {

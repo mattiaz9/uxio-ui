@@ -1,0 +1,45 @@
+[
+  {
+    "name": "spinner",
+    "title": "Spinner",
+    "description": "Tick-based spinner. A redesign of the original shadcn spinner.",
+    "categories": ["overrides"],
+    "cssVars": {
+      "theme": {
+        "animate-tick-fade": "tick-fade 1.2s infinite"
+      }
+    },
+    "css": {
+      "@keyframes tick-fade": {
+        "0%": { "opacity": "1" },
+        "100%": { "opacity": "0.1" }
+      }
+    }
+  },
+  {
+    "name": "button",
+    "title": "Button",
+    "description": {
+      "base": "Button component built on Base UI",
+      "radix": "Button component built on Radix UI Slot (with asChild support)"
+    },
+    "categories": ["overrides"],
+    "dependencies": {
+      "base": [
+        "@base-ui/react/button",
+        "class-variance-authority",
+        "clsx",
+        "lucide-react",
+        "tailwind-merge"
+      ],
+      "radix": [
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "clsx",
+        "lucide-react",
+        "tailwind-merge"
+      ]
+    },
+    "registryDependencies": ["spinner"]
+  }
+]

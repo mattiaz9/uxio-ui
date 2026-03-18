@@ -84,13 +84,12 @@ This runs:
 │   ├── lib/
 │   ├── routes/
 │   └── styles/
-├── registry.json          # Registry manifest
 └── source.config.ts       # Fumadocs MDX config
 ```
 
 ## Adding New Components
 
 1. Create component in `registry/uxio/[category]-[name]/`
-2. Add entry to `registry.json`
+2. Add entry to `registry/uxio/registry.config.json`
 3. Run `pnpm run registry:build`
 4. Add documentation in `content/docs/`
