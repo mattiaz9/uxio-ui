@@ -1,28 +1,31 @@
 [
   {
     "name": "spinner",
+    "type": "registry:ui",
     "title": "Spinner",
     "description": "Tick-based spinner. A redesign of the original shadcn spinner.",
     "categories": ["overrides"],
     "cssVars": {
       "theme": {
-        "animate-tick-fade": "tick-fade 1.2s infinite"
+        "--animate-tick-fade": "tick-fade 1.2s infinite"
       }
     },
     "css": {
       "@keyframes tick-fade": {
-        "0%": { "opacity": "1" },
-        "100%": { "opacity": "0.1" }
+        "from": {
+          "opacity": "1"
+        },
+        "to": {
+          "opacity": "0.1"
+        }
       }
     }
   },
   {
     "name": "button",
+    "type": "registry:ui",
     "title": "Button",
-    "description": {
-      "base": "Button component built on Base UI",
-      "radix": "Button component built on Radix UI Slot (with asChild support)"
-    },
+    "description": "Extended button component with extra variants and loading state support.",
     "categories": ["overrides"],
     "dependencies": {
       "base": [

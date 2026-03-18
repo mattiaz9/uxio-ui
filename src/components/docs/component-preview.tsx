@@ -6,10 +6,9 @@ import { Suspense, useState, type ReactNode } from "react"
 import { examples } from "@/lib/examples"
 
 function transformSource(source: string): string {
-  return source.replace(
-    /from\s*"\.\/ui\/button"/g,
-    'from "@/components/ui/button"',
-  )
+  return source
+    .replace(/from\s*"\.\/ui\/button"/g, 'from "@/components/ui/button"')
+    .replace(/from\s*"\.\/ui\/spinner"/g, 'from "@/components/ui/spinner"')
 }
 
 function CopyButton({ code }: { code: string }) {

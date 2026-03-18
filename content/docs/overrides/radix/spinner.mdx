@@ -13,16 +13,17 @@ npx shadcn@latest add @uxio/spinner
 
 The animation CSS is automatically injected into your project's globals file when you add the component (via shadcn registry `css` and `cssVars`).
 
+## Default
+
+<ComponentPreview name="radix/spinner-default" />
+
+## Custom Size and Ticks
+
+<ComponentPreview name="radix/spinner-custom" />
+
 ## Props
 
 - `size` — Size of the spinner (default: 1em)
 - `ticksCount` — Number of ticks (default: 12)
 - `tickWidth` — Width of each tick (default: "8%")
 - `className` — Additional classes
-
-## Usage
-
-```tsx
-<Spinner />
-<Spinner className="size-8" ticksCount={8} />
-```

@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "type": "array",
+  "description": "Registry config: array of shadcn registry items",
+  "items": {
+    "$ref": "./registry-config-item.schema.json"
+  }
+}

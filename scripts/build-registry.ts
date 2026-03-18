@@ -11,9 +11,7 @@
  *   overrides-{name}/        → Shared (same for all bases)
  *
  * Config drives: title, description, dependencies, registryDependencies,
- * css, cssVars, categories. The build script merges css/cssVars from
- * registryDependencies automatically so animation definitions are never
- * duplicated.
+ * css, cssVars, categories.
  */
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync } from "fs";

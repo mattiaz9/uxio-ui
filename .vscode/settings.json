@@ -1,4 +1,10 @@
 {
+  "json.schemas": [
+    {
+      "fileMatch": ["registry/uxio/registry.config.json"],
+      "url": "./registry/uxio/registry-config.schema.json"
+    }
+  ],
   "files.watcherExclude": {
     "**/routeTree.gen.ts": true,
   },
