@@ -36,8 +36,12 @@
         }
       ]
     },
-    "devDependencies": { "$ref": "https://ui.shadcn.com/schema/registry-item.json#/properties/devDependencies" },
-    "registryDependencies": { "$ref": "https://ui.shadcn.com/schema/registry-item.json#/properties/registryDependencies" },
+    "devDependencies": {
+      "$ref": "https://ui.shadcn.com/schema/registry-item.json#/properties/devDependencies"
+    },
+    "registryDependencies": {
+      "$ref": "https://ui.shadcn.com/schema/registry-item.json#/properties/registryDependencies"
+    },
     "files": { "$ref": "https://ui.shadcn.com/schema/registry-item.json#/properties/files" },
     "tailwind": { "$ref": "https://ui.shadcn.com/schema/registry-item.json#/properties/tailwind" },
     "cssVars": { "$ref": "https://ui.shadcn.com/schema/registry-item.json#/properties/cssVars" },
@@ -45,11 +49,17 @@
     "envVars": { "$ref": "https://ui.shadcn.com/schema/registry-item.json#/properties/envVars" },
     "meta": { "$ref": "https://ui.shadcn.com/schema/registry-item.json#/properties/meta" },
     "docs": { "$ref": "https://ui.shadcn.com/schema/registry-item.json#/properties/docs" },
-    "categories": { "$ref": "https://ui.shadcn.com/schema/registry-item.json#/properties/categories" },
+    "categories": {
+      "$ref": "https://ui.shadcn.com/schema/registry-item.json#/properties/categories"
+    },
     "extends": { "$ref": "https://ui.shadcn.com/schema/registry-item.json#/properties/extends" },
     "style": { "$ref": "https://ui.shadcn.com/schema/registry-item.json#/properties/style" },
-    "iconLibrary": { "$ref": "https://ui.shadcn.com/schema/registry-item.json#/properties/iconLibrary" },
-    "baseColor": { "$ref": "https://ui.shadcn.com/schema/registry-item.json#/properties/baseColor" },
+    "iconLibrary": {
+      "$ref": "https://ui.shadcn.com/schema/registry-item.json#/properties/iconLibrary"
+    },
+    "baseColor": {
+      "$ref": "https://ui.shadcn.com/schema/registry-item.json#/properties/baseColor"
+    },
     "theme": { "$ref": "https://ui.shadcn.com/schema/registry-item.json#/properties/theme" },
     "font": { "$ref": "https://ui.shadcn.com/schema/registry-item.json#/properties/font" }
   },

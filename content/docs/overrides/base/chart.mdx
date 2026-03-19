@@ -1,0 +1,39 @@
+---
+title: Chart
+description: Same code as the original, but with some fixes for stricter linting rules
+---
+
+The Chart uses Recharts under the hood. Install when your style is `base-nova`, `base-vega`, etc.
+
+## Extended Features
+
+- Support for recharts@3.8.0
+- Tooltip uses `bg-popover` instead of `bg-background`
+
+## Install
+
+Configure your registry in `components.json`:
+
+```json
+{
+  "registries": {
+    "@uxio": "https://ui.uxio.dev/r/styles/{style}/{name}.json"
+  }
+}
+```
+
+Then run:
+
+```bash
+npx shadcn@latest add @uxio/chart
+```
+
+The correct variant (base or radix) is resolved automatically from your `components.json` style.
+
+## Examples
+
+### Bar Chart
+
+An interactive bar chart with desktop and mobile page views.
+
+<ComponentPreview name="base/chart-demo" />

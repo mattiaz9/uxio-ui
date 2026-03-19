@@ -175,11 +175,6 @@
     @apply bg-warning/10 text-warning focus-visible:ring-warning/20 dark:bg-warning/20 dark:focus-visible:ring-warning/40 [a]:hover:bg-warning/20;
   }
 
-  /* MARK: Chart */
-  .cn-chart-tooltip {
-    @apply gap-1.5 rounded-none border border-border/50 bg-background px-2.5 py-1.5 text-xs shadow-xl;
-  }
-
   /* MARK: Card */
   .cn-card {
     @apply gap-4 overflow-hidden rounded-none bg-card py-4 text-sm text-card-foreground ring-1 ring-foreground/10 has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 data-[size=sm]:gap-3 data-[size=sm]:py-3 data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-t-none *:[img:last-child]:rounded-b-none;
@@ -214,4 +209,9 @@
   .cn-card-variant-destructive {
     @apply ring-destructive/30 dark:ring-destructive/60;
   }
+}
+
+/* MARK: Chart */
+.cn-chart-tooltip {
+  @apply gap-1.5 rounded-none border border-border/50 bg-popover px-2.5 py-1.5 text-xs shadow-xl;
 }

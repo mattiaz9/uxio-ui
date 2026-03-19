@@ -1,19 +1,15 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": [
-    "typescript",
-    "react",
-    "unicorn"
-  ],
+  "plugins": ["typescript", "react", "unicorn"],
   "categories": {
-    "correctness": "off"
+    "correctness": "off",
   },
   "env": {
-    "builtin": true
+    "builtin": true,
   },
   "globals": {
     "React": "writable",
-    "JSX": "writable"
+    "JSX": "writable",
   },
   "rules": {
     "constructor-super": "error",
@@ -67,8 +63,8 @@
       {
         "varsIgnorePattern": "^_",
         "argsIgnorePattern": "^_",
-        "ignoreRestSiblings": true
-      }
+        "ignoreRestSiblings": true,
+      },
     ],
     "no-useless-backreference": "error",
     "no-useless-catch": "error",
@@ -80,8 +76,8 @@
     "@typescript-eslint/ban-ts-comment": [
       "warn",
       {
-        "minimumDescriptionLength": 10
-      }
+        "minimumDescriptionLength": 10,
+      },
     ],
     "no-array-constructor": "error",
     "@typescript-eslint/no-duplicate-enum-values": "error",
@@ -112,8 +108,8 @@
     "@typescript-eslint/consistent-type-imports": [
       "error",
       {
-        "fixStyle": "separate-type-imports"
-      }
+        "fixStyle": "separate-type-imports",
+      },
     ],
     "no-empty-pattern": "off",
     "no-unexpected-multiline": "error",
@@ -125,8 +121,8 @@
       {
         "ignoreArrowShorthand": true,
         "ignoreVoidOperator": true,
-        "ignoreVoidReturningFunctions": true
-      }
+        "ignoreVoidReturningFunctions": true,
+      },
     ],
     "@typescript-eslint/no-deprecated": "error",
     "@typescript-eslint/no-duplicate-type-constituents": "error",
@@ -138,8 +134,8 @@
     "@typescript-eslint/no-misused-promises": [
       "error",
       {
-        "checksVoidReturn": false
-      }
+        "checksVoidReturn": false,
+      },
     ],
     "@typescript-eslint/no-misused-spread": "error",
     "@typescript-eslint/no-mixed-enums": "error",
@@ -168,29 +164,26 @@
         "allowBoolean": false,
         "allowNullish": false,
         "allowNumberAndString": false,
-        "allowRegExp": false
-      }
+        "allowRegExp": false,
+      },
     ],
     "@typescript-eslint/restrict-template-expressions": [
       "warn",
       {
         "allowNumber": true,
-        "allowBoolean": true
-      }
+        "allowBoolean": true,
+      },
     ],
-    "@typescript-eslint/return-await": [
-      "error",
-      "error-handling-correctness-only"
-    ],
+    "@typescript-eslint/return-await": ["error", "error-handling-correctness-only"],
     "@typescript-eslint/triple-slash-reference": "off",
     "@typescript-eslint/unbound-method": "error",
     "@typescript-eslint/use-unknown-in-catch-callback-variable": "error",
     "@typescript-eslint/switch-exhaustiveness-check": [
       "error",
       {
-        "considerDefaultExhaustiveForUnions": true
-      }
-    ]
+        "considerDefaultExhaustiveForUnions": true,
+      },
+    ],
   },
   "ignorePatterns": [
     "public/",
@@ -199,16 +192,11 @@
     "*.config.cjs",
     "*.config.ts",
     "*.config.mjs",
-    "*.gen.ts"
+    "*.gen.ts",
   ],
   "overrides": [
     {
-      "files": [
-        "**/*.ts",
-        "**/*.tsx",
-        "**/*.mts",
-        "**/*.cts"
-      ],
+      "files": ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"],
       "rules": {
         "constructor-super": "off",
         "no-class-assign": "off",
@@ -227,8 +215,8 @@
         "no-with": "off",
         "prefer-const": "error",
         "prefer-rest-params": "error",
-        "prefer-spread": "error"
-      }
-    }
-  ]
+        "prefer-spread": "error",
+      },
+    },
+  ],
 }

@@ -5,9 +5,10 @@ export type ExampleEntry = {
   source: string
 }
 
-const modules = import.meta.glob<{ default: ComponentType }>(
-  ["../examples/**/*.tsx", "!../examples/**/ui/**"],
-)
+const modules = import.meta.glob<{ default: ComponentType }>([
+  "../examples/**/*.tsx",
+  "!../examples/**/ui/**",
+])
 
 const sources: Record<string, string> = import.meta.glob(
   ["../examples/**/*.tsx", "!../examples/**/ui/**"],
