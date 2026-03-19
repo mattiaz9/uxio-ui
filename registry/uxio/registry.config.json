@@ -195,11 +195,11 @@
     "name": "input",
     "type": "registry:ui",
     "title": "Input",
-    "description": "Same as the original shadcn input component.",
+    "description": "Extended input component with size variants (xs, sm, default, lg) matching button dimensions.",
     "categories": ["overrides"],
     "dependencies": {
-      "base": ["@base-ui/react/input", "clsx", "tailwind-merge"],
-      "radix": ["clsx", "tailwind-merge"]
+      "base": ["@base-ui/react/input", "class-variance-authority", "clsx", "tailwind-merge"],
+      "radix": ["class-variance-authority", "clsx", "tailwind-merge"]
     }
   },
   {

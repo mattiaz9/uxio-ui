@@ -6,9 +6,9 @@
     "[Badge](/docs/overrides/radix/badge)",
     "[Button](/docs/overrides/radix/button)",
     "[Card](/docs/overrides/radix/card)",
-    "[Dialog](/docs/overrides/radix/dialog)",
     "[Chart](/docs/overrides/radix/chart)",
     "[Combobox](/docs/overrides/radix/combobox)",
+    "[Dialog](/docs/overrides/radix/dialog)",
     "[Input](/docs/overrides/radix/input)",
     "[Popover](/docs/overrides/radix/popover)",
     "[Spinner](/docs/overrides/radix/spinner)"

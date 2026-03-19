@@ -675,7 +675,23 @@
 
   /* MARK: Input */
   .cn-input {
-    @apply h-7 rounded-md border border-input bg-input/20 px-2 py-0.5 text-sm transition-colors file:h-6 file:text-xs/relaxed file:font-medium focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30 aria-invalid:border-destructive aria-invalid:ring-2 aria-invalid:ring-destructive/20 md:text-xs/relaxed dark:bg-input/30 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40;
+    @apply rounded-md border border-input bg-input/20 transition-colors focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30 aria-invalid:border-destructive aria-invalid:ring-2 aria-invalid:ring-destructive/20 dark:bg-input/30 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40;
+  }
+
+  .cn-input-size-xs {
+    @apply h-5 px-2 py-0.5 text-[0.625rem] file:h-4 file:text-xs/relaxed file:font-medium md:text-xs/relaxed;
+  }
+
+  .cn-input-size-sm {
+    @apply h-6 px-2 py-0.5 text-xs/relaxed file:h-5 file:text-xs/relaxed file:font-medium md:text-xs/relaxed;
+  }
+
+  .cn-input-size-default {
+    @apply h-7 px-2 py-0.5 text-sm file:h-6 file:text-xs/relaxed file:font-medium md:text-xs/relaxed;
+  }
+
+  .cn-input-size-lg {
+    @apply h-8 px-2.5 py-1 text-sm file:h-6 file:text-xs/relaxed file:font-medium md:text-xs/relaxed;
   }
 
   /* MARK: Input OTP */

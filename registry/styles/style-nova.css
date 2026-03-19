@@ -675,7 +675,23 @@
 
   /* MARK: Input */
   .cn-input {
-    @apply h-8 rounded-lg border border-input bg-transparent px-2.5 py-1 text-base transition-colors file:h-6 file:text-sm file:font-medium focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:bg-input/50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:disabled:bg-input/80 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40;
+    @apply rounded-lg border border-input bg-transparent transition-colors focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:bg-input/50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:bg-input/30 dark:disabled:bg-input/80 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40;
+  }
+
+  .cn-input-size-xs {
+    @apply h-6 px-2 py-0.5 text-xs file:h-5 file:text-xs file:font-medium md:text-xs;
+  }
+
+  .cn-input-size-sm {
+    @apply h-7 px-2.5 py-1 text-[0.8rem] file:h-6 file:text-sm file:font-medium md:text-sm;
+  }
+
+  .cn-input-size-default {
+    @apply h-8 px-2.5 py-1 text-base file:h-6 file:text-sm file:font-medium md:text-sm;
+  }
+
+  .cn-input-size-lg {
+    @apply h-9 px-2.5 py-1.5 text-base file:h-7 file:text-sm file:font-medium md:text-sm;
   }
 
   /* MARK: Input OTP */
