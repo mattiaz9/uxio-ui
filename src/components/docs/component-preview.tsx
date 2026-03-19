@@ -1,7 +1,8 @@
 "use client"
 
-import { ChevronDownIcon } from "lucide-react"
 import { Suspense, useState, type ReactNode } from "react"
+
+import { ChevronDownIcon } from "lucide-react"
 
 import { examples } from "@/lib/examples"
 

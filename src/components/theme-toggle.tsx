@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
-import { MoonIcon, SunIcon } from "lucide-react"
 import { useTheme } from "next-themes"
+
+import { MoonIcon, SunIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 

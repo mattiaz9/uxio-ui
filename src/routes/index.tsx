@@ -131,7 +131,9 @@ function Home() {
       {/* Component showcase */}
       <section className="container py-20 lg:py-28">
         <div className="mx-auto max-w-3xl">
-          <h2 className="text-center font-display text-2xl font-bold tracking-tight sm:text-3xl">Components</h2>
+          <h2 className="text-center font-display text-2xl font-bold tracking-tight sm:text-3xl">
+            Components
+          </h2>
           <p className="mx-auto mt-3 max-w-lg text-center text-muted-foreground">
             Every component ships as a registry entry you install into your own codebase — no
             runtime dependency, full ownership.
@@ -203,7 +205,9 @@ function Home() {
       {/* Install CTA */}
       <section className="border-t border-border bg-muted/30">
         <div className="container flex flex-col items-center py-20 text-center lg:py-28">
-          <h2 className="font-display text-2xl font-bold tracking-tight sm:text-3xl">Start building</h2>
+          <h2 className="font-display text-2xl font-bold tracking-tight sm:text-3xl">
+            Start building
+          </h2>
           <p className="mt-3 max-w-md text-muted-foreground">
             Configure your registry once, then add any component with a single command.
           </p>

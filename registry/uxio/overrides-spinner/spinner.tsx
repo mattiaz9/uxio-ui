@@ -26,7 +26,7 @@ export function Spinner({ className, ticksCount = 12, tickWidth = "8%", ...props
           return (
             <div
               className={cn(
-                "animate-tick-fade absolute right-1/2 h-1/2 origin-bottom scale-95 transform",
+                "absolute right-1/2 h-1/2 origin-bottom scale-95 transform animate-tick-fade",
                 "after:absolute after:inset-x-0 after:top-0 after:h-1/2 after:rounded-full after:bg-current",
               )}
               style={{

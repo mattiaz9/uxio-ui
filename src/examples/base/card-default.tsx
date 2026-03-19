@@ -1,21 +1,12 @@
 import { Button } from "./ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "./ui/card"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card"
 
 export default function CardDefault() {
   return (
     <Card variant="default" className="w-full max-w-sm">
       <CardHeader>
         <CardTitle>Default Card</CardTitle>
-        <CardDescription>
-          Standard card with the default variant styling.
-        </CardDescription>
+        <CardDescription>Standard card with the default variant styling.</CardDescription>
       </CardHeader>
       <CardContent>
         <p className="text-sm text-muted-foreground">

@@ -1,6 +1,7 @@
 "use client"
 
 import { Link, useRouterState } from "@tanstack/react-router"
+
 import { cn } from "@/lib/utils"
 
 const FRAMEWORKS = [
@@ -37,9 +38,7 @@ export function DocsFrameworkSwitcher({
             to={href}
             className={cn(
               "rounded-md px-3 py-1 text-sm transition-colors",
-              isActive
-                ? "bg-background text-foreground shadow-sm"
-                : "hover:text-foreground",
+              isActive ? "bg-background text-foreground shadow-sm" : "hover:text-foreground",
             )}
           >
             {fw.title}

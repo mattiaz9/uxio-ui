@@ -1,21 +1,12 @@
 import { Button } from "./ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "./ui/card"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card"
 
 export default function CardDestructive() {
   return (
     <Card variant="destructive" className="w-full max-w-sm">
       <CardHeader>
         <CardTitle>Destructive Card</CardTitle>
-        <CardDescription>
-          Use for warnings, errors, or destructive actions.
-        </CardDescription>
+        <CardDescription>Use for warnings, errors, or destructive actions.</CardDescription>
       </CardHeader>
       <CardContent>
         <p className="text-sm text-muted-foreground">

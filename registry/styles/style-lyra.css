@@ -9,19 +9,19 @@
   }
 
   .cn-alert-variant-destructive {
-    @apply text-destructive bg-card *:data-[slot=alert-description]:text-destructive/90 *:[svg]:text-current;
+    @apply bg-card text-destructive *:data-[slot=alert-description]:text-destructive/90 *:[svg]:text-current;
   }
 
   .cn-alert-variant-success {
-    @apply text-success bg-card *:data-[slot=alert-description]:text-success/90 *:[svg]:text-current;
+    @apply bg-card text-success *:data-[slot=alert-description]:text-success/90 *:[svg]:text-current;
   }
 
   .cn-alert-variant-info {
-    @apply text-info bg-card *:data-[slot=alert-description]:text-info/90 *:[svg]:text-current;
+    @apply bg-card text-info *:data-[slot=alert-description]:text-info/90 *:[svg]:text-current;
   }
 
   .cn-alert-variant-warning {
-    @apply text-warning bg-card *:data-[slot=alert-description]:text-warning/90 *:[svg]:text-current;
+    @apply bg-card text-warning *:data-[slot=alert-description]:text-warning/90 *:[svg]:text-current;
   }
 
   .cn-alert-title {
@@ -29,7 +29,7 @@
   }
 
   .cn-alert-description {
-    @apply text-muted-foreground text-xs/relaxed text-balance md:text-pretty [&_p:not(:last-child)]:mb-2;
+    @apply text-xs/relaxed text-balance text-muted-foreground md:text-pretty [&_p:not(:last-child)]:mb-2;
   }
 
   .cn-alert-action {
@@ -38,11 +38,11 @@
 
   /* MARK: Alert Dialog */
   .cn-alert-dialog-overlay {
-    @apply data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 bg-black/10 duration-100 supports-backdrop-filter:backdrop-blur-xs;
+    @apply bg-black/10 duration-100 supports-backdrop-filter:backdrop-blur-xs data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0;
   }
 
   .cn-alert-dialog-content {
-    @apply data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 data-closed:zoom-out-95 data-open:zoom-in-95 bg-popover ring-foreground/10 gap-4 rounded-none p-4 ring-1 duration-100 data-[size=default]:max-w-xs data-[size=sm]:max-w-xs data-[size=default]:sm:max-w-sm;
+    @apply gap-4 rounded-none bg-popover p-4 ring-1 ring-foreground/10 duration-100 data-[size=default]:max-w-xs data-[size=sm]:max-w-xs data-[size=default]:sm:max-w-sm data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95;
   }
 
   .cn-alert-dialog-header {
@@ -50,7 +50,7 @@
   }
 
   .cn-alert-dialog-media {
-    @apply bg-muted mb-2 inline-flex size-10 items-center justify-center rounded-none sm:group-data-[size=default]/alert-dialog-content:row-span-2 *:[svg:not([class*='size-'])]:size-6;
+    @apply mb-2 inline-flex size-10 items-center justify-center rounded-none bg-muted sm:group-data-[size=default]/alert-dialog-content:row-span-2 *:[svg:not([class*='size-'])]:size-6;
   }
 
   .cn-alert-dialog-title {
@@ -58,12 +58,12 @@
   }
 
   .cn-alert-dialog-description {
-    @apply text-muted-foreground *:[a]:hover:text-foreground text-xs/relaxed text-balance md:text-pretty *:[a]:underline *:[a]:underline-offset-3;
+    @apply text-xs/relaxed text-balance text-muted-foreground md:text-pretty *:[a]:underline *:[a]:underline-offset-3 *:[a]:hover:text-foreground;
   }
 
   /* MARK: Button */
   .cn-button {
-    @apply focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 rounded-none border border-transparent bg-clip-padding text-xs font-medium focus-visible:ring-1 aria-invalid:ring-1 active:translate-y-px [&_svg:not([class*='size-'])]:size-4;
+    @apply rounded-none border border-transparent bg-clip-padding text-xs font-medium focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring/50 active:translate-y-px aria-invalid:border-destructive aria-invalid:ring-1 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg:not([class*='size-'])]:size-4;
   }
 
   .cn-button-variant-default {
@@ -71,7 +71,7 @@
   }
 
   .cn-button-variant-outline {
-    @apply border-border bg-background hover:bg-muted hover:text-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 aria-expanded:bg-muted aria-expanded:text-foreground;
+    @apply border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50;
   }
 
   .cn-button-variant-secondary {
@@ -79,23 +79,23 @@
   }
 
   .cn-button-variant-ghost {
-    @apply hover:bg-muted hover:text-foreground dark:hover:bg-muted/50 aria-expanded:bg-muted aria-expanded:text-foreground;
+    @apply hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:hover:bg-muted/50;
   }
 
   .cn-button-variant-destructive {
-    @apply bg-destructive/10 hover:bg-destructive/20 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/20 text-destructive focus-visible:border-destructive/40 dark:hover:bg-destructive/30;
+    @apply bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40;
   }
 
   .cn-button-variant-success {
-    @apply bg-success/10 hover:bg-success/20 focus-visible:ring-success/20 dark:focus-visible:ring-success/40 dark:bg-success/20 text-success focus-visible:border-success/40 dark:hover:bg-success/30;
+    @apply bg-success/10 text-success hover:bg-success/20 focus-visible:border-success/40 focus-visible:ring-success/20 dark:bg-success/20 dark:hover:bg-success/30 dark:focus-visible:ring-success/40;
   }
 
   .cn-button-variant-info {
-    @apply bg-info/10 hover:bg-info/20 focus-visible:ring-info/20 dark:focus-visible:ring-info/40 dark:bg-info/20 text-info focus-visible:border-info/40 dark:hover:bg-info/30;
+    @apply bg-info/10 text-info hover:bg-info/20 focus-visible:border-info/40 focus-visible:ring-info/20 dark:bg-info/20 dark:hover:bg-info/30 dark:focus-visible:ring-info/40;
   }
 
   .cn-button-variant-warning {
-    @apply bg-warning/10 hover:bg-warning/20 focus-visible:ring-warning/20 dark:focus-visible:ring-warning/40 dark:bg-warning/20 text-warning focus-visible:border-warning/40 dark:hover:bg-warning/30;
+    @apply bg-warning/10 text-warning hover:bg-warning/20 focus-visible:border-warning/40 focus-visible:ring-warning/20 dark:bg-warning/20 dark:hover:bg-warning/30 dark:focus-visible:ring-warning/40;
   }
 
   .cn-button-variant-link {
@@ -152,7 +152,7 @@
   }
 
   .cn-badge-variant-destructive {
-    @apply bg-destructive/10 [a]:hover:bg-destructive/20 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 text-destructive dark:bg-destructive/20;
+    @apply bg-destructive/10 text-destructive focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:focus-visible:ring-destructive/40 [a]:hover:bg-destructive/20;
   }
 
   .cn-badge-variant-ghost {
@@ -164,20 +164,25 @@
   }
 
   .cn-badge-variant-success {
-    @apply bg-success/10 [a]:hover:bg-success/20 focus-visible:ring-success/20 dark:focus-visible:ring-success/40 text-success dark:bg-success/20;
+    @apply bg-success/10 text-success focus-visible:ring-success/20 dark:bg-success/20 dark:focus-visible:ring-success/40 [a]:hover:bg-success/20;
   }
 
   .cn-badge-variant-info {
-    @apply bg-info/10 [a]:hover:bg-info/20 focus-visible:ring-info/20 dark:focus-visible:ring-info/40 text-info dark:bg-info/20;
+    @apply bg-info/10 text-info focus-visible:ring-info/20 dark:bg-info/20 dark:focus-visible:ring-info/40 [a]:hover:bg-info/20;
   }
 
   .cn-badge-variant-warning {
-    @apply bg-warning/10 [a]:hover:bg-warning/20 focus-visible:ring-warning/20 dark:focus-visible:ring-warning/40 text-warning dark:bg-warning/20;
+    @apply bg-warning/10 text-warning focus-visible:ring-warning/20 dark:bg-warning/20 dark:focus-visible:ring-warning/40 [a]:hover:bg-warning/20;
+  }
+
+  /* MARK: Chart */
+  .cn-chart-tooltip {
+    @apply gap-1.5 rounded-none border border-border/50 bg-background px-2.5 py-1.5 text-xs shadow-xl;
   }
 
   /* MARK: Card */
   .cn-card {
-    @apply ring-foreground/10 bg-card text-card-foreground gap-4 overflow-hidden rounded-none py-4 text-sm ring-1 has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 data-[size=sm]:gap-3 data-[size=sm]:py-3 data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-t-none *:[img:last-child]:rounded-b-none;
+    @apply gap-4 overflow-hidden rounded-none bg-card py-4 text-sm text-card-foreground ring-1 ring-foreground/10 has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 data-[size=sm]:gap-3 data-[size=sm]:py-3 data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-t-none *:[img:last-child]:rounded-b-none;
   }
 
   .cn-card-header {
@@ -189,7 +194,7 @@
   }
 
   .cn-card-description {
-    @apply text-muted-foreground text-sm;
+    @apply text-sm text-muted-foreground;
   }
 
   .cn-card-action {
@@ -200,7 +205,7 @@
   }
 
   .cn-card-footer {
-    @apply bg-muted/50 rounded-b-none border-t p-4 group-data-[size=sm]/card:p-3;
+    @apply rounded-b-none border-t bg-muted/50 p-4 group-data-[size=sm]/card:p-3;
   }
 
   .cn-card-variant-default {
