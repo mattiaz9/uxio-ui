@@ -9,6 +9,7 @@
     "[Chart](/docs/overrides/radix/chart)",
     "[Combobox](/docs/overrides/radix/combobox)",
     "[Dialog](/docs/overrides/radix/dialog)",
+    "[Drawer](/docs/overrides/radix/drawer)",
     "[Input](/docs/overrides/radix/input)",
     "[Popover](/docs/overrides/radix/popover)",
     "[Spinner](/docs/overrides/radix/spinner)"

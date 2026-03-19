@@ -192,6 +192,18 @@
     "registryDependencies": ["button"]
   },
   {
+    "name": "drawer",
+    "type": "registry:ui",
+    "title": "Drawer",
+    "description": "Drawer with content background using bg-popover instead of bg-background.",
+    "categories": ["overrides"],
+    "dependencies": {
+      "base": ["vaul", "clsx", "tailwind-merge"],
+      "radix": ["vaul", "clsx", "tailwind-merge"]
+    },
+    "registryDependencies": ["button"]
+  },
+  {
     "name": "input",
     "type": "registry:ui",
     "title": "Input",
