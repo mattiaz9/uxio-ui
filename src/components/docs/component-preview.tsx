@@ -22,6 +22,7 @@ function transformSource(source: string): string {
     .replace(/from\s*"\.\/ui\/combobox"/g, 'from "@/components/ui/combobox"')
     .replace(/from\s*"\.\/ui\/dialog"/g, 'from "@/components/ui/dialog"')
     .replace(/from\s*"\.\/ui\/drawer"/g, 'from "@/components/ui/drawer"')
+    .replace(/from\s*"\.\/ui\/item"/g, 'from "@/components/ui/item"')
     .replace(/from\s*"\.\/ui\/confirmation"/g, 'from "@/components/ui/confirmation"')
 }
 

@@ -11,6 +11,7 @@
     "[Dialog](/docs/overrides/radix/dialog)",
     "[Drawer](/docs/overrides/radix/drawer)",
     "[Input](/docs/overrides/radix/input)",
+    "[Item](/docs/overrides/radix/item)",
     "[Popover](/docs/overrides/radix/popover)",
     "[Spinner](/docs/overrides/radix/spinner)"
   ],

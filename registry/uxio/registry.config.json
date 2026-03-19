@@ -215,6 +215,24 @@
     }
   },
   {
+    "name": "item",
+    "type": "registry:ui",
+    "title": "Item",
+    "description": "Item list primitives with ItemGroup layout variants: default spacing (including size-aware gaps) or grouped stacked items.",
+    "categories": ["overrides"],
+    "dependencies": {
+      "base": [
+        "@base-ui/react/merge-props",
+        "@base-ui/react/separator",
+        "@base-ui/react/use-render",
+        "class-variance-authority",
+        "clsx",
+        "tailwind-merge"
+      ],
+      "radix": ["radix-ui", "class-variance-authority", "clsx", "tailwind-merge"]
+    }
+  },
+  {
     "name": "textarea",
     "type": "registry:ui",
     "title": "Textarea",

@@ -784,10 +784,6 @@
     @apply gap-2;
   }
 
-  .cn-item-group {
-    @apply gap-4 has-data-[size=sm]:gap-2.5 has-data-[size=xs]:gap-2;
-  }
-
   .cn-item-separator {
     @apply my-2;
   }
