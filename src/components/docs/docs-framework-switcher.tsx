@@ -10,16 +10,19 @@ const FRAMEWORKS = [
 ] as const
 
 export function DocsFrameworkSwitcher({
+  section,
   framework,
   component,
   className,
 }: {
+  section?: string
   framework: string
   component: string
   className?: string
 }) {
   const routerState = useRouterState()
   const pathname = routerState.location.pathname
+  const sectionPath = section ?? "overrides"
 
   return (
     <div
@@ -29,7 +32,7 @@ export function DocsFrameworkSwitcher({
       )}
     >
       {FRAMEWORKS.map((fw) => {
-        const href = `/docs/overrides/${fw.name}/${component}`
+        const href = `/docs/${sectionPath}/${fw.name}/${component}`
         const isActive = pathname === href || pathname.startsWith(href + "/")
 
         return (

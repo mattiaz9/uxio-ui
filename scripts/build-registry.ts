@@ -6,9 +6,12 @@
  * shared config from registry/uxio/registry.config.json.
  *
  * Directory conventions:
- *   overrides-{name}-base/   → Base UI variant
+ *   overrides-{name}-base/   → Base UI variant (overrides category)
  *   overrides-{name}-radix/  → Radix variant
  *   overrides-{name}/        → Shared (same for all bases)
+ *   layers-{name}-base/      → Base UI variant (layers category)
+ *   layers-{name}-radix/     → Radix variant
+ *   layers-{name}/           → Shared layers component
  *
  * Config drives: title, description, dependencies, registryDependencies,
  * css, cssVars, categories.
@@ -77,11 +80,13 @@ interface ComponentDirs {
 function scanComponents(): Map<string, ComponentDirs> {
   const map = new Map<string, ComponentDirs>()
   const dirs = readdirSync(REGISTRY_COMPONENTS, { withFileTypes: true }).filter(
-    (d) => d.isDirectory() && d.name.startsWith("overrides-"),
+    (d) =>
+      d.isDirectory() &&
+      (d.name.startsWith("overrides-") || d.name.startsWith("layers-")),
   )
 
   for (const d of dirs) {
-    const withoutPrefix = d.name.replace(/^overrides-/, "")
+    const withoutPrefix = d.name.replace(/^(overrides|layers)-/, "")
     let name: string
     let variant: "shared" | "base" | "radix"
 
@@ -132,13 +137,16 @@ function getIndexDescription(config: ItemConfig): string {
 }
 
 /**
- * Rewrite `@/registry/uxio/overrides-…/file` imports.
+ * Rewrite `@/registry/uxio/overrides-…/file` and `layers-…/file` imports.
  * - consumer: → `@/components/ui/file`  (what end-users receive)
  * - example:  → `./file`                (local examples folder)
  */
 function rewriteRegistryImports(content: string, mode: "consumer" | "example"): string {
   const replacement = mode === "consumer" ? "@/components/ui/$1" : "./$1"
-  return content.replace(/@\/registry\/uxio\/overrides-[^/]+\/([^"']+)/g, replacement)
+  return content.replace(
+    /@\/registry\/uxio\/(?:overrides|layers)-[^/]+\/([^"']+)/g,
+    replacement,
+  )
 }
 
 /**

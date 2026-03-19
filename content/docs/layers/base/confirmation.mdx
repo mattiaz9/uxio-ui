@@ -1,0 +1,101 @@
+---
+title: Confirmation
+---
+
+## Overview
+
+Imperative confirmation dialog with async action support, loading state, and inline error display.
+Use `confirm()` to show a confirmation and optionally run an async action.
+
+## Install
+
+Configure your registry in `components.json`:
+
+```json
+{
+  "registries": {
+    "@uxio": "https://ui.uxio.dev/r/styles/{style}/{name}.json"
+  }
+}
+```
+
+Then run:
+
+```bash
+npx shadcn@latest add @uxio/confirmation
+```
+
+The correct variant (base or radix) is resolved automatically from your `components.json` style.
+
+## Usage
+
+Place `<Confirmer />` once in your **root layout** (e.g. Next.js `app/layout.tsx`, TanStack Start root, or the top-level route that wraps the whole app). It must stay mounted so `confirm()` can open the dialog from anywhere.
+
+```tsx
+// app/layout.tsx (or equivalent root layout)
+import { Confirmer } from "@/components/ui/confirmation"
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        {children}
+        <Confirmer />
+      </body>
+    </html>
+  )
+}
+```
+
+Then use `confirm()` from any component.
+
+### Return boolean
+
+Await `confirm()` to get a boolean. Use when you need to branch based on user choice:
+
+```tsx
+const confirmed = await confirm({
+  title: "Close document",
+  description: "All changes will not be saved",
+  variant: "default",
+  confirmButtonTitle: "OK",
+})
+
+if (confirmed) {
+  // do something
+}
+```
+
+### Action with loading and error
+
+Pass an `action` to run async work. The dialog shows a loading spinner and can display errors inline:
+
+```tsx
+void confirm({
+  title: "Delete Post",
+  description: "This action is not reversible. Are you sure you want to proceed?",
+  variant: "destructive",
+  confirmButtonTitle: "Delete post",
+  displayError: "below-content",
+  action: async () => {
+    const result = await deleteCurrentPost()
+    if (result.data) {
+      router.replace(route("/:org/:project", { org, project }))
+    } else {
+      throw new Error(result.error)
+    }
+  },
+})
+```
+
+## Examples
+
+<DocsConfirmerBase />
+
+### Return boolean
+
+<ComponentPreview name="base/confirmation-return" />
+
+### Action with loading
+
+<ComponentPreview name="base/confirmation-action" />

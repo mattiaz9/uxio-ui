@@ -40,7 +40,8 @@ const clientLoader = browserCollections.docs.createClientLoader({
     // oxlint-disable-next-line eslint-plugin-react-hooks/rules-of-hooks
     const params = Route.useParams()
     const slugs = (params._splat ?? "").split("/").filter(Boolean)
-    const showSwitcher = slugs[0] === "overrides" && slugs[1] && slugs[2]
+    const showSwitcher =
+      (slugs[0] === "overrides" || slugs[0] === "layers") && slugs[1] && slugs[2]
     const { toc, frontmatter, default: MDX } = loaded
 
     return (
@@ -49,7 +50,12 @@ const clientLoader = browserCollections.docs.createClientLoader({
         <DocsDescription>{frontmatter.description}</DocsDescription>
         <DocsBody>
           {showSwitcher && (
-            <DocsFrameworkSwitcher framework={slugs[1]} component={slugs[2]} className="mb-4" />
+            <DocsFrameworkSwitcher
+              section={slugs[0]}
+              framework={slugs[1]}
+              component={slugs[2]}
+              className="mb-4"
+            />
           )}
           {/* oxlint-disable-next-line eslint-plugin-react-hooks/rules-of-hooks */}
           <MDX components={useMDXComponents()} />

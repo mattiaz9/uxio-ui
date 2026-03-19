@@ -290,6 +290,18 @@
     }
   },
   {
+    "name": "confirmation",
+    "type": "registry:ui",
+    "title": "Confirmation",
+    "description": "Imperative confirmation dialog with async action support, loading state, and inline error display.",
+    "categories": ["layers"],
+    "dependencies": {
+      "base": ["@base-ui/react/alert-dialog", "class-variance-authority", "clsx", "tailwind-merge"],
+      "radix": ["radix-ui", "class-variance-authority", "clsx", "tailwind-merge"]
+    },
+    "registryDependencies": ["alert-dialog", "spinner"]
+  },
+  {
     "name": "combobox",
     "type": "registry:ui",
     "title": "Combobox",
