@@ -1,0 +1,41 @@
+---
+title: Command
+---
+
+## Extended Features
+
+- Uses lucide-react icons (SearchIcon, CheckIcon) instead of IconPlaceholder
+
+## Install
+
+This component requires `dialog` and `input-group`. Install them from the default shadcn registry first if you haven't already:
+
+```bash
+npx shadcn@latest add dialog input-group
+```
+
+Then configure your registry in `components.json`:
+
+```json
+{
+  "registries": {
+    "@uxio": "https://ui.uxio.dev/r/styles/{style}/{name}.json"
+  }
+}
+```
+
+And run:
+
+```bash
+npx shadcn@latest add @uxio/command
+```
+
+The correct variant (base or radix) is resolved automatically from your `components.json` style.
+
+## Examples
+
+### Inline Command
+
+Command palette with search, groups, and shortcuts.
+
+<ComponentPreview name="radix/command-demo" />

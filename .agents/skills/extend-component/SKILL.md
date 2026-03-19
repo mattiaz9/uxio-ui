@@ -15,10 +15,12 @@ user-invocable: true
 
 - If exists:
   - Navigate to each compoennt page, copy the code for both frameworks and paste it in
-    `registry/uxio/overrides-{name}-{base}/{name}.tsx`
-  - Navigate to https://github.com/shadcn-ui/ui/blob/main/apps/v4/registry/styles, then in each css
-    file find the references of the component classes used in the component code (should match
-    `.cn-{name}*`), then copy the code and paste it in `registry/styles/style-{style}.css`
+    `registry/uxio/overrides-{name}-{base}/{name}.tsx` (Make sure to copy exactly as it is,
+    including all the classes)
+  - Navigate to the folder https://github.com/shadcn-ui/ui/blob/main/apps/v4/registry/styles and
+    read each files in it, then for each css file find the references of the component classes used
+    in the component code (should match `.cn-{name}*`), then copy the code and paste it in
+    `registry/styles/style-{style}.css`. Make sure to copy each different style.
 - If doesn't exist:
   - If the user provided the code in the promp copy it to the file
     `registry/uxio/overrides-{name}-{base}/{name}.tsx` otherwise ask the user for the code.

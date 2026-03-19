@@ -174,6 +174,70 @@
     "registryDependencies": ["@uxio/semantic-colors", "spinner"]
   },
   {
+    "name": "dialog",
+    "type": "registry:ui",
+    "title": "Dialog",
+    "description": "Dialog with content background using bg-popover instead of bg-background.",
+    "categories": ["overrides"],
+    "dependencies": {
+      "base": [
+        "@base-ui/react/dialog",
+        "class-variance-authority",
+        "clsx",
+        "lucide-react",
+        "tailwind-merge"
+      ],
+      "radix": ["radix-ui", "class-variance-authority", "clsx", "lucide-react", "tailwind-merge"]
+    },
+    "registryDependencies": ["button"]
+  },
+  {
+    "name": "input",
+    "type": "registry:ui",
+    "title": "Input",
+    "description": "Same as the original shadcn input component.",
+    "categories": ["overrides"],
+    "dependencies": {
+      "base": ["@base-ui/react/input", "clsx", "tailwind-merge"],
+      "radix": ["clsx", "tailwind-merge"]
+    }
+  },
+  {
+    "name": "textarea",
+    "type": "registry:ui",
+    "title": "Textarea",
+    "description": "Same as the original shadcn textarea component.",
+    "categories": ["overrides"],
+    "dependencies": {
+      "base": ["clsx", "tailwind-merge"],
+      "radix": ["clsx", "tailwind-merge"]
+    }
+  },
+  {
+    "name": "input-group",
+    "type": "registry:ui",
+    "title": "Input Group",
+    "description": "Input group component for combining inputs with addons, buttons, and text. Same as the original shadcn input-group.",
+    "categories": ["overrides"],
+    "dependencies": {
+      "base": ["class-variance-authority", "clsx", "tailwind-merge"],
+      "radix": ["class-variance-authority", "clsx", "tailwind-merge"]
+    },
+    "registryDependencies": ["button", "input", "textarea"]
+  },
+  {
+    "name": "command",
+    "type": "registry:ui",
+    "title": "Command",
+    "description": "Command palette component. Same as the original shadcn command with lucide-react icons.",
+    "categories": ["overrides"],
+    "dependencies": {
+      "base": ["cmdk", "clsx", "lucide-react", "tailwind-merge"],
+      "radix": ["cmdk", "clsx", "lucide-react", "tailwind-merge"]
+    },
+    "registryDependencies": ["dialog", "input-group"]
+  },
+  {
     "name": "chart",
     "type": "registry:ui",
     "title": "Chart",
@@ -213,5 +277,28 @@
       "radix": ["radix-ui", "class-variance-authority", "clsx", "lucide-react", "tailwind-merge"]
     },
     "registryDependencies": ["button"]
+  },
+  {
+    "name": "popover",
+    "type": "registry:ui",
+    "title": "Popover",
+    "description": "Popover with content background using bg-popover instead of bg-background.",
+    "categories": ["overrides"],
+    "dependencies": {
+      "base": ["@base-ui/react/popover", "clsx", "tailwind-merge"],
+      "radix": ["radix-ui", "clsx", "tailwind-merge"]
+    }
+  },
+  {
+    "name": "combobox",
+    "type": "registry:ui",
+    "title": "Combobox",
+    "description": "Combobox built from Popover, Command, and Button. Same logic as Select with search.",
+    "categories": ["overrides"],
+    "dependencies": {
+      "base": ["clsx", "lucide-react", "tailwind-merge"],
+      "radix": ["clsx", "lucide-react", "tailwind-merge"]
+    },
+    "registryDependencies": ["button", "command", "popover"]
   }
 ]

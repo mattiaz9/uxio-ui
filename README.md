@@ -1,4 +1,4 @@
-# uxio UI
+# uxio ui
 
 An open-source UI library based on [shadcn/ui](https://ui.shadcn.com), distributed via the
 [shadcn registry](https://ui.shadcn.com/docs/registry).
@@ -18,7 +18,7 @@ An open-source UI library based on [shadcn/ui](https://ui.shadcn.com), distribut
 
 - **Overrides:** Enhancements of existing shadcn components
 - **Layout:** Layout components
-- **UI:** Custom uxio UI components
+- **UI:** Custom uxio ui components
 
 ## Installation
 

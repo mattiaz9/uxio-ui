@@ -1,0 +1,42 @@
+---
+title: Combobox
+---
+
+## Extended Features
+
+- Combobox built from Popover, Command, and Button
+- Same logic as Select with search/filter support
+
+## Install
+
+This component requires `button`, `command`, and `popover`. Install them from the default shadcn registry first if you haven't already:
+
+```bash
+npx shadcn@latest add button command popover
+```
+
+Then configure your registry in `components.json`:
+
+```json
+{
+  "registries": {
+    "@uxio": "https://ui.uxio.dev/r/styles/{style}/{name}.json"
+  }
+}
+```
+
+And run:
+
+```bash
+npx shadcn@latest add @uxio/combobox
+```
+
+The correct variant (base or radix) is resolved automatically from your `components.json` style.
+
+## Examples
+
+### Default
+
+Combobox with search, placeholder, and grouped options.
+
+<ComponentPreview name="radix/combobox-default" />

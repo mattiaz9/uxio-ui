@@ -1,0 +1,35 @@
+---
+title: Input
+---
+
+## Extended Features
+
+- Same as the original shadcn input component
+
+## Install
+
+Configure your registry in `components.json`:
+
+```json
+{
+  "registries": {
+    "@uxio": "https://ui.uxio.dev/r/styles/{style}/{name}.json"
+  }
+}
+```
+
+Then run:
+
+```bash
+npx shadcn@latest add @uxio/input
+```
+
+The correct variant (base or radix) is resolved automatically from your `components.json` style.
+
+## Examples
+
+### Default
+
+Basic input with placeholder.
+
+<ComponentPreview name="radix/input-default" />

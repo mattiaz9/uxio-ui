@@ -14,6 +14,13 @@ function transformSource(source: string): string {
     .replace(/from\s*"\.\/ui\/badge"/g, 'from "@/components/ui/badge"')
     .replace(/from\s*"\.\/ui\/card"/g, 'from "@/components/ui/card"')
     .replace(/from\s*"\.\/ui\/chart"/g, 'from "@/components/ui/chart"')
+    .replace(/from\s*"\.\/ui\/command"/g, 'from "@/components/ui/command"')
+    .replace(/from\s*"\.\/ui\/input"/g, 'from "@/components/ui/input"')
+    .replace(/from\s*"\.\/ui\/input-group"/g, 'from "@/components/ui/input-group"')
+    .replace(/from\s*"\.\/ui\/textarea"/g, 'from "@/components/ui/textarea"')
+    .replace(/from\s*"\.\/ui\/popover"/g, 'from "@/components/ui/popover"')
+    .replace(/from\s*"\.\/ui\/combobox"/g, 'from "@/components/ui/combobox"')
+    .replace(/from\s*"\.\/ui\/dialog"/g, 'from "@/components/ui/dialog"')
 }
 
 function CopyButton({ code }: { code: string }) {
