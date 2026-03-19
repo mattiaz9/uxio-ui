@@ -17,6 +17,7 @@
     "paths": {
       "@/*": ["./src/*"],
       "@/registry/*": ["./registry/*"],
+      "@/registry/icons/*": ["./registry/uxio/shared/icon-placeholder/*"],
       "collections/*": [".source/*"]
     },
     "noEmit": true

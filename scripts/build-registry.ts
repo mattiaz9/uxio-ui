@@ -80,9 +80,7 @@ interface ComponentDirs {
 function scanComponents(): Map<string, ComponentDirs> {
   const map = new Map<string, ComponentDirs>()
   const dirs = readdirSync(REGISTRY_COMPONENTS, { withFileTypes: true }).filter(
-    (d) =>
-      d.isDirectory() &&
-      (d.name.startsWith("overrides-") || d.name.startsWith("layers-")),
+    (d) => d.isDirectory() && (d.name.startsWith("overrides-") || d.name.startsWith("layers-")),
   )
 
   for (const d of dirs) {
@@ -102,6 +100,7 @@ function scanComponents(): Map<string, ComponentDirs> {
     }
 
     if (!map.has(name)) map.set(name, {})
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     map.get(name)![variant] = d.name
   }
 
@@ -143,10 +142,7 @@ function getIndexDescription(config: ItemConfig): string {
  */
 function rewriteRegistryImports(content: string, mode: "consumer" | "example"): string {
   const replacement = mode === "consumer" ? "@/components/ui/$1" : "./$1"
-  return content.replace(
-    /@\/registry\/uxio\/(?:overrides|layers)-[^/]+\/([^"']+)/g,
-    replacement,
-  )
+  return content.replace(/@\/registry\/uxio\/(?:overrides|layers)-[^/]+\/([^"']+)/g, replacement)
 }
 
 /**

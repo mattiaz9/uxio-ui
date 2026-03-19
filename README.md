@@ -1,23 +1,14 @@
 # uxio ui
 
-An open-source UI library based on [shadcn/ui](https://ui.shadcn.com), distributed via the
+An extended [shadcn/ui](https://ui.shadcn.com) library, distributed via the
 [shadcn registry](https://ui.shadcn.com/docs/registry).
 
 **Registry URL:** [ui.uxio.dev](https://ui.uxio.dev)
 
-## Stack
-
-- **Framework:** [TanStack Start](https://tanstack.com/start)
-- **Documentation:** [Fumadocs](https://www.fumadocs.dev)
-- **UI:** Tailwind CSS 4 + [shadcn/ui](https://ui.shadcn.com)
-- **Linting/Formatting:** [Oxlint](https://oxc.rs/docs/guide/usage/linter) +
-  [Oxfmt](https://oxc.rs/docs/guide/usage/formatter)
-- **Deployment:** Nitro on Vercel (static prerendering)
-
 ## Component Categories
 
 - **Overrides:** Enhancements of existing shadcn components
-- **Layout:** Layout components
+- **Layers:** App-level UI layers (e.g. imperative confirmation)
 - **UI:** Custom uxio ui components
 
 ## Installation
@@ -40,35 +31,6 @@ Configure your registry in `components.json`:
 }
 ```
 
-## Development
-
-```bash
-pnpm install
-pnpm dev
-```
-
-## Build
-
-```bash
-pnpm run build
-```
-
-This runs:
-
-1. `registry:build` - Builds the shadcn registry JSON files
-2. `vite build` - Builds the app with static prerendering
-3. `tsc --noEmit` - Type checking
-
-## Scripts
-
-- `pnpm dev` - Start development server
-- `pnpm build` - Build for production
-- `pnpm preview` - Preview production build
-- `pnpm run registry:build` - Build registry JSON files only
-- `pnpm run lint` - Run oxlint
-- `pnpm run format` - Format with oxfmt
-- `pnpm run format:check` - Check formatting
-
 ## Project Structure
 
 ```
@@ -87,9 +49,8 @@ This runs:
 └── source.config.ts       # Fumadocs MDX config
 ```
 
-## Adding New Components
+## Acknowledgments
 
-1. Create component in `registry/uxio/[category]-[name]/`
-2. Add entry to `registry/uxio/registry.config.json`
-3. Run `pnpm run registry:build`
-4. Add documentation in `content/docs/`
+This project extends the [shadcn/ui](https://ui.shadcn.com) ecosystem. Parts of the implementation
+draw on the [shadcn-ui/ui](https://github.com/shadcn-ui/ui) open-source repository — thanks to the
+maintainers and contributors for the foundation and reference material.

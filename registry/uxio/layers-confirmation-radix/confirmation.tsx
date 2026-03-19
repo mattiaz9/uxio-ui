@@ -13,30 +13,9 @@ import {
   AlertDialogTitle,
 } from "@/registry/uxio/overrides-alert-dialog-radix/alert-dialog"
 import { Spinner } from "@/registry/uxio/overrides-spinner/spinner"
+import { IconPlaceholder } from "@/registry/uxio/shared/icon-placeholder/icon-placeholder"
 
 import type { Dispatch, SetStateAction } from "react"
-
-function AlertTriangleIcon(props: React.ComponentProps<"svg">) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="size-4 shrink-0"
-      {...props}
-    >
-      <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
-      <path d="M12 9v4" />
-      <path d="M12 17h.01" />
-    </svg>
-  )
-}
 
 export interface Confirmation {
   variant?: React.ComponentProps<typeof AlertDialogAction>["variant"]
@@ -111,7 +90,14 @@ async function confirm(confirmation: Confirmation) {
 function DefaultRenderError({ error }: { error: Error }) {
   return (
     <div className="flex items-center gap-x-2 rounded-md bg-destructive/5 p-3 text-sm text-destructive">
-      <AlertTriangleIcon />
+      <IconPlaceholder
+        lucide="AlertTriangleIcon"
+        tabler="IconAlertTriangle"
+        hugeicons="Alert02Icon"
+        phosphor="WarningIcon"
+        remixicon="RiErrorWarningLine"
+        className="size-4 shrink-0"
+      />
       <span>{error.message}</span>
     </div>
   )
@@ -120,7 +106,9 @@ function DefaultRenderError({ error }: { error: Error }) {
 function Confirmer() {
   const [state, setState] = React.useState<ConfirmationState>()
 
-  listener = setState
+  React.useEffect(() => {
+    listener = setState
+  }, [])
 
   return (
     <AlertDialog open={!!state}>
