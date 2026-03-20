@@ -329,10 +329,13 @@ export default function VercelSidebarDemo() {
             </SidebarMenu>
             <div className="flex h-9 items-center gap-2 rounded-md bg-sidebar-accent/40 px-2">
               <Search className="size-4 shrink-0 text-muted-foreground" aria-hidden />
-              <SidebarInput
-                className="h-full min-w-0 flex-1 border-0 bg-transparent p-0 text-sm shadow-none focus-visible:ring-0"
-                placeholder="Find…"
-              />
+              {/* Flex-1 on a wrapper: inputs often ignore flex-grow; w-full fills the slot. */}
+              <div className="flex h-full min-w-0 flex-1 items-center">
+                <SidebarInput
+                  className="h-full w-full min-w-0 border-0 bg-transparent p-0 text-sm shadow-none focus-visible:ring-0"
+                  placeholder="Find…"
+                />
+              </div>
               <kbd className="hidden h-5 max-h-5 shrink-0 items-center justify-center self-center rounded border border-sidebar-border bg-sidebar px-1.5 font-mono text-[10px] leading-none text-muted-foreground sm:inline-flex">
                 F
               </kbd>
