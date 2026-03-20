@@ -1,5 +1,6 @@
 "use client"
 
+import * as React from "react"
 import type { ComponentType } from "react"
 import {
   Activity,
@@ -39,7 +40,6 @@ import {
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarHeader,
-  SidebarInput,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -47,9 +47,52 @@ import {
   SidebarSeparator,
   VercelSidebarBack,
   VercelSidebarNav,
+  VercelSidebarNavProvider,
   VercelSidebarPanel,
+  VercelSidebarSearchPopover,
   useVercelSidebarNav,
+  type VercelSidebarSearchItem,
 } from "./ui/vercel-sidebar"
+
+const demoProject = "mattiaz's projects"
+
+const demoSidebarSearchItems: VercelSidebarSearchItem[] = [
+  { id: "r-projects", title: "Projects", subtitle: demoProject, panelId: "root", icon: <FolderKanban className="size-4" /> },
+  { id: "r-deployments", title: "Deployments", subtitle: demoProject, panelId: "root", icon: <Rocket className="size-4" /> },
+  { id: "r-logs", title: "Logs", subtitle: demoProject, panelId: "root", icon: <SquareTerminal className="size-4" /> },
+  { id: "r-analytics", title: "Analytics", subtitle: demoProject, panelId: "root", icon: <BarChart3 className="size-4" /> },
+  { id: "r-speed", title: "Speed Insights", subtitle: demoProject, panelId: "root", icon: <Activity className="size-4" /> },
+  { id: "r-obs", title: "Observability", subtitle: demoProject, panelId: "observability", icon: <LayoutGrid className="size-4" /> },
+  { id: "r-firewall", title: "Firewall", subtitle: demoProject, panelId: "root", icon: <Shield className="size-4" /> },
+  { id: "r-cdn", title: "CDN", subtitle: demoProject, panelId: "root", icon: <Cloud className="size-4" /> },
+  { id: "r-domains", title: "Domains", subtitle: demoProject, panelId: "root", icon: <Globe className="size-4" /> },
+  { id: "r-int", title: "Integrations", subtitle: demoProject, panelId: "root", icon: <Layers className="size-4" /> },
+  { id: "r-storage", title: "Storage", subtitle: demoProject, panelId: "root", icon: <Box className="size-4" /> },
+  { id: "r-flags", title: "Flags", subtitle: demoProject, panelId: "root", icon: <Flag className="size-4" /> },
+  { id: "r-agent", title: "Agent", subtitle: demoProject, panelId: "root", icon: <Bot className="size-4" /> },
+  { id: "r-aigw", title: "AI Gateway", subtitle: demoProject, panelId: "root", icon: <Sparkles className="size-4" /> },
+  { id: "r-sand", title: "Sandboxes", subtitle: demoProject, panelId: "root", icon: <Server className="size-4" /> },
+  { id: "r-usage", title: "Usage", subtitle: demoProject, panelId: "root", icon: <BarChart3 className="size-4" /> },
+  { id: "r-support", title: "Support", subtitle: demoProject, panelId: "root", icon: <Network className="size-4" /> },
+  { id: "r-settings", title: "Settings", subtitle: demoProject, panelId: "root", icon: <Settings className="size-4" /> },
+  { id: "o-overview", title: "Overview", subtitle: `${demoProject} / Observability`, panelId: "observability", icon: <LayoutGrid className="size-4" /> },
+  { id: "o-query", title: "Query", subtitle: `${demoProject} / Observability`, panelId: "observability", icon: <Search className="size-4" /> },
+  { id: "o-notebooks", title: "Notebooks", subtitle: `${demoProject} / Observability`, panelId: "observability", icon: <FileStack className="size-4" /> },
+  { id: "o-alerts", title: "Alerts", subtitle: `${demoProject} / Observability`, keywords: ["beta"], panelId: "observability", icon: <Bell className="size-4" /> },
+  { id: "o-fn", title: "Functions", subtitle: `${demoProject} / Observability`, keywords: ["compute"], panelId: "observability", icon: <Zap className="size-4" /> },
+  { id: "o-api", title: "External APIs", subtitle: `${demoProject} / Observability`, panelId: "observability", icon: <Globe className="size-4" /> },
+  { id: "o-mw", title: "Middleware", subtitle: `${demoProject} / Observability`, panelId: "observability", icon: <Layers className="size-4" /> },
+  { id: "o-wf", title: "Workflows", subtitle: `${demoProject} / Observability`, keywords: ["beta"], panelId: "observability", icon: <Activity className="size-4" /> },
+  { id: "o-edge", title: "Edge Requests", subtitle: `${demoProject} / Observability`, keywords: ["cdn", "edge"], panelId: "observability", icon: <Globe className="size-4" /> },
+  { id: "o-fdt", title: "Fast Data Transfer", subtitle: `${demoProject} / Observability`, panelId: "observability", icon: <Cloud className="size-4" /> },
+  { id: "o-img", title: "Image Optimization", subtitle: `${demoProject} / Observability`, panelId: "observability", icon: <ImageIcon className="size-4" /> },
+  { id: "o-isr", title: "ISR", subtitle: `${demoProject} / Observability`, panelId: "observability", icon: <Rocket className="size-4" /> },
+  { id: "o-rewrite", title: "External Rewrites", subtitle: `${demoProject} / Observability`, panelId: "observability", icon: <Network className="size-4" /> },
+  { id: "o-mf", title: "Microfrontends", subtitle: `${demoProject} / Observability`, panelId: "observability", icon: <LayoutGrid className="size-4" /> },
+  { id: "o-ai", title: "AI", subtitle: `${demoProject} / Observability`, keywords: ["services"], panelId: "observability", icon: <Sparkles className="size-4" /> },
+  { id: "o-blob", title: "Blob", subtitle: `${demoProject} / Observability`, panelId: "observability", icon: <Box className="size-4" /> },
+  { id: "o-q", title: "Queues", subtitle: `${demoProject} / Observability`, keywords: ["beta"], panelId: "observability", icon: <Server className="size-4" /> },
+]
 
 function BetaBadge({ className }: { className?: string }) {
   return (
@@ -301,57 +344,80 @@ function ObservabilityPanel() {
 
 /** SSR: pass defaultPanel from the server so the first paint matches the URL. */
 export default function VercelSidebarDemo() {
+  const [searchOpen, setSearchOpen] = React.useState(false)
+
+  React.useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const t = e.target as HTMLElement | null
+      if (!t) return
+      if (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.isContentEditable) return
+      if (e.defaultPrevented) return
+      if (e.key !== "f" && e.key !== "F") return
+      if (e.metaKey || e.ctrlKey || e.altKey) return
+      e.preventDefault()
+      setSearchOpen(true)
+    }
+    window.addEventListener("keydown", onKey)
+    return () => window.removeEventListener("keydown", onKey)
+  }, [])
+
   return (
     <div className="flex h-[min(42rem,82vh)] w-64 shrink-0 overflow-hidden rounded-xl border border-border bg-sidebar text-sidebar-foreground shadow-sm">
       <SidebarProvider className="h-full min-h-0 w-full">
-        <Sidebar collapsible="none" className="h-full min-h-0 w-full border-0">
-          <SidebarHeader className="shrink-0 gap-2 border-b border-sidebar-border p-2">
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  size="lg"
-                  type="button"
-                  className="h-11 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-                >
-                  <div className="flex size-6 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-xs font-semibold text-white">
-                    M
-                  </div>
-                  <div className="grid min-w-0 flex-1 text-left text-sm leading-tight">
-                    <div className="flex min-w-0 items-center gap-1.5">
-                      <span className="truncate font-medium">mattiaz&apos;s proje…</span>
-                      <span className="shrink-0 rounded-md bg-sidebar-accent px-1.5 py-0 text-[10px] font-medium text-muted-foreground">
-                        Hobby
-                      </span>
+        <VercelSidebarNavProvider>
+          <Sidebar collapsible="none" className="h-full min-h-0 w-full border-0">
+            <SidebarHeader className="shrink-0 gap-2 border-b border-sidebar-border p-2">
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    size="lg"
+                    type="button"
+                    className="h-11 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                  >
+                    <div className="flex size-6 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-xs font-semibold text-white">
+                      M
                     </div>
-                  </div>
-                  <ChevronsUpDown className="ml-auto size-4 shrink-0 opacity-50" />
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-            <div className="flex h-9 items-center gap-2 rounded-md border border-sidebar-border bg-sidebar-accent/40 px-2.5 shadow-none transition-[color,box-shadow] focus-within:border-ring focus-within:ring-2 focus-within:ring-ring/40">
-              <Search className="size-4 shrink-0 text-muted-foreground" aria-hidden />
-              <div className="flex h-full min-w-0 flex-1 items-center">
-                <SidebarInput
-                  className="h-full w-full min-w-0 border-0 bg-transparent px-0 py-0 text-sm shadow-none ring-0 focus-visible:ring-0 dark:bg-transparent"
-                  placeholder="Find…"
-                />
-              </div>
-              <kbd className="hidden h-5 max-h-5 shrink-0 items-center justify-center self-center rounded border border-sidebar-border/80 bg-sidebar/80 px-1.5 font-mono text-[10px] leading-none text-muted-foreground sm:inline-flex">
-                F
-              </kbd>
-            </div>
-          </SidebarHeader>
+                    <div className="grid min-w-0 flex-1 text-left text-sm leading-tight">
+                      <div className="flex min-w-0 items-center gap-1.5">
+                        <span className="truncate font-medium">mattiaz&apos;s proje…</span>
+                        <span className="shrink-0 rounded-md bg-sidebar-accent px-1.5 py-0 text-[10px] font-medium text-muted-foreground">
+                          Hobby
+                        </span>
+                      </div>
+                    </div>
+                    <ChevronsUpDown className="ml-auto size-4 shrink-0 opacity-50" />
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarMenu>
+              <VercelSidebarSearchPopover
+                items={demoSidebarSearchItems}
+                open={searchOpen}
+                onOpenChange={setSearchOpen}
+              >
+                <button
+                  type="button"
+                  className="flex h-9 w-full cursor-pointer items-center gap-2 rounded-md border border-sidebar-border bg-sidebar-accent/40 px-2.5 text-left shadow-none transition-[color,box-shadow] outline-none hover:bg-sidebar-accent/55 focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/40"
+                  aria-label="Search navigation"
+                >
+                  <Search className="size-4 shrink-0 text-muted-foreground" aria-hidden />
+                  <span className="min-w-0 flex-1 truncate text-sm text-muted-foreground">Find…</span>
+                  <kbd className="pointer-events-none hidden h-5 max-h-5 shrink-0 items-center justify-center self-center rounded border border-sidebar-border/80 bg-sidebar/80 px-1.5 font-mono text-[10px] leading-none text-muted-foreground sm:inline-flex">
+                    F
+                  </kbd>
+                </button>
+              </VercelSidebarSearchPopover>
+            </SidebarHeader>
 
-          <VercelSidebarNav className="gap-0 px-0">
-            <VercelSidebarPanel panelId="root" className="gap-0 py-2">
-              <RootNav />
-            </VercelSidebarPanel>
-            <VercelSidebarPanel panelId="observability" className="gap-0 py-2">
-              <ObservabilityPanel />
-            </VercelSidebarPanel>
-          </VercelSidebarNav>
+            <VercelSidebarNav className="gap-0 px-0">
+              <VercelSidebarPanel panelId="root" className="gap-0 py-2">
+                <RootNav />
+              </VercelSidebarPanel>
+              <VercelSidebarPanel panelId="observability" className="gap-0 py-2">
+                <ObservabilityPanel />
+              </VercelSidebarPanel>
+            </VercelSidebarNav>
 
-          <SidebarFooter className="shrink-0 border-t border-sidebar-border p-2">
+            <SidebarFooter className="shrink-0 border-t border-sidebar-border p-2">
             <SidebarMenu>
               <SidebarMenuItem>
                 <div className="flex w-full items-center gap-2 rounded-md pl-2">
@@ -389,8 +455,9 @@ export default function VercelSidebarDemo() {
                 </div>
               </SidebarMenuItem>
             </SidebarMenu>
-          </SidebarFooter>
-        </Sidebar>
+            </SidebarFooter>
+          </Sidebar>
+        </VercelSidebarNavProvider>
       </SidebarProvider>
     </div>
   )

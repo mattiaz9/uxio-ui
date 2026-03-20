@@ -413,7 +413,7 @@
       "base": ["clsx", "lucide-react", "motion", "tailwind-merge"],
       "radix": ["clsx", "lucide-react", "motion", "tailwind-merge"]
     },
-    "registryDependencies": ["sidebar"]
+    "registryDependencies": ["sidebar", "command", "popover"]
   },
   {
     "name": "combobox",
