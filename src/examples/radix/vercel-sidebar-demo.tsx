@@ -354,7 +354,7 @@ export default function VercelSidebarDemo() {
           <SidebarFooter className="shrink-0 border-t border-sidebar-border p-2">
             <SidebarMenu>
               <SidebarMenuItem>
-                <div className="flex w-full items-center gap-2 rounded-md">
+                <div className="flex w-full items-center gap-2 rounded-md pl-2">
                   <div
                     className="size-6 shrink-0 rounded-full bg-muted bg-cover bg-center ring-1 ring-border"
                     style={{
