@@ -6,11 +6,14 @@ function SplitContent({
   className,
   variant = "responsive",
   ratio = "1:1",
+  breakpointQuery = "media",
   children,
   ...props
 }: React.ComponentProps<"section"> & {
   variant?: "responsive" | "fixed"
   ratio?: "1:1" | "1:2" | "2:1"
+  /** `media`: viewport `md:`. `container`: responsive layout uses `@container` + `@md:`; also sets `--container-inset` (padding, then `cqw` gutter from `md`). Inset still applies when `variant` is `fixed` if you need a parent `@container` for `cqw`. */
+  breakpointQuery?: "media" | "container"
 }) {
   const nodes = React.Children.toArray(children)
   const items = nodes.filter(
@@ -24,11 +27,21 @@ function SplitContent({
     )
   }
 
-  return (
+  const useContainer = variant === "responsive" && breakpointQuery === "container"
+  const useContainerInset = breakpointQuery === "container"
+
+  const section = (
     <section
       className={cn(
         "grid grid-cols-[var(--container-inset)_repeat(6,1fr)_var(--container-inset)] divide-border",
-        variant === "responsive" && "*:last:row-start-2 md:*:last:row-start-1",
+        useContainerInset && [
+          "[--container-inset:var(--container-padding)]",
+          "@md:[--container-inset:calc(50cqw_-_min(100cqw,var(--container-max-width))_/_2_+_var(--container-padding))]",
+        ],
+        variant === "responsive" &&
+          (useContainer
+            ? "*:last:row-start-2 @md:*:last:row-start-1"
+            : "*:last:row-start-2 md:*:last:row-start-1"),
         variant === "responsive" && [
           "has-[>:first-child[data-anchor=container]]:[--left-span:6] has-[>:first-child[data-anchor=container]]:[--left-start:2]",
           "has-[>:first-child[data-anchor=screen]]:[--left-span:8] has-[>:first-child[data-anchor=screen]]:[--left-start:1]",
@@ -36,26 +49,50 @@ function SplitContent({
           "has-[>:last-child[data-anchor=screen]]:[--right-span:8] has-[>:last-child[data-anchor=screen]]:[--right-start:1]",
         ],
         variant === "responsive" &&
-          ratio === "1:1" && [
-            "md:has-[>:first-child[data-anchor=container]]:[--left-span:3] md:has-[>:first-child[data-anchor=container]]:[--left-start:2]",
-            "md:has-[>:first-child[data-anchor=screen]]:[--left-span:4] md:has-[>:first-child[data-anchor=screen]]:[--left-start:1]",
-            "md:has-[>:last-child[data-anchor=container]]:[--right-span:3] md:has-[>:last-child[data-anchor=container]]:[--right-start:5]",
-            "md:has-[>:last-child[data-anchor=screen]]:[--right-span:4] md:has-[>:last-child[data-anchor=screen]]:[--right-start:5]",
-          ],
+          ratio === "1:1" &&
+          (useContainer
+            ? [
+                "@md:has-[>:first-child[data-anchor=container]]:[--left-span:3] @md:has-[>:first-child[data-anchor=container]]:[--left-start:2]",
+                "@md:has-[>:first-child[data-anchor=screen]]:[--left-span:4] @md:has-[>:first-child[data-anchor=screen]]:[--left-start:1]",
+                "@md:has-[>:last-child[data-anchor=container]]:[--right-span:3] @md:has-[>:last-child[data-anchor=container]]:[--right-start:5]",
+                "@md:has-[>:last-child[data-anchor=screen]]:[--right-span:4] @md:has-[>:last-child[data-anchor=screen]]:[--right-start:5]",
+              ]
+            : [
+                "md:has-[>:first-child[data-anchor=container]]:[--left-span:3] md:has-[>:first-child[data-anchor=container]]:[--left-start:2]",
+                "md:has-[>:first-child[data-anchor=screen]]:[--left-span:4] md:has-[>:first-child[data-anchor=screen]]:[--left-start:1]",
+                "md:has-[>:last-child[data-anchor=container]]:[--right-span:3] md:has-[>:last-child[data-anchor=container]]:[--right-start:5]",
+                "md:has-[>:last-child[data-anchor=screen]]:[--right-span:4] md:has-[>:last-child[data-anchor=screen]]:[--right-start:5]",
+              ]),
         variant === "responsive" &&
-          ratio === "1:2" && [
-            "md:has-[>:first-child[data-anchor=container]]:[--left-span:2] md:has-[>:first-child[data-anchor=container]]:[--left-start:2]",
-            "md:has-[>:first-child[data-anchor=screen]]:[--left-span:3] md:has-[>:first-child[data-anchor=screen]]:[--left-start:1]",
-            "md:has-[>:last-child[data-anchor=container]]:[--right-span:4] md:has-[>:last-child[data-anchor=container]]:[--right-start:4]",
-            "md:has-[>:last-child[data-anchor=screen]]:[--right-span:5] md:has-[>:last-child[data-anchor=screen]]:[--right-start:4]",
-          ],
+          ratio === "1:2" &&
+          (useContainer
+            ? [
+                "@md:has-[>:first-child[data-anchor=container]]:[--left-span:2] @md:has-[>:first-child[data-anchor=container]]:[--left-start:2]",
+                "@md:has-[>:first-child[data-anchor=screen]]:[--left-span:3] @md:has-[>:first-child[data-anchor=screen]]:[--left-start:1]",
+                "@md:has-[>:last-child[data-anchor=container]]:[--right-span:4] @md:has-[>:last-child[data-anchor=container]]:[--right-start:4]",
+                "@md:has-[>:last-child[data-anchor=screen]]:[--right-span:5] @md:has-[>:last-child[data-anchor=screen]]:[--right-start:4]",
+              ]
+            : [
+                "md:has-[>:first-child[data-anchor=container]]:[--left-span:2] md:has-[>:first-child[data-anchor=container]]:[--left-start:2]",
+                "md:has-[>:first-child[data-anchor=screen]]:[--left-span:3] md:has-[>:first-child[data-anchor=screen]]:[--left-start:1]",
+                "md:has-[>:last-child[data-anchor=container]]:[--right-span:4] md:has-[>:last-child[data-anchor=container]]:[--right-start:4]",
+                "md:has-[>:last-child[data-anchor=screen]]:[--right-span:5] md:has-[>:last-child[data-anchor=screen]]:[--right-start:4]",
+              ]),
         variant === "responsive" &&
-          ratio === "2:1" && [
-            "md:has-[>:first-child[data-anchor=container]]:[--left-span:4] md:has-[>:first-child[data-anchor=container]]:[--left-start:2]",
-            "md:has-[>:first-child[data-anchor=screen]]:[--left-span:5] md:has-[>:first-child[data-anchor=screen]]:[--left-start:1]",
-            "md:has-[>:last-child[data-anchor=container]]:[--right-span:2] md:has-[>:last-child[data-anchor=container]]:[--right-start:6]",
-            "md:has-[>:last-child[data-anchor=screen]]:[--right-span:3] md:has-[>:last-child[data-anchor=screen]]:[--right-start:6]",
-          ],
+          ratio === "2:1" &&
+          (useContainer
+            ? [
+                "@md:has-[>:first-child[data-anchor=container]]:[--left-span:4] @md:has-[>:first-child[data-anchor=container]]:[--left-start:2]",
+                "@md:has-[>:first-child[data-anchor=screen]]:[--left-span:5] @md:has-[>:first-child[data-anchor=screen]]:[--left-start:1]",
+                "@md:has-[>:last-child[data-anchor=container]]:[--right-span:2] @md:has-[>:last-child[data-anchor=container]]:[--right-start:6]",
+                "@md:has-[>:last-child[data-anchor=screen]]:[--right-span:3] @md:has-[>:last-child[data-anchor=screen]]:[--right-start:6]",
+              ]
+            : [
+                "md:has-[>:first-child[data-anchor=container]]:[--left-span:4] md:has-[>:first-child[data-anchor=container]]:[--left-start:2]",
+                "md:has-[>:first-child[data-anchor=screen]]:[--left-span:5] md:has-[>:first-child[data-anchor=screen]]:[--left-start:1]",
+                "md:has-[>:last-child[data-anchor=container]]:[--right-span:2] md:has-[>:last-child[data-anchor=container]]:[--right-start:6]",
+                "md:has-[>:last-child[data-anchor=screen]]:[--right-span:3] md:has-[>:last-child[data-anchor=screen]]:[--right-start:6]",
+              ]),
         variant === "fixed" &&
           ratio === "1:1" && [
             "has-[>:first-child[data-anchor=container]]:[--left-span:3] has-[>:first-child[data-anchor=container]]:[--left-start:2]",
@@ -82,11 +119,18 @@ function SplitContent({
       data-slot="split-content"
       data-variant={variant}
       data-ratio={ratio}
+      data-breakpoint-query={variant === "responsive" ? breakpointQuery : undefined}
       {...props}
     >
       {children}
     </section>
   )
+
+  if (useContainer) {
+    return <div className="@container min-w-0 w-full">{section}</div>
+  }
+
+  return section
 }
 
 function SplitContentItem({

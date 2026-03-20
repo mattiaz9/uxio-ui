@@ -87,24 +87,25 @@ export default function SplitContentInteractive() {
       >
         <ResizablePanel defaultSize={80} minSize={35} className="min-w-0">
           <div className="flex h-full min-h-0 w-full flex-col overflow-auto">
-            <div className="flex min-h-full w-full flex-1 flex-col justify-center [--container-max-width:480px] [--container-inset:var(--container-padding)]">
+            <div className="@container flex min-h-full min-w-0 w-full flex-1 flex-col justify-center [--container-max-width:480px]">
               <SplitContent
                 variant={variant}
                 ratio={ratio}
-                className="min-h-[200px] divide-y divide-border md:min-h-[220px] md:divide-x md:divide-y-0"
+                breakpointQuery="container"
+                className="min-h-[200px] divide-y divide-border @md:min-h-[220px] @md:divide-x @md:divide-y-0"
               >
                 <SplitContentItem
                   anchor={leftAnchor}
                   className={cn(
                     "flex flex-col justify-center text-sm",
-                    leftAnchor === "container" && "bg-muted/60 p-4 md:p-6",
+                    leftAnchor === "container" && "bg-muted/60 p-4 @md:p-6",
                     leftAnchor === "screen" &&
-                      "bg-cover bg-center py-6 text-white md:py-8",
+                      "bg-cover bg-center py-6 text-white @md:py-8",
                   )}
                   style={leftAnchor === "screen" ? screenColumnBg : undefined}
                 >
                   {leftAnchor === "screen" ? (
-                    <div className="pl-container-inset pr-4 text-white md:pr-6">
+                    <div className="pl-container-inset pr-4 text-white @md:pr-6">
                       <span className="font-medium text-white">Left column</span>
                       <span className="block text-white/90">
                         anchor={leftAnchor}
@@ -128,14 +129,14 @@ export default function SplitContentInteractive() {
                   anchor={rightAnchor}
                   className={cn(
                     "flex flex-col justify-center text-sm",
-                    rightAnchor === "container" && "bg-muted/40 p-4 md:p-6",
+                    rightAnchor === "container" && "bg-muted/40 p-4 @md:p-6",
                     rightAnchor === "screen" &&
-                      "bg-cover bg-center py-6 text-white md:py-8",
+                      "bg-cover bg-center py-6 text-white @md:py-8",
                   )}
                   style={rightAnchor === "screen" ? screenColumnBg : undefined}
                 >
                   {rightAnchor === "screen" ? (
-                    <div className="pr-container-inset pl-4 text-white md:pl-6">
+                    <div className="pr-container-inset pl-4 text-white @md:pl-6">
                       <span className="font-medium text-white">Right column</span>
                       <span className="block text-white/90">
                         anchor={rightAnchor}
@@ -162,8 +163,7 @@ export default function SplitContentInteractive() {
         <ResizableHandle withHandle />
         <ResizablePanel defaultSize={35} minSize={20} className="min-w-0">
           <div className="flex h-full items-center justify-center px-2 text-center text-sm text-muted-foreground">
-            Drag the handle to change the preview width and see responsive behavior at different
-            breakpoints.
+            Drag the handle to resize the preview
           </div>
         </ResizablePanel>
       </ResizablePanelGroup>

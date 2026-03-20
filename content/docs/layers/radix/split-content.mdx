@@ -4,7 +4,7 @@ title: Split Content
 
 ## Overview
 
-Two-column layout on a grid with outer inset columns (`--container-inset` from **Tailwind Container Extra**). Each side is a `SplitContentItem` that can align to the **container** or **screen** edge. Use the **responsive** variant to stack on small viewports, or **fixed** to keep two columns at all widths.
+Two-column layout on a grid with outer inset columns (`--container-inset` from **Tailwind Container Extra**). Each side is a `SplitContentItem` that can align to the **container** or **screen** edge. Use the **responsive** variant to stack below the `md` breakpoint, or **fixed** to keep two columns at all widths. Choose **viewport** (`breakpointQuery="media"`, default) or **component width** (`breakpointQuery="container"`) for that breakpoint.
 
 ## Install
 
@@ -35,6 +35,8 @@ export function HeroSplit() {
 }
 ```
 
+For **container-relative** breakpoints (e.g. narrow sidebars or docs previews), set `breakpointQuery="container"` and use `@md:` in your `className` / column classes so they stay in sync with the component.
+
 You must pass **exactly two** `SplitContentItem` children (no wrappers that break direct children). Other node types (e.g. whitespace-only text) are ignored for that count.
 
 ## Props
@@ -44,11 +46,14 @@ You must pass **exactly two** `SplitContentItem` children (no wrappers that brea
 | Prop        | Type                                   | Default        | Description                                                                 |
 | ----------- | -------------------------------------- | -------------- | --------------------------------------------------------------------------- |
 | `variant`   | `"responsive"` \| `"fixed"`            | `"responsive"` | **responsive**: stack on small screens, two columns from `md`. **fixed**: always two columns. |
+| `breakpointQuery` | `"media"` \| `"container"`       | `"media"`      | `media`: viewport `md:`. `container`: default **`--container-inset`** (padding, then `cqw` gutter from `md`); **responsive** also gets an `@container` wrapper + `@md:` layout. Parent **`@container`** needed for `cqw` when **fixed**. |
 | `ratio`     | `"1:1"` \| `"1:2"` \| `"2:1"`          | `"1:1"`        | Relative column widths at the multi-column breakpoint.                      |
 | `className` | `string`                               | —              | Merged with layout utilities on the root `<section>`.                       |
 | …           | `React.ComponentProps<"section">`      | —              | Standard section props (`id`, `aria-*`, etc.). `children` must be two items. |
 
-Root element exposes `data-slot="split-content"`, `data-variant`, and `data-ratio`.
+The `<section>` exposes `data-slot="split-content"`, `data-variant`, `data-ratio`, and (when responsive) `data-breakpoint-query`. With **`breakpointQuery="container"`** and **responsive**, an outer `@container` wrapper is rendered (no `data-slot`).
+
+When you use **`breakpointQuery="container"`**, match your own layout utilities with **`@md:`** so they track the same container as the component (not viewport **`md:`**).
 
 ### `SplitContentItem`
 
@@ -68,11 +73,11 @@ Backgrounds usually belong on the item (or a filling child) so they span the who
 
 ## Example
 
-The preview **forces `--container-max-width` to 480px** (and resets `--container-inset` to padding) so **container** vs **screen** anchors stay easy to compare inside the docs layout—this is only for the demo, not something your app needs.
+The preview sets **`--container-max-width: 480px`** on the wrapper so **container** vs **screen** anchors are easy to compare. With **`breakpointQuery="container"`**, `SplitContent` itself sets **`--container-inset`** (padding below `md`, then the same centered-gutter math as the site shell using **`cqw`** from `md` up). This demo-only max width is not something your app needs.
 
 With **`anchor="screen"`**, the demo adds a **background image** (plus overlay) so the bleed is obvious, and uses **`pl-container-inset`** / **`pr-container-inset`** on the inner copy.
 
-Resize the resizable panel to see how **responsive** behaves across widths. Controls update `variant`, `ratio`, and each column’s `anchor`.
+Resize the resizable panel to see **container** breakpoints respond to preview width. Controls update `variant`, `ratio`, and each column’s `anchor`.
 
 <ComponentPreview
   name="radix/split-content-interactive"
