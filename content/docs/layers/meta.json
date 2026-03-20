@@ -1,7 +1,8 @@
 {
   "title": "Layers",
   "pages": [
-    "[Confirmation](/docs/layers/radix/confirmation)"
+    "[Confirmation](/docs/layers/radix/confirmation)",
+    "[Split Content](/docs/layers/radix/split-content)"
   ],
   "collapsible": false,
   "defaultOpen": true

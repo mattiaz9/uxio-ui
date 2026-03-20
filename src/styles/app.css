@@ -45,6 +45,9 @@
 }
 
 @theme inline {
+  --spacing-container-padding: var(--container-padding);
+  --spacing-container-inset: var(--container-inset);
+  
   --font-sans: "Geist Variable", sans-serif;
   --font-display: "Tomorrow", sans-serif;
   --color-sidebar-ring: var(--sidebar-ring);
@@ -188,3 +191,4 @@
   padding-inline: var(--container-padding, 1rem);
   max-width: var(--container-max-width, 100%);
 }
+ 

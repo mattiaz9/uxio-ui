@@ -28,6 +28,7 @@ function transformSource(source: string): string {
     .replace(/from\s*"\.\/ui\/scroll-area"/g, 'from "@/components/ui/scroll-area"')
     .replace(/from\s*"\.\/ui\/skeleton"/g, 'from "@/components/ui/skeleton"')
     .replace(/from\s*"\.\/ui\/tooltip"/g, 'from "@/components/ui/tooltip"')
+    .replace(/from\s*"\.\/ui\/split-content"/g, 'from "@/components/ui/split-content"')
 }
 
 function CopyButton({ code }: { code: string }) {

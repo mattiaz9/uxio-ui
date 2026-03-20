@@ -75,6 +75,12 @@
     "title": "Tailwind Container Extra",
     "description": "",
     "categories": ["styles"],
+    "cssVars": {
+      "theme": {
+        "--spacing-container-padding": "var(--container-padding)",
+        "--spacing-container-inset": "var(--container-inset)"
+      }
+    },
     "css": {
       "@layer base": {
         "body": {
@@ -373,6 +379,15 @@
       "base": ["@base-ui/react/scroll-area", "clsx", "tailwind-merge"],
       "radix": ["radix-ui", "clsx", "tailwind-merge"]
     }
+  },
+  {
+    "name": "split-content",
+    "type": "registry:ui",
+    "title": "Split Content",
+    "description": "Two-column layout on a 6+2 gutter grid: each column can align to the content container or the screen edge, with responsive stacking and width ratios.",
+    "categories": ["layers"],
+    "dependencies": ["clsx", "tailwind-merge"],
+    "registryDependencies": ["@uxio/tw-container-extended"]
   },
   {
     "name": "confirmation",
