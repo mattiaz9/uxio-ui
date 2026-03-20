@@ -192,6 +192,24 @@
     "registryDependencies": ["button"]
   },
   {
+    "name": "sheet",
+    "type": "registry:ui",
+    "title": "Sheet",
+    "description": "Sheet with content background using bg-popover instead of bg-background.",
+    "categories": ["overrides"],
+    "dependencies": {
+      "base": [
+        "@base-ui/react/dialog",
+        "class-variance-authority",
+        "clsx",
+        "lucide-react",
+        "tailwind-merge"
+      ],
+      "radix": ["radix-ui", "class-variance-authority", "clsx", "lucide-react", "tailwind-merge"]
+    },
+    "registryDependencies": ["button"]
+  },
+  {
     "name": "drawer",
     "type": "registry:ui",
     "title": "Drawer",

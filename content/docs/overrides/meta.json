@@ -14,6 +14,7 @@
     "[Item](/docs/overrides/radix/item)",
     "[Popover](/docs/overrides/radix/popover)",
     "[Scroll Area](/docs/overrides/radix/scroll-area)",
+    "[Sheet](/docs/overrides/radix/sheet)",
     "[Spinner](/docs/overrides/radix/spinner)"
   ],
   "collapsible": false,
