@@ -301,6 +301,10 @@
     @apply rounded-b-lg px-4 group-data-[size=sm]/card:px-3 [.border-t]:pt-4 group-data-[size=sm]/card:[.border-t]:pt-3;
   }
 
+  .cn-card-variant-destructive {
+    @apply ring-destructive/30 dark:ring-destructive/60;
+  }
+
   /* MARK: Carousel */
   .cn-carousel-previous {
     @apply rounded-full;

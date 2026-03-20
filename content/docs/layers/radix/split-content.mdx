@@ -4,17 +4,11 @@ title: Split Content
 
 ## Overview
 
-Two-column layout on a grid with outer inset columns (`--container-inset` from **Tailwind Container Extra**). Each side is a `SplitContentItem` that can align to the **container** or **screen** edge. Use the **responsive** variant to stack below the `md` breakpoint, or **fixed** to keep two columns at all widths. Choose **viewport** (`breakpointQuery="media"`, default) or **component width** (`breakpointQuery="container"`) for that breakpoint.
+A flexible 2 columns layout that keeps the content aligned with the container.
+
+The grid uses **`--container-inset`** for outer gutter columns. Each side is a `SplitContentItem` that can align to the **container** or **screen** edge. Use the **responsive** variant to stack below the `md` breakpoint, or **fixed** to keep two columns at all widths. Choose **viewport** (`breakpointQuery="media"`, default) or **component width** (`breakpointQuery="container"`) for that breakpoint.
 
 ## Install
-
-Add **Tailwind Container Extra** if you have not already (required for `--container-inset`):
-
-```bash
-npx shadcn@latest add @uxio/tw-container-extended
-```
-
-Then:
 
 ```bash
 npx shadcn@latest add @uxio/split-content

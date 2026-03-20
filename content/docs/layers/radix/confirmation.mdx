@@ -29,7 +29,9 @@ The correct variant (base or radix) is resolved automatically from your `compone
 
 ## Usage
 
-Place `<Confirmer />` once in your **root layout** (e.g. Next.js `app/layout.tsx`, TanStack Start root, or the top-level route that wraps the whole app). It must stay mounted so `confirm()` can open the dialog from anywhere.
+Place `<Confirmer />` once in your **root layout** (e.g. Next.js `app/layout.tsx`, TanStack Start
+root, or the top-level route that wraps the whole app). It must stay mounted so `confirm()` can open
+the dialog from anywhere.
 
 ```tsx
 // app/layout.tsx (or equivalent root layout)
@@ -68,7 +70,8 @@ if (confirmed) {
 
 ### Action with loading and error
 
-Pass an `action` to run async work. The dialog shows a loading spinner and can display errors inline:
+Pass an `action` to run async work. The dialog shows a loading spinner and can display errors
+inline:
 
 ```tsx
 void confirm({
@@ -80,7 +83,7 @@ void confirm({
   action: async () => {
     const result = await deleteCurrentPost()
     if (result.data) {
-      router.replace(route("/:org/:project", { org, project }))
+      router.replace("/")
     } else {
       throw new Error(result.error)
     }

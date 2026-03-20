@@ -26,6 +26,36 @@ npx shadcn@latest add @uxio/item
 
 The correct variant (base or radix) is resolved automatically from your `components.json` style.
 
+## Usage
+
+```tsx
+import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemGroup,
+  ItemTitle,
+} from "@/components/ui/item"
+
+export function ItemGroupedExample() {
+  return (
+    <ItemGroup variant="grouped" className="w-full max-w-md">
+      <Item variant="outline">
+        <ItemContent>
+          <ItemTitle>First</ItemTitle>
+          <ItemDescription>Short description.</ItemDescription>
+        </ItemContent>
+      </Item>
+      <Item variant="outline">
+        <ItemContent>
+          <ItemTitle>Second</ItemTitle>
+        </ItemContent>
+      </Item>
+    </ItemGroup>
+  )
+}
+```
+
 ## Examples
 
 ### Default ItemGroup

@@ -26,6 +26,45 @@ npx shadcn@latest add @uxio/scroll-area
 
 The correct variant (base or radix) is resolved automatically from your `components.json` style.
 
+## Usage
+
+The **`scrollbar`** prop controls which tracks are shown: **`"vertical"`** (default), **`"horizontal"`**, or **`"both"`**.
+
+```tsx
+import { ScrollArea } from "@/components/ui/scroll-area"
+
+export function ScrollAreaVertical() {
+  return (
+    <ScrollArea scrollbar="vertical">
+      {Array.from({ length: 24 }, (_, i) => (
+        <p key={i}>Row {i + 1}</p>
+      ))}
+    </ScrollArea>
+  )
+}
+
+export function ScrollAreaHorizontal() {
+  return (
+    <ScrollArea scrollbar="horizontal">
+      <p>{"Long content ".repeat(30)}</p>
+    </ScrollArea>
+  )
+}
+
+export function ScrollAreaBothAxes() {
+  return (
+    <ScrollArea scrollbar="both">
+      {Array.from({ length: 16 }, (_, i) => (
+        <p key={i}>
+          Row {i + 1}
+          {" …".repeat(50)}
+        </p>
+      ))}
+    </ScrollArea>
+  )
+}
+```
+
 ## Examples
 
 ### Scrollbar vertical (default)
