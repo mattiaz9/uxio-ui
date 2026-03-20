@@ -283,29 +283,6 @@
     }
   },
   {
-    "name": "textarea",
-    "type": "registry:ui",
-    "title": "Textarea",
-    "description": "Same as the original shadcn textarea component.",
-    "categories": ["overrides"],
-    "dependencies": {
-      "base": ["clsx", "tailwind-merge"],
-      "radix": ["clsx", "tailwind-merge"]
-    }
-  },
-  {
-    "name": "input-group",
-    "type": "registry:ui",
-    "title": "Input Group",
-    "description": "Input group component for combining inputs with addons, buttons, and text. Same as the original shadcn input-group.",
-    "categories": ["overrides"],
-    "dependencies": {
-      "base": ["class-variance-authority", "clsx", "tailwind-merge"],
-      "radix": ["class-variance-authority", "clsx", "tailwind-merge"]
-    },
-    "registryDependencies": ["button", "input", "textarea"]
-  },
-  {
     "name": "command",
     "type": "registry:ui",
     "title": "Command",
