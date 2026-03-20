@@ -320,6 +320,17 @@
     }
   },
   {
+    "name": "scroll-area",
+    "type": "registry:ui",
+    "title": "Scroll Area",
+    "description": "Scroll area with a scrollbar prop to show vertical, horizontal, or both scrollbars.",
+    "categories": ["overrides"],
+    "dependencies": {
+      "base": ["@base-ui/react/scroll-area", "clsx", "tailwind-merge"],
+      "radix": ["radix-ui", "clsx", "tailwind-merge"]
+    }
+  },
+  {
     "name": "confirmation",
     "type": "registry:ui",
     "title": "Confirmation",

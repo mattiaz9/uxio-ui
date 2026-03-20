@@ -1,0 +1,47 @@
+---
+title: Scroll Area
+---
+
+## Extended Features
+
+- [`scrollbar` prop](#scrollbar-vertical-default) — choose `vertical` (default), `horizontal`, or `both`
+
+## Install
+
+Configure your registry in `components.json`:
+
+```json
+{
+  "registries": {
+    "@uxio": "https://ui.uxio.dev/r/styles/{style}/{name}.json"
+  }
+}
+```
+
+Then run:
+
+```bash
+npx shadcn@latest add @uxio/scroll-area
+```
+
+The correct variant (base or radix) is resolved automatically from your `components.json` style.
+
+## Examples
+
+### Scrollbar vertical (default)
+
+Shows only the vertical track; same default behavior as the upstream component.
+
+<ComponentPreview name="base/scroll-area-scrollbar-vertical" />
+
+### Scrollbar horizontal
+
+Use `scrollbar="horizontal"` for wide content inside a fixed-width container.
+
+<ComponentPreview name="base/scroll-area-scrollbar-horizontal" />
+
+### Scrollbar both
+
+Use `scrollbar="both"` when content overflows on both axes.
+
+<ComponentPreview name="base/scroll-area-scrollbar-both" />
