@@ -34,22 +34,22 @@ import { cn } from "@/lib/utils"
 
 import { Button } from "./ui/button"
 import {
-  Sidebar,
-  SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarProvider,
-  SidebarSeparator,
+  VercelSidebar,
   VercelSidebarBack,
+  VercelSidebarFooter,
+  VercelSidebarGroup,
+  VercelSidebarGroupContent,
+  VercelSidebarGroupLabel,
+  VercelSidebarHeader,
+  VercelSidebarMenu,
+  VercelSidebarMenuButton,
+  VercelSidebarMenuItem,
   VercelSidebarNav,
   VercelSidebarNavProvider,
   VercelSidebarPanel,
+  VercelSidebarProvider,
   VercelSidebarSearchPopover,
+  VercelSidebarSeparator,
   useVercelSidebarNav,
   type VercelSidebarSearchItem,
 } from "./ui/vercel-sidebar"
@@ -119,15 +119,15 @@ function SubNavItem({
   active?: boolean
 }) {
   return (
-    <SidebarMenuItem>
-      <SidebarMenuButton type="button" isActive={active} className="justify-between gap-2">
+    <VercelSidebarMenuItem>
+      <VercelSidebarMenuButton type="button" isActive={active} className="justify-between gap-2">
         <span className="flex min-w-0 items-center gap-2">
           <Icon className="size-4 shrink-0 opacity-70" />
           <span className="truncate">{label}</span>
         </span>
         {beta ? <BetaBadge /> : null}
-      </SidebarMenuButton>
-    </SidebarMenuItem>
+      </VercelSidebarMenuButton>
+    </VercelSidebarMenuItem>
   )
 }
 
@@ -136,41 +136,41 @@ function RootNav() {
 
   return (
     <>
-      <SidebarGroup>
-        <SidebarGroupContent>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton type="button" isActive>
+      <VercelSidebarGroup>
+        <VercelSidebarGroupContent>
+          <VercelSidebarMenu>
+            <VercelSidebarMenuItem>
+              <VercelSidebarMenuButton type="button" isActive>
                 <FolderKanban className="size-4" />
                 <span>Projects</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton type="button">
+              </VercelSidebarMenuButton>
+            </VercelSidebarMenuItem>
+            <VercelSidebarMenuItem>
+              <VercelSidebarMenuButton type="button">
                 <Rocket className="size-4" />
                 <span>Deployments</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton type="button">
+              </VercelSidebarMenuButton>
+            </VercelSidebarMenuItem>
+            <VercelSidebarMenuItem>
+              <VercelSidebarMenuButton type="button">
                 <SquareTerminal className="size-4" />
                 <span>Logs</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton type="button">
+              </VercelSidebarMenuButton>
+            </VercelSidebarMenuItem>
+            <VercelSidebarMenuItem>
+              <VercelSidebarMenuButton type="button">
                 <BarChart3 className="size-4" />
                 <span>Analytics</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton type="button">
+              </VercelSidebarMenuButton>
+            </VercelSidebarMenuItem>
+            <VercelSidebarMenuItem>
+              <VercelSidebarMenuButton type="button">
                 <Activity className="size-4" />
                 <span>Speed Insights</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton
+              </VercelSidebarMenuButton>
+            </VercelSidebarMenuItem>
+            <VercelSidebarMenuItem>
+              <VercelSidebarMenuButton
                 type="button"
                 className="justify-between"
                 onClick={() => setActivePanel("observability")}
@@ -180,106 +180,106 @@ function RootNav() {
                   <span>Observability</span>
                 </span>
                 <ChevronRight className="size-4 shrink-0 opacity-50" />
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton type="button">
+              </VercelSidebarMenuButton>
+            </VercelSidebarMenuItem>
+            <VercelSidebarMenuItem>
+              <VercelSidebarMenuButton type="button">
                 <Shield className="size-4" />
                 <span>Firewall</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton type="button">
+              </VercelSidebarMenuButton>
+            </VercelSidebarMenuItem>
+            <VercelSidebarMenuItem>
+              <VercelSidebarMenuButton type="button">
                 <Cloud className="size-4" />
                 <span>CDN</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarGroupContent>
-      </SidebarGroup>
-      <SidebarSeparator className="mx-2" />
-      <SidebarGroup>
-        <SidebarGroupContent>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton type="button">
+              </VercelSidebarMenuButton>
+            </VercelSidebarMenuItem>
+          </VercelSidebarMenu>
+        </VercelSidebarGroupContent>
+      </VercelSidebarGroup>
+      <VercelSidebarSeparator className="mx-2" />
+      <VercelSidebarGroup>
+        <VercelSidebarGroupContent>
+          <VercelSidebarMenu>
+            <VercelSidebarMenuItem>
+              <VercelSidebarMenuButton type="button">
                 <Globe className="size-4" />
                 <span>Domains</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton type="button">
+              </VercelSidebarMenuButton>
+            </VercelSidebarMenuItem>
+            <VercelSidebarMenuItem>
+              <VercelSidebarMenuButton type="button">
                 <Layers className="size-4" />
                 <span>Integrations</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton type="button">
+              </VercelSidebarMenuButton>
+            </VercelSidebarMenuItem>
+            <VercelSidebarMenuItem>
+              <VercelSidebarMenuButton type="button">
                 <Box className="size-4" />
                 <span>Storage</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton type="button">
+              </VercelSidebarMenuButton>
+            </VercelSidebarMenuItem>
+            <VercelSidebarMenuItem>
+              <VercelSidebarMenuButton type="button">
                 <Flag className="size-4" />
                 <span>Flags</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton type="button" className="justify-between">
+              </VercelSidebarMenuButton>
+            </VercelSidebarMenuItem>
+            <VercelSidebarMenuItem>
+              <VercelSidebarMenuButton type="button" className="justify-between">
                 <span className="flex items-center gap-2">
                   <Bot className="size-4" />
                   <span>Agent</span>
                 </span>
                 <ChevronRight className="size-4 shrink-0 opacity-50" />
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton type="button" className="justify-between">
+              </VercelSidebarMenuButton>
+            </VercelSidebarMenuItem>
+            <VercelSidebarMenuItem>
+              <VercelSidebarMenuButton type="button" className="justify-between">
                 <span className="flex items-center gap-2">
                   <Sparkles className="size-4" />
                   <span>AI Gateway</span>
                 </span>
                 <ChevronRight className="size-4 shrink-0 opacity-50" />
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton type="button">
+              </VercelSidebarMenuButton>
+            </VercelSidebarMenuItem>
+            <VercelSidebarMenuItem>
+              <VercelSidebarMenuButton type="button">
                 <Server className="size-4" />
                 <span>Sandboxes</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarGroupContent>
-      </SidebarGroup>
-      <SidebarSeparator className="mx-2" />
-      <SidebarGroup>
-        <SidebarGroupContent>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton type="button">
+              </VercelSidebarMenuButton>
+            </VercelSidebarMenuItem>
+          </VercelSidebarMenu>
+        </VercelSidebarGroupContent>
+      </VercelSidebarGroup>
+      <VercelSidebarSeparator className="mx-2" />
+      <VercelSidebarGroup>
+        <VercelSidebarGroupContent>
+          <VercelSidebarMenu>
+            <VercelSidebarMenuItem>
+              <VercelSidebarMenuButton type="button">
                 <BarChart3 className="size-4" />
                 <span>Usage</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton type="button">
+              </VercelSidebarMenuButton>
+            </VercelSidebarMenuItem>
+            <VercelSidebarMenuItem>
+              <VercelSidebarMenuButton type="button">
                 <Network className="size-4" />
                 <span>Support</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton type="button" className="justify-between">
+              </VercelSidebarMenuButton>
+            </VercelSidebarMenuItem>
+            <VercelSidebarMenuItem>
+              <VercelSidebarMenuButton type="button" className="justify-between">
                 <span className="flex items-center gap-2">
                   <Settings className="size-4" />
                   <span>Settings</span>
                 </span>
                 <ChevronRight className="size-4 shrink-0 opacity-50" />
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarGroupContent>
-      </SidebarGroup>
+              </VercelSidebarMenuButton>
+            </VercelSidebarMenuItem>
+          </VercelSidebarMenu>
+        </VercelSidebarGroupContent>
+      </VercelSidebarGroup>
     </>
   )
 }
@@ -288,56 +288,56 @@ function ObservabilityPanel() {
   return (
     <>
       <VercelSidebarBack title="Observability" />
-      <SidebarGroup>
-        <SidebarGroupContent>
-          <SidebarMenu>
+      <VercelSidebarGroup>
+        <VercelSidebarGroupContent>
+          <VercelSidebarMenu>
             <SubNavItem icon={LayoutGrid} label="Overview" active />
             <SubNavItem icon={Search} label="Query" />
             <SubNavItem icon={FileStack} label="Notebooks" />
             <SubNavItem icon={Bell} label="Alerts" beta />
-          </SidebarMenu>
-        </SidebarGroupContent>
-      </SidebarGroup>
-      <SidebarGroup>
-        <SidebarGroupLabel className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">
+          </VercelSidebarMenu>
+        </VercelSidebarGroupContent>
+      </VercelSidebarGroup>
+      <VercelSidebarGroup>
+        <VercelSidebarGroupLabel className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">
           Compute
-        </SidebarGroupLabel>
-        <SidebarGroupContent>
-          <SidebarMenu>
+        </VercelSidebarGroupLabel>
+        <VercelSidebarGroupContent>
+          <VercelSidebarMenu>
             <SubNavItem icon={Zap} label="Functions" />
             <SubNavItem icon={Globe} label="External APIs" />
             <SubNavItem icon={Layers} label="Middleware" />
             <SubNavItem icon={Activity} label="Workflows" beta />
-          </SidebarMenu>
-        </SidebarGroupContent>
-      </SidebarGroup>
-      <SidebarGroup>
-        <SidebarGroupLabel className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">
+          </VercelSidebarMenu>
+        </VercelSidebarGroupContent>
+      </VercelSidebarGroup>
+      <VercelSidebarGroup>
+        <VercelSidebarGroupLabel className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">
           CDN
-        </SidebarGroupLabel>
-        <SidebarGroupContent>
-          <SidebarMenu>
+        </VercelSidebarGroupLabel>
+        <VercelSidebarGroupContent>
+          <VercelSidebarMenu>
             <SubNavItem icon={Globe} label="Edge Requests" />
             <SubNavItem icon={Cloud} label="Fast Data Transfer" />
             <SubNavItem icon={ImageIcon} label="Image Optimization" />
             <SubNavItem icon={Rocket} label="ISR" />
             <SubNavItem icon={Network} label="External Rewrites" />
             <SubNavItem icon={LayoutGrid} label="Microfrontends" />
-          </SidebarMenu>
-        </SidebarGroupContent>
-      </SidebarGroup>
-      <SidebarGroup>
-        <SidebarGroupLabel className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">
+          </VercelSidebarMenu>
+        </VercelSidebarGroupContent>
+      </VercelSidebarGroup>
+      <VercelSidebarGroup>
+        <VercelSidebarGroupLabel className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">
           Services
-        </SidebarGroupLabel>
-        <SidebarGroupContent>
-          <SidebarMenu>
+        </VercelSidebarGroupLabel>
+        <VercelSidebarGroupContent>
+          <VercelSidebarMenu>
             <SubNavItem icon={Sparkles} label="AI" />
             <SubNavItem icon={Box} label="Blob" />
             <SubNavItem icon={Server} label="Queues" beta />
-          </SidebarMenu>
-        </SidebarGroupContent>
-      </SidebarGroup>
+          </VercelSidebarMenu>
+        </VercelSidebarGroupContent>
+      </VercelSidebarGroup>
     </>
   )
 }
@@ -363,13 +363,13 @@ export default function VercelSidebarDemo() {
 
   return (
     <div className="flex h-[min(42rem,82vh)] w-64 shrink-0 overflow-hidden rounded-xl border border-border bg-sidebar text-sidebar-foreground shadow-sm">
-      <SidebarProvider className="h-full min-h-0 w-full">
+      <VercelSidebarProvider className="h-full min-h-0 w-full">
         <VercelSidebarNavProvider>
-          <Sidebar collapsible="none" className="h-full min-h-0 w-full border-0">
-            <SidebarHeader className="shrink-0 gap-2 border-b border-sidebar-border p-2">
-              <SidebarMenu>
-                <SidebarMenuItem>
-                  <SidebarMenuButton
+          <VercelSidebar collapsible="none" className="h-full min-h-0 w-full border-0">
+            <VercelSidebarHeader className="shrink-0 gap-2 border-b border-sidebar-border p-2">
+              <VercelSidebarMenu>
+                <VercelSidebarMenuItem>
+                  <VercelSidebarMenuButton
                     size="lg"
                     type="button"
                     className="h-11 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
@@ -386,9 +386,9 @@ export default function VercelSidebarDemo() {
                       </div>
                     </div>
                     <ChevronsUpDown className="ml-auto size-4 shrink-0 opacity-50" />
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              </SidebarMenu>
+                  </VercelSidebarMenuButton>
+                </VercelSidebarMenuItem>
+              </VercelSidebarMenu>
               <VercelSidebarSearchPopover
                 items={demoSidebarSearchItems}
                 open={searchOpen}
@@ -406,7 +406,7 @@ export default function VercelSidebarDemo() {
                   </kbd>
                 </button>
               </VercelSidebarSearchPopover>
-            </SidebarHeader>
+            </VercelSidebarHeader>
 
             <VercelSidebarNav className="gap-0 px-0">
               <VercelSidebarPanel panelId="root" className="gap-0 py-2">
@@ -417,9 +417,9 @@ export default function VercelSidebarDemo() {
               </VercelSidebarPanel>
             </VercelSidebarNav>
 
-            <SidebarFooter className="shrink-0 border-t border-sidebar-border p-2">
-            <SidebarMenu>
-              <SidebarMenuItem>
+            <VercelSidebarFooter className="shrink-0 border-t border-sidebar-border p-2">
+            <VercelSidebarMenu>
+              <VercelSidebarMenuItem>
                 <div className="flex w-full items-center gap-2 rounded-md pl-2">
                   <div
                     className="size-6 shrink-0 rounded-full bg-muted bg-cover bg-center ring-1 ring-border"
@@ -453,12 +453,12 @@ export default function VercelSidebarDemo() {
                     </Button>
                   </div>
                 </div>
-              </SidebarMenuItem>
-            </SidebarMenu>
-            </SidebarFooter>
-          </Sidebar>
+              </VercelSidebarMenuItem>
+            </VercelSidebarMenu>
+            </VercelSidebarFooter>
+          </VercelSidebar>
         </VercelSidebarNavProvider>
-      </SidebarProvider>
+      </VercelSidebarProvider>
     </div>
   )
 }

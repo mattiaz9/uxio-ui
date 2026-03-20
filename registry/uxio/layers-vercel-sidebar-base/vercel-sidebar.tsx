@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import type { ReactNode } from "react"
 import { ChevronLeft } from "lucide-react"
 import { motion } from "motion/react"
 
@@ -18,17 +19,75 @@ import {
   PopoverTrigger,
 } from "@/registry/uxio/overrides-popover-base/popover"
 import {
-  filterVercelSidebarItems,
-  type VercelSidebarSearchItem,
-} from "./vercel-sidebar-search"
-import {
+  Sidebar,
   SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupAction,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarInput,
+  SidebarInset,
   SidebarMenu,
+  SidebarMenuAction,
+  SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSkeleton,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
+  SidebarProvider,
+  SidebarRail,
+  SidebarSeparator,
+  SidebarTrigger,
+  useSidebar,
 } from "@/registry/uxio/overrides-sidebar-base/sidebar"
 
-type VercelSidebarNavContextValue = {
+/** One row in the sidebar command palette; pass `panelId` to jump with `VercelSidebarSearchPopover` inside `VercelSidebarNav`. */
+export interface VercelSidebarSearchItem {
+  id: string
+  title: string
+  subtitle?: string
+  keywords?: string[]
+  panelId?: string
+  onSelect?: () => void
+  icon?: ReactNode
+}
+
+function normalizeQuery(query: string): string[] {
+  return query
+    .trim()
+    .toLowerCase()
+    .split(/\s+/)
+    .filter(Boolean)
+}
+
+function haystackForItem(item: VercelSidebarSearchItem): string {
+  return [item.title, item.subtitle, ...(item.keywords ?? [])]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase()
+}
+
+/**
+ * Case-insensitive match: every whitespace-separated token in `query` must appear
+ * somewhere in the item’s title, subtitle, or keywords (same rules as the palette).
+ */
+export function filterVercelSidebarItems(
+  items: readonly VercelSidebarSearchItem[],
+  query: string,
+): VercelSidebarSearchItem[] {
+  const words = normalizeQuery(query)
+  if (words.length === 0) return [...items]
+  return items.filter((item) => {
+    const hay = haystackForItem(item)
+    return words.every((w) => hay.includes(w))
+  })
+}
+
+interface VercelSidebarNavContextValue {
   activePanel: string
   setActivePanel: (id: string) => void
   rootPanelId: string
@@ -48,7 +107,7 @@ function useOptionalVercelSidebarNav() {
   return React.useContext(VercelSidebarNavContext)
 }
 
-type VercelSidebarNavProviderProps = {
+interface VercelSidebarNavProviderProps {
   /** Initial panel when uncontrolled; match server render for SSR (e.g. from route). */
   defaultPanel?: string
   /** Panel id treated as the root rail (back target). */
@@ -89,7 +148,8 @@ function VercelSidebarNavProvider({
   return <VercelSidebarNavContext.Provider value={value}>{children}</VercelSidebarNavContext.Provider>
 }
 
-type VercelSidebarNavProps = Omit<React.ComponentProps<typeof SidebarContent>, "children"> & {
+interface VercelSidebarNavProps
+  extends Omit<React.ComponentProps<typeof SidebarContent>, "children"> {
   children?: React.ReactNode
 }
 
@@ -108,7 +168,7 @@ const panelTransition = {
   ease: [0.32, 0.72, 0, 1] as const,
 }
 
-type VercelSidebarPanelProps = React.ComponentProps<typeof motion.div> & {
+interface VercelSidebarPanelProps extends React.ComponentProps<typeof motion.div> {
   panelId: string
 }
 
@@ -143,7 +203,7 @@ function VercelSidebarPanel({ panelId, className, children, ...props }: VercelSi
   )
 }
 
-type VercelSidebarBackProps = Omit<React.ComponentProps<"div">, "title"> & {
+interface VercelSidebarBackProps extends Omit<React.ComponentProps<"div">, "title"> {
   title: React.ReactNode
   onBack?: () => void
 }
@@ -173,7 +233,7 @@ function VercelSidebarBack({ title, className, onBack, ...props }: VercelSidebar
   )
 }
 
-type VercelSidebarSearchPopoverProps = {
+interface VercelSidebarSearchPopoverProps {
   items: readonly VercelSidebarSearchItem[]
   /** Must be a single element that accepts a ref (e.g. the search row). */
   children: React.ReactElement
@@ -304,6 +364,29 @@ export {
   useVercelSidebarNav,
 }
 
-export { filterVercelSidebarItems, type VercelSidebarSearchItem } from "./vercel-sidebar-search"
-
-export * from "@/registry/uxio/overrides-sidebar-base/sidebar"
+export {
+  Sidebar as VercelSidebar,
+  SidebarContent as VercelSidebarContent,
+  SidebarFooter as VercelSidebarFooter,
+  SidebarGroup as VercelSidebarGroup,
+  SidebarGroupAction as VercelSidebarGroupAction,
+  SidebarGroupContent as VercelSidebarGroupContent,
+  SidebarGroupLabel as VercelSidebarGroupLabel,
+  SidebarHeader as VercelSidebarHeader,
+  SidebarInput as VercelSidebarInput,
+  SidebarInset as VercelSidebarInset,
+  SidebarMenu as VercelSidebarMenu,
+  SidebarMenuAction as VercelSidebarMenuAction,
+  SidebarMenuBadge as VercelSidebarMenuBadge,
+  SidebarMenuButton as VercelSidebarMenuButton,
+  SidebarMenuItem as VercelSidebarMenuItem,
+  SidebarMenuSkeleton as VercelSidebarMenuSkeleton,
+  SidebarMenuSub as VercelSidebarMenuSub,
+  SidebarMenuSubButton as VercelSidebarMenuSubButton,
+  SidebarMenuSubItem as VercelSidebarMenuSubItem,
+  SidebarProvider as VercelSidebarProvider,
+  SidebarRail as VercelSidebarRail,
+  SidebarSeparator as VercelSidebarSeparator,
+  SidebarTrigger as VercelSidebarTrigger,
+  useSidebar as useVercelSidebar,
+}
