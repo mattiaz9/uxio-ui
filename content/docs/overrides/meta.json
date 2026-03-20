@@ -16,7 +16,8 @@
     "[Scroll Area](/docs/overrides/radix/scroll-area)",
     "[Sheet](/docs/overrides/radix/sheet)",
     "[Skeleton](/docs/overrides/radix/skeleton)",
-    "[Spinner](/docs/overrides/radix/spinner)"
+    "[Spinner](/docs/overrides/radix/spinner)",
+    "[Tooltip](/docs/overrides/radix/tooltip)"
   ],
   "collapsible": false,
   "defaultOpen": true

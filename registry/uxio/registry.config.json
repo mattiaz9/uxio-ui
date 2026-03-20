@@ -397,5 +397,16 @@
       "radix": ["clsx", "lucide-react", "tailwind-merge"]
     },
     "registryDependencies": ["button", "command", "popover"]
+  },
+  {
+    "name": "tooltip",
+    "type": "registry:ui",
+    "title": "Tooltip",
+    "description": "Tooltip primitives plus AutoTooltip, which shows the tooltip only when the trigger content is truncated (unless mode is always).",
+    "categories": ["overrides"],
+    "dependencies": {
+      "base": ["@base-ui/react/tooltip", "clsx", "tailwind-merge"],
+      "radix": ["radix-ui", "clsx", "tailwind-merge"]
+    }
   }
 ]
