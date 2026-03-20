@@ -89,6 +89,9 @@ importers:
       shadcn:
         specifier: 4.0.8
         version: 4.0.8(@types/node@25.5.0)(typescript@5.9.3)
+      shiki:
+        specifier: 4.0.2
+        version: 4.0.2
       tailwind-merge:
         specifier: 3.5.0
         version: 3.5.0

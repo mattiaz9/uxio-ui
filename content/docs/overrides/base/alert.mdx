@@ -4,10 +4,7 @@ title: Alert
 
 ## Extended Features
 
-- Added more color [variants](#semantic-colors)
-- [Success Variant](#success-variant)
-- [Info Variant](#info-variant)
-- [Warning Variant](#warning-variant)
+- [Success](#success-variant), [info](#info-variant), and [warning](#warning-variant) color variants
 
 ## Install
 
@@ -28,17 +25,6 @@ npx shadcn@latest add @uxio/alert
 ```
 
 The correct variant (base or radix) is resolved automatically from your `components.json` style.
-
-### Semantic Colors
-
-The Alert depends on the `semantic-colors` registry style extension, which adds these CSS variables
-automatically when you install the alert. The same values are used for both light and dark mode:
-
-| Variable    | Value                     |
-| ----------- | ------------------------- |
-| `--success` | `oklch(0.62 0.36 145.52)` |
-| `--info`    | `oklch(0.71 0.45 250)`    |
-| `--warning` | `oklch(0.73 0.16 72.83)`  |
 
 ## Examples
 

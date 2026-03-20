@@ -191,4 +191,11 @@
   padding-inline: var(--container-padding, 1rem);
   max-width: var(--container-max-width, 100%);
 }
+
+/* ComponentPreview “View Code”: Shiki themes set a pre background; keep the zinc panel */
+.preview-code-shiki pre.shiki {
+  margin: 0;
+  padding: 0;
+  background-color: transparent !important;
+}
  

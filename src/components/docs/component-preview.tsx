@@ -1,10 +1,44 @@
 "use client"
 
-import { Suspense, useState, type ReactNode } from "react"
+import { Suspense, useEffect, useState, type ReactNode } from "react"
 
 import { ChevronDownIcon } from "lucide-react"
 
 import { examples } from "@/lib/examples"
+
+function PreviewCode({ code }: { code: string }) {
+  const [html, setHtml] = useState<string | null>(null)
+
+  useEffect(() => {
+    let cancelled = false
+    ;(async () => {
+      const { codeToHtml } = await import("shiki/bundle/web")
+      const out = await codeToHtml(code, {
+        lang: "tsx",
+        theme: "github-dark",
+      })
+      if (!cancelled) setHtml(out)
+    })()
+    return () => {
+      cancelled = true
+    }
+  }, [code])
+
+  if (!html) {
+    return (
+      <pre className="overflow-auto p-4 text-[13px] leading-relaxed text-zinc-100">
+        <code>{code}</code>
+      </pre>
+    )
+  }
+
+  return (
+    <div
+      className="preview-code-shiki overflow-auto p-4 text-[13px] leading-relaxed"
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
+  )
+}
 
 function transformSource(source: string): string {
   return source
@@ -96,9 +130,7 @@ export function ComponentPreview({
             <div className="border-t border-border bg-zinc-950 dark:bg-zinc-900">
               <div className="relative">
                 <CopyButton code={displaySource} />
-                <pre className="overflow-auto p-4 text-[13px] leading-relaxed text-zinc-100">
-                  <code>{displaySource}</code>
-                </pre>
+                <PreviewCode code={displaySource} />
               </div>
             </div>
           )}
