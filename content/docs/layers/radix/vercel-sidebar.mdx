@@ -1,0 +1,132 @@
+---
+title: Vercel Sidebar
+description: Sidebar drill-down panels with a fixed header and footer; SSR-safe initial panel.
+---
+
+## Overview
+
+A layer on top of **Sidebar** that swaps the **scrollable middle** between a **root rail** and **sub-panels** (similar to the Vercel dashboard). Items with sub-navigation **replace** the whole middle region; they do not expand inline. Each sub-panel shows a **back** control and **title**. **Header and footer** stay outside `VercelSidebarNav`, so they remain visible.
+
+The module **re-exports** all primitives from `sidebar`, so you can import `SidebarProvider`, `Sidebar`, `SidebarMenuButton`, etc. from `@/components/ui/vercel-sidebar`.
+
+## Install
+
+Configure your registry in `components.json`:
+
+```json
+{
+  "registries": {
+    "@uxio": "https://ui.uxio.dev/r/styles/{style}/{name}.json"
+  }
+}
+```
+
+Then run:
+
+```bash
+npx shadcn@latest add @uxio/vercel-sidebar
+```
+
+This installs **vercel-sidebar** and bundles **sidebar** (and its dependencies). The Base UI or Radix variant follows your `components.json` style.
+
+## Usage
+
+Structure: **`SidebarHeader`** → **`VercelSidebarNav`** → **`SidebarFooter`**. Inside `VercelSidebarNav`, add one **`VercelSidebarPanel`** per view (e.g. `panelId="root"` and `panelId="observability"`). Use **`useVercelSidebarNav()`** (or buttons that call **`setActivePanel`**) to open a sub-panel from the root rail.
+
+### SSR and refresh
+
+Set **`defaultPanel`** on the server to match the current route so the first paint shows the correct panel (no flash of the root rail). For client-side navigations, use controlled **`panel`** and **`onPanelChange`** so the UI stays in sync with the URL.
+
+```tsx
+import {
+  Sidebar,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarProvider,
+  VercelSidebarBack,
+  VercelSidebarNav,
+  VercelSidebarPanel,
+  useVercelSidebarNav,
+} from "@/components/ui/vercel-sidebar"
+
+function RootLinks() {
+  const { setActivePanel } = useVercelSidebarNav()
+  return (
+    <SidebarMenu>
+      <SidebarMenuItem>
+        <SidebarMenuButton type="button" onClick={() => setActivePanel("settings")}>
+          Settings
+        </SidebarMenuButton>
+      </SidebarMenuItem>
+    </SidebarMenu>
+  )
+}
+
+export function AppSidebar({ initialPanel = "root" }: { initialPanel?: string }) {
+  return (
+    <SidebarProvider>
+      <Sidebar collapsible="none">
+        <SidebarHeader>{/* project switcher, search, … */}</SidebarHeader>
+        <VercelSidebarNav defaultPanel={initialPanel}>
+          <VercelSidebarPanel panelId="root">
+            <RootLinks />
+          </VercelSidebarPanel>
+          <VercelSidebarPanel panelId="settings">
+            <VercelSidebarBack title="Settings" />
+            <SidebarMenu>{/* sub-links */}</SidebarMenu>
+          </VercelSidebarPanel>
+        </VercelSidebarNav>
+        <SidebarFooter>{/* user, actions */}</SidebarFooter>
+      </Sidebar>
+    </SidebarProvider>
+  )
+}
+```
+
+## API
+
+### `VercelSidebarNav`
+
+Renders **`SidebarContent`** and provides panel context. Props extend **`SidebarContent`** (same as the underlying sidebar primitive).
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `defaultPanel` | `string` | `"root"` | Initial panel when **uncontrolled**. Should match the server render for SSR. |
+| `rootPanelId` | `string` | `"root"` | Panel id **Back** returns to when `onBack` is not passed. |
+| `panel` | `string` | — | **Controlled** active panel. When set, use `onPanelChange` to update. |
+| `onPanelChange` | `(id: string) => void` | — | Called when the active panel changes in controlled mode. |
+
+### `VercelSidebarPanel`
+
+| Prop | Type | Description |
+| --- | --- | --- |
+| `panelId` | `string` | Unique id for this view. |
+| … | `React.ComponentProps<"div">` | Inactive panels use the `hidden` attribute. |
+
+`data-slot="vercel-sidebar-panel"`, `data-panel`, and `data-state` (`"active"` \| `"inactive"`) are set for styling.
+
+### `VercelSidebarBack`
+
+| Prop | Type | Description |
+| --- | --- | --- |
+| `title` | `React.ReactNode` | Section title (e.g. “Observability”). |
+| `onBack` | `() => void` | Optional; defaults to `setActivePanel(rootPanelId)`. |
+| … | `Omit<React.ComponentProps<"div">, "title">` | Row wrapper for the back control and title. |
+
+`data-slot="vercel-sidebar-back"`. The back action uses **`SidebarMenuButton`** with **`aria-label="Back"`**.
+
+### `useVercelSidebarNav()`
+
+Returns **`{ activePanel, setActivePanel, rootPanelId }`**. Must be used under **`VercelSidebarNav`**.
+
+## Example
+
+Click **Observability** to swap the middle content; use **Back** to return to the root rail.
+
+<ComponentPreview
+  name="radix/vercel-sidebar-demo"
+  className="w-full max-w-none min-h-[min(24rem,70vh)] items-stretch justify-start !px-4 py-6"
+/>
