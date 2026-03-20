@@ -31,6 +31,7 @@ import {
 
 import { cn } from "@/lib/utils"
 
+import { Button } from "./ui/button"
 import {
   Sidebar,
   SidebarFooter,
@@ -365,23 +366,25 @@ export default function VercelSidebarDemo() {
                   />
                   <span className="min-w-0 flex-1 truncate text-sm font-medium">mattiaz</span>
                   <div className="flex shrink-0 items-center gap-0.5">
-                    <SidebarMenuButton
+                    <Button
                       type="button"
-                      size="sm"
-                      className="size-8 p-0 text-muted-foreground"
+                      variant="ghost"
+                      size="icon"
+                      className="text-muted-foreground"
                       aria-label="More"
                     >
-                      <MoreHorizontal className="size-4" />
-                    </SidebarMenuButton>
-                    <SidebarMenuButton
+                      <MoreHorizontal />
+                    </Button>
+                    <Button
                       type="button"
-                      size="sm"
-                      className="relative size-8 p-0 text-muted-foreground"
+                      variant="ghost"
+                      size="icon"
+                      className="relative text-muted-foreground"
                       aria-label="Notifications"
                     >
-                      <Bell className="size-4" />
+                      <Bell />
                       <span className="absolute top-1.5 right-1.5 size-1.5 rounded-full bg-blue-500 ring-2 ring-sidebar" />
-                    </SidebarMenuButton>
+                    </Button>
                   </div>
                 </div>
               </SidebarMenuItem>
