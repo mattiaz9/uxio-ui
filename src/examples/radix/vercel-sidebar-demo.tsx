@@ -355,10 +355,10 @@ export default function VercelSidebarDemo() {
               <SidebarMenuItem>
                 <div className="flex w-full items-center gap-2 rounded-md">
                   <div
-                    className="size-8 shrink-0 rounded-full bg-muted bg-cover bg-center ring-1 ring-border"
+                    className="size-6 shrink-0 rounded-full bg-muted bg-cover bg-center ring-1 ring-border"
                     style={{
                       backgroundImage:
-                        "url(https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=64&h=64&fit=crop)",
+                        "url(https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=48&h=48&fit=crop)",
                     }}
                     role="img"
                     aria-label="User avatar"
