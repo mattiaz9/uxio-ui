@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { ChevronLeft } from "lucide-react"
+import { motion } from "motion/react"
 
 import { cn } from "@/lib/utils"
 import {
@@ -70,31 +71,49 @@ function VercelSidebarNav({
   return (
     <VercelSidebarNavContext.Provider value={value}>
       <SidebarContent className={cn(className)} {...props}>
-        {children}
+        <div className="relative min-h-0 w-full flex-1">{children}</div>
       </SidebarContent>
     </VercelSidebarNavContext.Provider>
   )
 }
 
-type VercelSidebarPanelProps = React.ComponentProps<"div"> & {
+const panelTransition = {
+  duration: 0.24,
+  ease: [0.32, 0.72, 0, 1] as const,
+}
+
+type VercelSidebarPanelProps = React.ComponentProps<typeof motion.div> & {
   panelId: string
 }
 
 function VercelSidebarPanel({ panelId, className, children, ...props }: VercelSidebarPanelProps) {
-  const { activePanel } = useVercelSidebarNav()
+  const { activePanel, rootPanelId } = useVercelSidebarNav()
   const active = activePanel === panelId
+  const isRoot = panelId === rootPanelId
 
   return (
-    <div
+    <motion.div
       data-slot="vercel-sidebar-panel"
       data-panel={panelId}
       data-state={active ? "active" : "inactive"}
-      hidden={!active}
-      className={cn("flex min-h-0 flex-1 flex-col gap-2", className)}
+      initial={false}
+      animate={{
+        opacity: active ? 1 : 0,
+        x: active ? 0 : isRoot ? -18 : 18,
+        zIndex: active ? 1 : 0,
+        pointerEvents: active ? "auto" : "none",
+      }}
+      transition={panelTransition}
+      className={cn(
+        "absolute inset-0 flex min-h-0 flex-col gap-2 overflow-auto overflow-x-hidden",
+        className,
+      )}
+      aria-hidden={!active}
+      inert={!active ? true : undefined}
       {...props}
     >
       {children}
-    </div>
+    </motion.div>
   )
 }
 
@@ -109,23 +128,21 @@ function VercelSidebarBack({ title, className, onBack, ...props }: VercelSidebar
   return (
     <div
       data-slot="vercel-sidebar-back"
-      className={cn("flex shrink-0 items-center gap-2 border-b border-sidebar-border px-2 pb-2", className)}
+      className={cn("shrink-0 border-b border-sidebar-border px-2 pb-2", className)}
       {...props}
     >
       <SidebarMenu>
         <SidebarMenuItem>
           <SidebarMenuButton
             type="button"
-            size="sm"
-            className="size-8 p-0"
             onClick={() => (onBack ? onBack() : setActivePanel(rootPanelId))}
             aria-label="Back"
           >
-            <ChevronLeft className="size-4" />
+            <ChevronLeft className="size-4 shrink-0" />
+            <span className="min-w-0 truncate font-medium">{title}</span>
           </SidebarMenuButton>
         </SidebarMenuItem>
       </SidebarMenu>
-      <span className="min-w-0 flex-1 truncate text-sm font-medium text-sidebar-foreground">{title}</span>
     </div>
   )
 }

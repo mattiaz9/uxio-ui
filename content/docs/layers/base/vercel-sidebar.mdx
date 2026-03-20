@@ -116,7 +116,7 @@ Renders **`SidebarContent`** and provides panel context. Props extend **`Sidebar
 | `onBack` | `() => void` | Optional; defaults to `setActivePanel(rootPanelId)`. |
 | … | `Omit<React.ComponentProps<"div">, "title">` | Row wrapper for the back control and title. |
 
-`data-slot="vercel-sidebar-back"`. The back action uses **`SidebarMenuButton`** with **`aria-label="Back"`**.
+`data-slot="vercel-sidebar-back"`. Full-width **`SidebarMenuButton`**: chevron + panel **title** only (`aria-label="Back"`). Panels animate with **slide + fade** via **Motion** (`motion`).
 
 ### `useVercelSidebarNav()`
 

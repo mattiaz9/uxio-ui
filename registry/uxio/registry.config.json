@@ -410,8 +410,8 @@
     "description": "Sidebar with drill-down panels: root nav swaps to sub-links with back + title; header/footer stay fixed. SSR-safe via defaultPanel or controlled panel.",
     "categories": ["layers"],
     "dependencies": {
-      "base": ["clsx", "lucide-react", "tailwind-merge"],
-      "radix": ["clsx", "lucide-react", "tailwind-merge"]
+      "base": ["clsx", "lucide-react", "motion", "tailwind-merge"],
+      "radix": ["clsx", "lucide-react", "motion", "tailwind-merge"]
     },
     "registryDependencies": ["sidebar"]
   },
