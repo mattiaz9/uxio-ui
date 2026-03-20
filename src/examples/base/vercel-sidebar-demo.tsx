@@ -244,7 +244,7 @@ function ObservabilityPanel() {
   return (
     <>
       <VercelSidebarBack title="Observability" />
-      <SidebarGroup className="px-0">
+      <SidebarGroup>
         <SidebarGroupContent>
           <SidebarMenu>
             <SubNavItem icon={LayoutGrid} label="Overview" active />
@@ -254,8 +254,8 @@ function ObservabilityPanel() {
           </SidebarMenu>
         </SidebarGroupContent>
       </SidebarGroup>
-      <SidebarGroup className="px-0">
-        <SidebarGroupLabel className="px-2 text-[11px] font-medium text-muted-foreground uppercase tracking-wider">
+      <SidebarGroup>
+        <SidebarGroupLabel className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">
           Compute
         </SidebarGroupLabel>
         <SidebarGroupContent>
@@ -267,8 +267,8 @@ function ObservabilityPanel() {
           </SidebarMenu>
         </SidebarGroupContent>
       </SidebarGroup>
-      <SidebarGroup className="px-0">
-        <SidebarGroupLabel className="px-2 text-[11px] font-medium text-muted-foreground uppercase tracking-wider">
+      <SidebarGroup>
+        <SidebarGroupLabel className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">
           CDN
         </SidebarGroupLabel>
         <SidebarGroupContent>
@@ -282,8 +282,8 @@ function ObservabilityPanel() {
           </SidebarMenu>
         </SidebarGroupContent>
       </SidebarGroup>
-      <SidebarGroup className="px-0">
-        <SidebarGroupLabel className="px-2 text-[11px] font-medium text-muted-foreground uppercase tracking-wider">
+      <SidebarGroup>
+        <SidebarGroupLabel className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">
           Services
         </SidebarGroupLabel>
         <SidebarGroupContent>
@@ -327,22 +327,19 @@ export default function VercelSidebarDemo() {
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
-            <div className="relative px-0">
-              <Search
-                className="pointer-events-none absolute top-1/2 left-2 size-4 -translate-y-1/2 text-muted-foreground"
-                aria-hidden
-              />
+            <div className="flex h-9 items-center gap-2 rounded-md bg-sidebar-accent/40 px-2">
+              <Search className="size-4 shrink-0 text-muted-foreground" aria-hidden />
               <SidebarInput
-                className="h-9 bg-sidebar-accent/40 pl-8 pr-14 text-sm"
+                className="h-full min-w-0 flex-1 border-0 bg-transparent p-0 text-sm shadow-none focus-visible:ring-0"
                 placeholder="Find…"
               />
-              <kbd className="pointer-events-none absolute top-1/2 right-2 hidden -translate-y-1/2 rounded border border-sidebar-border bg-sidebar-accent px-1.5 py-px font-mono text-[10px] text-muted-foreground sm:inline">
+              <kbd className="hidden h-5 shrink-0 items-center justify-center rounded border border-sidebar-border bg-sidebar px-1.5 font-mono text-[10px] leading-none text-muted-foreground sm:inline-flex">
                 F
               </kbd>
             </div>
           </SidebarHeader>
 
-          <VercelSidebarNav className="gap-0 px-1">
+          <VercelSidebarNav className="gap-0 px-0">
             <VercelSidebarPanel panelId="root" className="gap-0 py-2">
               <RootNav />
             </VercelSidebarPanel>
@@ -354,7 +351,7 @@ export default function VercelSidebarDemo() {
           <SidebarFooter className="shrink-0 border-t border-sidebar-border p-2">
             <SidebarMenu>
               <SidebarMenuItem>
-                <div className="flex w-full items-center gap-2 rounded-md p-1">
+                <div className="flex w-full items-center gap-2 rounded-md">
                   <div
                     className="size-8 shrink-0 rounded-full bg-muted bg-cover bg-center ring-1 ring-border"
                     style={{
