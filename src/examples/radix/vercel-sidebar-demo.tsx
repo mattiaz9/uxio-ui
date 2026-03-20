@@ -301,9 +301,9 @@ function ObservabilityPanel() {
 /** SSR: pass defaultPanel from the server so the first paint matches the URL. */
 export default function VercelSidebarDemo() {
   return (
-    <div className="flex h-[min(42rem,82vh)] w-full max-w-[17.5rem] overflow-hidden rounded-xl border border-border bg-sidebar text-sidebar-foreground shadow-sm">
-      <SidebarProvider>
-        <Sidebar collapsible="none" className="h-full border-0">
+    <div className="flex h-[min(42rem,82vh)] w-64 shrink-0 overflow-hidden rounded-xl border border-border bg-sidebar text-sidebar-foreground shadow-sm">
+      <SidebarProvider className="h-full min-h-0 w-full">
+        <Sidebar collapsible="none" className="h-full min-h-0 w-full border-0">
           <SidebarHeader className="shrink-0 gap-2 border-b border-sidebar-border p-2">
             <SidebarMenu>
               <SidebarMenuItem>
@@ -333,7 +333,7 @@ export default function VercelSidebarDemo() {
                 className="h-full min-w-0 flex-1 border-0 bg-transparent p-0 text-sm shadow-none focus-visible:ring-0"
                 placeholder="Find…"
               />
-              <kbd className="hidden h-5 shrink-0 items-center justify-center rounded border border-sidebar-border bg-sidebar px-1.5 font-mono text-[10px] leading-none text-muted-foreground sm:inline-flex">
+              <kbd className="hidden h-5 max-h-5 shrink-0 items-center justify-center self-center rounded border border-sidebar-border bg-sidebar px-1.5 font-mono text-[10px] leading-none text-muted-foreground sm:inline-flex">
                 F
               </kbd>
             </div>
