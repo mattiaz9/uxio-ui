@@ -313,7 +313,7 @@ export default function VercelSidebarDemo() {
                   type="button"
                   className="h-11 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                 >
-                  <div className="flex size-8 items-center justify-center rounded-lg bg-emerald-600 text-sm font-semibold text-white">
+                  <div className="flex size-6 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-xs font-semibold text-white">
                     M
                   </div>
                   <div className="grid min-w-0 flex-1 text-left text-sm leading-tight">
