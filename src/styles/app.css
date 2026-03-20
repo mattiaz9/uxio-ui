@@ -89,12 +89,21 @@
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
   --animate-tick-fade: tick-fade infinite;
+  --animate-shimmer: shimmer 2s cubic-bezier(0.3, 0.6, 1, 0.5) forwards infinite;
   @keyframes tick-fade {
     from {
       opacity: 1;
     }
     to {
       opacity: 0.1;
+    }
+  }
+  @keyframes shimmer {
+    0% {
+      background-position: 100%;
+    }
+    100% {
+      background-position: -100%;
     }
   }
 }

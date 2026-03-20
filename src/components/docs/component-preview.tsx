@@ -26,6 +26,7 @@ function transformSource(source: string): string {
     .replace(/from\s*"\.\/ui\/item"/g, 'from "@/components/ui/item"')
     .replace(/from\s*"\.\/ui\/confirmation"/g, 'from "@/components/ui/confirmation"')
     .replace(/from\s*"\.\/ui\/scroll-area"/g, 'from "@/components/ui/scroll-area"')
+    .replace(/from\s*"\.\/ui\/skeleton"/g, 'from "@/components/ui/skeleton"')
 }
 
 function CopyButton({ code }: { code: string }) {

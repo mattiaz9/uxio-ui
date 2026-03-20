@@ -1,0 +1,35 @@
+---
+title: Skeleton
+---
+
+## Extended Features
+
+- [Shimmer animation](#shimmer) instead of the default pulse
+
+## Install
+
+Configure your registry in `components.json`:
+
+```json
+{
+  "registries": {
+    "@uxio": "https://ui.uxio.dev/r/styles/{style}/{name}.json"
+  }
+}
+```
+
+Then run:
+
+```bash
+npx shadcn@latest add @uxio/skeleton
+```
+
+The shimmer animation is added to your theme when you install the component (registry `cssVars` and `css` for `@keyframes shimmer`). Corner radius still comes from your chosen style’s `.cn-skeleton` rules (for example `rounded-md` on Nova, `rounded-xl` on Maia, `rounded-none` on Lyra).
+
+## Examples
+
+### Shimmer
+
+Loading placeholders use a diagonal shimmer over `bg-muted`, with gradient stops through `background`.
+
+<ComponentPreview name="radix/skeleton-default" />

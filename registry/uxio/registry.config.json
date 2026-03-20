@@ -120,6 +120,32 @@
     }
   },
   {
+    "name": "skeleton",
+    "type": "registry:ui",
+    "title": "Skeleton",
+    "description": "Skeleton with a shimmer loading animation instead of pulse.",
+    "categories": ["overrides"],
+    "dependencies": {
+      "base": ["clsx", "tailwind-merge"],
+      "radix": ["clsx", "tailwind-merge"]
+    },
+    "cssVars": {
+      "theme": {
+        "--animate-shimmer": "shimmer 2s cubic-bezier(0.3, 0.6, 1, 0.5) forwards infinite"
+      }
+    },
+    "css": {
+      "@keyframes shimmer": {
+        "0%": {
+          "background-position": "100%"
+        },
+        "100%": {
+          "background-position": "-100%"
+        }
+      }
+    }
+  },
+  {
     "name": "alert",
     "type": "registry:ui",
     "title": "Alert",
