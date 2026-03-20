@@ -327,15 +327,15 @@ export default function VercelSidebarDemo() {
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
-            <div className="flex h-9 items-center gap-2">
+            <div className="flex h-9 items-center gap-2 rounded-md border border-sidebar-border bg-sidebar-accent/40 px-2.5 shadow-none transition-[color,box-shadow] focus-within:border-ring focus-within:ring-2 focus-within:ring-ring/40">
               <Search className="size-4 shrink-0 text-muted-foreground" aria-hidden />
               <div className="flex h-full min-w-0 flex-1 items-center">
                 <SidebarInput
-                  className="h-full w-full min-w-0 border-0 bg-transparent px-0 py-0 text-sm shadow-none ring-0 focus-visible:ring-2 focus-visible:ring-ring/40 dark:bg-transparent"
+                  className="h-full w-full min-w-0 border-0 bg-transparent px-0 py-0 text-sm shadow-none ring-0 focus-visible:ring-0 dark:bg-transparent"
                   placeholder="Find…"
                 />
               </div>
-              <kbd className="hidden h-5 max-h-5 shrink-0 items-center justify-center self-center rounded border border-sidebar-border bg-sidebar px-1.5 font-mono text-[10px] leading-none text-muted-foreground sm:inline-flex">
+              <kbd className="hidden h-5 max-h-5 shrink-0 items-center justify-center self-center rounded border border-sidebar-border/80 bg-sidebar/80 px-1.5 font-mono text-[10px] leading-none text-muted-foreground sm:inline-flex">
                 F
               </kbd>
             </div>
