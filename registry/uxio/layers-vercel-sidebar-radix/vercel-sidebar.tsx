@@ -1,9 +1,9 @@
 "use client"
 
 import * as React from "react"
-import type { ReactNode } from "react"
-import { ChevronLeft } from "lucide-react"
 import { motion } from "motion/react"
+
+import { ChevronLeft } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import {
@@ -45,6 +45,8 @@ import {
   useSidebar,
 } from "@/registry/uxio/overrides-sidebar-radix/sidebar"
 
+import type { ReactNode } from "react"
+
 /** One row in the sidebar command palette; pass `panelId` to jump with `VercelSidebarSearchPopover` inside `VercelSidebarNav`. */
 export interface VercelSidebarSearchItem {
   id: string
@@ -57,11 +59,7 @@ export interface VercelSidebarSearchItem {
 }
 
 function normalizeQuery(query: string): string[] {
-  return query
-    .trim()
-    .toLowerCase()
-    .split(/\s+/)
-    .filter(Boolean)
+  return query.trim().toLowerCase().split(/\s+/).filter(Boolean)
 }
 
 function haystackForItem(item: VercelSidebarSearchItem): string {
@@ -145,11 +143,15 @@ function VercelSidebarNavProvider({
     [activePanel, setActivePanel, rootPanelId],
   )
 
-  return <VercelSidebarNavContext.Provider value={value}>{children}</VercelSidebarNavContext.Provider>
+  return (
+    <VercelSidebarNavContext.Provider value={value}>{children}</VercelSidebarNavContext.Provider>
+  )
 }
 
-interface VercelSidebarNavProps
-  extends Omit<React.ComponentProps<typeof SidebarContent>, "children"> {
+interface VercelSidebarNavProps extends Omit<
+  React.ComponentProps<typeof SidebarContent>,
+  "children"
+> {
   children?: React.ReactNode
 }
 
@@ -270,10 +272,7 @@ function VercelSidebarSearchPopover({
     if (!open) setSearch("")
   }, [open])
 
-  const filtered = React.useMemo(
-    () => filterVercelSidebarItems(items, search),
-    [items, search],
-  )
+  const filtered = React.useMemo(() => filterVercelSidebarItems(items, search), [items, search])
 
   const handlePick = React.useCallback(
     (item: VercelSidebarSearchItem) => {
@@ -343,7 +342,9 @@ function VercelSidebarSearchPopover({
                     <span className="min-w-0 truncate font-medium">{item.title}</span>
                   </div>
                   {item.subtitle ? (
-                    <span className="truncate pl-6 text-xs text-muted-foreground">{item.subtitle}</span>
+                    <span className="truncate pl-6 text-xs text-muted-foreground">
+                      {item.subtitle}
+                    </span>
                   ) : null}
                 </div>
               </CommandItem>

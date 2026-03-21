@@ -1,3 +1,4 @@
+import { Button } from "./ui/button"
 import {
   Popover,
   PopoverContent,
@@ -6,7 +7,6 @@ import {
   PopoverTitle,
   PopoverTrigger,
 } from "./ui/popover"
-import { Button } from "./ui/button"
 
 export default function PopoverDefault() {
   return (
@@ -17,9 +17,7 @@ export default function PopoverDefault() {
       <PopoverContent>
         <PopoverHeader>
           <PopoverTitle>Dimensions</PopoverTitle>
-          <PopoverDescription>
-            Set the dimensions for the layer.
-          </PopoverDescription>
+          <PopoverDescription>Set the dimensions for the layer.</PopoverDescription>
         </PopoverHeader>
       </PopoverContent>
     </Popover>

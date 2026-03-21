@@ -514,11 +514,6 @@
     "title": "Full",
     "description": "Styles, all overrides, layout, and layers in one install (nested meta items resolve recursively).",
     "categories": ["meta"],
-    "registryDependencies": [
-      "@uxio/styles",
-      "@uxio/overrides",
-      "@uxio/layout",
-      "@uxio/layers"
-    ]
+    "registryDependencies": ["@uxio/styles", "@uxio/overrides", "@uxio/layout", "@uxio/layers"]
   }
 ]

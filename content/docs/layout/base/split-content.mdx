@@ -6,7 +6,11 @@ title: Split Content
 
 A flexible 2 columns layout that keeps the content aligned with the container.
 
-The grid uses **`--container-inset`** for outer gutter columns. Each side is a `SplitContentItem` that can align to the **container** or **screen** edge. Use the **responsive** variant to stack below the `md` breakpoint, or **fixed** to keep two columns at all widths. Choose **viewport** (`breakpointQuery="media"`, default) or **component width** (`breakpointQuery="container"`) for that breakpoint.
+The grid uses **`--container-inset`** for outer gutter columns. Each side is a `SplitContentItem`
+that can align to the **container** or **screen** edge. Use the **responsive** variant to stack
+below the `md` breakpoint, or **fixed** to keep two columns at all widths. Choose **viewport**
+(`breakpointQuery="media"`, default) or **component width** (`breakpointQuery="container"`) for that
+breakpoint.
 
 ## Install
 
@@ -29,49 +33,65 @@ export function HeroSplit() {
 }
 ```
 
-For **container-relative** breakpoints (e.g. narrow sidebars or docs previews), set `breakpointQuery="container"` and use `@md:` in your `className` / column classes so they stay in sync with the component.
+For **container-relative** breakpoints (e.g. narrow sidebars or docs previews), set
+`breakpointQuery="container"` and use `@md:` in your `className` / column classes so they stay in
+sync with the component.
 
-You must pass **exactly two** `SplitContentItem` children (no wrappers that break direct children). Other node types (e.g. whitespace-only text) are ignored for that count.
+You must pass **exactly two** `SplitContentItem` children (no wrappers that break direct children).
+Other node types (e.g. whitespace-only text) are ignored for that count.
 
 ## Props
 
 ### `SplitContent`
 
-| Prop        | Type                                   | Default        | Description                                                                 |
-| ----------- | -------------------------------------- | -------------- | --------------------------------------------------------------------------- |
-| `variant`   | `"responsive"` \| `"fixed"`            | `"responsive"` | **responsive**: stack on small screens, two columns from `md`. **fixed**: always two columns. |
-| `breakpointQuery` | `"media"` \| `"container"`       | `"media"`      | `media`: viewport `md:`. `container`: default **`--container-inset`** (padding, then `cqw` gutter from `md`); **responsive** also gets an `@container` wrapper + `@md:` layout. Parent **`@container`** needed for `cqw` when **fixed**. |
-| `ratio`     | `"1:1"` \| `"1:2"` \| `"2:1"`          | `"1:1"`        | Relative column widths at the multi-column breakpoint.                      |
-| `className` | `string`                               | —              | Merged with layout utilities on the root `<section>`.                       |
-| …           | `React.ComponentProps<"section">`      | —              | Standard section props (`id`, `aria-*`, etc.). `children` must be two items. |
+| Prop              | Type                              | Default        | Description                                                                                                                                                                                                                              |
+| ----------------- | --------------------------------- | -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `variant`         | `"responsive"` \| `"fixed"`       | `"responsive"` | **responsive**: stack on small screens, two columns from `md`. **fixed**: always two columns.                                                                                                                                            |
+| `breakpointQuery` | `"media"` \| `"container"`        | `"media"`      | `media`: viewport `md:`. `container`: default **`--container-inset`** (padding, then `cqw` gutter from `md`); **responsive** also gets an `@container` wrapper + `@md:` layout. Parent **`@container`** needed for `cqw` when **fixed**. |
+| `ratio`           | `"1:1"` \| `"1:2"` \| `"2:1"`     | `"1:1"`        | Relative column widths at the multi-column breakpoint.                                                                                                                                                                                   |
+| `className`       | `string`                          | —              | Merged with layout utilities on the root `<section>`.                                                                                                                                                                                    |
+| …                 | `React.ComponentProps<"section">` | —              | Standard section props (`id`, `aria-*`, etc.). `children` must be two items.                                                                                                                                                             |
 
-The `<section>` exposes `data-slot="split-content"`, `data-variant`, `data-ratio`, and (when responsive) `data-breakpoint-query`. With **`breakpointQuery="container"`** and **responsive**, an outer `@container` wrapper is rendered (no `data-slot`).
+The `<section>` exposes `data-slot="split-content"`, `data-variant`, `data-ratio`, and (when
+responsive) `data-breakpoint-query`. With **`breakpointQuery="container"`** and **responsive**, an
+outer `@container` wrapper is rendered (no `data-slot`).
 
-When you use **`breakpointQuery="container"`**, match your own layout utilities with **`@md:`** so they track the same container as the component (not viewport **`md:`**).
+When you use **`breakpointQuery="container"`**, match your own layout utilities with **`@md:`** so
+they track the same container as the component (not viewport **`md:`**).
 
 ### `SplitContentItem`
 
-| Prop        | Type                            | Description                                                                 |
-| ----------- | ------------------------------- | --------------------------------------------------------------------------- |
-| `anchor`    | `"container"` \| `"screen"`     | **container**: align to the centered content column. **screen**: extend into the inset gutters toward the viewport edge. |
-| `className` | `string`                        | Merged with column span utilities.                                          |
-| …           | `React.ComponentProps<"div">`   | Standard div props.                                                         |
+| Prop        | Type                          | Description                                                                                                              |
+| ----------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `anchor`    | `"container"` \| `"screen"`   | **container**: align to the centered content column. **screen**: extend into the inset gutters toward the viewport edge. |
+| `className` | `string`                      | Merged with column span utilities.                                                                                       |
+| …           | `React.ComponentProps<"div">` | Standard div props.                                                                                                      |
 
 `data-slot="split-content-item"` and `data-anchor` are set for styling hooks.
 
 ### Screen anchor: full-bleed background, container-aligned text
 
-With **`anchor="screen"`**, the grid cell reaches into the outer inset—handy for **full-bleed photos, gradients, or video** in that column while the main content grid stays predictable.
+With **`anchor="screen"`**, the grid cell reaches into the outer inset—handy for **full-bleed
+photos, gradients, or video** in that column while the main content grid stays predictable.
 
-Backgrounds usually belong on the item (or a filling child) so they span the whole cell. Wrap **text** in an inner element and add **`pl-container-inset`** on the **first** column or **`pr-container-inset`** on the **second** so copy lines up with the same horizontal start/end as **`anchor="container"`** columns. Both utilities are included when you install **Tailwind Container Extra** (`@uxio/tw-container-extended`).
+Backgrounds usually belong on the item (or a filling child) so they span the whole cell. Wrap
+**text** in an inner element and add **`pl-container-inset`** on the **first** column or
+**`pr-container-inset`** on the **second** so copy lines up with the same horizontal start/end as
+**`anchor="container"`** columns. Both utilities are included when you install **Tailwind Container
+Extra** (`@uxio/tw-container-extended`).
 
 ## Example
 
-The preview sets **`--container-max-width: 480px`** on the wrapper so **container** vs **screen** anchors are easy to compare. With **`breakpointQuery="container"`**, `SplitContent` itself sets **`--container-inset`** (padding below `md`, then the same centered-gutter math as the site shell using **`cqw`** from `md` up). This demo-only max width is not something your app needs.
+The preview sets **`--container-max-width: 480px`** on the wrapper so **container** vs **screen**
+anchors are easy to compare. With **`breakpointQuery="container"`**, `SplitContent` itself sets
+**`--container-inset`** (padding below `md`, then the same centered-gutter math as the site shell
+using **`cqw`** from `md` up). This demo-only max width is not something your app needs.
 
-With **`anchor="screen"`**, the demo adds a **background image** (plus overlay) so the bleed is obvious, and uses **`pl-container-inset`** / **`pr-container-inset`** on the inner copy.
+With **`anchor="screen"`**, the demo adds a **background image** (plus overlay) so the bleed is
+obvious, and uses **`pl-container-inset`** / **`pr-container-inset`** on the inner copy.
 
-Resize the resizable panel to see **container** breakpoints respond to preview width. Controls update `variant`, `ratio`, and each column’s `anchor`.
+Resize the resizable panel to see **container** breakpoints respond to preview width. Controls
+update `variant`, `ratio`, and each column’s `anchor`.
 
 <ComponentPreview
   name="base/split-content-interactive"

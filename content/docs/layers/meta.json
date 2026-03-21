@@ -1,9 +1,6 @@
 {
   "title": "Layers",
-  "pages": [
-    "[Alerter](/docs/layers/radix/alerter)",
-    "[Confirmer](/docs/layers/radix/confirmer)"
-  ],
+  "pages": ["[Alerter](/docs/layers/radix/alerter)", "[Confirmer](/docs/layers/radix/confirmer)"],
   "collapsible": false,
   "defaultOpen": true
 }

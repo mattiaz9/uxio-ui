@@ -46,7 +46,7 @@ export default function ChartDemo() {
 
   return (
     <Card className="w-full max-w-2xl py-0 pb-4">
-      <CardHeader className="flex flex-col items-stretch border-b p-0 pb-0 [.border-b]:pb-0 sm:flex-row">
+      <CardHeader className="flex flex-col items-stretch border-b p-0 pb-0 sm:flex-row [.border-b]:pb-0">
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 pt-4 pb-0 sm:py-0">
           <CardTitle>Bar Chart - Interactive</CardTitle>
           <CardDescription>Showing total visitors for the last 10 days</CardDescription>

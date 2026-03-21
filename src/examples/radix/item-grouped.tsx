@@ -1,10 +1,4 @@
-import {
-  Item,
-  ItemContent,
-  ItemDescription,
-  ItemGroup,
-  ItemTitle,
-} from "./ui/item"
+import { Item, ItemContent, ItemDescription, ItemGroup, ItemTitle } from "./ui/item"
 
 export default function ItemGrouped() {
   return (
@@ -19,8 +13,8 @@ export default function ItemGrouped() {
         <ItemContent>
           <ItemTitle>Second (sm)</ItemTitle>
           <ItemDescription>
-            Size-aware gap utilities are not applied on <code className="text-foreground">grouped</code>{" "}
-            groups.
+            Size-aware gap utilities are not applied on{" "}
+            <code className="text-foreground">grouped</code> groups.
           </ItemDescription>
         </ItemContent>
       </Item>

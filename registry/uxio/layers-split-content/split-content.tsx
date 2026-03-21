@@ -127,7 +127,7 @@ function SplitContent({
   )
 
   if (useContainer) {
-    return <div className="@container min-w-0 w-full">{section}</div>
+    return <div className="@container w-full min-w-0">{section}</div>
   }
 
   return section

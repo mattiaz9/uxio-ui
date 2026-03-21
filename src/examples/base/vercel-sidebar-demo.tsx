@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import type { ComponentType } from "react"
+
 import {
   Activity,
   BarChart3,
@@ -30,8 +30,6 @@ import {
   Zap,
 } from "lucide-react"
 
-import { cn } from "@/lib/utils"
-
 import { Button } from "./ui/button"
 import {
   VercelSidebar,
@@ -53,52 +51,271 @@ import {
   useVercelSidebarNav,
   type VercelSidebarSearchItem,
 } from "./ui/vercel-sidebar"
+import { cn } from "@/lib/utils"
+
+import type { ComponentType } from "react"
 
 const demoProject = "mattiaz's projects"
 
 const demoSidebarSearchItems: VercelSidebarSearchItem[] = [
-  { id: "r-projects", title: "Projects", subtitle: demoProject, panelId: "root", icon: <FolderKanban className="size-4" /> },
-  { id: "r-deployments", title: "Deployments", subtitle: demoProject, panelId: "root", icon: <Rocket className="size-4" /> },
-  { id: "r-logs", title: "Logs", subtitle: demoProject, panelId: "root", icon: <SquareTerminal className="size-4" /> },
-  { id: "r-analytics", title: "Analytics", subtitle: demoProject, panelId: "root", icon: <BarChart3 className="size-4" /> },
-  { id: "r-speed", title: "Speed Insights", subtitle: demoProject, panelId: "root", icon: <Activity className="size-4" /> },
-  { id: "r-obs", title: "Observability", subtitle: demoProject, panelId: "observability", icon: <LayoutGrid className="size-4" /> },
-  { id: "r-firewall", title: "Firewall", subtitle: demoProject, panelId: "root", icon: <Shield className="size-4" /> },
-  { id: "r-cdn", title: "CDN", subtitle: demoProject, panelId: "root", icon: <Cloud className="size-4" /> },
-  { id: "r-domains", title: "Domains", subtitle: demoProject, panelId: "root", icon: <Globe className="size-4" /> },
-  { id: "r-int", title: "Integrations", subtitle: demoProject, panelId: "root", icon: <Layers className="size-4" /> },
-  { id: "r-storage", title: "Storage", subtitle: demoProject, panelId: "root", icon: <Box className="size-4" /> },
-  { id: "r-flags", title: "Flags", subtitle: demoProject, panelId: "root", icon: <Flag className="size-4" /> },
-  { id: "r-agent", title: "Agent", subtitle: demoProject, panelId: "root", icon: <Bot className="size-4" /> },
-  { id: "r-aigw", title: "AI Gateway", subtitle: demoProject, panelId: "root", icon: <Sparkles className="size-4" /> },
-  { id: "r-sand", title: "Sandboxes", subtitle: demoProject, panelId: "root", icon: <Server className="size-4" /> },
-  { id: "r-usage", title: "Usage", subtitle: demoProject, panelId: "root", icon: <BarChart3 className="size-4" /> },
-  { id: "r-support", title: "Support", subtitle: demoProject, panelId: "root", icon: <Network className="size-4" /> },
-  { id: "r-settings", title: "Settings", subtitle: demoProject, panelId: "root", icon: <Settings className="size-4" /> },
-  { id: "o-overview", title: "Overview", subtitle: `${demoProject} / Observability`, panelId: "observability", icon: <LayoutGrid className="size-4" /> },
-  { id: "o-query", title: "Query", subtitle: `${demoProject} / Observability`, panelId: "observability", icon: <Search className="size-4" /> },
-  { id: "o-notebooks", title: "Notebooks", subtitle: `${demoProject} / Observability`, panelId: "observability", icon: <FileStack className="size-4" /> },
-  { id: "o-alerts", title: "Alerts", subtitle: `${demoProject} / Observability`, keywords: ["beta"], panelId: "observability", icon: <Bell className="size-4" /> },
-  { id: "o-fn", title: "Functions", subtitle: `${demoProject} / Observability`, keywords: ["compute"], panelId: "observability", icon: <Zap className="size-4" /> },
-  { id: "o-api", title: "External APIs", subtitle: `${demoProject} / Observability`, panelId: "observability", icon: <Globe className="size-4" /> },
-  { id: "o-mw", title: "Middleware", subtitle: `${demoProject} / Observability`, panelId: "observability", icon: <Layers className="size-4" /> },
-  { id: "o-wf", title: "Workflows", subtitle: `${demoProject} / Observability`, keywords: ["beta"], panelId: "observability", icon: <Activity className="size-4" /> },
-  { id: "o-edge", title: "Edge Requests", subtitle: `${demoProject} / Observability`, keywords: ["cdn", "edge"], panelId: "observability", icon: <Globe className="size-4" /> },
-  { id: "o-fdt", title: "Fast Data Transfer", subtitle: `${demoProject} / Observability`, panelId: "observability", icon: <Cloud className="size-4" /> },
-  { id: "o-img", title: "Image Optimization", subtitle: `${demoProject} / Observability`, panelId: "observability", icon: <ImageIcon className="size-4" /> },
-  { id: "o-isr", title: "ISR", subtitle: `${demoProject} / Observability`, panelId: "observability", icon: <Rocket className="size-4" /> },
-  { id: "o-rewrite", title: "External Rewrites", subtitle: `${demoProject} / Observability`, panelId: "observability", icon: <Network className="size-4" /> },
-  { id: "o-mf", title: "Microfrontends", subtitle: `${demoProject} / Observability`, panelId: "observability", icon: <LayoutGrid className="size-4" /> },
-  { id: "o-ai", title: "AI", subtitle: `${demoProject} / Observability`, keywords: ["services"], panelId: "observability", icon: <Sparkles className="size-4" /> },
-  { id: "o-blob", title: "Blob", subtitle: `${demoProject} / Observability`, panelId: "observability", icon: <Box className="size-4" /> },
-  { id: "o-q", title: "Queues", subtitle: `${demoProject} / Observability`, keywords: ["beta"], panelId: "observability", icon: <Server className="size-4" /> },
+  {
+    id: "r-projects",
+    title: "Projects",
+    subtitle: demoProject,
+    panelId: "root",
+    icon: <FolderKanban className="size-4" />,
+  },
+  {
+    id: "r-deployments",
+    title: "Deployments",
+    subtitle: demoProject,
+    panelId: "root",
+    icon: <Rocket className="size-4" />,
+  },
+  {
+    id: "r-logs",
+    title: "Logs",
+    subtitle: demoProject,
+    panelId: "root",
+    icon: <SquareTerminal className="size-4" />,
+  },
+  {
+    id: "r-analytics",
+    title: "Analytics",
+    subtitle: demoProject,
+    panelId: "root",
+    icon: <BarChart3 className="size-4" />,
+  },
+  {
+    id: "r-speed",
+    title: "Speed Insights",
+    subtitle: demoProject,
+    panelId: "root",
+    icon: <Activity className="size-4" />,
+  },
+  {
+    id: "r-obs",
+    title: "Observability",
+    subtitle: demoProject,
+    panelId: "observability",
+    icon: <LayoutGrid className="size-4" />,
+  },
+  {
+    id: "r-firewall",
+    title: "Firewall",
+    subtitle: demoProject,
+    panelId: "root",
+    icon: <Shield className="size-4" />,
+  },
+  {
+    id: "r-cdn",
+    title: "CDN",
+    subtitle: demoProject,
+    panelId: "root",
+    icon: <Cloud className="size-4" />,
+  },
+  {
+    id: "r-domains",
+    title: "Domains",
+    subtitle: demoProject,
+    panelId: "root",
+    icon: <Globe className="size-4" />,
+  },
+  {
+    id: "r-int",
+    title: "Integrations",
+    subtitle: demoProject,
+    panelId: "root",
+    icon: <Layers className="size-4" />,
+  },
+  {
+    id: "r-storage",
+    title: "Storage",
+    subtitle: demoProject,
+    panelId: "root",
+    icon: <Box className="size-4" />,
+  },
+  {
+    id: "r-flags",
+    title: "Flags",
+    subtitle: demoProject,
+    panelId: "root",
+    icon: <Flag className="size-4" />,
+  },
+  {
+    id: "r-agent",
+    title: "Agent",
+    subtitle: demoProject,
+    panelId: "root",
+    icon: <Bot className="size-4" />,
+  },
+  {
+    id: "r-aigw",
+    title: "AI Gateway",
+    subtitle: demoProject,
+    panelId: "root",
+    icon: <Sparkles className="size-4" />,
+  },
+  {
+    id: "r-sand",
+    title: "Sandboxes",
+    subtitle: demoProject,
+    panelId: "root",
+    icon: <Server className="size-4" />,
+  },
+  {
+    id: "r-usage",
+    title: "Usage",
+    subtitle: demoProject,
+    panelId: "root",
+    icon: <BarChart3 className="size-4" />,
+  },
+  {
+    id: "r-support",
+    title: "Support",
+    subtitle: demoProject,
+    panelId: "root",
+    icon: <Network className="size-4" />,
+  },
+  {
+    id: "r-settings",
+    title: "Settings",
+    subtitle: demoProject,
+    panelId: "root",
+    icon: <Settings className="size-4" />,
+  },
+  {
+    id: "o-overview",
+    title: "Overview",
+    subtitle: `${demoProject} / Observability`,
+    panelId: "observability",
+    icon: <LayoutGrid className="size-4" />,
+  },
+  {
+    id: "o-query",
+    title: "Query",
+    subtitle: `${demoProject} / Observability`,
+    panelId: "observability",
+    icon: <Search className="size-4" />,
+  },
+  {
+    id: "o-notebooks",
+    title: "Notebooks",
+    subtitle: `${demoProject} / Observability`,
+    panelId: "observability",
+    icon: <FileStack className="size-4" />,
+  },
+  {
+    id: "o-alerts",
+    title: "Alerts",
+    subtitle: `${demoProject} / Observability`,
+    keywords: ["beta"],
+    panelId: "observability",
+    icon: <Bell className="size-4" />,
+  },
+  {
+    id: "o-fn",
+    title: "Functions",
+    subtitle: `${demoProject} / Observability`,
+    keywords: ["compute"],
+    panelId: "observability",
+    icon: <Zap className="size-4" />,
+  },
+  {
+    id: "o-api",
+    title: "External APIs",
+    subtitle: `${demoProject} / Observability`,
+    panelId: "observability",
+    icon: <Globe className="size-4" />,
+  },
+  {
+    id: "o-mw",
+    title: "Middleware",
+    subtitle: `${demoProject} / Observability`,
+    panelId: "observability",
+    icon: <Layers className="size-4" />,
+  },
+  {
+    id: "o-wf",
+    title: "Workflows",
+    subtitle: `${demoProject} / Observability`,
+    keywords: ["beta"],
+    panelId: "observability",
+    icon: <Activity className="size-4" />,
+  },
+  {
+    id: "o-edge",
+    title: "Edge Requests",
+    subtitle: `${demoProject} / Observability`,
+    keywords: ["cdn", "edge"],
+    panelId: "observability",
+    icon: <Globe className="size-4" />,
+  },
+  {
+    id: "o-fdt",
+    title: "Fast Data Transfer",
+    subtitle: `${demoProject} / Observability`,
+    panelId: "observability",
+    icon: <Cloud className="size-4" />,
+  },
+  {
+    id: "o-img",
+    title: "Image Optimization",
+    subtitle: `${demoProject} / Observability`,
+    panelId: "observability",
+    icon: <ImageIcon className="size-4" />,
+  },
+  {
+    id: "o-isr",
+    title: "ISR",
+    subtitle: `${demoProject} / Observability`,
+    panelId: "observability",
+    icon: <Rocket className="size-4" />,
+  },
+  {
+    id: "o-rewrite",
+    title: "External Rewrites",
+    subtitle: `${demoProject} / Observability`,
+    panelId: "observability",
+    icon: <Network className="size-4" />,
+  },
+  {
+    id: "o-mf",
+    title: "Microfrontends",
+    subtitle: `${demoProject} / Observability`,
+    panelId: "observability",
+    icon: <LayoutGrid className="size-4" />,
+  },
+  {
+    id: "o-ai",
+    title: "AI",
+    subtitle: `${demoProject} / Observability`,
+    keywords: ["services"],
+    panelId: "observability",
+    icon: <Sparkles className="size-4" />,
+  },
+  {
+    id: "o-blob",
+    title: "Blob",
+    subtitle: `${demoProject} / Observability`,
+    panelId: "observability",
+    icon: <Box className="size-4" />,
+  },
+  {
+    id: "o-q",
+    title: "Queues",
+    subtitle: `${demoProject} / Observability`,
+    keywords: ["beta"],
+    panelId: "observability",
+    icon: <Server className="size-4" />,
+  },
 ]
 
 function BetaBadge({ className }: { className?: string }) {
   return (
     <span
       className={cn(
-        "shrink-0 rounded-md border border-blue-500/35 bg-blue-500/10 px-1.5 py-0.5 font-medium text-[10px] text-blue-400 uppercase tracking-wide",
+        "shrink-0 rounded-md border border-blue-500/35 bg-blue-500/10 px-1.5 py-0.5 text-[10px] font-medium tracking-wide text-blue-400 uppercase",
         className,
       )}
     >
@@ -299,7 +516,7 @@ function ObservabilityPanel() {
         </VercelSidebarGroupContent>
       </VercelSidebarGroup>
       <VercelSidebarGroup>
-        <VercelSidebarGroupLabel className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">
+        <VercelSidebarGroupLabel className="text-[11px] font-medium tracking-wider text-muted-foreground uppercase">
           Compute
         </VercelSidebarGroupLabel>
         <VercelSidebarGroupContent>
@@ -312,7 +529,7 @@ function ObservabilityPanel() {
         </VercelSidebarGroupContent>
       </VercelSidebarGroup>
       <VercelSidebarGroup>
-        <VercelSidebarGroupLabel className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">
+        <VercelSidebarGroupLabel className="text-[11px] font-medium tracking-wider text-muted-foreground uppercase">
           CDN
         </VercelSidebarGroupLabel>
         <VercelSidebarGroupContent>
@@ -327,7 +544,7 @@ function ObservabilityPanel() {
         </VercelSidebarGroupContent>
       </VercelSidebarGroup>
       <VercelSidebarGroup>
-        <VercelSidebarGroupLabel className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">
+        <VercelSidebarGroupLabel className="text-[11px] font-medium tracking-wider text-muted-foreground uppercase">
           Services
         </VercelSidebarGroupLabel>
         <VercelSidebarGroupContent>
@@ -400,7 +617,9 @@ export default function VercelSidebarDemo() {
                   aria-label="Search navigation"
                 >
                   <Search className="size-4 shrink-0 text-muted-foreground" aria-hidden />
-                  <span className="min-w-0 flex-1 truncate text-sm text-muted-foreground">Find…</span>
+                  <span className="min-w-0 flex-1 truncate text-sm text-muted-foreground">
+                    Find…
+                  </span>
                   <kbd className="pointer-events-none hidden h-5 max-h-5 shrink-0 items-center justify-center self-center rounded border border-sidebar-border/80 bg-sidebar/80 px-1.5 font-mono text-[10px] leading-none text-muted-foreground sm:inline-flex">
                     F
                   </kbd>
@@ -418,43 +637,43 @@ export default function VercelSidebarDemo() {
             </VercelSidebarNav>
 
             <VercelSidebarFooter className="shrink-0 border-t border-sidebar-border p-2">
-            <VercelSidebarMenu>
-              <VercelSidebarMenuItem>
-                <div className="flex w-full items-center gap-2 rounded-md pl-2">
-                  <div
-                    className="size-6 shrink-0 rounded-full bg-muted bg-cover bg-center ring-1 ring-border"
-                    style={{
-                      backgroundImage:
-                        "url(https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=48&h=48&fit=crop)",
-                    }}
-                    role="img"
-                    aria-label="User avatar"
-                  />
-                  <span className="min-w-0 flex-1 truncate text-sm font-medium">mattiaz</span>
-                  <div className="flex shrink-0 items-center gap-0.5">
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      className="text-muted-foreground"
-                      aria-label="More"
-                    >
-                      <MoreHorizontal />
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      className="relative text-muted-foreground"
-                      aria-label="Notifications"
-                    >
-                      <Bell />
-                      <span className="absolute top-1.5 right-1.5 size-1.5 rounded-full bg-blue-500 ring-2 ring-sidebar" />
-                    </Button>
+              <VercelSidebarMenu>
+                <VercelSidebarMenuItem>
+                  <div className="flex w-full items-center gap-2 rounded-md pl-2">
+                    <div
+                      className="size-6 shrink-0 rounded-full bg-muted bg-cover bg-center ring-1 ring-border"
+                      style={{
+                        backgroundImage:
+                          "url(https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=48&h=48&fit=crop)",
+                      }}
+                      role="img"
+                      aria-label="User avatar"
+                    />
+                    <span className="min-w-0 flex-1 truncate text-sm font-medium">mattiaz</span>
+                    <div className="flex shrink-0 items-center gap-0.5">
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="text-muted-foreground"
+                        aria-label="More"
+                      >
+                        <MoreHorizontal />
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="relative text-muted-foreground"
+                        aria-label="Notifications"
+                      >
+                        <Bell />
+                        <span className="absolute top-1.5 right-1.5 size-1.5 rounded-full bg-blue-500 ring-2 ring-sidebar" />
+                      </Button>
+                    </div>
                   </div>
-                </div>
-              </VercelSidebarMenuItem>
-            </VercelSidebarMenu>
+                </VercelSidebarMenuItem>
+              </VercelSidebarMenu>
             </VercelSidebarFooter>
           </VercelSidebar>
         </VercelSidebarNavProvider>

@@ -15,22 +15,15 @@ function mergeRefs<T>(...refs: Array<React.Ref<T> | undefined | null>): React.Re
   }
 }
 
-function childDomRef(
-  element: React.ReactElement,
-): React.Ref<HTMLElement | null> | undefined {
+function childDomRef(element: React.ReactElement): React.Ref<HTMLElement | null> | undefined {
   type WithRef = { ref?: React.Ref<HTMLElement | null> }
   const propsRef = (element.props as WithRef).ref
   const legacyRef = (element as unknown as WithRef).ref
   return propsRef ?? legacyRef
 }
 
-function TooltipProvider({
-  delay = 0,
-  ...props
-}: TooltipPrimitive.Provider.Props) {
-  return (
-    <TooltipPrimitive.Provider data-slot="tooltip-provider" delay={delay} {...props} />
-  )
+function TooltipProvider({ delay = 0, ...props }: TooltipPrimitive.Provider.Props) {
+  return <TooltipPrimitive.Provider data-slot="tooltip-provider" delay={delay} {...props} />
 }
 
 function Tooltip({ ...props }: TooltipPrimitive.Root.Props) {
@@ -51,10 +44,7 @@ function TooltipContent({
   container,
   ...props
 }: TooltipPrimitive.Popup.Props &
-  Pick<
-    TooltipPrimitive.Positioner.Props,
-    "align" | "alignOffset" | "side" | "sideOffset"
-  > & {
+  Pick<TooltipPrimitive.Positioner.Props, "align" | "alignOffset" | "side" | "sideOffset"> & {
     container?: HTMLElement | null
   }) {
   return (
@@ -127,16 +117,16 @@ function AutoTooltip({
         <TooltipTrigger
           {...({
             nativeButton: false,
-            render: (props: React.ComponentPropsWithoutRef<"span"> & { ref?: React.Ref<HTMLElement | null> }) =>
+            render: (
+              props: React.ComponentPropsWithoutRef<"span"> & {
+                ref?: React.Ref<HTMLElement | null>
+              },
+            ) =>
               React.cloneElement(
                 children as React.ReactElement<Record<string, unknown>>,
                 {
                   ...props,
-                  ref: mergeRefs(
-                    props.ref,
-                    (el) => setContentRef(el),
-                    childDomRef(children),
-                  ),
+                  ref: mergeRefs(props.ref, (el) => setContentRef(el), childDomRef(children)),
                 } as Record<string, unknown>,
               ),
           } as React.ComponentProps<typeof TooltipPrimitive.Trigger>)}

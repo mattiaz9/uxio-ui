@@ -2,8 +2,8 @@
 
 import { useState } from "react"
 
-import { confirm } from "./ui/confirmer"
 import { Button } from "./ui/button"
+import { confirm } from "./ui/confirmer"
 
 export default function ConfirmerReturn() {
   const [result, setResult] = useState<string | null>(null)

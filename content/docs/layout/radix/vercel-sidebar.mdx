@@ -5,9 +5,18 @@ description: Sidebar drill-down panels with a fixed header and footer; SSR-safe 
 
 ## Overview
 
-A layout built on the **sidebar** primitives that swaps the **scrollable middle** between a **root rail** and **sub-panels** (similar to the Vercel dashboard). Items with sub-navigation **replace** the whole middle region; they do not expand inline. Each sub-panel shows a **back** control and **title**. **Header and footer** sit outside the scrollable **`VercelSidebarNav`** region, but **`VercelSidebarNavProvider`** wraps the whole **`VercelSidebar`** so header widgets (e.g. a **command palette** over the search field) can call **`setActivePanel`**.
+A layout built on the **sidebar** primitives that swaps the **scrollable middle** between a **root
+rail** and **sub-panels** (similar to the Vercel dashboard). Items with sub-navigation **replace**
+the whole middle region; they do not expand inline. Each sub-panel shows a **back** control and
+**title**. **Header and footer** sit outside the scrollable **`VercelSidebarNav`** region, but
+**`VercelSidebarNavProvider`** wraps the whole **`VercelSidebar`** so header widgets (e.g. a
+**command palette** over the search field) can call **`setActivePanel`**.
 
-The module **re-exports** every sidebar primitive from the registry `sidebar` item with a **`Vercel` prefix** (`VercelSidebarProvider`, `VercelSidebar`, `VercelSidebarMenuButton`, …) from `@/components/ui/vercel-sidebar`. It also exports **`filterVercelSidebarItems`** and **`VercelSidebarSearchPopover`** (Popover + Command) for global search across every nav entry you define.
+The module **re-exports** every sidebar primitive from the registry `sidebar` item with a **`Vercel`
+prefix** (`VercelSidebarProvider`, `VercelSidebar`, `VercelSidebarMenuButton`, …) from
+`@/components/ui/vercel-sidebar`. It also exports **`filterVercelSidebarItems`** and
+**`VercelSidebarSearchPopover`** (Popover + Command) for global search across every nav entry you
+define.
 
 ## Install
 
@@ -27,17 +36,28 @@ Then run:
 npx shadcn@latest add @uxio/vercel-sidebar
 ```
 
-This installs **vercel-sidebar** and bundles **sidebar**, **command**, and **popover** (and their dependencies). The Base UI or Radix variant follows your `components.json` style.
+This installs **vercel-sidebar** and bundles **sidebar**, **command**, and **popover** (and their
+dependencies). The Base UI or Radix variant follows your `components.json` style.
 
 ## Usage
 
-Wrap **`VercelSidebar`** with **`VercelSidebarNavProvider`** (panel state + context). Structure: **`VercelSidebarHeader`** → **`VercelSidebarNav`** → **`VercelSidebarFooter`**. Inside **`VercelSidebarNav`**, add one **`VercelSidebarPanel`** per view (e.g. `panelId="root"` and `panelId="observability"`). Use **`useVercelSidebarNav()`** (or buttons that call **`setActivePanel`**) to open a sub-panel from the root rail.
+Wrap **`VercelSidebar`** with **`VercelSidebarNavProvider`** (panel state + context). Structure:
+**`VercelSidebarHeader`** → **`VercelSidebarNav`** → **`VercelSidebarFooter`**. Inside
+**`VercelSidebarNav`**, add one **`VercelSidebarPanel`** per view (e.g. `panelId="root"` and
+`panelId="observability"`). Use **`useVercelSidebarNav()`** (or buttons that call
+**`setActivePanel`**) to open a sub-panel from the root rail.
 
-Build a **`VercelSidebarSearchItem[]`** list that mirrors every link (root and sub-panels). Pass it to **`VercelSidebarSearchPopover`**; selection calls **`setActivePanel(item.panelId)`** when the popover is under the same provider (or pass **`onSelect`** for full control). Use **`filterVercelSidebarItems(items, query)`** anywhere you need the same matching rules (e.g. inline filtering).
+Build a **`VercelSidebarSearchItem[]`** list that mirrors every link (root and sub-panels). Pass it
+to **`VercelSidebarSearchPopover`**; selection calls **`setActivePanel(item.panelId)`** when the
+popover is under the same provider (or pass **`onSelect`** for full control). Use
+**`filterVercelSidebarItems(items, query)`** anywhere you need the same matching rules (e.g. inline
+filtering).
 
 ### SSR and refresh
 
-Set **`defaultPanel`** on **`VercelSidebarNavProvider`** to match the current route so the first paint shows the correct panel (no flash of the root rail). For client-side navigations, use controlled **`panel`** and **`onPanelChange`** on the provider so the UI stays in sync with the URL.
+Set **`defaultPanel`** on **`VercelSidebarNavProvider`** to match the current route so the first
+paint shows the correct panel (no flash of the root rail). For client-side navigations, use
+controlled **`panel`** and **`onPanelChange`** on the provider so the UI stays in sync with the URL.
 
 ```tsx
 import {
@@ -73,7 +93,9 @@ export function AppSidebar({ initialPanel = "root" }: { initialPanel?: string })
     <VercelSidebarProvider>
       <VercelSidebarNavProvider defaultPanel={initialPanel}>
         <VercelSidebar collapsible="none">
-          <VercelSidebarHeader>{/* project switcher, VercelSidebarSearchPopover, … */}</VercelSidebarHeader>
+          <VercelSidebarHeader>
+            {/* project switcher, VercelSidebarSearchPopover, … */}
+          </VercelSidebarHeader>
           <VercelSidebarNav>
             <VercelSidebarPanel panelId="root">
               <RootLinks />
@@ -95,59 +117,72 @@ export function AppSidebar({ initialPanel = "root" }: { initialPanel?: string })
 
 ### `VercelSidebarNavProvider`
 
-Holds panel state and **React context** for **`VercelSidebarNav`**, **`VercelSidebarPanel`**, **`VercelSidebarBack`**, and **`VercelSidebarSearchPopover`**. Wrap your **`VercelSidebar`** (or at least everything that needs **`useVercelSidebarNav`**).
+Holds panel state and **React context** for **`VercelSidebarNav`**, **`VercelSidebarPanel`**,
+**`VercelSidebarBack`**, and **`VercelSidebarSearchPopover`**. Wrap your **`VercelSidebar`** (or at
+least everything that needs **`useVercelSidebarNav`**).
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `defaultPanel` | `string` | `"root"` | Initial panel when **uncontrolled**. Should match the server render for SSR. |
-| `rootPanelId` | `string` | `"root"` | Panel id **Back** returns to when `onBack` is not passed. |
-| `panel` | `string` | — | **Controlled** active panel. When set, use `onPanelChange` to update. |
-| `onPanelChange` | `(id: string) => void` | — | Called when the active panel changes in controlled mode. |
+| Prop            | Type                   | Default  | Description                                                                  |
+| --------------- | ---------------------- | -------- | ---------------------------------------------------------------------------- |
+| `defaultPanel`  | `string`               | `"root"` | Initial panel when **uncontrolled**. Should match the server render for SSR. |
+| `rootPanelId`   | `string`               | `"root"` | Panel id **Back** returns to when `onBack` is not passed.                    |
+| `panel`         | `string`               | —        | **Controlled** active panel. When set, use `onPanelChange` to update.        |
+| `onPanelChange` | `(id: string) => void` | —        | Called when the active panel changes in controlled mode.                     |
 
 ### `VercelSidebarNav`
 
-Renders **`VercelSidebarContent`** with the stacked panel region. Must be used **inside** **`VercelSidebarNavProvider`**. Props extend **`VercelSidebarContent`**.
+Renders **`VercelSidebarContent`** with the stacked panel region. Must be used **inside**
+**`VercelSidebarNavProvider`**. Props extend **`VercelSidebarContent`**.
 
 ### `VercelSidebarSearchPopover`
 
-**`Popover`** + **`Command`**: filtered list of **`VercelSidebarSearchItem`**. **`children`** must be a single element that accepts a ref (e.g. a **`button`** styled as the search row). With **`shouldFilter={false}`**, filtering uses **`filterVercelSidebarItems`** so **`subtitle`** and **`keywords`** match like the palette.
+**`Popover`** + **`Command`**: filtered list of **`VercelSidebarSearchItem`**. **`children`** must
+be a single element that accepts a ref (e.g. a **`button`** styled as the search row). With
+**`shouldFilter={false}`**, filtering uses **`filterVercelSidebarItems`** so **`subtitle`** and
+**`keywords`** match like the palette.
 
-| Prop | Type | Description |
-| --- | --- | --- |
-| `items` | `readonly VercelSidebarSearchItem[]` | All searchable entries. |
-| `open` / `onOpenChange` | — | Optional controlled open state. |
-| `onSelect` | `(item) => void` | If set, replaces default **`setActivePanel(item.panelId)`** handling. |
+| Prop                    | Type                                 | Description                                                           |
+| ----------------------- | ------------------------------------ | --------------------------------------------------------------------- |
+| `items`                 | `readonly VercelSidebarSearchItem[]` | All searchable entries.                                               |
+| `open` / `onOpenChange` | —                                    | Optional controlled open state.                                       |
+| `onSelect`              | `(item) => void`                     | If set, replaces default **`setActivePanel(item.panelId)`** handling. |
 
 ### `filterVercelSidebarItems` / `VercelSidebarSearchItem`
 
-Exported for reuse: same token rules as the command palette (trim, lowercase, every whitespace-separated word must appear in title, subtitle, or keywords).
+Exported for reuse: same token rules as the command palette (trim, lowercase, every
+whitespace-separated word must appear in title, subtitle, or keywords).
 
 ### `useOptionalVercelSidebarNav()`
 
-Same shape as **`useVercelSidebarNav()`** or **`null`** if there is no provider (safe for optional UI).
+Same shape as **`useVercelSidebarNav()`** or **`null`** if there is no provider (safe for optional
+UI).
 
 ### `VercelSidebarPanel`
 
-| Prop | Type | Description |
-| --- | --- | --- |
-| `panelId` | `string` | Unique id for this view. |
-| … | `React.ComponentProps<"div">` | Inactive panels use the `hidden` attribute. |
+| Prop      | Type                          | Description                                 |
+| --------- | ----------------------------- | ------------------------------------------- |
+| `panelId` | `string`                      | Unique id for this view.                    |
+| …         | `React.ComponentProps<"div">` | Inactive panels use the `hidden` attribute. |
 
-`data-slot="vercel-sidebar-panel"`, `data-panel`, and `data-state` (`"active"` \| `"inactive"`) are set for styling.
+`data-slot="vercel-sidebar-panel"`, `data-panel`, and `data-state` (`"active"` \| `"inactive"`) are
+set for styling.
 
 ### `VercelSidebarBack`
 
-| Prop | Type | Description |
-| --- | --- | --- |
-| `title` | `React.ReactNode` | Section title (e.g. “Observability”). |
-| `onBack` | `() => void` | Optional; defaults to `setActivePanel(rootPanelId)`. |
-| … | `Omit<React.ComponentProps<"div">, "title">` | Row wrapper for the back control and title. |
+| Prop     | Type                                         | Description                                          |
+| -------- | -------------------------------------------- | ---------------------------------------------------- |
+| `title`  | `React.ReactNode`                            | Section title (e.g. “Observability”).                |
+| `onBack` | `() => void`                                 | Optional; defaults to `setActivePanel(rootPanelId)`. |
+| …        | `Omit<React.ComponentProps<"div">, "title">` | Row wrapper for the back control and title.          |
 
-`data-slot="vercel-sidebar-back"`. Full-width **`VercelSidebarMenuButton`**: chevron + panel **title** only (`aria-label="Back"`). Panels animate with **slide + fade** via **Motion** (`motion`).
+`data-slot="vercel-sidebar-back"`. Full-width **`VercelSidebarMenuButton`**: chevron + panel
+**title** only (`aria-label="Back"`). Panels animate with **slide + fade** via **Motion**
+(`motion`).
 
 ### `useVercelSidebarNav()`
 
-Returns **`{ activePanel, setActivePanel, rootPanelId }`**. Must be used under **`VercelSidebarNavProvider`** (e.g. inside **`VercelSidebarNav`** or the header when the provider wraps **`VercelSidebar`**).
+Returns **`{ activePanel, setActivePanel, rootPanelId }`**. Must be used under
+**`VercelSidebarNavProvider`** (e.g. inside **`VercelSidebarNav`** or the header when the provider
+wraps **`VercelSidebar`**).
 
 ## Example
 

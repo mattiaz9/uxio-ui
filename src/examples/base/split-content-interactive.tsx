@@ -2,14 +2,9 @@
 
 import { useId, useState } from "react"
 
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "@/components/ui/resizable"
-import { cn } from "@/lib/utils"
-
 import { SplitContent, SplitContentItem } from "./ui/split-content"
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable"
+import { cn } from "@/lib/utils"
 
 /** Demo-only: full-bleed column with readable inset-aligned copy */
 const screenColumnBg = {
@@ -87,7 +82,7 @@ export default function SplitContentInteractive() {
       >
         <ResizablePanel defaultSize={80} minSize={35} className="min-w-0">
           <div className="flex h-full min-h-0 w-full flex-col overflow-auto">
-            <div className="@container flex min-h-full min-w-0 w-full flex-1 flex-col justify-center [--container-max-width:480px]">
+            <div className="@container flex min-h-full w-full min-w-0 flex-1 flex-col justify-center [--container-max-width:480px]">
               <SplitContent
                 variant={variant}
                 ratio={ratio}
@@ -99,13 +94,12 @@ export default function SplitContentInteractive() {
                   className={cn(
                     "flex flex-col justify-center text-sm",
                     leftAnchor === "container" && "bg-muted/60 p-4 @md:p-6",
-                    leftAnchor === "screen" &&
-                      "bg-cover bg-center py-6 text-white @md:py-8",
+                    leftAnchor === "screen" && "bg-cover bg-center py-6 text-white @md:py-8",
                   )}
                   style={leftAnchor === "screen" ? screenColumnBg : undefined}
                 >
                   {leftAnchor === "screen" ? (
-                    <div className="pl-container-inset pr-4 text-white @md:pr-6">
+                    <div className="pr-4 pl-container-inset text-white @md:pr-6">
                       <span className="font-medium text-white">Left column</span>
                       <span className="block text-white/90">
                         anchor={leftAnchor}
@@ -130,8 +124,7 @@ export default function SplitContentInteractive() {
                   className={cn(
                     "flex flex-col justify-center text-sm",
                     rightAnchor === "container" && "bg-muted/40 p-4 @md:p-6",
-                    rightAnchor === "screen" &&
-                      "bg-cover bg-center py-6 text-white @md:py-8",
+                    rightAnchor === "screen" && "bg-cover bg-center py-6 text-white @md:py-8",
                   )}
                   style={rightAnchor === "screen" ? screenColumnBg : undefined}
                 >

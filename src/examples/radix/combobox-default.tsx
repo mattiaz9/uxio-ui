@@ -24,7 +24,9 @@ export default function ComboboxDefault() {
       <ComboboxTrigger>
         <ComboboxValue placeholder="Select framework..." />
       </ComboboxTrigger>
-      <ComboboxContent search={{ placeholder: "Search framework...", emptyMessage: "No framework found." }}>
+      <ComboboxContent
+        search={{ placeholder: "Search framework...", emptyMessage: "No framework found." }}
+      >
         <ComboboxGroup>
           {frameworks.map((framework) => (
             <ComboboxItem key={framework.value} value={framework.value}>

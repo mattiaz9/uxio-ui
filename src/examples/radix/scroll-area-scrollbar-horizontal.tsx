@@ -7,7 +7,7 @@ export default function ScrollAreaScrollbarHorizontal() {
         {Array.from({ length: 12 }, (_, i) => (
           <div
             key={i}
-            className="bg-muted text-muted-foreground flex size-16 shrink-0 items-center justify-center rounded-md text-xs"
+            className="flex size-16 shrink-0 items-center justify-center rounded-md bg-muted text-xs text-muted-foreground"
           >
             {i + 1}
           </div>

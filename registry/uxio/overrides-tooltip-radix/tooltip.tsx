@@ -15,9 +15,7 @@ function mergeRefs<T>(...refs: Array<React.Ref<T> | undefined | null>): React.Re
   }
 }
 
-function childDomRef(
-  element: React.ReactElement,
-): React.Ref<HTMLElement | null> | undefined {
+function childDomRef(element: React.ReactElement): React.Ref<HTMLElement | null> | undefined {
   type WithRef = { ref?: React.Ref<HTMLElement | null> }
   const propsRef = (element.props as WithRef).ref
   const legacyRef = (element as unknown as WithRef).ref
@@ -41,9 +39,7 @@ function Tooltip({ ...props }: React.ComponentProps<typeof TooltipPrimitive.Root
   return <TooltipPrimitive.Root data-slot="tooltip" {...props} />
 }
 
-function TooltipTrigger({
-  ...props
-}: React.ComponentProps<typeof TooltipPrimitive.Trigger>) {
+function TooltipTrigger({ ...props }: React.ComponentProps<typeof TooltipPrimitive.Trigger>) {
   return <TooltipPrimitive.Trigger data-slot="tooltip-trigger" {...props} />
 }
 
@@ -118,10 +114,7 @@ function AutoTooltip({
       <Tooltip open={canOpen ? undefined : false}>
         <TooltipTrigger asChild>
           {React.cloneElement(children, {
-            ref: mergeRefs(
-              (el) => setContentRef(el),
-              childDomRef(children),
-            ),
+            ref: mergeRefs((el) => setContentRef(el), childDomRef(children)),
           } as never)}
         </TooltipTrigger>
         <TooltipContent

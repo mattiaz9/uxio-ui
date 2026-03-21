@@ -1,3 +1,4 @@
+import { Button } from "./ui/button"
 import {
   Drawer,
   DrawerClose,
@@ -8,7 +9,6 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "./ui/drawer"
-import { Button } from "./ui/button"
 
 export default function DrawerDefault() {
   return (
@@ -25,8 +25,8 @@ export default function DrawerDefault() {
         </DrawerHeader>
         <div className="grid gap-4 px-4 py-2">
           <p className="text-sm text-muted-foreground">
-            Panel surface uses <code className="text-foreground">bg-popover</code>, aligned with
-            the dialog override.
+            Panel surface uses <code className="text-foreground">bg-popover</code>, aligned with the
+            dialog override.
           </p>
         </div>
         <DrawerFooter>

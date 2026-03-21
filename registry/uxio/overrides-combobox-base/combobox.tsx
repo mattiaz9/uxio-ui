@@ -4,6 +4,7 @@ import React from "react"
 
 import { CheckIcon, ChevronsUpDownIcon } from "lucide-react"
 
+import { cn } from "@/lib/utils"
 import { Button } from "@/registry/uxio/overrides-button-base/button"
 import {
   Command,
@@ -19,7 +20,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/registry/uxio/overrides-popover-base/popover"
-import { cn } from "@/lib/utils"
 
 interface ComboboxContextState {
   open: boolean

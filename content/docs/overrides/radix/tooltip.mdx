@@ -4,7 +4,8 @@ title: Tooltip
 
 ## Extended Features
 
-- [`AutoTooltip`](#auto-mode) composes trigger and content, and with `mode="auto"` only opens when the trigger is truncated (overflow hidden / ellipsis).
+- [`AutoTooltip`](#auto-mode) composes trigger and content, and with `mode="auto"` only opens when
+  the trigger is truncated (overflow hidden / ellipsis).
 
 ## Install
 
@@ -24,11 +25,15 @@ Then run:
 npx shadcn@latest add @uxio/tooltip
 ```
 
-For Radix, wrap your app (or a subtree) with `TooltipProvider` from the same module when you use the low-level `Tooltip` / `TooltipTrigger` / `TooltipContent` primitives so delay and “skip delay” behavior work across tooltips. `AutoTooltip` wraps an inner provider for its own delay.
+For Radix, wrap your app (or a subtree) with `TooltipProvider` from the same module when you use the
+low-level `Tooltip` / `TooltipTrigger` / `TooltipContent` primitives so delay and “skip delay”
+behavior work across tooltips. `AutoTooltip` wraps an inner provider for its own delay.
 
 ## Usage
 
-`AutoTooltip` wraps a single trigger element and supports truncation-based **`mode`**, **`content`** / **`htmlContent`**, **`delay`**, **`placement`**, **`offset`**, **`appendTo`**, and **`className`** on the content.
+`AutoTooltip` wraps a single trigger element and supports truncation-based **`mode`**, **`content`**
+/ **`htmlContent`**, **`delay`**, **`placement`**, **`offset`**, **`appendTo`**, and **`className`**
+on the content.
 
 ```tsx
 import { Button } from "@/components/ui/button"
@@ -54,27 +59,30 @@ export function AutoTooltipExample() {
 
 ## AutoTooltip props
 
-`AutoTooltip` accepts a single React element as `children` (the trigger). It measures that DOM node to decide whether the tooltip may open when `mode` is `"auto"`.
+`AutoTooltip` accepts a single React element as `children` (the trigger). It measures that DOM node
+to decide whether the tooltip may open when `mode` is `"auto"`.
 
-| Prop          | Type                                                              | Default   | Description |
-| ------------- | ----------------------------------------------------------------- | --------- | ----------- |
-| `children`    | `React.ReactElement`                                              | —         | Trigger element; must forward a ref to a DOM node (e.g. `asChild` patterns work with primitives like `Button`). |
-| `content`     | `string`                                                          | —         | Plain-text tooltip body. Ignored if `htmlContent` is set. |
-| `htmlContent` | `React.ReactNode`                                                 | —         | Rich tooltip body. Takes precedence over `content`. |
-| `mode`        | `"auto"` \| `"always"`                                            | `"auto"`  | `"auto"`: open only if the trigger is truncated (scroll size larger than client size). `"always"`: tooltip may open whenever there is content. |
-| `delay`       | `number`                                                          | `250`     | Delay before open (ms), forwarded to `TooltipProvider`. |
-| `offset`      | `number`                                                          | —         | Distance from the trigger; passed as `sideOffset` to `TooltipContent`. |
-| `placement`   | `"top"` \| `"bottom"` \| `"left"` \| `"right"`                    | —         | Preferred side of the tooltip. |
-| `appendTo`    | `HTMLElement` \| `null`                                           | —         | Optional portal container for the tooltip content; `null`/`undefined` uses the default portal target. |
-| `className`   | `string`                                                          | —         | Extra classes merged onto `TooltipContent` (in addition to `max-w-xs`). |
+| Prop          | Type                                           | Default  | Description                                                                                                                                    |
+| ------------- | ---------------------------------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `children`    | `React.ReactElement`                           | —        | Trigger element; must forward a ref to a DOM node (e.g. `asChild` patterns work with primitives like `Button`).                                |
+| `content`     | `string`                                       | —        | Plain-text tooltip body. Ignored if `htmlContent` is set.                                                                                      |
+| `htmlContent` | `React.ReactNode`                              | —        | Rich tooltip body. Takes precedence over `content`.                                                                                            |
+| `mode`        | `"auto"` \| `"always"`                         | `"auto"` | `"auto"`: open only if the trigger is truncated (scroll size larger than client size). `"always"`: tooltip may open whenever there is content. |
+| `delay`       | `number`                                       | `250`    | Delay before open (ms), forwarded to `TooltipProvider`.                                                                                        |
+| `offset`      | `number`                                       | —        | Distance from the trigger; passed as `sideOffset` to `TooltipContent`.                                                                         |
+| `placement`   | `"top"` \| `"bottom"` \| `"left"` \| `"right"` | —        | Preferred side of the tooltip.                                                                                                                 |
+| `appendTo`    | `HTMLElement` \| `null`                        | —        | Optional portal container for the tooltip content; `null`/`undefined` uses the default portal target.                                          |
+| `className`   | `string`                                       | —        | Extra classes merged onto `TooltipContent` (in addition to `max-w-xs`).                                                                        |
 
-If neither `content` nor `htmlContent` is provided, `AutoTooltip` returns `children` unchanged (no tooltip).
+If neither `content` nor `htmlContent` is provided, `AutoTooltip` returns `children` unchanged (no
+tooltip).
 
 ## Examples
 
 ### Auto mode
 
-The tooltip appears only when the label is truncated. Below it, a short line that fully fits does not open a tooltip.
+The tooltip appears only when the label is truncated. Below it, a short line that fully fits does
+not open a tooltip.
 
 <ComponentPreview name="radix/tooltip-auto" />
 

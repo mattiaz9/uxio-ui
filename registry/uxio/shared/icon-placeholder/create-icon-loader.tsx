@@ -44,8 +44,7 @@ export function createIconLoader(libraryName: string) {
     }
 
     if (isIconData(iconData)) {
-      const hugeStroke =
-        typeof strokeWidth === "number" ? strokeWidth : Number(strokeWidth) || 2
+      const hugeStroke = typeof strokeWidth === "number" ? strokeWidth : Number(strokeWidth) || 2
       return <HugeiconsIcon icon={iconData} strokeWidth={hugeStroke} {...props} />
     }
 

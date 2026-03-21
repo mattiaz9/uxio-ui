@@ -1,10 +1,4 @@
-import {
-  Item,
-  ItemContent,
-  ItemDescription,
-  ItemGroup,
-  ItemTitle,
-} from "./ui/item"
+import { Item, ItemContent, ItemDescription, ItemGroup, ItemTitle } from "./ui/item"
 
 export default function ItemDefault() {
   return (
@@ -19,8 +13,8 @@ export default function ItemDefault() {
         <ItemContent>
           <ItemTitle>Small item</ItemTitle>
           <ItemDescription>
-            With a <code className="text-foreground">sm</code> item in the group, the default variant
-            tightens vertical gap via{" "}
+            With a <code className="text-foreground">sm</code> item in the group, the default
+            variant tightens vertical gap via{" "}
             <code className="text-foreground">has-data-[size=sm]:gap-2.5</code>.
           </ItemDescription>
         </ItemContent>

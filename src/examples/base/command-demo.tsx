@@ -1,13 +1,8 @@
 "use client"
 
 import * as React from "react"
-import {
-  CalendarIcon,
-  CalculatorIcon,
-  CreditCardIcon,
-  SettingsIcon,
-  UserIcon,
-} from "lucide-react"
+
+import { CalendarIcon, CalculatorIcon, CreditCardIcon, SettingsIcon, UserIcon } from "lucide-react"
 
 import { Button } from "./ui/button"
 import { Card, CardContent } from "./ui/card"

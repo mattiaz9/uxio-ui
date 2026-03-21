@@ -1,3 +1,4 @@
+import { Button } from "./ui/button"
 import {
   Sheet,
   SheetClose,
@@ -8,7 +9,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "./ui/sheet"
-import { Button } from "./ui/button"
 
 export default function SheetDefault() {
   return (
@@ -25,8 +25,8 @@ export default function SheetDefault() {
         </SheetHeader>
         <div className="grid gap-4 px-4 py-2">
           <p className="text-sm text-muted-foreground">
-            Panel surface uses <code className="text-foreground">bg-popover</code>, aligned with
-            the dialog override.
+            Panel surface uses <code className="text-foreground">bg-popover</code>, aligned with the
+            dialog override.
           </p>
         </div>
         <SheetFooter>

@@ -47,7 +47,7 @@
 @theme inline {
   --spacing-container-padding: var(--container-padding);
   --spacing-container-inset: var(--container-inset);
-  
+
   --font-sans: "Geist Variable", sans-serif;
   --font-display: "Tomorrow", sans-serif;
   --color-sidebar-ring: var(--sidebar-ring);
@@ -198,4 +198,3 @@
   padding: 0;
   background-color: transparent !important;
 }
- 
