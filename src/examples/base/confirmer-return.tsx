@@ -2,10 +2,10 @@
 
 import { useState } from "react"
 
-import { confirm } from "./ui/confirmation"
+import { confirm } from "./ui/confirmer"
 import { Button } from "./ui/button"
 
-export default function ConfirmationReturn() {
+export default function ConfirmerReturn() {
   const [result, setResult] = useState<string | null>(null)
 
   async function runConfirm(label: string, variant: "default" | "success" | "info" | "warning") {

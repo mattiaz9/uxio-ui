@@ -5,7 +5,7 @@ description: Sidebar drill-down panels with a fixed header and footer; SSR-safe 
 
 ## Overview
 
-A layer on top of the **sidebar** primitives that swaps the **scrollable middle** between a **root rail** and **sub-panels** (similar to the Vercel dashboard). Items with sub-navigation **replace** the whole middle region; they do not expand inline. Each sub-panel shows a **back** control and **title**. **Header and footer** sit outside the scrollable **`VercelSidebarNav`** region, but **`VercelSidebarNavProvider`** wraps the whole **`VercelSidebar`** so header widgets (e.g. a **command palette** over the search field) can call **`setActivePanel`**.
+A layout built on the **sidebar** primitives that swaps the **scrollable middle** between a **root rail** and **sub-panels** (similar to the Vercel dashboard). Items with sub-navigation **replace** the whole middle region; they do not expand inline. Each sub-panel shows a **back** control and **title**. **Header and footer** sit outside the scrollable **`VercelSidebarNav`** region, but **`VercelSidebarNavProvider`** wraps the whole **`VercelSidebar`** so header widgets (e.g. a **command palette** over the search field) can call **`setActivePanel`**.
 
 The module **re-exports** every sidebar primitive from the registry `sidebar` item with a **`Vercel` prefix** (`VercelSidebarProvider`, `VercelSidebar`, `VercelSidebarMenuButton`, …) from `@/components/ui/vercel-sidebar`. It also exports **`filterVercelSidebarItems`** and **`VercelSidebarSearchPopover`** (Popover + Command) for global search across every nav entry you define.
 
@@ -154,6 +154,6 @@ Returns **`{ activePanel, setActivePanel, rootPanelId }`**. Must be used under *
 Click **Observability** to swap the middle content; use **Back** to return to the root rail.
 
 <ComponentPreview
-  name="radix/vercel-sidebar-demo"
+  name="base/vercel-sidebar-demo"
   className="w-full max-w-none min-h-[min(44rem,88vh)] items-stretch justify-center !px-4 py-6"
 />

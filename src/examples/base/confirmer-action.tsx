@@ -1,9 +1,9 @@
 "use client"
 
 import { Button } from "./ui/button"
-import { confirm } from "./ui/confirmation"
+import { confirm } from "./ui/confirmer"
 
-export default function ConfirmationAction() {
+export default function ConfirmerAction() {
   function handleClick() {
     void confirm({
       title: "Delete Post",

@@ -17,7 +17,7 @@ import { IconPlaceholder } from "@/registry/uxio/shared/icon-placeholder/icon-pl
 
 import type { Dispatch, SetStateAction } from "react"
 
-export interface Confirmation {
+export interface ConfirmerOptions {
   variant?: React.ComponentProps<typeof AlertDialogAction>["variant"]
   title: string
   description?: string
@@ -29,34 +29,34 @@ export interface Confirmation {
   action?: () => void | Promise<void>
 }
 
-interface ConfirmationState extends Confirmation {
+interface ConfirmerState extends ConfirmerOptions {
   isLoading?: boolean
   error?: Error
 }
 
-let listener: Dispatch<SetStateAction<ConfirmationState | undefined>> | undefined
+let listener: Dispatch<SetStateAction<ConfirmerState | undefined>> | undefined
 
-let resolveConfirmation: ((success: boolean) => void) | undefined
+let resolveConfirmer: ((success: boolean) => void) | undefined
 
-function showConfirmation(confirmation: Confirmation) {
+function openConfirmer(options: ConfirmerOptions) {
   if (listener) {
     listener({
       cancelButtonTitle: "Cancel",
       confirmButtonTitle: "OK",
       displayError: "below-content",
-      ...confirmation,
+      ...options,
     })
   }
 }
 
-async function hideConfirmation(success: boolean) {
-  resolveConfirmation?.(success)
-  resolveConfirmation = undefined
+async function hideConfirmer(success: boolean) {
+  resolveConfirmer?.(success)
+  resolveConfirmer = undefined
   listener?.(undefined)
 }
 
 async function runAction(action: () => void | Promise<void>) {
-  listener?.((state) => ({ ...(state as ConfirmationState), isLoading: true }))
+  listener?.((state) => ({ ...(state as ConfirmerState), isLoading: true }))
 
   const promisifiedAction = new Promise<void>((resolve, reject) => {
     try {
@@ -73,17 +73,17 @@ async function runAction(action: () => void | Promise<void>) {
 
   const result = await promisifiedAction.then(() => true).catch((error) => error)
   listener?.((state) => ({
-    ...(state as ConfirmationState),
+    ...(state as ConfirmerState),
     isLoading: false,
     error: result instanceof Error ? result : new Error(String(result)),
   }))
 }
 
-async function confirm(confirmation: Confirmation) {
-  showConfirmation(confirmation)
+async function confirm(options: ConfirmerOptions) {
+  openConfirmer(options)
 
   return new Promise<boolean>((resolve) => {
-    resolveConfirmation = resolve
+    resolveConfirmer = resolve
   })
 }
 
@@ -104,7 +104,7 @@ function DefaultRenderError({ error }: { error: Error }) {
 }
 
 function Confirmer() {
-  const [state, setState] = React.useState<ConfirmationState>()
+  const [state, setState] = React.useState<ConfirmerState>()
 
   React.useEffect(() => {
     listener = setState
@@ -127,12 +127,12 @@ function Confirmer() {
             (state.renderError?.(state.error) ?? <DefaultRenderError error={state.error} />)}
         </div>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={() => hideConfirmation(false)} data-action="cancel">
+          <AlertDialogCancel onClick={() => hideConfirmer(false)} data-action="cancel">
             {state?.cancelButtonTitle || "Cancel"}
           </AlertDialogCancel>
           <AlertDialogAction
             variant={state?.variant ?? "default"}
-            onClick={() => (state?.action ? runAction(state?.action) : hideConfirmation(true))}
+            onClick={() => (state?.action ? runAction(state?.action) : hideConfirmer(true))}
             data-action="confirm"
           >
             {state?.isLoading && <Spinner data-icon="inline-start" />}

@@ -392,14 +392,14 @@
     "type": "registry:ui",
     "title": "Split Content",
     "description": "Two-column layout on a 6+2 gutter grid: each column can align to the content container or the screen edge, with responsive stacking and width ratios.",
-    "categories": ["layers"],
+    "categories": ["layout"],
     "dependencies": ["clsx", "tailwind-merge"],
     "registryDependencies": ["@uxio/tw-container-extended"]
   },
   {
-    "name": "confirmation",
+    "name": "confirmer",
     "type": "registry:ui",
-    "title": "Confirmation",
+    "title": "Confirmer",
     "description": "Imperative confirmation dialog with async action support, loading state, and inline error display.",
     "categories": ["layers"],
     "dependencies": {
@@ -425,7 +425,7 @@
     "type": "registry:ui",
     "title": "Vercel Sidebar",
     "description": "Sidebar with drill-down panels: root nav swaps to sub-links with back + title; header/footer stay fixed. SSR-safe via defaultPanel or controlled panel.",
-    "categories": ["layers"],
+    "categories": ["layout"],
     "dependencies": {
       "base": ["clsx", "lucide-react", "motion", "tailwind-merge"],
       "radix": ["clsx", "lucide-react", "motion", "tailwind-merge"]

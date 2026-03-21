@@ -1,0 +1,9 @@
+{
+  "title": "Layout",
+  "pages": [
+    "[Split Content](/docs/layout/radix/split-content)",
+    "[Vercel Sidebar](/docs/layout/radix/vercel-sidebar)"
+  ],
+  "collapsible": false,
+  "defaultOpen": true
+}

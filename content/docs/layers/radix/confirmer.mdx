@@ -1,11 +1,12 @@
 ---
-title: Confirmation
+title: Confirmer
 ---
 
 ## Overview
 
 Imperative confirmation dialog with async action support, loading state, and inline error display.
-Use `confirm()` to show a confirmation and optionally run an async action.
+Use `confirm()` to open the confirmer and optionally run an async action. Options use the
+`ConfirmerOptions` shape (similar to `AlerterOptions` on **Alerter**).
 
 ## Install
 
@@ -22,7 +23,7 @@ Configure your registry in `components.json`:
 Then run:
 
 ```bash
-npx shadcn@latest add @uxio/confirmation
+npx shadcn@latest add @uxio/confirmer
 ```
 
 The correct variant (base or radix) is resolved automatically from your `components.json` style.
@@ -35,7 +36,7 @@ the dialog from anywhere.
 
 ```tsx
 // app/layout.tsx (or equivalent root layout)
-import { Confirmer } from "@/components/ui/confirmation"
+import { Confirmer } from "@/components/ui/confirmer"
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -97,8 +98,8 @@ void confirm({
 
 ### Return boolean
 
-<ComponentPreview name="radix/confirmation-return" />
+<ComponentPreview name="radix/confirmer-return" />
 
 ### Action with loading
 
-<ComponentPreview name="radix/confirmation-action" />
+<ComponentPreview name="radix/confirmer-action" />

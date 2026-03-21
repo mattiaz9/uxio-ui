@@ -8,7 +8,7 @@ import {
 import {
   DocsConfirmerBase,
   DocsConfirmerRadix,
-} from "@/components/docs/docs-confirmation-confirmer"
+} from "@/components/docs/docs-confirmer"
 
 import type { MDXComponents } from "mdx/types"
 

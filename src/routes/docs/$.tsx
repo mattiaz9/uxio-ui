@@ -41,7 +41,9 @@ const clientLoader = browserCollections.docs.createClientLoader({
     const params = Route.useParams()
     const slugs = (params._splat ?? "").split("/").filter(Boolean)
     const showSwitcher =
-      (slugs[0] === "overrides" || slugs[0] === "layers") && slugs[1] && slugs[2]
+      (slugs[0] === "overrides" || slugs[0] === "layout" || slugs[0] === "layers") &&
+      slugs[1] &&
+      slugs[2]
     const { toc, frontmatter, default: MDX } = loaded
 
     return (

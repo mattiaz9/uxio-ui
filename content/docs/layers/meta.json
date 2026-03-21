@@ -1,10 +1,8 @@
 {
   "title": "Layers",
   "pages": [
-    "[Confirmation](/docs/layers/radix/confirmation)",
     "[Alerter](/docs/layers/radix/alerter)",
-    "[Split Content](/docs/layers/radix/split-content)",
-    "[Vercel Sidebar](/docs/layers/radix/vercel-sidebar)"
+    "[Confirmer](/docs/layers/radix/confirmer)"
   ],
   "collapsible": false,
   "defaultOpen": true
