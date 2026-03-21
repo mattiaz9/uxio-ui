@@ -274,8 +274,8 @@ function Home() {
             Refined shadcn/ui components for your next project
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
-            An open-source component registry with some shadcn/ui extended components + some custom
-            components.
+            Refined shadcn/ui components compatible with Radix, Base and the styles Lyra, Maia,
+            Mira, Nova, Vega. Plus few extra components that makes your life easier!
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
             <Link
