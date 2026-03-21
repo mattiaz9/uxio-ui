@@ -454,5 +454,71 @@
       "base": ["@base-ui/react/tooltip", "clsx", "tailwind-merge"],
       "radix": ["radix-ui", "clsx", "tailwind-merge"]
     }
+  },
+  {
+    "name": "styles",
+    "title": "Styles",
+    "description": "Semantic color tokens plus Tailwind theme extensions (extra breakpoints, container inset, scroll-area variants).",
+    "categories": ["meta"],
+    "registryDependencies": [
+      "@uxio/semantic-colors",
+      "@uxio/tw-config-extended",
+      "@uxio/tw-extra-utils",
+      "@uxio/tw-container-extended"
+    ]
+  },
+  {
+    "name": "overrides",
+    "title": "Overrides",
+    "description": "Every override component in the registry (forms, overlays, inputs, sidebar, charts, and primitives they depend on).",
+    "categories": ["meta"],
+    "registryDependencies": [
+      "spinner",
+      "skeleton",
+      "alert",
+      "badge",
+      "button",
+      "dialog",
+      "sheet",
+      "drawer",
+      "form",
+      "sidebar",
+      "input",
+      "item",
+      "command",
+      "chart",
+      "card",
+      "alert-dialog",
+      "popover",
+      "scroll-area",
+      "combobox",
+      "tooltip"
+    ]
+  },
+  {
+    "name": "layout",
+    "title": "Layout",
+    "description": "Split Content and Vercel Sidebar; transitive deps (e.g. sidebar, command, popover) install automatically.",
+    "categories": ["meta"],
+    "registryDependencies": ["split-content", "vercel-sidebar"]
+  },
+  {
+    "name": "layers",
+    "title": "Layers",
+    "description": "Confirmer and Alerter; pulls alert-dialog, spinner, and semantic colors as needed.",
+    "categories": ["meta"],
+    "registryDependencies": ["confirmer", "alerter"]
+  },
+  {
+    "name": "full",
+    "title": "Full",
+    "description": "Styles, all overrides, layout, and layers in one install (nested meta items resolve recursively).",
+    "categories": ["meta"],
+    "registryDependencies": [
+      "@uxio/styles",
+      "@uxio/overrides",
+      "@uxio/layout",
+      "@uxio/layers"
+    ]
   }
 ]

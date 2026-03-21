@@ -1,0 +1,54 @@
+---
+title: Bundles
+description: Install groups of registry items with one shadcn add command.
+---
+
+These entries are **meta-packages**: they ship no files. The shadcn CLI installs each
+[`registryDependency`](https://ui.shadcn.com/docs/registry) (and nested dependencies) for you.
+
+Configure the registry in `components.json` as usual, then run the command for the set you need.
+
+## Styles
+
+Semantic **colors** and **Tailwind extensions**: extra breakpoints and text sizes, container inset
+utilities, scroll-area-related variants.
+
+Includes: `semantic-colors`, `tw-config-extended`, `tw-extra-utils`, `tw-container-extended`.
+
+```bash
+npx shadcn@latest add @uxio/styles
+```
+
+## Overrides
+
+All **Overrides** category components: spinner, skeleton, alert, badge, button, dialog, sheet, drawer,
+form, sidebar, input, item, command, chart, card, alert-dialog, popover, scroll-area, combobox,
+tooltip.
+
+```bash
+npx shadcn@latest add @uxio/overrides
+```
+
+## Layout
+
+**Split Content** and **Vercel Sidebar** (and their registry dependencies).
+
+```bash
+npx shadcn@latest add @uxio/layout
+```
+
+## Layers
+
+**Confirmer** and **Alerter**.
+
+```bash
+npx shadcn@latest add @uxio/layers
+```
+
+## Full
+
+Installs **styles**, **overrides**, **layout**, and **layers** in one step (each meta item resolves recursively).
+
+```bash
+npx shadcn@latest add @uxio/full
+```

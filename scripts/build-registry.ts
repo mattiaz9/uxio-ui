@@ -13,6 +13,9 @@
  *   layers-{name}-radix/     → Radix variant
  *   layers-{name}/           → Shared layers component
  *
+ * Meta items: `categories` includes `meta`, no source folder. Emits `registry:ui` JSON with
+ * `files: []` and `registryDependencies` only (shadcn CLI installs each dependency recursively).
+ *
  * Config drives: title, description, dependencies, registryDependencies,
  * css, cssVars, categories.
  */
@@ -325,6 +328,29 @@ async function main() {
       }
 
       const dirs = allDirs.get(config.name)
+      if (!dirs && (config.categories ?? []).includes("meta")) {
+        const deps = config.registryDependencies ?? []
+        if (deps.length === 0) {
+          throw new Error(`Meta item "${config.name}" must define registryDependencies`)
+        }
+        const metaItem = {
+          $schema: "https://ui.shadcn.com/schema/registry-item.json",
+          name: config.name,
+          type: "registry:ui" as const,
+          title: config.title,
+          description: getDescription(config, base),
+          dependencies: getDependencies(config, base),
+          registryDependencies: deps,
+          files: [] as Array<{ path: string; content: string; type: "registry:ui" }>,
+          categories: config.categories ?? [],
+        }
+        writeFileSync(resolve(outDir, `${config.name}.json`), JSON.stringify(metaItem, null, 2))
+        console.log(
+          `  ${chalk.green("➜")}  ${chalk.bold("Built:")}   ${chalk.cyan(`${style}/${config.name}.json`)} (meta)`,
+        )
+        continue
+      }
+
       if (!dirs) {
         console.warn(`  ${chalk.yellow("⚠")}  No directory found for "${config.name}", skipping`)
         continue
