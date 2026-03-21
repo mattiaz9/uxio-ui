@@ -24,9 +24,7 @@ export default function AlertDialogDefault() {
   return (
     <div className="flex flex-wrap items-center justify-center gap-2">
       <AlertDialog>
-        <AlertDialogTrigger asChild>
-          <Button variant="default">Default</Button>
-        </AlertDialogTrigger>
+        <AlertDialogTrigger render={<Button variant="default" />}>Default</AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogMedia className="bg-primary/10 text-primary">
@@ -46,9 +44,7 @@ export default function AlertDialogDefault() {
       </AlertDialog>
 
       <AlertDialog>
-        <AlertDialogTrigger asChild>
-          <Button variant="success">Success</Button>
-        </AlertDialogTrigger>
+        <AlertDialogTrigger render={<Button variant="success" />}>Success</AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogMedia className="bg-success/10 text-success">
@@ -67,9 +63,7 @@ export default function AlertDialogDefault() {
       </AlertDialog>
 
       <AlertDialog>
-        <AlertDialogTrigger asChild>
-          <Button variant="info">Info</Button>
-        </AlertDialogTrigger>
+        <AlertDialogTrigger render={<Button variant="info" />}>Info</AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogMedia className="bg-info/10 text-info">
@@ -88,9 +82,7 @@ export default function AlertDialogDefault() {
       </AlertDialog>
 
       <AlertDialog>
-        <AlertDialogTrigger asChild>
-          <Button variant="warning">Warning</Button>
-        </AlertDialogTrigger>
+        <AlertDialogTrigger render={<Button variant="warning" />}>Warning</AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogMedia className="bg-warning/10 text-warning">
@@ -109,8 +101,8 @@ export default function AlertDialogDefault() {
       </AlertDialog>
 
       <AlertDialog>
-        <AlertDialogTrigger asChild>
-          <Button variant="destructive">Destructive</Button>
+        <AlertDialogTrigger render={<Button variant="destructive" />}>
+          Destructive
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>

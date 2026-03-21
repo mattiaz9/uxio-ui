@@ -99,8 +99,15 @@ ${colorConfig
 
 const ChartTooltip = RechartsPrimitive.Tooltip
 
+type TooltipInjectedProps = keyof Pick<
+  RechartsPrimitive.TooltipContentProps,
+  "active" | "payload" | "coordinate" | "accessibilityLayer" | "activeIndex"
+>
+
 interface CustomTooltipProps
-  extends RechartsPrimitive.TooltipContentProps, Omit<React.ComponentProps<"div">, "content"> {
+  extends Omit<RechartsPrimitive.TooltipContentProps, TooltipInjectedProps>,
+    Partial<Pick<RechartsPrimitive.TooltipContentProps, TooltipInjectedProps>>,
+    Omit<React.ComponentProps<"div">, "content"> {
   hideLabel?: boolean
   hideIndicator?: boolean
   indicator?: "line" | "dot" | "dashed"

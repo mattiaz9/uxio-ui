@@ -13,9 +13,7 @@ import {
 export default function SheetDefault() {
   return (
     <Sheet>
-      <SheetTrigger asChild>
-        <Button variant="outline">Open Sheet</Button>
-      </SheetTrigger>
+      <SheetTrigger render={<Button variant="outline" />}>Open Sheet</SheetTrigger>
       <SheetContent>
         <SheetHeader>
           <SheetTitle>Edit profile</SheetTitle>

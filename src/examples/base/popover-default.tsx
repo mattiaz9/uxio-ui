@@ -11,9 +11,7 @@ import {
 export default function PopoverDefault() {
   return (
     <Popover>
-      <PopoverTrigger asChild>
-        <Button variant="outline">Open Popover</Button>
-      </PopoverTrigger>
+      <PopoverTrigger render={<Button variant="outline" />}>Open Popover</PopoverTrigger>
       <PopoverContent>
         <PopoverHeader>
           <PopoverTitle>Dimensions</PopoverTitle>
