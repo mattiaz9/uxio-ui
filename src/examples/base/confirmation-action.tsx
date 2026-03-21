@@ -19,8 +19,10 @@ export default function ConfirmationAction() {
   }
 
   return (
-    <Button variant="destructive" onClick={handleClick}>
-      Delete post
-    </Button>
+    <div className="flex justify-center">
+      <Button variant="destructive" onClick={handleClick}>
+        Destructive (async)
+      </Button>
+    </div>
   )
 }

@@ -279,13 +279,7 @@
         "lucide-react",
         "tailwind-merge"
       ],
-      "radix": [
-        "radix-ui",
-        "class-variance-authority",
-        "clsx",
-        "lucide-react",
-        "tailwind-merge"
-      ]
+      "radix": ["radix-ui", "class-variance-authority", "clsx", "lucide-react", "tailwind-merge"]
     },
     "registryDependencies": ["button", "input", "sheet", "skeleton", "tooltip"]
   },
@@ -412,7 +406,19 @@
       "base": ["@base-ui/react/alert-dialog", "class-variance-authority", "clsx", "tailwind-merge"],
       "radix": ["radix-ui", "class-variance-authority", "clsx", "tailwind-merge"]
     },
-    "registryDependencies": ["alert-dialog", "spinner"]
+    "registryDependencies": ["alert-dialog", "spinner", "@uxio/semantic-colors"]
+  },
+  {
+    "name": "alerter",
+    "type": "registry:ui",
+    "title": "Alerter",
+    "description": "Imperative notice dialog (single OK action), styled like a browser alert.",
+    "categories": ["layers"],
+    "dependencies": {
+      "base": ["@base-ui/react/alert-dialog", "class-variance-authority", "clsx", "tailwind-merge"],
+      "radix": ["radix-ui", "class-variance-authority", "clsx", "tailwind-merge"]
+    },
+    "registryDependencies": ["alert-dialog", "@uxio/semantic-colors"]
   },
   {
     "name": "vercel-sidebar",

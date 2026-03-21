@@ -1,0 +1,68 @@
+---
+title: Alerter
+---
+
+## Overview
+
+Imperative notice dialog with a single OK action—an in-app alternative to `window.alert()`.
+Use `alert()` to show a title, optional description (HTML), button variant, and OK label.
+There is no cancel button, loading state, or return value.
+
+## Install
+
+Configure your registry in `components.json`:
+
+```json
+{
+  "registries": {
+    "@uxio": "https://ui.uxio.dev/r/styles/{style}/{name}.json"
+  }
+}
+```
+
+Then run:
+
+```bash
+npx shadcn@latest add @uxio/alerter
+```
+
+The correct variant (base or radix) is resolved automatically from your `components.json` style.
+
+## Usage
+
+Place `<Alerter />` once in your **root layout** (e.g. Next.js `app/layout.tsx`, TanStack Start
+root, or the top-level route that wraps the whole app). It must stay mounted so `alert()` can open
+the dialog from anywhere.
+
+```tsx
+// app/layout.tsx (or equivalent root layout)
+import { Alerter } from "@/components/ui/alerter"
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        {children}
+        <Alerter />
+      </body>
+    </html>
+  )
+}
+```
+
+Then call `alert()` from any component. Use `window.alert()` if you need the native dialog.
+
+```tsx
+alert({
+  title: "Saved",
+  description: "Your changes were stored successfully.",
+  variant: "default",
+  okButtonTitle: "Got it",
+})
+```
+
+## Examples
+
+<DocsAlerterRadix />
+
+<ComponentPreview name="radix/alerter-demo" />

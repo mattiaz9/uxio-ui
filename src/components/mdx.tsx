@@ -2,6 +2,10 @@ import defaultMdxComponents from "fumadocs-ui/mdx"
 
 import { ComponentPreview } from "@/components/docs/component-preview"
 import {
+  DocsAlerterBase,
+  DocsAlerterRadix,
+} from "@/components/docs/docs-alerter"
+import {
   DocsConfirmerBase,
   DocsConfirmerRadix,
 } from "@/components/docs/docs-confirmation-confirmer"
@@ -12,6 +16,8 @@ export function getMDXComponents(components?: MDXComponents) {
   return {
     ...defaultMdxComponents,
     ComponentPreview,
+    DocsAlerterBase,
+    DocsAlerterRadix,
     DocsConfirmerBase,
     DocsConfirmerRadix,
     ...components,

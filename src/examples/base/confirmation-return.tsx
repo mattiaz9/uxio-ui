@@ -8,29 +8,34 @@ import { Button } from "./ui/button"
 export default function ConfirmationReturn() {
   const [result, setResult] = useState<string | null>(null)
 
-  async function handleClick() {
+  async function runConfirm(label: string, variant: "default" | "success" | "info" | "warning") {
     const confirmed = await confirm({
-      title: "Close document",
-      description: "All changes will not be saved",
-      variant: "default",
+      title: `${label} dialog`,
+      description: "Choose OK to confirm or Cancel to dismiss.",
+      variant,
       confirmButtonTitle: "OK",
     })
 
-    if (confirmed) {
-      setResult("Confirmed!")
-    } else {
-      setResult("Cancelled")
-    }
+    setResult(confirmed ? `${label}: confirmed` : `${label}: cancelled`)
   }
 
   return (
     <div className="flex flex-col gap-4">
-      <Button variant="outline" onClick={handleClick}>
-        Close document
-      </Button>
-      {result && (
-        <p className="text-sm text-muted-foreground">Result: {result}</p>
-      )}
+      <div className="flex flex-wrap justify-center gap-2">
+        <Button variant="default" onClick={() => void runConfirm("Default", "default")}>
+          Default
+        </Button>
+        <Button variant="success" onClick={() => void runConfirm("Success", "success")}>
+          Success
+        </Button>
+        <Button variant="info" onClick={() => void runConfirm("Info", "info")}>
+          Info
+        </Button>
+        <Button variant="warning" onClick={() => void runConfirm("Warning", "warning")}>
+          Warning
+        </Button>
+      </div>
+      {result && <p className="text-center text-sm text-muted-foreground">Result: {result}</p>}
     </div>
   )
 }
