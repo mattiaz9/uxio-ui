@@ -1,23 +1,233 @@
 import { createFileRoute, Link } from "@tanstack/react-router"
 
-import { ArrowRightIcon, TerminalIcon, PaletteIcon, LayersIcon } from "lucide-react"
+import {
+  ArrowRightIcon,
+  LayoutTemplateIcon,
+  LayersIcon,
+  PaletteIcon,
+  PuzzleIcon,
+  TerminalIcon,
+} from "lucide-react"
 import { Logo } from "@/components/assets/logo"
 
 import { ThemeToggle } from "@/components/theme-toggle"
-import { Button, buttonVariants } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+
+import type { ReactNode } from "react"
 
 export const Route = createFileRoute("/")({
   component: Home,
 })
 
-const components = [
+type RegistryCategory = "Overrides" | "Layout" | "Layers"
+
+type RegistryComponentItem = {
+  title: string
+  description: string
+  category: RegistryCategory
+  /** Path under `/docs/` (TanStack `_splat`, no leading slash). */
+  docsSplat: string
+}
+
+/** Mirrors `registry/uxio/registry.config.json` UI items plus registry-only pieces that have docs (input-group, textarea). Sidebar links to the bundle overview. */
+const registryComponents: RegistryComponentItem[] = [
+  // Overrides
   {
-    name: "Button",
-    description:
-      "A drop-in replacement for the shadcn Button with additional sizes, refined styling, and support for both Base UI and Radix primitives.",
+    title: "Alert Dialog",
+    description: "Alert dialog with content background using bg-popover instead of bg-background.",
     category: "Overrides",
-    docsPath: "/docs/overrides/base/button",
+    docsSplat: "overrides/base/alert-dialog",
+  },
+  {
+    title: "Alert",
+    description: "Extended alert component with semantic color variants (info, success, warning).",
+    category: "Overrides",
+    docsSplat: "overrides/base/alert",
+  },
+  {
+    title: "Badge",
+    description: "Extended badge component with semantic color variants (info, success, warning).",
+    category: "Overrides",
+    docsSplat: "overrides/base/badge",
+  },
+  {
+    title: "Button",
+    description: "Extended button component with extra variants and loading state support.",
+    category: "Overrides",
+    docsSplat: "overrides/base/button",
+  },
+  {
+    title: "Card",
+    description: "Extended card component with default and destructive variants.",
+    category: "Overrides",
+    docsSplat: "overrides/base/card",
+  },
+  {
+    title: "Chart",
+    description: "Same code as the original, but with some fixes for stricter linting rules.",
+    category: "Overrides",
+    docsSplat: "overrides/base/chart",
+  },
+  {
+    title: "Combobox",
+    description:
+      "Combobox built from Popover, Command, and Button. Same logic as Select with search.",
+    category: "Overrides",
+    docsSplat: "overrides/base/combobox",
+  },
+  {
+    title: "Command",
+    description:
+      "Command palette component. Same as the original shadcn command with lucide-react icons.",
+    category: "Overrides",
+    docsSplat: "overrides/base/command",
+  },
+  {
+    title: "Dialog",
+    description: "Dialog with content background using bg-popover instead of bg-background.",
+    category: "Overrides",
+    docsSplat: "overrides/base/dialog",
+  },
+  {
+    title: "Drawer",
+    description: "Drawer with content background using bg-popover instead of bg-background.",
+    category: "Overrides",
+    docsSplat: "overrides/base/drawer",
+  },
+  {
+    title: "Form (Tanstack)",
+    description:
+      "Form element with TanStack Form context: prevents default submit, calls `form.handleSubmit()`, and exposes `useFormContext` for nested components.",
+    category: "Overrides",
+    docsSplat: "overrides/base/form",
+  },
+  {
+    title: "Input Group",
+    description:
+      "Grouped input primitives with addons and aligned controls (used by Command and Combobox).",
+    category: "Overrides",
+    docsSplat: "overrides/base/input-group",
+  },
+  {
+    title: "Input",
+    description:
+      "Extended input component with size variants (xs, sm, default, lg) matching button dimensions.",
+    category: "Overrides",
+    docsSplat: "overrides/base/input",
+  },
+  {
+    title: "Item",
+    description:
+      "Item list primitives with ItemGroup layout variants: default spacing or grouped stacked items.",
+    category: "Overrides",
+    docsSplat: "overrides/base/item",
+  },
+  {
+    title: "Popover",
+    description: "Popover with content background using bg-popover instead of bg-background.",
+    category: "Overrides",
+    docsSplat: "overrides/base/popover",
+  },
+  {
+    title: "Scroll Area",
+    description:
+      "Scroll area with a scrollbar prop to show vertical, horizontal, or both scrollbars.",
+    category: "Overrides",
+    docsSplat: "overrides/base/scroll-area",
+  },
+  {
+    title: "Sheet",
+    description: "Sheet with content background using bg-popover instead of bg-background.",
+    category: "Overrides",
+    docsSplat: "overrides/base/sheet",
+  },
+  {
+    title: "Sidebar",
+    description:
+      "Collapsible sidebar with mobile sheet, keyboard shortcut, and menu primitives (see bundle overview).",
+    category: "Overrides",
+    docsSplat: "bundle",
+  },
+  {
+    title: "Skeleton",
+    description: "Skeleton with a shimmer loading animation instead of pulse.",
+    category: "Overrides",
+    docsSplat: "overrides/base/skeleton",
+  },
+  {
+    title: "Spinner",
+    description: "Tick-based spinner. A redesign of the original shadcn spinner.",
+    category: "Overrides",
+    docsSplat: "overrides/base/spinner",
+  },
+  {
+    title: "Textarea",
+    description: "Same as the original shadcn textarea component.",
+    category: "Overrides",
+    docsSplat: "overrides/base/textarea",
+  },
+  {
+    title: "Tooltip",
+    description:
+      "Tooltip primitives plus AutoTooltip, which shows the tooltip only when the trigger content is truncated (unless mode is always).",
+    category: "Overrides",
+    docsSplat: "overrides/base/tooltip",
+  },
+  // Layout
+  {
+    title: "Split Content",
+    description:
+      "Two-column layout on a 6+2 gutter grid: columns align to the container or screen edge, with responsive stacking.",
+    category: "Layout",
+    docsSplat: "layout/base/split-content",
+  },
+  {
+    title: "Vercel Sidebar",
+    description:
+      "Sidebar with drill-down panels: root nav swaps to sub-links with back + title; header/footer stay fixed.",
+    category: "Layout",
+    docsSplat: "layout/base/vercel-sidebar",
+  },
+  // Layers
+  {
+    title: "Alerter",
+    description: "Imperative notice dialog (single OK action), styled like a browser alert.",
+    category: "Layers",
+    docsSplat: "layers/base/alerter",
+  },
+  {
+    title: "Confirmer",
+    description:
+      "Imperative confirmation dialog with async action support, loading state, and inline error display.",
+    category: "Layers",
+    docsSplat: "layers/base/confirmer",
+  },
+]
+
+const COMPONENT_SECTIONS: {
+  category: RegistryCategory
+  label: string
+  blurb: string
+  icon: ReactNode
+}[] = [
+  {
+    category: "Overrides",
+    label: "Overrides",
+    blurb: "Enhanced shadcn primitives and composed controls — same APIs, refined defaults.",
+    icon: <PuzzleIcon className="size-5" />,
+  },
+  {
+    category: "Layout",
+    label: "Layout",
+    blurb: "Page structure and navigation patterns built on registry primitives.",
+    icon: <LayoutTemplateIcon className="size-5" />,
+  },
+  {
+    category: "Layers",
+    label: "Layers",
+    blurb: "Imperative dialogs for confirm/alert flows on top of alert-dialog.",
+    icon: <LayersIcon className="size-5" />,
   },
 ]
 
@@ -30,7 +240,7 @@ function Home() {
       <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-lg">
         <div className="container flex h-14 items-center justify-between">
           <Link to="/" className="text-sm font-bold tracking-tight">
-            <Logo className="h-4" />
+            <Logo className="h-3.5" />
           </Link>
           <div className="flex items-center gap-1">
             <Link
@@ -41,7 +251,7 @@ function Home() {
               Docs
             </Link>
             <a
-              href="https://github.com/uxio-dev/uxio-ui"
+              href="https://github.com/mattiaz9/uxio-ui"
               target="_blank"
               rel="noreferrer"
               className="rounded-lg px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
@@ -61,7 +271,7 @@ function Home() {
             Built on top of shadcn/ui
           </p>
           <h1 className="max-w-2xl font-display text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
-            Refined components for modern interfaces
+            Refined shadcn/ui components for your next project
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
             An open-source component registry with some shadcn/ui extended components + some custom
@@ -128,9 +338,9 @@ function Home() {
         </div>
       </section>
 
-      {/* Component showcase */}
-      <section className="container py-20 lg:py-28">
-        <div className="mx-auto max-w-3xl">
+      {/* Components */}
+      <section className="border-b border-border">
+        <div className="container py-20 lg:py-28">
           <h2 className="text-center font-display text-2xl font-bold tracking-tight sm:text-3xl">
             Components
           </h2>
@@ -139,66 +349,60 @@ function Home() {
             runtime dependency, full ownership.
           </p>
 
-          <div className="mt-14 space-y-10">
-            {components.map((component) => (
-              <div key={component.name} className="rounded-xl border border-border">
-                <div className="flex items-center justify-between border-b border-border px-6 py-4">
-                  <div className="flex items-center gap-3">
-                    <span className="rounded-md bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground">
-                      {component.category}
-                    </span>
-                    <h3 className="font-semibold">{component.name}</h3>
+          {COMPONENT_SECTIONS.map((section, sectionIndex) => {
+            const items = registryComponents.filter((c) => c.category === section.category)
+            const n = items.length
+            return (
+              <div
+                key={section.category}
+                className={cn(sectionIndex === 0 ? "mt-14" : "mt-16 lg:mt-20")}
+              >
+                <div className="mx-auto mb-6 flex max-w-3xl flex-col gap-3 sm:flex-row sm:items-start sm:gap-4">
+                  <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-muted text-foreground">
+                    {section.icon}
                   </div>
-                  <Link
-                    to="/docs/$"
-                    params={{ _splat: component.docsPath.replace("/docs/", "") }}
-                    className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
-                  >
-                    Docs
-                    <ArrowRightIcon className="size-3.5" />
-                  </Link>
+                  <div>
+                    <h3 className="text-sm font-semibold">{section.label}</h3>
+                    <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                      {section.blurb}
+                    </p>
+                  </div>
                 </div>
 
-                <div className="space-y-8 p-6">
-                  <p className="text-sm leading-relaxed text-muted-foreground">
-                    {component.description}
-                  </p>
-
-                  {component.name === "Button" && (
-                    <>
-                      {/* Variants */}
-                      <div className="space-y-3">
-                        <p className="text-xs font-medium tracking-wider text-muted-foreground/70 uppercase">
-                          Variants
+                <div className="grid gap-0 overflow-hidden rounded-xl border border-border bg-transparent sm:grid-cols-2 lg:grid-cols-3">
+                  {items.map((c, i) => {
+                    const isLastRowSm = Math.floor(i / 2) === Math.floor((n - 1) / 2)
+                    const isLastRowLg = Math.floor(i / 3) === Math.floor((n - 1) / 3)
+                    return (
+                      <Link
+                        key={c.docsSplat + c.title}
+                        to="/docs/$"
+                        params={{ _splat: c.docsSplat }}
+                        className={cn(
+                          "group flex flex-col gap-3 border-b border-border bg-transparent p-6 sm:p-8",
+                          "max-sm:last:border-b-0",
+                          isLastRowSm && "sm:border-b-0",
+                          !isLastRowLg && "lg:border-b",
+                          isLastRowLg && "lg:border-b-0",
+                          (i + 1) % 2 !== 0 && "sm:border-r",
+                          (i + 1) % 3 !== 0 && "lg:border-r",
+                        )}
+                      >
+                        <h4 className="text-sm font-semibold">{c.title}</h4>
+                        <p className="text-sm leading-relaxed text-muted-foreground">
+                          {c.description}
                         </p>
-                        <div className="flex flex-wrap gap-2">
-                          <Button>Default</Button>
-                          <Button variant="outline">Outline</Button>
-                          <Button variant="secondary">Secondary</Button>
-                          <Button variant="ghost">Ghost</Button>
-                          <Button variant="destructive">Destructive</Button>
-                          <Button variant="link">Link</Button>
-                        </div>
-                      </div>
-
-                      {/* Sizes */}
-                      <div className="space-y-3">
-                        <p className="text-xs font-medium tracking-wider text-muted-foreground/70 uppercase">
-                          Sizes
-                        </p>
-                        <div className="flex flex-wrap items-center gap-2">
-                          <Button size="xs">Extra small</Button>
-                          <Button size="sm">Small</Button>
-                          <Button size="default">Default</Button>
-                          <Button size="lg">Large</Button>
-                        </div>
-                      </div>
-                    </>
-                  )}
+                        <span className="mt-auto inline-flex items-center gap-1 pt-1 text-xs font-medium text-primary group-hover:underline">
+                          Docs
+                          <ArrowRightIcon className="size-3.5" />
+                        </span>
+                      </Link>
+                    )
+                  })}
                 </div>
               </div>
-            ))}
-          </div>
+            )
+          })}
         </div>
       </section>
 
