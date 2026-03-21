@@ -10,6 +10,7 @@
     "[Combobox](/docs/overrides/radix/combobox)",
     "[Dialog](/docs/overrides/radix/dialog)",
     "[Drawer](/docs/overrides/radix/drawer)",
+    "[Form (Tanstack)](/docs/overrides/radix/form)",
     "[Input](/docs/overrides/radix/input)",
     "[Item](/docs/overrides/radix/item)",
     "[Popover](/docs/overrides/radix/popover)",

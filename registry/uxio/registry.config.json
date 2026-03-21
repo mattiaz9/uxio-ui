@@ -254,6 +254,17 @@
     "registryDependencies": ["button"]
   },
   {
+    "name": "form",
+    "type": "registry:ui",
+    "title": "Form (Tanstack)",
+    "description": "Form element with TanStack Form context: prevents default submit, calls `form.handleSubmit()`, and exposes `useFormContext` for nested components.",
+    "categories": ["overrides"],
+    "dependencies": {
+      "base": ["@tanstack/react-form", "clsx", "tailwind-merge", "zod"],
+      "radix": ["@tanstack/react-form", "clsx", "tailwind-merge", "zod"]
+    }
+  },
+  {
     "name": "sidebar",
     "type": "registry:ui",
     "title": "Sidebar",

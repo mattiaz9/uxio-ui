@@ -22,6 +22,7 @@
     "@phosphor-icons/react": "^2.1.10",
     "@remixicon/react": "^4.9.0",
     "@tabler/icons-react": "^3.40.0",
+    "@tanstack/react-form": "^1.28.5",
     "@tanstack/react-router": "1.167.4",
     "@tanstack/react-router-devtools": "1.166.9",
     "@tanstack/react-start": "1.166.16",

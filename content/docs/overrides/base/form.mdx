@@ -1,0 +1,98 @@
+---
+title: Form (Tanstack)
+---
+
+## Extended Features
+
+- **`Form`** wraps TanStack’s `useForm` instance in a native `<form>`: it applies default layout
+  classes (`flex flex-col gap-6`), prevents the browser’s default submit, and calls
+  `form.handleSubmit()` so your validators and `onSubmit` run through TanStack Form.
+- **`useFormContext`** exposes the same form API from React context inside the tree (similar to
+  react-hook-form’s pattern). Use a Zod schema type parameter so the returned API is typed with
+  `z.infer` for your fields.
+
+## Install
+
+Configure your registry in `components.json`:
+
+```json
+{
+  "registries": {
+    "@uxio": "https://ui.uxio.dev/r/styles/{style}/{name}.json"
+  }
+}
+```
+
+Then run:
+
+```bash
+npx shadcn@latest add @uxio/form
+```
+
+This installs **`@tanstack/react-form`**, **Zod**, and the usual **`clsx` / `tailwind-merge`**
+helpers. The published file is `components/ui/form.tsx`; pair it with `useForm` from
+`@tanstack/react-form` in your feature code.
+
+## Usage
+
+```tsx
+import { useForm } from "@tanstack/react-form"
+import { z } from "zod"
+
+import { Form } from "@/components/ui/form"
+
+const loginSchema = z.object({
+  email: z.string(),
+  password: z.string(),
+})
+
+export function LoginForm() {
+  const form = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+    } as z.infer<typeof loginSchema>,
+    validators: {
+      onSubmit: loginSchema,
+    },
+    onSubmit: async ({ value }) => {
+      // login
+    },
+  })
+
+  return (
+    <Form form={form}>
+      <form.Field
+        name="email"
+        children={(field) => {
+          //
+        }}
+      />
+    </Form>
+  )
+}
+```
+
+```tsx
+import { useStore } from "@tanstack/react-form"
+import { z } from "zod"
+
+import { Button } from "@/components/ui/button"
+import { useFormContext } from "@/components/ui/form"
+
+const loginSchema = z.object({
+  email: z.string(),
+  password: z.string(),
+})
+
+function FormSubmit() {
+  const form = useFormContext<typeof loginSchema>()
+  const isSubmitting = useStore(form.store, (state) => state.isSubmitting)
+
+  return (
+    <Button loading={isSubmitting} type="submit">
+      Login
+    </Button>
+  )
+}
+```
