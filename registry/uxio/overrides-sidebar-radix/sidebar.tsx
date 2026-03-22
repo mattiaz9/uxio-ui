@@ -4,11 +4,11 @@ import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 import { Slot } from "radix-ui"
 
-import { Separator } from "./separator"
-import { useIsMobile } from "./use-mobile"
 import { cn } from "@/lib/utils"
+import { useIsMobile } from "@/registry/lib/hooks/use-mobile"
 import { Button } from "@/registry/uxio/overrides-button-radix/button"
 import { Input } from "@/registry/uxio/overrides-input-radix/input"
+import { Separator } from "@/registry/uxio/overrides-separator-radix/separator"
 import {
   Sheet,
   SheetContent,

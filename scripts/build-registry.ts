@@ -231,8 +231,10 @@ async function buildItem(
     const depDirName = depDirs[base] ?? depDirs.shared
     if (!depDirName) continue
     const depPath = resolve(REGISTRY_COMPONENTS, depDirName)
-    for (const { filename, content } of readComponentFiles(depPath)) {
+    for (const { filename, content: raw } of readComponentFiles(depPath)) {
       if (files.some((f) => f.path === `components/ui/${filename}`)) continue
+      let content = await transformStyle(raw, { styleMap })
+      content = rewriteRegistryImports(content, "consumer")
       files.push({ path: `components/ui/${filename}`, content, type: "registry:ui" })
     }
   }
@@ -312,18 +314,14 @@ async function main() {
 
     for (const config of configs) {
       const itemType = config.type ?? "registry:ui"
+      const deps = config.registryDependencies ?? []
 
       if (itemType === "registry:style") {
         const styleItem = {
-          $schema: "https://ui.shadcn.com/schema/registry-item.json",
-          name: config.name,
-          type: "registry:style" as const,
-          title: config.title,
-          description:
-            typeof config.description === "string" ? config.description : config.description.base,
-          categories: config.categories ?? [],
-          ...(config.cssVars && { cssVars: config.cssVars }),
-          ...(config.css && { css: config.css }),
+          ...config,
+          description: getDescription(config, base),
+          dependencies: getDependencies(config, base),
+          registryDependencies: deps,
         }
         writeFileSync(resolve(outDir, `${config.name}.json`), JSON.stringify(styleItem, null, 2))
         console.log(
@@ -334,20 +332,14 @@ async function main() {
 
       const dirs = allDirs.get(config.name)
       if (!dirs && (config.categories ?? []).includes("meta")) {
-        const deps = config.registryDependencies ?? []
         if (deps.length === 0) {
           throw new Error(`Meta item "${config.name}" must define registryDependencies`)
         }
         const metaItem = {
-          $schema: "https://ui.shadcn.com/schema/registry-item.json",
-          name: config.name,
-          type: "registry:ui" as const,
-          title: config.title,
+          ...config,
           description: getDescription(config, base),
           dependencies: getDependencies(config, base),
           registryDependencies: deps,
-          files: [] as Array<{ path: string; content: string; type: "registry:ui" }>,
-          categories: config.categories ?? [],
         }
         writeFileSync(resolve(outDir, `${config.name}.json`), JSON.stringify(metaItem, null, 2))
         console.log(
