@@ -118,6 +118,11 @@ function getBaseForStyle(style: string): "base" | "radix" {
   return style.startsWith("base-") ? "base" : "radix"
 }
 
+/** `@uxio/name` in config maps to the same keys as bare `name` for component dirs. */
+function stripRegistryScope(dep: string): string {
+  return dep.startsWith("@uxio/") ? dep.slice("@uxio/".length) : dep
+}
+
 function getStyleName(style: string): string {
   return style.replace(/^(base|radix)-/, "")
 }
@@ -221,7 +226,7 @@ async function buildItem(
   }
 
   for (const depName of config.registryDependencies ?? []) {
-    const depDirs = allDirs.get(depName)
+    const depDirs = allDirs.get(stripRegistryScope(depName))
     if (!depDirs) continue
     const depDirName = depDirs[base] ?? depDirs.shared
     if (!depDirName) continue

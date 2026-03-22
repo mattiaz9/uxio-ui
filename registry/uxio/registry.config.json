@@ -331,8 +331,8 @@
     "description": "Same code as the original, but with some fixes for stricter linting rules",
     "categories": ["overrides"],
     "dependencies": {
-      "base": ["recharts@2.15.4"],
-      "radix": ["recharts@2.15.4"]
+      "base": ["recharts@3.8.0"],
+      "radix": ["recharts@3.8.0"]
     },
     "registryDependencies": ["card"]
   },
@@ -473,26 +473,26 @@
     "description": "Every override component in the registry (forms, overlays, inputs, sidebar, charts, and primitives they depend on).",
     "categories": ["meta"],
     "registryDependencies": [
-      "spinner",
-      "skeleton",
-      "alert",
-      "badge",
-      "button",
-      "dialog",
-      "sheet",
-      "drawer",
-      "form",
-      "sidebar",
-      "input",
-      "item",
-      "command",
-      "chart",
-      "card",
-      "alert-dialog",
-      "popover",
-      "scroll-area",
-      "combobox",
-      "tooltip"
+      "@uxio/spinner",
+      "@uxio/skeleton",
+      "@uxio/alert",
+      "@uxio/badge",
+      "@uxio/button",
+      "@uxio/dialog",
+      "@uxio/sheet",
+      "@uxio/drawer",
+      "@uxio/form",
+      "@uxio/sidebar",
+      "@uxio/input",
+      "@uxio/item",
+      "@uxio/command",
+      "@uxio/chart",
+      "@uxio/card",
+      "@uxio/alert-dialog",
+      "@uxio/popover",
+      "@uxio/scroll-area",
+      "@uxio/combobox",
+      "@uxio/tooltip"
     ]
   },
   {
@@ -500,14 +500,14 @@
     "title": "Layout",
     "description": "Split Content and Vercel Sidebar; transitive deps (e.g. sidebar, command, popover) install automatically.",
     "categories": ["meta"],
-    "registryDependencies": ["split-content", "vercel-sidebar"]
+    "registryDependencies": ["@uxio/split-content", "@uxio/vercel-sidebar"]
   },
   {
     "name": "layers",
     "title": "Layers",
     "description": "Confirmer and Alerter; pulls alert-dialog, spinner, and semantic colors as needed.",
     "categories": ["meta"],
-    "registryDependencies": ["confirmer", "alerter"]
+    "registryDependencies": ["@uxio/confirmer", "@uxio/alerter"]
   },
   {
     "name": "full",
