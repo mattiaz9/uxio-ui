@@ -144,6 +144,7 @@ function ComboboxValue({
 }
 
 function ComboboxContent({
+  className,
   search = true,
   children,
   ...props
@@ -159,10 +160,11 @@ function ComboboxContent({
           <CommandList>{children}</CommandList>
         </Command>
       </div>
-      <PopoverContent className="min-w-(--anchor-width) p-0">
-        <Command {...props}>
+      <PopoverContent className="w-auto min-w-(--anchor-width) p-0">
+        <Command {...props} className={cn("w-auto", className)}>
           {canSearch ? (
             <CommandInput
+              className="w-0 grow"
               placeholder={typeof search === "object" ? search.placeholder : undefined}
             />
           ) : (
