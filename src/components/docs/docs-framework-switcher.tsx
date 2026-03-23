@@ -1,7 +1,8 @@
 "use client"
 
-import { Link, useRouterState } from "@tanstack/react-router"
+import { Link } from "@tanstack/react-router"
 
+import { setDocsFramework } from "@/lib/docs-framework-client"
 import { cn } from "@/lib/utils"
 
 const FRAMEWORKS = [
@@ -20,8 +21,6 @@ export function DocsFrameworkSwitcher({
   component: string
   className?: string
 }) {
-  const routerState = useRouterState()
-  const pathname = routerState.location.pathname
   const sectionPath = section ?? "overrides"
 
   return (
@@ -32,13 +31,15 @@ export function DocsFrameworkSwitcher({
       )}
     >
       {FRAMEWORKS.map((fw) => {
-        const href = `/docs/${sectionPath}/${fw.name}/${component}`
-        const isActive = pathname === href || pathname.startsWith(href + "/")
+        const splat = `${sectionPath}/${fw.name}/${component}`
+        const isActive = fw.name === framework
 
         return (
           <Link
             key={fw.name}
-            to={href}
+            to="/docs/$"
+            params={{ _splat: splat }}
+            onClick={() => setDocsFramework(fw.name)}
             className={cn(
               "rounded-md px-3 py-1 text-sm transition-colors",
               isActive ? "bg-background text-foreground shadow-sm" : "hover:text-foreground",

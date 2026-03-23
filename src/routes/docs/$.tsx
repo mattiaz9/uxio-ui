@@ -3,9 +3,9 @@ import { createFileRoute, notFound } from "@tanstack/react-router"
 import { createServerFn } from "@tanstack/react-start"
 import browserCollections from "collections/browser"
 import { useFumadocsLoader } from "fumadocs-core/source/client"
-import { DocsLayout } from "fumadocs-ui/layouts/docs"
 import { DocsBody, DocsDescription, DocsPage, DocsTitle } from "fumadocs-ui/layouts/docs/page"
 
+import { DocsFrameworkDocsLayout } from "@/components/docs/docs-framework-docs-layout"
 import { DocsFrameworkSwitcher } from "@/components/docs/docs-framework-switcher"
 import { useMDXComponents } from "@/components/mdx"
 import { baseOptions } from "@/lib/layout.shared"
@@ -72,9 +72,9 @@ function Page() {
 
   return (
     <div className="docs-content **:data-sidebar-placeholder:pt-16">
-      <DocsLayout {...baseOptions()} tree={data.pageTree}>
+      <DocsFrameworkDocsLayout {...baseOptions()} tree={data.pageTree}>
         <Suspense>{clientLoader.useContent(data.path)}</Suspense>
-      </DocsLayout>
+      </DocsFrameworkDocsLayout>
     </div>
   )
 }
