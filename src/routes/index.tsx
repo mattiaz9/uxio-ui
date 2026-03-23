@@ -59,7 +59,7 @@ const registryComponents: RegistryComponentItem[] = [
   },
   {
     title: "Card",
-    description: "Extended card component with default and destructive variants.",
+    description: "Card component with destructive variant.",
     category: "Overrides",
     docsSplat: "overrides/base/card",
   },

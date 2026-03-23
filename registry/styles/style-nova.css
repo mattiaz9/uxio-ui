@@ -298,7 +298,7 @@
   }
 
   .cn-card-footer {
-    @apply rounded-b-xl border-t bg-muted/50 p-4 group-data-[size=sm]/card:p-3;
+    @apply rounded-b-xl border-t bg-muted/50 p-4 group-data-[size=sm]/card:p-3 group-data-[variant=destructive]/card:bg-destructive/5 group-data-[variant=destructive]/card:[.border-t]:border-destructive/30;
   }
 
   .cn-card-variant-destructive {

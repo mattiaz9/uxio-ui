@@ -286,7 +286,7 @@
   }
 
   .cn-card-footer {
-    @apply rounded-none border-t p-4 group-data-[size=sm]/card:p-3;
+    @apply rounded-none border-t p-4 group-data-[size=sm]/card:p-3 group-data-[variant=destructive]/card:border-destructive/30;
   }
 
   .cn-card-variant-destructive {

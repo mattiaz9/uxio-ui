@@ -346,7 +346,7 @@
     "name": "card",
     "type": "registry:ui",
     "title": "Card",
-    "description": "Extended card component with default and destructive variants.",
+    "description": "Card component with destructive variant.",
     "categories": ["overrides"],
     "dependencies": {
       "base": ["class-variance-authority", "clsx", "tailwind-merge"],
