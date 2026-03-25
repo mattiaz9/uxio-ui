@@ -79,7 +79,7 @@ export default function ChartDemo() {
               tickMargin={8}
               minTickGap={32}
               tickFormatter={(value) => {
-                const date = new Date(value)
+                const date = new Date(value as string)
                 return date.toLocaleDateString("en-US", {
                   month: "short",
                   day: "numeric",
@@ -92,7 +92,7 @@ export default function ChartDemo() {
                   className="w-[150px]"
                   nameKey="views"
                   labelFormatter={(value) =>
-                    new Date(value).toLocaleDateString("en-US", {
+                    new Date(value as string).toLocaleDateString("en-US", {
                       month: "short",
                       day: "numeric",
                       year: "numeric",

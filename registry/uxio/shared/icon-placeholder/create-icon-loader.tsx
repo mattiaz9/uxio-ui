@@ -30,8 +30,8 @@ export function createIconLoader(libraryName: string) {
   } & ComponentProps<"svg">) {
     let iconPromise = cache.get(name)
     if (!iconPromise) {
-      iconPromise = import(`./__${libraryName}__.ts`).then((mod) => {
-        const icon = mod[name as keyof typeof mod]
+      iconPromise = import(`./__${libraryName}__.ts`).then((mod: Record<string, unknown>) => {
+        const icon = mod[name]
         return icon || null
       })
       cache.set(name, iconPromise)

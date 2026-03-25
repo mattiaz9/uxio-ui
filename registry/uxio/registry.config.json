@@ -319,8 +319,20 @@
     "description": "Calendar grid built on react-day-picker using registry button styles.",
     "categories": ["overrides"],
     "dependencies": {
-      "base": ["react-day-picker", "class-variance-authority", "clsx", "tailwind-merge", "lucide-react"],
-      "radix": ["react-day-picker", "class-variance-authority", "clsx", "tailwind-merge", "lucide-react"]
+      "base": [
+        "react-day-picker",
+        "class-variance-authority",
+        "clsx",
+        "tailwind-merge",
+        "lucide-react"
+      ],
+      "radix": [
+        "react-day-picker",
+        "class-variance-authority",
+        "clsx",
+        "tailwind-merge",
+        "lucide-react"
+      ]
     },
     "registryDependencies": ["@uxio/button"]
   },

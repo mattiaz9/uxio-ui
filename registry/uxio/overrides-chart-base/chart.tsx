@@ -105,7 +105,8 @@ type TooltipInjectedProps = keyof Pick<
 >
 
 interface CustomTooltipProps
-  extends Omit<RechartsPrimitive.TooltipContentProps, TooltipInjectedProps>,
+  extends
+    Omit<RechartsPrimitive.TooltipContentProps, TooltipInjectedProps>,
     Partial<Pick<RechartsPrimitive.TooltipContentProps, TooltipInjectedProps>>,
     Omit<React.ComponentProps<"div">, "content"> {
   hideLabel?: boolean
@@ -138,12 +139,10 @@ function ChartTooltipContent({
     }
 
     const [item] = payload
-    const key = `${labelKey ?? item?.dataKey ?? item?.name ?? "value"}`
+    const key = `${labelKey ?? (item?.dataKey as string | undefined) ?? item?.name ?? "value"}`
     const itemConfig = getPayloadConfigFromPayload(config, item, key)
     const value =
-      !labelKey && typeof label === "string"
-        ? (config[label as keyof typeof config]?.label ?? label)
-        : itemConfig?.label
+      !labelKey && typeof label === "string" ? (config[label]?.label ?? label) : itemConfig?.label
 
     if (labelFormatter) {
       return (
@@ -171,7 +170,7 @@ function ChartTooltipContent({
         {payload
           .filter((item) => item.type !== "none")
           .map((item, index) => {
-            const key = `${nameKey ?? item.name ?? item.dataKey ?? "value"}`
+            const key = `${nameKey ?? item.name ?? (item.dataKey as string | undefined) ?? "value"}`
             const itemConfig = getPayloadConfigFromPayload(config, item, key)
             const payloadFill =
               item.payload && typeof item.payload === "object" && "fill" in item.payload
@@ -188,7 +187,13 @@ function ChartTooltipContent({
                 )}
               >
                 {formatter && item?.value !== undefined && item.name !== undefined ? (
-                  formatter(item.value, item.name, item, index, item.payload)
+                  formatter(
+                    item.value,
+                    item.name,
+                    item,
+                    index,
+                    item.payload as RechartsPrimitive.TooltipPayloadEntry[],
+                  )
                 ) : (
                   <>
                     {itemConfig?.icon ? (
@@ -278,7 +283,7 @@ function ChartLegendContent({
       {payload
         .filter((item) => item.type !== "none")
         .map((item, index) => {
-          const key = `${nameKey ?? item.dataKey ?? "value"}`
+          const key = `${nameKey ?? (item.dataKey as string | number | undefined) ?? "value"}`
           const itemConfig = getPayloadConfigFromPayload(config, item, key)
 
           return (
@@ -323,10 +328,10 @@ function getPayloadConfigFromPayload(config: ChartConfig, payload: unknown, key:
   if (key in payload && typeof (payload as Record<string, unknown>)[key] === "string") {
     configLabelKey = (payload as Record<string, unknown>)[key] as string
   } else if (payloadPayload && key in payloadPayload && typeof payloadPayload[key] === "string") {
-    configLabelKey = payloadPayload[key] as string
+    configLabelKey = payloadPayload[key]
   }
 
-  return configLabelKey in config ? config[configLabelKey] : config[key as keyof typeof config]
+  return configLabelKey in config ? config[configLabelKey] : config[key]
 }
 
 export {

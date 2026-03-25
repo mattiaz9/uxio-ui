@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { format, isValid, parse, set } from "date-fns"
+
 import { CalendarIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -190,350 +191,346 @@ export type InputDatetimeProps = Omit<React.ComponentProps<"div">, "onChange" | 
   disabled?: boolean
 }
 
-const InputDatetime = React.forwardRef<HTMLInputElement, InputDatetimeProps>(
-  function InputDatetime(
-    {
-      className,
-      mode = "datetime",
-      format: formatProp,
-      separator: separatorProp = "/",
-      value: valueProp,
-      defaultValue,
-      onValueChange,
-      onChange,
-      name,
-      disabled,
-      id,
-      ...props
-    },
-    ref,
-  ) {
-    const formatStr = React.useMemo(() => {
-      if (formatProp) return formatProp
-      return defaultFormatForMode(mode, separatorProp)
-    }, [formatProp, mode, separatorProp])
-    const tokens = React.useMemo(
-      () => tokensForMode(tokenizeFormat(formatStr), mode),
-      [formatStr, mode],
-    )
-    const fields = React.useMemo(() => fieldTokens(tokens), [tokens])
-    const fieldIndexAtToken = React.useMemo(() => {
-      let fi = 0
-      return tokens.map((t) => {
-        if (t.type === "literal") return -1
-        const i = fi
-        fi += 1
-        return i
-      })
-    }, [tokens])
-
-    const [segments, setSegments] = React.useState<string[]>(() => {
-      const initial = coerceToDate(
-        valueProp !== undefined ? valueProp : defaultValue ?? undefined,
-      )
-      const fmt = formatProp ?? defaultFormatForMode(mode, separatorProp)
-      const tok = tokensForMode(tokenizeFormat(fmt), mode)
-      const flds = fieldTokens(tok)
-      if (initial && flds.length) {
-        return parseSegmentsFromString(format(initial, fmt), tok)
-      }
-      return flds.map(() => "")
+const InputDatetime = React.forwardRef<HTMLInputElement, InputDatetimeProps>(function InputDatetime(
+  {
+    className,
+    mode = "datetime",
+    format: formatProp,
+    separator: separatorProp = "/",
+    value: valueProp,
+    defaultValue,
+    onValueChange,
+    onChange,
+    name,
+    disabled,
+    id,
+    ...props
+  },
+  ref,
+) {
+  const formatStr = React.useMemo(() => {
+    if (formatProp) return formatProp
+    return defaultFormatForMode(mode, separatorProp)
+  }, [formatProp, mode, separatorProp])
+  const tokens = React.useMemo(
+    () => tokensForMode(tokenizeFormat(formatStr), mode),
+    [formatStr, mode],
+  )
+  const fields = React.useMemo(() => fieldTokens(tokens), [tokens])
+  const fieldIndexAtToken = React.useMemo(() => {
+    let fi = 0
+    return tokens.map((t) => {
+      if (t.type === "literal") return -1
+      const i = fi
+      fi += 1
+      return i
     })
-    const [popoverOpen, setPopoverOpen] = React.useState(false)
-    const innerInputRef = React.useRef<HTMLInputElement>(null)
-    const segmentRefs = React.useRef<(HTMLSpanElement | null)[]>([])
-    const segmentsRef = React.useRef(segments)
-    const lastComposedCommit = React.useRef<string | null>(null)
-    /** After focus, first digit replaces the segment; further digits append (avoids selection/DOM quirks). */
-    const replaceOnNextDigitRef = React.useRef(false)
+  }, [tokens])
 
-    React.useLayoutEffect(() => {
-      segmentsRef.current = segments
-    }, [segments])
+  const [segments, setSegments] = React.useState<string[]>(() => {
+    const initial = coerceToDate(valueProp !== undefined ? valueProp : (defaultValue ?? undefined))
+    const fmt = formatProp ?? defaultFormatForMode(mode, separatorProp)
+    const tok = tokensForMode(tokenizeFormat(fmt), mode)
+    const flds = fieldTokens(tok)
+    if (initial && flds.length) {
+      return parseSegmentsFromString(format(initial, fmt), tok)
+    }
+    return flds.map(() => "")
+  })
+  const [popoverOpen, setPopoverOpen] = React.useState(false)
+  const innerInputRef = React.useRef<HTMLInputElement>(null)
+  const segmentRefs = React.useRef<(HTMLSpanElement | null)[]>([])
+  const segmentsRef = React.useRef(segments)
+  const lastComposedCommit = React.useRef<string | null>(null)
+  /** After focus, first digit replaces the segment; further digits append (avoids selection/DOM quirks). */
+  const replaceOnNextDigitRef = React.useRef(false)
 
-    React.useImperativeHandle(ref, () => innerInputRef.current as HTMLInputElement, [])
+  React.useLayoutEffect(() => {
+    segmentsRef.current = segments
+  }, [segments])
 
-    const stringValue = React.useMemo(() => composeString(tokens, segments), [tokens, segments])
+  React.useImperativeHandle(ref, () => innerInputRef.current as HTMLInputElement, [])
 
-    const isControlled = valueProp !== undefined
+  const stringValue = React.useMemo(() => composeString(tokens, segments), [tokens, segments])
 
-    React.useEffect(() => {
-      if (!isControlled) return
-      lastComposedCommit.current = null
-      if (valueProp === null || valueProp === "") {
-        const empty = fieldTokens(tokens).map(() => "")
-        segmentsRef.current = empty
-        setSegments(empty)
+  const isControlled = valueProp !== undefined
+
+  React.useEffect(() => {
+    if (!isControlled) return
+    lastComposedCommit.current = null
+    if (valueProp === null || valueProp === "") {
+      const empty = fieldTokens(tokens).map(() => "")
+      segmentsRef.current = empty
+      setSegments(empty)
+      return
+    }
+    const d = coerceToDate(valueProp)
+    if (d && fieldTokens(tokens).length) {
+      const next = parseSegmentsFromString(format(d, formatStr), tokens)
+      segmentsRef.current = next
+      setSegments(next)
+      return
+    }
+    if (typeof valueProp === "string") {
+      const next = parseSegmentsFromString(valueProp, tokens)
+      segmentsRef.current = next
+      setSegments(next)
+    }
+  }, [isControlled, valueProp, formatStr, tokens])
+
+  const emitStringChange = React.useCallback(
+    (next: string) => {
+      if (!onChange) return
+      const el = innerInputRef.current
+      if (!el) return
+      onChange({
+        target: { value: next, name: name ?? "" },
+        currentTarget: el,
+      } as React.ChangeEvent<HTMLInputElement>)
+    },
+    [onChange, name],
+  )
+
+  const commitParsedValue = React.useCallback(
+    (composed: string, segs: string[]) => {
+      emitStringChange(composed)
+      if (!segmentsComplete(tokens, segs)) {
+        lastComposedCommit.current = null
         return
       }
-      const d = coerceToDate(valueProp)
-      if (d && fieldTokens(tokens).length) {
-        const next = parseSegmentsFromString(format(d, formatStr), tokens)
-        segmentsRef.current = next
-        setSegments(next)
-        return
-      }
-      if (typeof valueProp === "string") {
-        const next = parseSegmentsFromString(valueProp, tokens)
-        segmentsRef.current = next
-        setSegments(next)
-      }
-    }, [isControlled, valueProp, formatStr, tokens])
+      if (lastComposedCommit.current === composed) return
+      const parsed = parse(composed, formatStr, new Date())
+      if (!isValid(parsed)) return
+      lastComposedCommit.current = composed
+      onValueChange?.(parsed)
+    },
+    [tokens, formatStr, onValueChange, emitStringChange],
+  )
 
-    const emitStringChange = React.useCallback(
-      (next: string) => {
-        if (!onChange) return
-        const el = innerInputRef.current
-        if (!el) return
-        onChange({
-          target: { value: next, name: name ?? "" },
-          currentTarget: el,
-        } as React.ChangeEvent<HTMLInputElement>)
-      },
-      [onChange, name],
-    )
+  const pushSegments = React.useCallback(
+    (next: string[]) => {
+      segmentsRef.current = next
+      setSegments(next)
+      commitParsedValue(composeString(tokens, next), next)
+    },
+    [tokens, commitParsedValue],
+  )
 
-    const commitParsedValue = React.useCallback(
-      (composed: string, segs: string[]) => {
-        emitStringChange(composed)
-        if (!segmentsComplete(tokens, segs)) {
-          lastComposedCommit.current = null
-          return
-        }
-        if (lastComposedCommit.current === composed) return
-        const parsed = parse(composed, formatStr, new Date())
-        if (!isValid(parsed)) return
-        lastComposedCommit.current = composed
-        onValueChange?.(parsed)
-      },
-      [tokens, formatStr, onValueChange, emitStringChange],
-    )
+  const flushCommit = React.useCallback(() => {
+    const segs = segmentsRef.current
+    commitParsedValue(composeString(tokens, segs), segs)
+  }, [tokens, commitParsedValue])
 
-    const pushSegments = React.useCallback(
-      (next: string[]) => {
-        segmentsRef.current = next
-        setSegments(next)
-        commitParsedValue(composeString(tokens, next), next)
-      },
-      [tokens, commitParsedValue],
-    )
+  const parsedForCalendar = React.useMemo(() => {
+    if (!segmentsComplete(tokens, segments)) return null
+    const refDate = new Date()
+    const p = parse(stringValue, formatStr, refDate)
+    return isValid(p) ? p : null
+  }, [tokens, segments, stringValue, formatStr])
 
-    const flushCommit = React.useCallback(() => {
-      const segs = segmentsRef.current
-      commitParsedValue(composeString(tokens, segs), segs)
-    }, [tokens, commitParsedValue])
+  const calendarSelected = React.useMemo(() => {
+    if (parsedForCalendar) return parsedForCalendar
+    const d = coerceToDate(valueProp !== undefined ? valueProp : (defaultValue ?? undefined))
+    return d ?? undefined
+  }, [parsedForCalendar, valueProp, defaultValue])
 
-    const parsedForCalendar = React.useMemo(() => {
-      if (!segmentsComplete(tokens, segments)) return null
-      const refDate = new Date()
-      const p = parse(stringValue, formatStr, refDate)
-      return isValid(p) ? p : null
-    }, [tokens, segments, stringValue, formatStr])
+  const updateSegment = (index: number, next: string) => {
+    const copy = [...segmentsRef.current]
+    copy[index] = next
+    pushSegments(copy)
+  }
 
-    const calendarSelected = React.useMemo(() => {
-      if (parsedForCalendar) return parsedForCalendar
-      const d = coerceToDate(valueProp !== undefined ? valueProp : defaultValue ?? undefined)
-      return d ?? undefined
-    }, [parsedForCalendar, valueProp, defaultValue])
+  const focusSegment = (index: number) => {
+    const el = segmentRefs.current[index]
+    el?.focus()
+  }
 
-    const updateSegment = (index: number, next: string) => {
-      const copy = [...segmentsRef.current]
-      copy[index] = next
-      pushSegments(copy)
+  const applyCalendarDate = (picked: Date | undefined) => {
+    if (!picked) return
+    const base =
+      parsedForCalendar ??
+      coerceToDate(valueProp !== undefined ? valueProp : (defaultValue ?? undefined)) ??
+      new Date()
+    let next: Date
+    if (mode === "date") {
+      next = set(picked, {
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+        milliseconds: 0,
+      })
+    } else if (mode === "time") {
+      next = set(base, {
+        year: picked.getFullYear(),
+        month: picked.getMonth(),
+        date: picked.getDate(),
+      })
+    } else {
+      next = set(base, {
+        year: picked.getFullYear(),
+        month: picked.getMonth(),
+        date: picked.getDate(),
+      })
     }
+    const nextSegs = parseSegmentsFromString(format(next, formatStr), tokens)
+    setPopoverOpen(false)
+    lastComposedCommit.current = null
+    pushSegments(nextSegs)
+  }
 
-    const focusSegment = (index: number) => {
-      const el = segmentRefs.current[index]
-      el?.focus()
-    }
-
-    const applyCalendarDate = (picked: Date | undefined) => {
-      if (!picked) return
-      const base =
-        parsedForCalendar ??
-        coerceToDate(valueProp !== undefined ? valueProp : defaultValue ?? undefined) ??
-        new Date()
-      let next: Date
-      if (mode === "date") {
-        next = set(picked, {
-          hours: 0,
-          minutes: 0,
-          seconds: 0,
-          milliseconds: 0,
-        })
-      } else if (mode === "time") {
-        next = set(base, {
-          year: picked.getFullYear(),
-          month: picked.getMonth(),
-          date: picked.getDate(),
-        })
-      } else {
-        next = set(base, {
-          year: picked.getFullYear(),
-          month: picked.getMonth(),
-          date: picked.getDate(),
-        })
-      }
-      const nextSegs = parseSegmentsFromString(format(next, formatStr), tokens)
-      setPopoverOpen(false)
-      lastComposedCommit.current = null
-      pushSegments(nextSegs)
-    }
-
-    return (
-      <InputGroup className={cn("cn-input-datetime", className)} {...props}>
-        <input
-          type="hidden"
-          id={id}
-          ref={innerInputRef}
-          name={name}
-          value={stringValue}
-          disabled={disabled}
-          readOnly
-          aria-hidden
-          tabIndex={-1}
-        />
-        <div
-          data-slot="input-group-control"
-          className={cn(
-            "cn-input-datetime-segments cn-input-group-input flex min-h-9 flex-1 flex-wrap items-center gap-0.5 px-3 py-1 text-sm outline-none",
-            disabled && "pointer-events-none opacity-50",
-          )}
-          onKeyDown={(e) => {
-            if (disabled) return
-            if (e.key === "Enter") {
-              flushCommit()
-            }
-          }}
-        >
-          {tokens.map((t, ti) => {
-            if (t.type === "literal") {
-              return (
-                <span key={`lit-${ti}`} className="text-muted-foreground select-none" aria-hidden>
-                  {t.text}
-                </span>
-              )
-            }
-            const idx = fieldIndexAtToken[ti]
-            if (idx === undefined || idx < 0) return null
-            const f = t
-            const raw = segments[idx] ?? ""
-            const max = f.pattern.length
-            const label =
-              f.kind === "year"
-                ? "Year"
-                : f.kind === "month"
-                  ? "Month"
-                  : f.kind === "day"
-                    ? "Day"
-                    : f.kind === "hour"
-                      ? "Hour"
-                      : f.kind === "minute"
-                        ? "Minute"
-                        : "Second"
+  return (
+    <InputGroup className={cn("cn-input-datetime", className)} {...props}>
+      <input
+        type="hidden"
+        id={id}
+        ref={innerInputRef}
+        name={name}
+        value={stringValue}
+        disabled={disabled}
+        readOnly
+        aria-hidden
+        tabIndex={-1}
+      />
+      <div
+        data-slot="input-group-control"
+        className={cn(
+          "cn-input-datetime-segments cn-input-group-input flex min-h-9 flex-1 flex-wrap items-center gap-0.5 px-3 py-1 text-sm outline-none",
+          disabled && "pointer-events-none opacity-50",
+        )}
+        onKeyDown={(e) => {
+          if (disabled) return
+          if (e.key === "Enter") {
+            flushCommit()
+          }
+        }}
+      >
+        {tokens.map((t, ti) => {
+          if (t.type === "literal") {
             return (
-              <span
-                key={`field-${idx}-${f.pattern}`}
-                ref={(el) => {
-                  segmentRefs.current[idx] = el
-                }}
-                tabIndex={disabled ? -1 : 0}
-                role="textbox"
-                aria-label={label}
-                aria-disabled={disabled}
-                data-placeholder={f.pattern.replace(/./g, "0")}
-                className={cn(
-                  "rounded-xs min-w-[1ch] px-0.5 font-mono tabular-nums outline-none focus:bg-accent focus:text-accent-foreground",
-                  !(segments[idx]?.length === f.pattern.length) && "text-muted-foreground",
-                )}
-                onFocus={() => {
-                  replaceOnNextDigitRef.current = true
-                }}
-                onKeyDown={(e) => {
-                  if (disabled) return
-                  const cur = segments[idx] ?? ""
-                  if (/^\d$/.test(e.key)) {
-                    e.preventDefault()
-                    let next: string
-                    if (replaceOnNextDigitRef.current) {
-                      next = e.key
-                      replaceOnNextDigitRef.current = false
-                    } else if (cur.length >= max) {
-                      next = e.key
-                    } else {
-                      next = cur + e.key
-                    }
-                    if (next.length > max) next = next.slice(0, max)
-                    updateSegment(idx, next)
-                    if (next.length >= max && idx < fields.length - 1) {
-                      focusSegment(idx + 1)
-                    }
-                    return
-                  }
-                  if (e.key === "Backspace") {
-                    e.preventDefault()
-                    if (cur.length > 0) {
-                      updateSegment(idx, cur.slice(0, -1))
-                    } else if (idx > 0) {
-                      focusSegment(idx - 1)
-                    }
-                    return
-                  }
-                  if (e.key === "ArrowLeft" && idx > 0) {
-                    e.preventDefault()
-                    focusSegment(idx - 1)
-                  }
-                  if (e.key === "ArrowRight" && idx < fields.length - 1) {
-                    e.preventDefault()
-                    focusSegment(idx + 1)
-                  }
-                  if (e.key === "Enter") {
-                    e.preventDefault()
-                    flushCommit()
-                  }
-                }}
-                onBlur={() => flushCommit()}
-              >
-                {Array.from({ length: max }, (_, i) => {
-                  const ch = raw[i]
-                  return (
-                    <span key={i} className={cn(!ch && "text-muted-foreground/40")}>
-                      {ch ?? "0"}
-                    </span>
-                  )
-                })}
+              <span key={`lit-${ti}`} className="text-muted-foreground select-none" aria-hidden>
+                {t.text}
               </span>
             )
-          })}
-        </div>
-        {mode !== "time" ? (
-          <InputGroupAddon align="inline-end">
-            <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
-              <PopoverTrigger asChild>
-                <InputGroupButton
-                  type="button"
-                  variant="ghost"
-                  size="icon-sm"
-                  disabled={disabled}
-                  aria-label="Open calendar"
-                >
-                  <CalendarIcon className="size-4" />
-                </InputGroupButton>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="end">
-                <Calendar
-                  mode="single"
-                  selected={calendarSelected}
-                  onSelect={(d) => applyCalendarDate(d)}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
-          </InputGroupAddon>
-        ) : null}
-      </InputGroup>
-    )
-  },
-)
+          }
+          const idx = fieldIndexAtToken[ti]
+          if (idx === undefined || idx < 0) return null
+          const f = t
+          const raw = segments[idx] ?? ""
+          const max = f.pattern.length
+          const label =
+            f.kind === "year"
+              ? "Year"
+              : f.kind === "month"
+                ? "Month"
+                : f.kind === "day"
+                  ? "Day"
+                  : f.kind === "hour"
+                    ? "Hour"
+                    : f.kind === "minute"
+                      ? "Minute"
+                      : "Second"
+          return (
+            <span
+              key={`field-${idx}-${f.pattern}`}
+              ref={(el) => {
+                segmentRefs.current[idx] = el
+              }}
+              tabIndex={disabled ? -1 : 0}
+              role="textbox"
+              aria-label={label}
+              aria-disabled={disabled}
+              data-placeholder={f.pattern.replace(/./g, "0")}
+              className={cn(
+                "min-w-[1ch] rounded-xs px-0.5 font-mono tabular-nums outline-none focus:bg-accent focus:text-accent-foreground",
+                !(segments[idx]?.length === f.pattern.length) && "text-muted-foreground",
+              )}
+              onFocus={() => {
+                replaceOnNextDigitRef.current = true
+              }}
+              onKeyDown={(e) => {
+                if (disabled) return
+                const cur = segments[idx] ?? ""
+                if (/^\d$/.test(e.key)) {
+                  e.preventDefault()
+                  let next: string
+                  if (replaceOnNextDigitRef.current) {
+                    next = e.key
+                    replaceOnNextDigitRef.current = false
+                  } else if (cur.length >= max) {
+                    next = e.key
+                  } else {
+                    next = cur + e.key
+                  }
+                  if (next.length > max) next = next.slice(0, max)
+                  updateSegment(idx, next)
+                  if (next.length >= max && idx < fields.length - 1) {
+                    focusSegment(idx + 1)
+                  }
+                  return
+                }
+                if (e.key === "Backspace") {
+                  e.preventDefault()
+                  if (cur.length > 0) {
+                    updateSegment(idx, cur.slice(0, -1))
+                  } else if (idx > 0) {
+                    focusSegment(idx - 1)
+                  }
+                  return
+                }
+                if (e.key === "ArrowLeft" && idx > 0) {
+                  e.preventDefault()
+                  focusSegment(idx - 1)
+                }
+                if (e.key === "ArrowRight" && idx < fields.length - 1) {
+                  e.preventDefault()
+                  focusSegment(idx + 1)
+                }
+                if (e.key === "Enter") {
+                  e.preventDefault()
+                  flushCommit()
+                }
+              }}
+              onBlur={() => flushCommit()}
+            >
+              {Array.from({ length: max }, (_, i) => {
+                const ch = raw[i]
+                return (
+                  <span key={i} className={cn(!ch && "text-muted-foreground/40")}>
+                    {ch ?? "0"}
+                  </span>
+                )
+              })}
+            </span>
+          )
+        })}
+      </div>
+      {mode !== "time" ? (
+        <InputGroupAddon align="inline-end">
+          <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
+            <PopoverTrigger asChild>
+              <InputGroupButton
+                type="button"
+                variant="ghost"
+                size="icon-sm"
+                disabled={disabled}
+                aria-label="Open calendar"
+              >
+                <CalendarIcon className="size-4" />
+              </InputGroupButton>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="end">
+              <Calendar
+                mode="single"
+                selected={calendarSelected}
+                onSelect={(d) => applyCalendarDate(d)}
+                autoFocus
+              />
+            </PopoverContent>
+          </Popover>
+        </InputGroupAddon>
+      ) : null}
+    </InputGroup>
+  )
+})
 
 export { InputDatetime }

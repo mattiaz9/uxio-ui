@@ -10,7 +10,7 @@ function mergeRefs<T>(...refs: Array<React.Ref<T> | undefined | null>): React.Re
     for (const ref of refs) {
       if (ref == null) continue
       if (typeof ref === "function") ref(value)
-      else (ref as React.MutableRefObject<T | null>).current = value
+      else ref.current = value
     }
   }
 }

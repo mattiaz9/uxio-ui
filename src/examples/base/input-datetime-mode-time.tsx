@@ -10,7 +10,7 @@ export default function InputDatetimeModeTimeExample() {
   return (
     <div className="flex w-full max-w-md flex-col gap-3">
       <InputDatetime mode="time" format="HH:mm" onValueChange={setCommitted} />
-      <p className="text-muted-foreground text-xs">
+      <p className="text-xs text-muted-foreground">
         <span className="font-medium text-foreground">Committed time: </span>
         {committed
           ? committed.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" })

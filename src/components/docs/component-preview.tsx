@@ -1,17 +1,19 @@
 "use client"
 
-import { Suspense, useEffect, useState, type ReactNode } from "react"
+import { Suspense, useEffect, useState } from "react"
 
 import { ChevronDownIcon } from "lucide-react"
 
 import { examples } from "@/lib/examples"
+
+import type { ReactNode } from "react"
 
 function PreviewCode({ code }: { code: string }) {
   const [html, setHtml] = useState<string | null>(null)
 
   useEffect(() => {
     let cancelled = false
-    ;(async () => {
+    void (async () => {
       const { codeToHtml } = await import("shiki/bundle/web")
       const out = await codeToHtml(code, {
         lang: "tsx",
@@ -78,7 +80,7 @@ function CopyButton({ code }: { code: string }) {
       type="button"
       className="absolute top-2 right-2 rounded-md border border-zinc-700 bg-zinc-800 px-2 py-1 text-xs text-zinc-300 transition-colors hover:bg-zinc-700"
       onClick={() => {
-        navigator.clipboard.writeText(code)
+        void navigator.clipboard.writeText(code)
         setCopied(true)
         setTimeout(() => setCopied(false), 2000)
       }}

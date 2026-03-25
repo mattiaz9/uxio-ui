@@ -5,19 +5,26 @@
 
 ## Overview
 
-Add a standalone `@uxio/spinner` registry override with a tick-based redesign of the original shadcn spinner. The button will import the spinner from the registry framework folder (`@/registry/uxio/overrides-spinner/spinner`), following the shadcn pattern of `@/registry/bases/radix/*`.
+Add a standalone `@uxio/spinner` registry override with a tick-based redesign of the original shadcn
+spinner. The button will import the spinner from the registry framework folder
+(`@/registry/uxio/overrides-spinner/spinner`), following the shadcn pattern of
+`@/registry/bases/radix/*`.
 
 ## Architecture
 
-- **`registry/uxio/overrides-spinner/`** — New tick-based spinner (redesign of the original Loader2 spinner)
-- **`registry/uxio/overrides-button-base/`** and **`registry/uxio/overrides-button-radix/`** — Import spinner from `@/registry/uxio/overrides-spinner/spinner`
-- **`src/components/ui/spinner.tsx`** — Remains Loader2 for the app; registry build uses the registry spinner, not this file
+- **`registry/uxio/overrides-spinner/`** — New tick-based spinner (redesign of the original Loader2
+  spinner)
+- **`registry/uxio/overrides-button-base/`** and **`registry/uxio/overrides-button-radix/`** —
+  Import spinner from `@/registry/uxio/overrides-spinner/spinner`
+- **`src/components/ui/spinner.tsx`** — Remains Loader2 for the app; registry build uses the
+  registry spinner, not this file
 
 ## Spinner Component
 
 **Location:** `registry/uxio/overrides-spinner/spinner.tsx`
 
 **Props:**
+
 - `size?: number | string`
 - `ticksCount?: number` (default: 12)
 - `tickWidth?: string` (default: "8%")
@@ -27,9 +34,12 @@ Add a standalone `@uxio/spinner` registry override with a tick-based redesign of
 
 ## Animation CSS (shadcn registry `css` + `cssVars`)
 
-The shadcn registry supports adding CSS to the project's globals file via `css` and `cssVars` ([registry-item-json](https://ui.shadcn.com/docs/registry/registry-item-json)). The CLI merges these into the project's `tailwindCssFile` (e.g. `globals.css`).
+The shadcn registry supports adding CSS to the project's globals file via `css` and `cssVars`
+([registry-item-json](https://ui.shadcn.com/docs/registry/registry-item-json)). The CLI merges these
+into the project's `tailwindCssFile` (e.g. `globals.css`).
 
 **`cssVars.theme`** — Animation utility for Tailwind v4 `@theme`:
+
 ```json
 "cssVars": {
   "theme": {
@@ -39,6 +49,7 @@ The shadcn registry supports adding CSS to the project's globals file via `css` 
 ```
 
 **`css`** — Keyframes:
+
 ```json
 "css": {
   "@keyframes tick-fade": {
@@ -48,11 +59,14 @@ The shadcn registry supports adding CSS to the project's globals file via `css` 
 }
 ```
 
-No separate CSS file; the shadcn CLI injects these into the user's `tailwindCssFile` (globals.css) when they run `npx shadcn add @uxio/spinner`. The registry JSON output must include `css` and `cssVars` — do not rely on local `app.css` or any project-specific files.
+No separate CSS file; the shadcn CLI injects these into the user's `tailwindCssFile` (globals.css)
+when they run `npx shadcn add @uxio/spinner`. The registry JSON output must include `css` and
+`cssVars` — do not rely on local `app.css` or any project-specific files.
 
 ## Path Alias
 
 Add to `tsconfig.json`:
+
 ```json
 "@/registry/*": ["./registry/*"]
 ```
@@ -61,8 +75,10 @@ Add to `tsconfig.json`:
 
 1. **`buildButtonItem`**
    - Read spinner from `registry/uxio/overrides-spinner/spinner.tsx` (not `src`)
-   - Rewrite button import: `@/registry/uxio/overrides-spinner/spinner` → `@/components/ui/spinner` in output for consumers
-   - **Include `css` and `cssVars`** for the tick-fade animation — the button bundles the spinner, so users who add only `@uxio/button` must receive the animation styles
+   - Rewrite button import: `@/registry/uxio/overrides-spinner/spinner` → `@/components/ui/spinner`
+     in output for consumers
+   - **Include `css` and `cssVars`** for the tick-fade animation — the button bundles the spinner,
+     so users who add only `@uxio/button` must receive the animation styles
 
 2. **`copyUIToExamples`**
    - Copy spinner from `registry/uxio/overrides-spinner/spinner.tsx`

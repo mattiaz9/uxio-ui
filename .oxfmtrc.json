@@ -15,23 +15,23 @@
       {
         "groupName": "react",
         "elementNamePattern": ["react", "react-dom"],
-        "modifiers": ["value"],
+        "modifiers": ["value"]
       },
       {
         "groupName": "tanstack",
         "elementNamePattern": ["@tanstack/**"],
-        "modifiers": ["value"],
+        "modifiers": ["value"]
       },
       {
         "groupName": "icons",
         "elementNamePattern": ["lucide-react", "@heroicons/**", "@icons-pack/react-simple-icons"],
-        "modifiers": ["value"],
+        "modifiers": ["value"]
       },
       {
         "groupName": "assets",
         "elementNamePattern": ["@/assets/**", "@/components/assets/**"],
-        "modifiers": ["value"],
-      },
+        "modifiers": ["value"]
+      }
     ],
     "groups": [
       "react",
@@ -40,31 +40,31 @@
       "value-external",
       "unknown",
       {
-        "newlinesBetween": true,
+        "newlinesBetween": true
       },
       "icons",
       "assets",
       {
-        "newlinesBetween": true,
+        "newlinesBetween": true
       },
       "value-parent",
       "value-sibling",
       "value-index",
       "value-internal",
       {
-        "newlinesBetween": true,
+        "newlinesBetween": true
       },
       "type-parent",
       "type-sibling",
       "type-index",
       "type-internal",
-      "type-import",
-    ],
+      "type-import"
+    ]
   },
   "sortTailwindcss": {
     "stylesheet": "./src/styles/app.css",
-    "functions": ["clsx", "cva", "cn"],
+    "functions": ["clsx", "cva", "cn"]
   },
   "sortPackageJson": false,
-  "ignorePatterns": ["vite.config.ts", "source.config.ts", ".source/**", "*.gen.ts"],
+  "ignorePatterns": ["vite.config.ts", "source.config.ts", "*.gen.ts"]
 }

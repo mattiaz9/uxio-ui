@@ -2,10 +2,7 @@
 
 import { useLayoutEffect, useMemo, useSyncExternalStore } from "react"
 
-import {
-  type DocsFramework,
-  getDocsFrameworkFromPath,
-} from "@/lib/docs-page-tree"
+import { type DocsFramework, getDocsFrameworkFromPath } from "@/lib/docs-page-tree"
 
 const STORAGE_KEY = "uxio-docs-framework"
 

@@ -10,7 +10,7 @@ export default function InputDatetimeModeDatetimeExample() {
   return (
     <div className="flex w-full max-w-md flex-col gap-3">
       <InputDatetime mode="datetime" value={value ?? undefined} onValueChange={setValue} />
-      <p className="text-muted-foreground text-xs">
+      <p className="text-xs text-muted-foreground">
         <span className="font-medium text-foreground">Controlled value: </span>
         {value ? value.toISOString() : "—"}
       </p>

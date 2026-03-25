@@ -156,7 +156,10 @@ function getIndexDescription(config: ItemConfig): string {
  */
 function rewriteRegistryImports(content: string, mode: "consumer" | "example"): string {
   const replacement = mode === "consumer" ? "@/components/ui/$1" : "./$1"
-  return content.replace(/@\/registry\/uxio\/(?:overrides|layers|inputs)-[^/]+\/([^"']+)/g, replacement)
+  return content.replace(
+    /@\/registry\/uxio\/(?:overrides|layers|inputs)-[^/]+\/([^"']+)/g,
+    replacement,
+  )
 }
 
 /**
@@ -300,7 +303,7 @@ async function copyUIToExamples(allDirs: Map<string, ComponentDirs>) {
 // ---------------------------------------------------------------------------
 
 async function main() {
-  const configs: ItemConfig[] = JSON.parse(readFileSync(CONFIG_PATH, "utf-8"))
+  const configs = JSON.parse(readFileSync(CONFIG_PATH, "utf-8")) as ItemConfig[]
   const allDirs = scanComponents()
 
   for (const style of STYLES) {
@@ -374,7 +377,7 @@ async function main() {
     homepage: "https://ui.uxio.dev",
     items: configs.map((c) => ({
       name: c.name,
-      type: (c.type ?? "registry:ui") as "registry:ui" | "registry:style",
+      type: c.type ?? "registry:ui",
       title: c.title,
       description: getIndexDescription(c),
       categories: c.categories ?? [],
@@ -387,7 +390,7 @@ async function main() {
   await copyUIToExamples(allDirs)
 }
 
-main().catch((err) => {
+main().catch((err: unknown) => {
   console.error(err)
   process.exit(1)
 })

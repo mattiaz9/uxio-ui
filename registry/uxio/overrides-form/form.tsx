@@ -109,7 +109,7 @@ function Form<
   TOnServer,
   TSubmitMeta
 >) {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault()
     void form.handleSubmit()
   }

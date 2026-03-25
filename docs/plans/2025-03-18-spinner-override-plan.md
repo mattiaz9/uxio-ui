@@ -1,10 +1,14 @@
 # Spinner Override Implementation Plan
 
-> **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
+> **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan
+> task-by-task.
 
-**Goal:** Add a standalone `@uxio/spinner` registry override with a tick-based redesign, registry-scoped button imports, and bundled animation CSS.
+**Goal:** Add a standalone `@uxio/spinner` registry override with a tick-based redesign,
+registry-scoped button imports, and bundled animation CSS.
 
-**Architecture:** Create `registry/uxio/overrides-spinner/` with the tick spinner and animation CSS. Button overrides import from `@/registry/uxio/overrides-spinner/spinner`. Build script bundles spinner from registry and outputs animation CSS with the spinner item.
+**Architecture:** Create `registry/uxio/overrides-spinner/` with the tick spinner and animation CSS.
+Button overrides import from `@/registry/uxio/overrides-spinner/spinner`. Build script bundles
+spinner from registry and outputs animation CSS with the spinner item.
 
 **Tech Stack:** React, Tailwind v4, shadcn registry format, TypeScript
 
@@ -15,19 +19,20 @@
 ## Task 1: Add @/registry path alias
 
 **Files:**
+
 - Modify: `tsconfig.json`
 
 **Step 1: Add path alias**
 
 Add to `compilerOptions.paths`:
+
 ```json
 "@/registry/*": ["./registry/*"]
 ```
 
 **Step 2: Verify**
 
-Run: `pnpm exec tsc --noEmit`
-Expected: No errors
+Run: `pnpm exec tsc --noEmit` Expected: No errors
 
 **Step 3: Commit**
 
@@ -41,6 +46,7 @@ git commit -m "chore: add @/registry path alias"
 ## Task 2: Create spinner override component
 
 **Files:**
+
 - Create: `registry/uxio/overrides-spinner/spinner.tsx`
 
 **Step 1: Create spinner.tsx**
@@ -93,23 +99,28 @@ git add registry/uxio/overrides-spinner/spinner.tsx
 git commit -m "feat: add tick-based spinner override"
 ```
 
-Note: Animation styles are shipped via registry `css` and `cssVars` (Task 4) — the shadcn CLI injects them into the user's globals. Do not add to `src/styles/app.css`; that is local-only.
+Note: Animation styles are shipped via registry `css` and `cssVars` (Task 4) — the shadcn CLI
+injects them into the user's globals. Do not add to `src/styles/app.css`; that is local-only.
 
 ---
 
 ## Task 3: Update button overrides to import from registry
 
 **Files:**
+
 - Modify: `registry/uxio/overrides-button-base/button.tsx`
 - Modify: `registry/uxio/overrides-button-radix/button.tsx`
 
 **Step 1: Update button-base import**
 
 Change:
+
 ```tsx
 import { Spinner } from "@/components/ui/spinner"
 ```
+
 To:
+
 ```tsx
 import { Spinner } from "@/registry/uxio/overrides-spinner/spinner"
 ```
@@ -120,8 +131,7 @@ Same change as button-base.
 
 **Step 3: Verify**
 
-Run: `pnpm exec tsc --noEmit`
-Expected: No errors (with @/registry alias from Task 1)
+Run: `pnpm exec tsc --noEmit` Expected: No errors (with @/registry alias from Task 1)
 
 **Step 4: Commit**
 
@@ -135,20 +145,23 @@ git commit -m "refactor(button): import spinner from registry"
 ## Task 4: Update build script for spinner source and import rewrite
 
 **Files:**
+
 - Modify: `scripts/build-registry.ts`
 
 **Step 1: Add spinner registry path constant**
 
 ```ts
-const SPINNER_REGISTRY_PATH = resolve(ROOT, "registry/uxio/overrides-spinner/spinner.tsx");
+const SPINNER_REGISTRY_PATH = resolve(ROOT, "registry/uxio/overrides-spinner/spinner.tsx")
 ```
 
 **Step 2: Update buildButtonItem**
 
 - Change `SPINNER_PATH` usage to `SPINNER_REGISTRY_PATH` when reading spinner content
-- After reading button source, rewrite `@/registry/uxio/overrides-spinner/spinner` → `@/components/ui/spinner` in content (for published registry output)
+- After reading button source, rewrite `@/registry/uxio/overrides-spinner/spinner` →
+  `@/components/ui/spinner` in content (for published registry output)
 - In files array, keep spinner at `components/ui/spinner.tsx`
-- **Add `css` and `cssVars`** to the button item — the button bundles the tick spinner, so users who add only `@uxio/button` must get the animation injected into their globals:
+- **Add `css` and `cssVars`** to the button item — the button bundles the tick spinner, so users who
+  add only `@uxio/button` must get the animation injected into their globals:
 
 ```ts
 cssVars: {
@@ -169,11 +182,12 @@ css: {
 
 **Step 4: Add buildSpinnerItem function**
 
-Use shadcn registry `css` and `cssVars` so the CLI injects the animation into the user's globals.css ([see](https://ui.shadcn.com/docs/registry/registry-item-json)):
+Use shadcn registry `css` and `cssVars` so the CLI injects the animation into the user's globals.css
+([see](https://ui.shadcn.com/docs/registry/registry-item-json)):
 
 ```ts
 async function buildSpinnerItem(): Promise<RegistryItem> {
-  const spinnerContent = readFileSync(SPINNER_REGISTRY_PATH, "utf-8");
+  const spinnerContent = readFileSync(SPINNER_REGISTRY_PATH, "utf-8")
   return {
     $schema: "https://ui.shadcn.com/schema/registry-item.json",
     name: "spinner",
@@ -182,9 +196,7 @@ async function buildSpinnerItem(): Promise<RegistryItem> {
     description: "Tick-based spinner. A redesign of the original shadcn spinner.",
     dependencies: [],
     registryDependencies: [],
-    files: [
-      { path: "components/ui/spinner.tsx", content: spinnerContent, type: "registry:ui" },
-    ],
+    files: [{ path: "components/ui/spinner.tsx", content: spinnerContent, type: "registry:ui" }],
     cssVars: {
       theme: {
         "animate-tick-fade": "tick-fade 1.2s infinite",
@@ -197,7 +209,7 @@ async function buildSpinnerItem(): Promise<RegistryItem> {
       },
     },
     categories: ["overrides"],
-  };
+  }
 }
 ```
 
@@ -211,12 +223,13 @@ Add spinner to `registryIndex.items`.
 
 **Step 7: Extend RegistryItem interface**
 
-Add `css` and `cssVars` to the interface if not present (see [registry-item schema](https://ui.shadcn.com/schema/registry-item.json)).
+Add `css` and `cssVars` to the interface if not present (see
+[registry-item schema](https://ui.shadcn.com/schema/registry-item.json)).
 
 **Step 8: Verify**
 
-Run: `pnpm run registry:build`
-Expected: Build succeeds, `public/r/styles/base-nova/spinner.json` exists with `css` and `cssVars`, button.json contains `@/components/ui/spinner` in output
+Run: `pnpm run registry:build` Expected: Build succeeds, `public/r/styles/base-nova/spinner.json`
+exists with `css` and `cssVars`, button.json contains `@/components/ui/spinner` in output
 
 **Step 8: Commit**
 
@@ -230,11 +243,13 @@ git commit -m "feat(registry): build spinner item with animation CSS"
 ## Task 5: Update auto-gen plugin to watch spinner registry
 
 **Files:**
+
 - Modify: `plugins/auto-gen/index.ts`
 
 **Step 1: Add spinner registry to watch**
 
-Update watcher to include `registry/uxio/overrides-spinner/` (or ensure `REGISTRY_DIR` already covers it — `registry` folder is watched, so `registry/uxio/overrides-spinner` should be included).
+Update watcher to include `registry/uxio/overrides-spinner/` (or ensure `REGISTRY_DIR` already
+covers it — `registry` folder is watched, so `registry/uxio/overrides-spinner` should be included).
 
 Verify: Change spinner.tsx, build should re-run.
 
@@ -250,6 +265,7 @@ git commit -m "chore: ensure spinner registry is watched"
 ## Task 6: Add spinner documentation
 
 **Files:**
+
 - Create: `content/docs/overrides/base/spinner.mdx` (or shared `content/docs/overrides/spinner.mdx`)
 
 **Step 1: Create spinner.mdx**
@@ -264,11 +280,10 @@ The Spinner override replaces the default Loader2 spinner with a tick-based desi
 
 ## Install
 
-\`\`\`bash
-npx shadcn@latest add @uxio/spinner
-\`\`\`
+\`\`\`bash npx shadcn@latest add @uxio/spinner \`\`\`
 
-The animation CSS is automatically injected into your project's globals file when you add the component (via shadcn registry \`css\` and \`cssVars\`).
+The animation CSS is automatically injected into your project's globals file when you add the
+component (via shadcn registry \`css\` and \`cssVars\`).
 
 ## Props
 
@@ -280,6 +295,7 @@ The animation CSS is automatically injected into your project's globals file whe
 ## Usage
 
 \`\`\`tsx
+
 <Spinner />
 <Spinner className="size-8" ticksCount={8} />
 \`\`\`
@@ -302,6 +318,8 @@ git commit -m "docs: add spinner override documentation"
 
 - [ ] `pnpm run registry:build` succeeds
 - [ ] `public/r/styles/base-nova/spinner.json` exists with spinner.tsx, `css`, and `cssVars`
-- [ ] `public/r/styles/base-nova/button.json` includes `css` and `cssVars` for tick-fade (button bundles spinner)
-- [ ] In a test project: `npx shadcn add @uxio/button` — verify globals.css receives `@keyframes tick-fade` and theme var
+- [ ] `public/r/styles/base-nova/button.json` includes `css` and `cssVars` for tick-fade (button
+      bundles spinner)
+- [ ] In a test project: `npx shadcn add @uxio/button` — verify globals.css receives
+      `@keyframes tick-fade` and theme var
 - [ ] `pnpm exec tsc --noEmit` passes

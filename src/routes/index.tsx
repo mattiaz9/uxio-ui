@@ -229,7 +229,8 @@ const COMPONENT_SECTIONS: {
   {
     category: "Inputs",
     label: "Inputs",
-    blurb: "Composed field controls that extend primitives with calendars, groups, and structured typing.",
+    blurb:
+      "Composed field controls that extend primitives with calendars, groups, and structured typing.",
     icon: <CalendarClockIcon className="size-5" />,
   },
   {

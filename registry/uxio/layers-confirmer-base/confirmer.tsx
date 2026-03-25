@@ -49,7 +49,7 @@ function openConfirmer(options: ConfirmerOptions) {
   }
 }
 
-async function hideConfirmer(success: boolean) {
+function hideConfirmer(success: boolean) {
   resolveConfirmer?.(success)
   resolveConfirmer = undefined
   listener?.(undefined)
@@ -67,11 +67,13 @@ async function runAction(action: () => void | Promise<void>) {
       }
       resolve()
     } catch (error) {
-      reject(error)
+      reject(error instanceof Error ? error : new Error(String(error)))
     }
   })
 
-  const result = await promisifiedAction.then(() => true).catch((error) => error)
+  const result = await promisifiedAction
+    .then(() => true)
+    .catch((error: unknown) => (error instanceof Error ? error : new Error(String(error))))
   listener?.((state) => ({
     ...(state as ConfirmerState),
     isLoading: false,
