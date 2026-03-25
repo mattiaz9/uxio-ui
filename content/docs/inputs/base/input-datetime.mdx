@@ -1,0 +1,58 @@
+---
+title: Input DateTime
+description: Segmented date, time, or datetime control with input group layout, optional calendar popover (not in time-only mode), and a hidden string field for forms.
+---
+
+## Overview
+
+`InputDatetime` composes **Input Group** and, for `date` / `datetime` modes, **Popover** and **Calendar**. The visible value is split into focusable segments (one per date/time field in your `format`). A **hidden** `<input>` mirrors the composed string for native form posts; use `onChange` on that flow for **partial** updates as the user types, and `onValueChange` when a full `Date` is **committed** (all segments valid, Enter, blur after completion, or a calendar pick).
+
+## Custom props
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `mode` | `'date' \| 'time' \| 'datetime'` | Defaults to `'datetime'`. Narrows which field tokens from `format` are editable (date parts, time parts, or both). |
+| `format` | `string` | [date-fns `format`](https://date-fns.org/docs/format) pattern. If omitted, defaults use `separator` between date parts: `yyyy/MM/dd` (date), `HH:mm` (time), `yyyy/MM/dd HH:mm` (datetime). |
+| `separator` | `string` | Default `'/'`. Used only when `format` is omitted, between year, month, and day. Ignored for `mode="time"`. Must not be a date-fns pattern letter (`y`, `M`, `d`, `H`, `m`, `s`). |
+| `value` | `Date \| string \| null` | Controlled value: a `Date` or an ISO-like / formatted string parseable with `format`. |
+| `defaultValue` | `Date \| string \| null` | Uncontrolled initial value. |
+| `onValueChange` | `(date: Date \| null) => void` | Fires when a committed, valid `Date` is available (see Overview). |
+| `onChange` | `ChangeEventHandler<HTMLInputElement>` | Fires with the hidden input’s string `value` whenever segments change, including **partial** input. |
+| `name` | `string` | Passed to the hidden input for forms. |
+| `ref` | `HTMLInputElement` | Attached to the **hidden** input. |
+
+Segments accept digits only; Arrow keys move between segments; **Enter** commits the current string. In `date` and `datetime` modes, the calendar button opens a popover with **Calendar** (day selection). In `time` mode there is no calendar—only the time segments.
+
+## Install
+
+Configure your registry in `components.json`:
+
+```json
+{
+  "registries": {
+    "@uxio": "https://ui.uxio.dev/r/styles/{style}/{name}.json"
+  }
+}
+```
+
+Then run:
+
+```bash
+npx shadcn@latest add @uxio/input-datetime
+```
+
+This pulls `input-group`, `calendar`, and `popover` as registry dependencies. The correct variant (Base UI or Radix) follows your `components.json` style.
+
+## Examples
+
+### Date mode (`mode="date"`)
+
+<ComponentPreview name="base/input-datetime-mode-date" />
+
+### Time mode (`mode="time"`)
+
+<ComponentPreview name="base/input-datetime-mode-time" />
+
+### Datetime mode (`mode="datetime"`)
+
+<ComponentPreview name="base/input-datetime-mode-datetime" />

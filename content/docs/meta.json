@@ -1,4 +1,4 @@
 {
   "title": "Documentation",
-  "pages": ["index", "bundle", "overrides", "layout", "layers"]
+  "pages": ["index", "bundle", "overrides", "inputs", "layout", "layers"]
 }

@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router"
 
 import {
   ArrowRightIcon,
+  CalendarClockIcon,
   LayoutTemplateIcon,
   LayersIcon,
   PaletteIcon,
@@ -20,7 +21,7 @@ export const Route = createFileRoute("/")({
   component: Home,
 })
 
-type RegistryCategory = "Overrides" | "Layout" | "Layers"
+type RegistryCategory = "Overrides" | "Inputs" | "Layout" | "Layers"
 
 type RegistryComponentItem = {
   title: string
@@ -174,6 +175,14 @@ const registryComponents: RegistryComponentItem[] = [
     category: "Overrides",
     docsSplat: "overrides/base/tooltip",
   },
+  // Inputs
+  {
+    title: "Input DateTime",
+    description:
+      "Segmented date, time, or datetime field with calendar popover and hidden string value for forms.",
+    category: "Inputs",
+    docsSplat: "inputs/base/input-datetime",
+  },
   // Layout
   {
     title: "Split Content",
@@ -216,6 +225,12 @@ const COMPONENT_SECTIONS: {
     label: "Overrides",
     blurb: "Enhanced shadcn primitives and composed controls — same APIs, refined defaults.",
     icon: <PuzzleIcon className="size-5" />,
+  },
+  {
+    category: "Inputs",
+    label: "Inputs",
+    blurb: "Composed field controls that extend primitives with calendars, groups, and structured typing.",
+    icon: <CalendarClockIcon className="size-5" />,
   },
   {
     category: "Layout",

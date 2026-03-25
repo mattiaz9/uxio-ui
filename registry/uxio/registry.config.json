@@ -301,6 +301,42 @@
     }
   },
   {
+    "name": "input-group",
+    "type": "registry:ui",
+    "title": "Input Group",
+    "description": "Grouped input with addons, icon buttons, and aligned controls for composed fields.",
+    "categories": ["overrides"],
+    "dependencies": {
+      "base": ["class-variance-authority", "clsx", "tailwind-merge"],
+      "radix": ["class-variance-authority", "clsx", "tailwind-merge"]
+    },
+    "registryDependencies": ["@uxio/button", "@uxio/input", "@uxio/textarea"]
+  },
+  {
+    "name": "calendar",
+    "type": "registry:ui",
+    "title": "Calendar",
+    "description": "Calendar grid built on react-day-picker using registry button styles.",
+    "categories": ["overrides"],
+    "dependencies": {
+      "base": ["react-day-picker", "class-variance-authority", "clsx", "tailwind-merge", "lucide-react"],
+      "radix": ["react-day-picker", "class-variance-authority", "clsx", "tailwind-merge", "lucide-react"]
+    },
+    "registryDependencies": ["@uxio/button"]
+  },
+  {
+    "name": "input-datetime",
+    "type": "registry:ui",
+    "title": "Input DateTime",
+    "description": "Segmented date, time, or datetime field with calendar popover and hidden string value for forms.",
+    "categories": ["inputs"],
+    "dependencies": {
+      "base": ["date-fns", "clsx", "tailwind-merge", "lucide-react"],
+      "radix": ["date-fns", "clsx", "tailwind-merge", "lucide-react"]
+    },
+    "registryDependencies": ["@uxio/input-group", "@uxio/calendar", "@uxio/popover"]
+  },
+  {
     "name": "item",
     "type": "registry:ui",
     "title": "Item",

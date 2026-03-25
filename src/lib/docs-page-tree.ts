@@ -10,7 +10,7 @@ export function buildDocsPathFromSplat(splat: string | undefined): string {
 }
 
 export function getDocsFrameworkFromPath(pathname: string): DocsFramework | null {
-  const match = /^\/docs\/(?:overrides|layout|layers)\/(radix|base)(?:\/|$)/.exec(pathname)
+  const match = /^\/docs\/(?:overrides|inputs|layout|layers)\/(radix|base)(?:\/|$)/.exec(pathname)
   if (match && (match[1] === "radix" || match[1] === "base")) {
     return match[1]
   }
@@ -20,7 +20,7 @@ export function getDocsFrameworkFromPath(pathname: string): DocsFramework | null
 /** Normalize sidebar item URLs to the active framework (meta.json authors use Radix paths). */
 function rewriteDocsFrameworkUrl(url: string, target: DocsFramework): string {
   let out = url
-  for (const section of ["overrides", "layout", "layers"] as const) {
+  for (const section of ["overrides", "inputs", "layout", "layers"] as const) {
     const radixPrefix = `/docs/${section}/radix/`
     const basePrefix = `/docs/${section}/base/`
     if (target === "base" && out.startsWith(radixPrefix)) {
