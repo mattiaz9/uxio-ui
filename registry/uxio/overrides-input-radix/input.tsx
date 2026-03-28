@@ -1,5 +1,3 @@
-"use client"
-
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 
@@ -22,19 +20,20 @@ const inputVariants = cva(
   },
 )
 
-const Input = React.forwardRef<
-  HTMLInputElement,
-  Omit<React.ComponentProps<"input">, "size"> & VariantProps<typeof inputVariants>
->(function Input({ className, type, size = "default", ...props }, ref) {
+function Input({
+  className,
+  type,
+  size = "default",
+  ...props
+}: Omit<React.ComponentProps<"input">, "size"> & VariantProps<typeof inputVariants>) {
   return (
     <input
-      ref={ref}
       type={type}
       data-size={size}
       className={cn(inputVariants({ size }), className)}
       {...props}
     />
   )
-})
+}
 
 export { Input, inputVariants }

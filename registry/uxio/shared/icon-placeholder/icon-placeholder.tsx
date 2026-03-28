@@ -2,8 +2,9 @@
 
 import { lazy, Suspense, type ComponentProps } from "react"
 
-import { SquareIcon } from "lucide-react"
+import { SquareIcon, type icons as lucideIcons } from "lucide-react"
 
+import type { icons as tablerIcons } from "@tabler/icons-react"
 import type { IconLibraryName } from "shadcn/icons"
 
 const IconLucide = lazy(() =>
@@ -42,11 +43,15 @@ void import("@/registry/icons/icon-hugeicons")
 void import("@/registry/icons/icon-phosphor")
 void import("@/registry/icons/icon-remixicon")
 
-export function IconPlaceholder({
-  ...props
-}: {
-  [K in IconLibraryName]: string
-} & ComponentProps<"svg">) {
+type IconNames = {
+  lucide: `${keyof typeof lucideIcons}Icon`
+  tabler: keyof typeof tablerIcons
+  hugeicons: string
+  phosphor: string
+  remixicon: string
+}
+
+export function IconPlaceholder({ ...props }: IconNames & ComponentProps<"svg">) {
   const iconLibrary = "lucide" as IconLibraryName
   const iconName = props[iconLibrary]
 

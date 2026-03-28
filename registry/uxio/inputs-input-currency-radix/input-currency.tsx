@@ -4,84 +4,22 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 import {
+  committedAmountToTypingDraft,
+  computeRoundedAmount,
   getCurrencyFormatParts,
   getCurrencyFractionDigits,
+  getStringControlledDisplay,
   normalizeDecimalString,
   parseCurrencyStringToNumber,
   roundToCurrencyMinorUnits,
   sanitizeCurrencyDecimalInput,
-} from "@/registry/uxio/shared/input-currency/currency-format"
+} from "@/registry/lib/currency"
+import { clampNumber, isFiniteNumber, sanitizeBounds } from "@/registry/lib/numbers"
 import {
   InputGroup,
   InputGroupAddon,
 } from "@/registry/uxio/overrides-input-group-radix/input-group"
 import { Input } from "@/registry/uxio/overrides-input-radix/input"
-
-function isFiniteNumber(value: unknown): value is number {
-  return typeof value === "number" && Number.isFinite(value)
-}
-
-function sanitizeBounds(min?: number, max?: number) {
-  const safeMin = isFiniteNumber(min) ? min : undefined
-  const safeMax = isFiniteNumber(max) ? max : undefined
-
-  if (safeMin !== undefined && safeMax !== undefined && safeMin > safeMax) {
-    return { min: undefined, max: undefined }
-  }
-
-  return { min: safeMin, max: safeMax }
-}
-
-function clampNumber(value: number, min?: number, max?: number): number {
-  let next = value
-  if (min !== undefined) next = Math.max(min, next)
-  if (max !== undefined) next = Math.min(max, next)
-  return next
-}
-
-function computeRoundedAmount(
-  n: number,
-  locale: string | undefined,
-  currency: string,
-  min?: number,
-  max?: number,
-): number {
-  const b = sanitizeBounds(min, max)
-  const c = clampNumber(n, b.min, b.max)
-  const fd = getCurrencyFractionDigits(locale, currency)
-  return roundToCurrencyMinorUnits(c, fd)
-}
-
-function committedAmountToTypingDraft(
-  rounded: number,
-  locale: string | undefined,
-  currency: string,
-): string {
-  const fd = getCurrencyFractionDigits(locale, currency)
-  return normalizeDecimalString(rounded, fd)
-}
-
-function getStringControlledDisplay(
-  value: string,
-  focused: boolean,
-  locale: string | undefined,
-  currency: string,
-  min?: number,
-  max?: number,
-): string {
-  const sanitized = sanitizeCurrencyDecimalInput(value, locale, currency)
-  if (focused) return sanitized
-  const parsed = parseCurrencyStringToNumber(sanitized, locale, currency)
-  if (parsed === null) return sanitized
-  const bounds = sanitizeBounds(min, max)
-  const fd = getCurrencyFractionDigits(locale, currency)
-  const clamped = clampNumber(parsed, bounds.min, bounds.max)
-  const rounded = roundToCurrencyMinorUnits(clamped, fd)
-  const canonical = normalizeDecimalString(rounded, fd)
-  const fromParsedOnly = normalizeDecimalString(parsed, fd)
-  if (canonical !== fromParsedOnly) return sanitized
-  return getCurrencyFormatParts(locale, currency, rounded).numericDisplay
-}
 
 interface InputCurrencyProps extends Omit<
   React.ComponentProps<typeof Input>,
