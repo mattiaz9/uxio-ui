@@ -183,6 +183,13 @@ const registryComponents: RegistryComponentItem[] = [
     category: "Inputs",
     docsSplat: "inputs/base/input-datetime",
   },
+  {
+    title: "Input Number",
+    description:
+      "Numeric input with step controls, filtered typing, and separate text and committed-value callbacks.",
+    category: "Inputs",
+    docsSplat: "inputs/base/input-number",
+  },
   // Layout
   {
     title: "Split Content",
@@ -283,9 +290,6 @@ function Home() {
       <section className="relative overflow-hidden border-b border-border">
         <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_60%_50%_at_50%_-20%,var(--color-primary)/6%,transparent)]" />
         <div className="container flex flex-col items-center py-24 text-center sm:py-32 lg:py-40">
-          <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-muted/60 px-3 py-1 text-xs font-medium text-muted-foreground backdrop-blur">
-            Built on top of shadcn/ui
-          </p>
           <h1 className="max-w-2xl font-display text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
             Refined shadcn/ui components for your next project
           </h1>

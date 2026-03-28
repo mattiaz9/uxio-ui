@@ -3,8 +3,6 @@
 import * as React from "react"
 import { format, isValid, parse, set } from "date-fns"
 
-import { CalendarIcon } from "lucide-react"
-
 import { cn } from "@/lib/utils"
 import { Calendar } from "@/registry/uxio/overrides-calendar-radix/calendar"
 import {
@@ -17,6 +15,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/registry/uxio/overrides-popover-radix/popover"
+import { IconPlaceholder } from "@/registry/uxio/shared/icon-placeholder/icon-placeholder"
 
 type InputDatetimeMode = "date" | "time" | "datetime"
 
@@ -26,8 +25,17 @@ type FormatToken =
   | { type: "literal"; text: string }
   | { type: "field"; kind: FieldKind; pattern: string }
 
-const DATE_FIELDS: ReadonlySet<FieldKind> = new Set(["year", "month", "day"])
-const TIME_FIELDS: ReadonlySet<FieldKind> = new Set(["hour", "minute", "second"])
+const ALLOWED_FIELDS = {
+  date: ["year", "month", "day"],
+  time: ["hour", "minute", "second"],
+  datetime: ["year", "month", "day", "hour", "minute", "second"],
+} as const satisfies Record<InputDatetimeMode, readonly FieldKind[]>
+
+const DEFAULT_FORMAT = {
+  date: "yyyy/MM/dd",
+  time: "HH:mm",
+  datetime: "yyyy/MM/dd HH:mm",
+} as const
 
 function fieldCharToKind(c: string): FieldKind {
   switch (c) {
@@ -69,14 +77,8 @@ function tokenizeFormat(fmt: string): FormatToken[] {
   return tokens
 }
 
-function allowedFields(mode: InputDatetimeMode): ReadonlySet<FieldKind> {
-  if (mode === "date") return DATE_FIELDS
-  if (mode === "time") return TIME_FIELDS
-  return new Set([...DATE_FIELDS, ...TIME_FIELDS])
-}
-
 function tokensForMode(tokens: FormatToken[], mode: InputDatetimeMode): FormatToken[] {
-  const allow = allowedFields(mode)
+  const allow = new Set(ALLOWED_FIELDS[mode])
   const filtered = tokens.filter((t) => t.type === "literal" || allow.has(t.kind))
   const merged: FormatToken[] = []
   for (const t of filtered) {
@@ -146,13 +148,6 @@ function parseSegmentsFromString(str: string, tokens: FormatToken[]): string[] {
   return segments
 }
 
-function defaultFormatForMode(mode: InputDatetimeMode, dateSeparator: string): string {
-  const s = dateSeparator
-  if (mode === "date") return `yyyy${s}MM${s}dd`
-  if (mode === "time") return "HH:mm"
-  return `yyyy${s}MM${s}dd HH:mm`
-}
-
 function segmentsComplete(tokens: FormatToken[], segments: string[]): boolean {
   const fields = fieldTokens(tokens)
   for (let i = 0; i < fields.length; i++) {
@@ -165,22 +160,22 @@ function segmentsComplete(tokens: FormatToken[], segments: string[]): boolean {
 }
 
 function coerceToDate(value: string | Date | null | undefined): Date | null {
-  if (value == null || value === "") return null
-  if (value instanceof Date) return isValid(value) ? value : null
-  const d = new Date(value)
+  const d = new Date(value ?? "")
   return isValid(d) ? d : null
 }
 
-export type InputDatetimeProps = Omit<React.ComponentProps<"div">, "onChange" | "defaultValue"> & {
+interface InputDatetimeProps extends Omit<
+  React.ComponentProps<"div">,
+  "onChange" | "defaultValue"
+> {
   mode?: InputDatetimeMode
-  /** date-fns format string; fields should match `mode` (date / time / datetime). */
-  format?: string
   /**
-   * Separator between year, month, and day in the default format (when `format` is omitted).
-   * Ignored if you pass an explicit `format`. Do not use characters that conflict with date-fns
-   * pattern letters (`y`, `M`, `d`, `H`, `m`, `s`).
+   * Pattern string: runs of `y`, `M`, `d`, `H`, `m`, or `s` are editable segments (same rules as
+   * [date-fns format](https://date-fns.org/docs/format) for those letters). Any other characters
+   * are static labels between segments (e.g. `"yyyy/MM/dd - HH:mm"`). If omitted, defaults are
+   * `yyyy/MM/dd` (date), `HH:mm` (time), `yyyy/MM/dd HH:mm` (datetime).
    */
-  separator?: string
+  format?: string
   value?: Date | string | null
   defaultValue?: Date | string | null
   /** Called when the value is committed: all segments filled, Enter, or calendar selection. */
@@ -191,27 +186,20 @@ export type InputDatetimeProps = Omit<React.ComponentProps<"div">, "onChange" | 
   disabled?: boolean
 }
 
-const InputDatetime = React.forwardRef<HTMLInputElement, InputDatetimeProps>(function InputDatetime(
-  {
-    className,
-    mode = "datetime",
-    format: formatProp,
-    separator: separatorProp = "/",
-    value: valueProp,
-    defaultValue,
-    onValueChange,
-    onChange,
-    name,
-    disabled,
-    id,
-    ...props
-  },
-  ref,
-) {
-  const formatStr = React.useMemo(() => {
-    if (formatProp) return formatProp
-    return defaultFormatForMode(mode, separatorProp)
-  }, [formatProp, mode, separatorProp])
+function InputDatetime({
+  className,
+  mode = "datetime",
+  format: formatProp,
+  value: valueProp,
+  defaultValue,
+  onValueChange,
+  onChange,
+  name,
+  disabled,
+  id,
+  ...props
+}: InputDatetimeProps) {
+  const formatStr = formatProp || DEFAULT_FORMAT[mode]
   const tokens = React.useMemo(
     () => tokensForMode(tokenizeFormat(formatStr), mode),
     [formatStr, mode],
@@ -229,11 +217,10 @@ const InputDatetime = React.forwardRef<HTMLInputElement, InputDatetimeProps>(fun
 
   const [segments, setSegments] = React.useState<string[]>(() => {
     const initial = coerceToDate(valueProp !== undefined ? valueProp : (defaultValue ?? undefined))
-    const fmt = formatProp ?? defaultFormatForMode(mode, separatorProp)
-    const tok = tokensForMode(tokenizeFormat(fmt), mode)
+    const tok = tokensForMode(tokenizeFormat(formatStr), mode)
     const flds = fieldTokens(tok)
     if (initial && flds.length) {
-      return parseSegmentsFromString(format(initial, fmt), tok)
+      return parseSegmentsFromString(format(initial, formatStr), tok)
     }
     return flds.map(() => "")
   })
@@ -248,8 +235,6 @@ const InputDatetime = React.forwardRef<HTMLInputElement, InputDatetimeProps>(fun
   React.useLayoutEffect(() => {
     segmentsRef.current = segments
   }, [segments])
-
-  React.useImperativeHandle(ref, () => innerInputRef.current as HTMLInputElement, [])
 
   const stringValue = React.useMemo(() => composeString(tokens, segments), [tokens, segments])
 
@@ -330,8 +315,7 @@ const InputDatetime = React.forwardRef<HTMLInputElement, InputDatetimeProps>(fun
 
   const calendarSelected = React.useMemo(() => {
     if (parsedForCalendar) return parsedForCalendar
-    const d = coerceToDate(valueProp !== undefined ? valueProp : (defaultValue ?? undefined))
-    return d ?? undefined
+    return coerceToDate(valueProp ?? defaultValue ?? undefined) ?? undefined
   }, [parsedForCalendar, valueProp, defaultValue])
 
   const updateSegment = (index: number, next: string) => {
@@ -379,7 +363,7 @@ const InputDatetime = React.forwardRef<HTMLInputElement, InputDatetimeProps>(fun
   }
 
   return (
-    <InputGroup className={cn("cn-input-datetime", className)} {...props}>
+    <InputGroup className={className} data-slot="input-datetime" {...props}>
       <input
         type="hidden"
         id={id}
@@ -392,11 +376,11 @@ const InputDatetime = React.forwardRef<HTMLInputElement, InputDatetimeProps>(fun
         tabIndex={-1}
       />
       <div
-        data-slot="input-group-control"
         className={cn(
-          "cn-input-datetime-segments cn-input-group-input flex min-h-9 flex-1 flex-wrap items-center gap-0.5 px-3 py-1 text-sm outline-none",
+          "cn-input-group-input flex h-full flex-1 flex-wrap items-center gap-0.5 px-3 py-1 text-sm",
           disabled && "pointer-events-none opacity-50",
         )}
+        data-slot="input-datetime-control"
         onKeyDown={(e) => {
           if (disabled) return
           if (e.key === "Enter") {
@@ -417,33 +401,37 @@ const InputDatetime = React.forwardRef<HTMLInputElement, InputDatetimeProps>(fun
           const f = t
           const raw = segments[idx] ?? ""
           const max = f.pattern.length
-          const label =
-            f.kind === "year"
-              ? "Year"
-              : f.kind === "month"
-                ? "Month"
-                : f.kind === "day"
-                  ? "Day"
-                  : f.kind === "hour"
-                    ? "Hour"
-                    : f.kind === "minute"
-                      ? "Minute"
-                      : "Second"
+          const label = (() => {
+            switch (f.kind) {
+              case "year":
+                return "Year"
+              case "month":
+                return "Month"
+              case "day":
+                return "Day"
+              case "hour":
+                return "Hour"
+              case "minute":
+                return "Minute"
+              case "second":
+                return "Second"
+            }
+          })()
           return (
             <span
               key={`field-${idx}-${f.pattern}`}
               ref={(el) => {
                 segmentRefs.current[idx] = el
               }}
+              className={cn(
+                "min-w-[1ch] rounded-xs px-0.5 font-mono tabular-nums outline-none focus:bg-accent focus:text-accent-foreground",
+                !(segments[idx]?.length === f.pattern.length) && "text-muted-foreground",
+              )}
               tabIndex={disabled ? -1 : 0}
               role="textbox"
               aria-label={label}
               aria-disabled={disabled}
               data-placeholder={f.pattern.replace(/./g, "0")}
-              className={cn(
-                "min-w-[1ch] rounded-xs px-0.5 font-mono tabular-nums outline-none focus:bg-accent focus:text-accent-foreground",
-                !(segments[idx]?.length === f.pattern.length) && "text-muted-foreground",
-              )}
               onFocus={() => {
                 replaceOnNextDigitRef.current = true
               }}
@@ -515,7 +503,14 @@ const InputDatetime = React.forwardRef<HTMLInputElement, InputDatetimeProps>(fun
                 disabled={disabled}
                 aria-label="Open calendar"
               >
-                <CalendarIcon className="size-4" />
+                <IconPlaceholder
+                  className="size-4"
+                  lucide="calendar"
+                  tabler="calendar"
+                  hugeicons="calendar"
+                  phosphor="calendar"
+                  remixicon="calendar"
+                />
               </InputGroupButton>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="end">
@@ -531,6 +526,6 @@ const InputDatetime = React.forwardRef<HTMLInputElement, InputDatetimeProps>(fun
       ) : null}
     </InputGroup>
   )
-})
+}
 
 export { InputDatetime }

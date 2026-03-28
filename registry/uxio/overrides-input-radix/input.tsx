@@ -22,20 +22,19 @@ const inputVariants = cva(
   },
 )
 
-function Input({
-  className,
-  type,
-  size = "default",
-  ...props
-}: Omit<React.ComponentProps<"input">, "size"> & VariantProps<typeof inputVariants>) {
+const Input = React.forwardRef<
+  HTMLInputElement,
+  Omit<React.ComponentProps<"input">, "size"> & VariantProps<typeof inputVariants>
+>(function Input({ className, type, size = "default", ...props }, ref) {
   return (
     <input
+      ref={ref}
       type={type}
       data-size={size}
       className={cn(inputVariants({ size }), className)}
       {...props}
     />
   )
-}
+})
 
 export { Input, inputVariants }

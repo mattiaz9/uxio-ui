@@ -349,6 +349,18 @@
     "registryDependencies": ["@uxio/input-group", "@uxio/calendar", "@uxio/popover"]
   },
   {
+    "name": "input-number",
+    "type": "registry:ui",
+    "title": "Input Number",
+    "description": "Numeric input with step controls, filtered text entry, and committed numeric callbacks.",
+    "categories": ["inputs"],
+    "dependencies": {
+      "base": ["clsx", "tailwind-merge", "lucide-react"],
+      "radix": ["clsx", "tailwind-merge", "lucide-react"]
+    },
+    "registryDependencies": ["@uxio/input-group"]
+  },
+  {
     "name": "item",
     "type": "registry:ui",
     "title": "Item",
