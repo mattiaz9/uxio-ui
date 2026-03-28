@@ -1,6 +1,6 @@
 # Input Currency — Design Spec
 
-**Status:** Draft → ready for implementation planning (2026-03-28)  
+**Status:** Ready for implementation planning (2026-03-28)  
 **Context:** New registry component `input-currency`, documented and exemplified like `input-number`. Primary behavioral reference: `registry/uxio/inputs-input-number-{radix|base}/input-number.tsx`.
 
 ## Summary
@@ -28,22 +28,30 @@
 
 **Removed vs `InputNumber`:** no `step` prop.
 
+**Visible value vs emitted value:** The `<input>` shows whatever the component uses for **display** (draft while typing; **Intl-derived numeric fragment** after commit—see below). **`onValueChange`** is the **canonical normalized decimal string** for app state and APIs. Native `<form>` submit sends the **visible** string; apps that must submit the normalized API shape should use **controlled state** from `onValueChange` or a hidden field they control.
+
+**`ref`:** Forwarded to the **text `<input>`** (same expectation as `InputNumber`).
+
 ## Typing behavior
 
 - Reuse the **same sanitization idea** as `input-number`: digits, optional leading `-`, single decimal separator (`.` or `,` normalized at parse time as today).
 - **No** Intl formatting, **no** thousands grouping, **no** currency symbol in the editable field while typing between commits.
+
+**Deviation from `InputNumber`:** `InputNumber` can keep a **user-preferred** `.` vs `,` for display after commit. Here, **after commit** the numeric **display** follows **`Intl`** (grouping and decimal separators from `formatToParts`), not a persisted typing preference—only **typing** stays unformatted.
 
 ## Symbol placement (Intl order)
 
 Use `Intl.NumberFormat(locale, { style: 'currency', currency }).formatToParts(amount)` and:
 
 1. **Symbol text:** concatenate all parts with `type === 'currency'`.
-2. **Numeric display:** concatenate all **non-currency** parts in order (integer, group, decimal, fraction, literal as needed) so the symbol does not appear in the input.
+2. **Numeric display:** concatenate all **non-currency** parts in order (integer, group, decimal, fraction, literal as needed) so the symbol does not appear in the input. **Sign:** Minus / negative formatting should remain in these **non-currency** parts (verify for target locales in tests so the sign is not mistaken for part of the addon).
 3. **Addon alignment:** Compare the index of the **first** `currency` part to the index of the **first** `integer` part. If `currency` comes first (`index(currency) < index(integer)`), use **`align="inline-start"`**; if `integer` comes first (`index(integer) < index(currency)`), use **`align="inline-end"`**. **Tie-break:** If indices are equal (should not occur for valid `formatToParts` output) or `integer` is missing, default to **`inline-start`**.
 
 ## Commit behavior
 
 **Triggers:** **blur** and **Enter** (same family as `input-number` for committing text). **ArrowUp/ArrowDown** must **not** change the value or trigger commit (no `input-number`-style stepping).
+
+**Event order:** For `onBlur`, `onKeyDown`, `onPaste`, and `onWheel`, follow the same pattern as `input-number`: invoke the **user’s** handler first; if not `defaultPrevented` (and not disabled), run **sanitize / commit / wheel prevention** as applicable.
 
 **On commit:**
 
