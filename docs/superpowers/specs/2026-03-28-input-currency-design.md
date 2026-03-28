@@ -5,11 +5,11 @@
 
 ## Summary
 
-`InputCurrency` is a money field built on **Input Group**: a **prefix** shows the **currency symbol** (from **`currency`** + **Intl**); the **text field** holds only the **numeric** content. While the user is typing, the field behaves like a **plain decimal text input** (filtered characters, no grouping, no symbol inside the input, no Intl formatting). **After commit** (blur or Enter), the visible value updates to the **Intl-formatted** numeric portion; the prefix shows the symbol. **`onValueChange`** emits a **normalized decimal string** (API-friendly), not a `number`.
+`InputCurrency` is a money field built on **Input Group**: an **addon** shows the **currency symbol** (from **`currency`** + **Intl**); the **text field** holds only the **numeric** content. Addon is **inline-start or inline-end** per **Symbol placement** below—not always leading. While the user is typing, the field behaves like a **plain decimal text input** (filtered characters, no grouping, no symbol inside the input, no Intl formatting). **After commit** (blur or Enter), the visible value updates to the **Intl-formatted** numeric portion; the prefix shows the symbol. **`onValueChange`** emits a **normalized decimal string** (API-friendly), not a `number`.
 
 ## Non-goals (v1)
 
-- Step buttons, ArrowUp/ArrowDown stepping, or wheel-based changes to the value (wheel should be prevented like `input-number`).
+- Step buttons, **ArrowUp/ArrowDown changing the value** (do not attach step handlers; keys behave like a normal text field aside from commit on Enter), or wheel-based changes to the value (wheel should be prevented like `input-number`).
 - Validating or recovering from invalid ISO 4217 `currency` codes beyond documenting that callers must pass valid codes.
 
 ## Props
@@ -33,17 +33,25 @@
 - Reuse the **same sanitization idea** as `input-number`: digits, optional leading `-`, single decimal separator (`.` or `,` normalized at parse time as today).
 - **No** Intl formatting, **no** thousands grouping, **no** currency symbol in the editable field while typing between commits.
 
+## Symbol placement (Intl order)
+
+Use `Intl.NumberFormat(locale, { style: 'currency', currency }).formatToParts(amount)` and:
+
+1. **Symbol text:** concatenate all parts with `type === 'currency'`.
+2. **Numeric display:** concatenate all **non-currency** parts in order (integer, group, decimal, fraction, literal as needed) so the symbol does not appear in the input.
+3. **Addon alignment:** If the **first** `currency` part appears **before** the **first** `integer` part in the parts array, render the symbol in **`InputGroupAddon` `align="inline-start"`**. If the first `currency` part appears **after** any numeric content (typical for `€` trailing in some locales), render the symbol in **`align="inline-end"`**. This keeps the symbol on the correct side for that locale instead of forcing a leading-only layout.
+
 ## Commit behavior
 
-**Triggers:** **blur** and **Enter** (same family as `input-number` for committing text). **Not** ArrowUp/ArrowDown.
+**Triggers:** **blur** and **Enter** (same family as `input-number` for committing text). **ArrowUp/ArrowDown** must **not** change the value or trigger commit (no `input-number`-style stepping).
 
 **On commit:**
 
 1. Parse sanitized text to a numeric amount; empty or incomplete drafts yield **`onValueChange(null)`** (mirror `InputNumber`’s `null` semantics).
 2. If parse succeeds: **clamp** to `min`/`max` when defined.
 3. **Round** to the **default fraction digits** for `currency` (e.g. 2 for USD/EUR, 0 for JPY), consistent with that currency’s minor units / `Intl` behavior.
-4. Emit **`onValueChange`** with a **normalized** string: optional leading `-`, digits, a single `.` as decimal separator, no thousands separators, **trim trailing zeros** in the fractional part while preserving a valid decimal representation.
-5. Refresh **display**: prefix = **currency symbol** from `Intl.NumberFormat(locale, { style: 'currency', currency }).formatToParts(amount)` — parts where `type === 'currency'`. Input text = **remaining parts** (integer, group, decimal, fraction, literals) so the symbol does not appear twice.
+4. Emit **`onValueChange`** with a **normalized** string: optional leading `-`, digits, a single `.` as decimal separator, no thousands separators, **trim trailing zeros** in the fractional part while preserving a valid decimal representation. **Examples (illustrative):** `"-1234.5"` not `"-1234.50"`; `"10"` not `"10.0"` after trim; JPY-style zero fraction digits yields integers only (e.g. `"1200"`).
+5. Refresh **display** using **Symbol placement**: put the currency symbol in the **inline-start** or **inline-end** addon per § Symbol placement; the input shows the joined non-currency parts only.
 
 **Deduping:** Apply the same “last committed value” guard as `InputNumber` so identical consecutive commits do not spam `onValueChange`.
 
@@ -60,7 +68,7 @@
 
 ## Implementation approach
 
-- **v1:** Implement by adapting the `input-number` flow (sanitize, parse, commit, controlled modes) in each `input-currency` file; **remove** step UI; add **inline-start** prefix for symbol; swap post-commit display for Intl `formatToParts` split. Optional follow-up: extract tiny shared helpers under `registry/uxio/shared/` if duplication becomes painful.
+- **v1:** Implement by adapting the `input-number` flow (sanitize, parse, commit, controlled modes) in each `input-currency` file; **remove** step UI; add **inline-start or inline-end** addon for the symbol per § Symbol placement; swap post-commit display for Intl `formatToParts` split. Optional follow-up: extract tiny shared helpers under `registry/uxio/shared/` if duplication becomes painful.
 
 ## Testing focus
 
@@ -68,7 +76,7 @@
 - Commit via blur and Enter; normalized string shape with fixed `locale` + `currency` in tests.
 - `onValueChange(null)` for empty/invalid.
 - Clamp with `min`/`max`.
-- Prefix shows expected **Intl** symbol for chosen `currency` + `locale`.
+- Addon shows expected **Intl** symbol for chosen `currency` + `locale` (correct **start vs end** for that locale when using the placement rule).
 
 ## Open questions resolved in design
 
@@ -77,5 +85,5 @@
 | Variants | Base + radix, same as `input-number`. |
 | Emitted value | Normalized decimal **string**, not `number`. |
 | Locale | Optional; default runtime locale. |
-| UI | Prefix symbol; **no** up/down buttons. |
+| UI | Currency symbol in **inline-start or inline-end** addon (per Intl parts order); **no** up/down buttons. |
 | API string | Normalized (`.` decimal, no grouping). |
