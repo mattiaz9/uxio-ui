@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -241,7 +242,10 @@ const InputNumber = React.forwardRef<HTMLInputElement, InputNumberProps>(functio
 
       const clamped = clampNumber(parsed, bounds.min, bounds.max)
       lastValidSteppedValueRef.current = clamped
-      const precision = Math.max(countFractionDigits(sanitized), countFractionDigits(String(safeStep)))
+      const precision = Math.max(
+        countFractionDigits(sanitized),
+        countFractionDigits(String(safeStep)),
+      )
       const nextDisplay = formatNumber(clamped, separator, precision)
 
       updateLocalDisplay(nextDisplay)
@@ -267,13 +271,14 @@ const InputNumber = React.forwardRef<HTMLInputElement, InputNumberProps>(functio
       const base =
         parsed !== null
           ? clampNumber(parsed, bounds.min, bounds.max)
-          : lastValidSteppedValueRef.current ??
-            bounds.min ??
-            0
+          : (lastValidSteppedValueRef.current ?? bounds.min ?? 0)
 
       const separator = getPreferredSeparator(displayValue, preferredSeparator)
       setPreferredSeparator(separator)
-      const precision = Math.max(countFractionDigits(displayValue), countFractionDigits(String(safeStep)))
+      const precision = Math.max(
+        countFractionDigits(displayValue),
+        countFractionDigits(String(safeStep)),
+      )
       const nextNumber = clampNumber(base + direction * safeStep, bounds.min, bounds.max)
       const nextDisplay = formatNumber(nextNumber, separator, precision)
 
@@ -362,31 +367,35 @@ const InputNumber = React.forwardRef<HTMLInputElement, InputNumberProps>(functio
           event.preventDefault()
         }}
       />
-      <InputGroupAddon align="inline-end" className="flex flex-col gap-0 p-0">
+      <InputGroupAddon
+        align="inline-end"
+        className="flex h-full flex-col gap-px p-0 pr-1.5 text-muted-foreground"
+      >
         <InputGroupButton
           type="button"
-          size="icon-xs"
-          variant="ghost"
+          className="h-[calc((100%-2px)/2)] focus-visible:ring-1"
+          size="xs"
+          variant="secondary"
           disabled={disabled || readOnly}
           aria-label="Increase value"
           onClick={() => {
             stepValue(1)
           }}
         >
-          <ChevronUpIcon className="size-3.5" />
+          <ChevronUpIcon className="h-[calc(100%-2px)]" />
         </InputGroupButton>
         <InputGroupButton
           type="button"
-          size="icon-xs"
-          variant="ghost"
+          className="h-[calc((100%-2px)/2)] focus-visible:ring-1"
+          size="xs"
+          variant="secondary"
           disabled={disabled || readOnly}
           aria-label="Decrease value"
-          className="border-t border-border"
           onClick={() => {
             stepValue(-1)
           }}
         >
-          <ChevronDownIcon className="size-3.5" />
+          <ChevronDownIcon className="h-[calc(100%-2px)]" />
         </InputGroupButton>
       </InputGroupAddon>
     </InputGroup>

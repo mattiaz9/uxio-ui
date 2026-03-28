@@ -2,7 +2,8 @@
   "title": "Inputs",
   "pages": [
     "[Input DateTime](/docs/inputs/radix/input-datetime)",
-    "[Input Number](/docs/inputs/radix/input-number)"
+    "[Input Number](/docs/inputs/radix/input-number)",
+    "[Input Currency](/docs/inputs/radix/input-currency)"
   ],
   "collapsible": false,
   "defaultOpen": true

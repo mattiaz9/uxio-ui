@@ -190,6 +190,13 @@ const registryComponents: RegistryComponentItem[] = [
     category: "Inputs",
     docsSplat: "inputs/base/input-number",
   },
+  {
+    title: "Input Currency",
+    description:
+      "Money field with currency symbol addon, plain typing, Intl display on commit, and normalized decimal strings.",
+    category: "Inputs",
+    docsSplat: "inputs/base/input-currency",
+  },
   // Layout
   {
     title: "Split Content",

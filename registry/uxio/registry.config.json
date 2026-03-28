@@ -361,6 +361,18 @@
     "registryDependencies": ["@uxio/input-group"]
   },
   {
+    "name": "input-currency",
+    "type": "registry:ui",
+    "title": "Input Currency",
+    "description": "Money field with currency symbol addon, filtered decimal entry, Intl display on commit, and normalized string callbacks.",
+    "categories": ["inputs"],
+    "dependencies": {
+      "base": ["clsx", "tailwind-merge"],
+      "radix": ["clsx", "tailwind-merge"]
+    },
+    "registryDependencies": ["@uxio/input-group"]
+  },
+  {
     "name": "item",
     "type": "registry:ui",
     "title": "Item",

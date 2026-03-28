@@ -1,0 +1,112 @@
+---
+title: Input Currency
+description:
+  Money field built on Input Group with a currency symbol addon, plain decimal entry while typing,
+  Intl-formatted numeric display after commit, and normalized string values from onValueChange.
+---
+
+## Overview
+
+`InputCurrency` composes **Input Group** with a text input and an **inline-start** or **inline-end**
+addon for the **currency symbol** (from `currency` and `Intl`). While typing, the field behaves like
+a filtered decimal text input (no grouping, no symbol inside the input). On **blur** or **Enter**, the
+visible value updates to the **Intl** numeric fragment; `onValueChange` emits a **normalized decimal
+string** for APIs.
+
+- Use `onChange` for the visible input string.
+- Use `onValueChange` for the committed normalized string (or `null` when empty/invalid).
+- Arrow keys do **not** step the value; wheel changes are prevented.
+
+## Custom props
+
+| Prop            | Type                                   | Description                                                                 |
+| --------------- | -------------------------------------- | --------------------------------------------------------------------------- |
+| `currency`      | `string`                               | **Required.** ISO 4217 code (`USD`, `EUR`, …).                              |
+| `locale`        | `string \| undefined`                  | Passed to `Intl`. Omit for the runtime default locale.                      |
+| `value`         | `string \| number`                     | Controlled value. Strings control draft text; numbers control numeric state. |
+| `defaultValue`  | `string \| number`                     | Uncontrolled initial value.                                                 |
+| `onChange`      | `ChangeEventHandler<HTMLInputElement>` | Fires with the visible string while typing and on commit.                   |
+| `onValueChange` | `(value: string \| null) => void`      | Fires only on commit when the normalized value changes.                     |
+| `min`           | `number`                               | Optional minimum clamp. Ignored if `min > max`.                             |
+| `max`           | `number`                               | Optional maximum clamp. Ignored if `min > max`.                             |
+
+There is no `step` prop. Remaining props are passed to the underlying `Input`.
+
+## Install
+
+Configure your registry in `components.json`:
+
+```json
+{
+  "registries": {
+    "@uxio": "https://ui.uxio.dev/r/styles/{style}/{name}.json"
+  }
+}
+```
+
+Then run:
+
+```bash
+npx shadcn@latest add @uxio/input-currency
+```
+
+This pulls `input-group` as a registry dependency. The correct variant follows your
+`components.json` style.
+
+## Usage
+
+### String-controlled
+
+```tsx
+import * as React from "react"
+
+import { InputCurrency } from "@/components/ui/input-currency"
+
+export function PriceField() {
+  const [text, setText] = React.useState("")
+  const [committed, setCommitted] = React.useState<string | null>(null)
+
+  return (
+    <InputCurrency
+      currency="USD"
+      locale="en-US"
+      value={text}
+      min={0}
+      onChange={(event) => setText(event.target.value)}
+      onValueChange={setCommitted}
+    />
+  )
+}
+```
+
+### Number-controlled
+
+```tsx
+import * as React from "react"
+
+import { InputCurrency } from "@/components/ui/input-currency"
+
+export function AmountField() {
+  const [value, setValue] = React.useState(12.5)
+
+  return (
+    <InputCurrency
+      currency="EUR"
+      locale="de-DE"
+      value={value}
+      onChange={(event) => {
+        console.log("visible text", event.target.value)
+      }}
+      onValueChange={(next) => {
+        if (next !== null) setValue(Number(next))
+      }}
+    />
+  )
+}
+```
+
+## Examples
+
+### Default
+
+<ComponentPreview name="radix/input-currency-default" />
