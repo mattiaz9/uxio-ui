@@ -1,6 +1,6 @@
 # Input Currency — Design Spec
 
-**Status:** Approved (2026-03-28)  
+**Status:** Draft → ready for implementation planning (2026-03-28)  
 **Context:** New registry component `input-currency`, documented and exemplified like `input-number`. Primary behavioral reference: `registry/uxio/inputs-input-number-{radix|base}/input-number.tsx`.
 
 ## Summary
@@ -39,7 +39,7 @@ Use `Intl.NumberFormat(locale, { style: 'currency', currency }).formatToParts(am
 
 1. **Symbol text:** concatenate all parts with `type === 'currency'`.
 2. **Numeric display:** concatenate all **non-currency** parts in order (integer, group, decimal, fraction, literal as needed) so the symbol does not appear in the input.
-3. **Addon alignment:** If the **first** `currency` part appears **before** the **first** `integer` part in the parts array, render the symbol in **`InputGroupAddon` `align="inline-start"`**. If the first `currency` part appears **after** any numeric content (typical for `€` trailing in some locales), render the symbol in **`align="inline-end"`**. This keeps the symbol on the correct side for that locale instead of forcing a leading-only layout.
+3. **Addon alignment:** Compare the index of the **first** `currency` part to the index of the **first** `integer` part. If `currency` comes first (`index(currency) < index(integer)`), use **`align="inline-start"`**; if `integer` comes first (`index(integer) < index(currency)`), use **`align="inline-end"`**. **Tie-break:** If indices are equal (should not occur for valid `formatToParts` output) or `integer` is missing, default to **`inline-start`**.
 
 ## Commit behavior
 
@@ -47,20 +47,20 @@ Use `Intl.NumberFormat(locale, { style: 'currency', currency }).formatToParts(am
 
 **On commit:**
 
-1. Parse sanitized text to a numeric amount; empty or incomplete drafts yield **`onValueChange(null)`** (mirror `InputNumber`’s `null` semantics).
+1. Parse sanitized text to a numeric amount. **`onValueChange(null)`** when the committed text is **empty**, **incomplete** (e.g. lone `-` or trailing separator), or **not parseable** to a finite number—same contract as the props table. On failed parse, **leave the sanitized draft visible** in the input (mirror `InputNumber`’s invalid-commit behavior; do not replace with a formatted amount).
 2. If parse succeeds: **clamp** to `min`/`max` when defined.
 3. **Round** to the **default fraction digits** for `currency` (e.g. 2 for USD/EUR, 0 for JPY), consistent with that currency’s minor units / `Intl` behavior.
 4. Emit **`onValueChange`** with a **normalized** string: optional leading `-`, digits, a single `.` as decimal separator, no thousands separators, **trim trailing zeros** in the fractional part while preserving a valid decimal representation. **Examples (illustrative):** `"-1234.5"` not `"-1234.50"`; `"10"` not `"10.0"` after trim; JPY-style zero fraction digits yields integers only (e.g. `"1200"`).
 5. Refresh **display** using **Symbol placement**: put the currency symbol in the **inline-start** or **inline-end** addon per § Symbol placement; the input shows the joined non-currency parts only.
 
-**Deduping:** Apply the same “last committed value” guard as `InputNumber` so identical consecutive commits do not spam `onValueChange`.
+**Deduping:** Apply the same “last committed value” guard as `InputNumber`, comparing the **last emitted `string | null`** with **string equality** (and `null`), so identical consecutive normalized strings do not re-fire `onValueChange`.
 
 ## Registry and layout
 
 - **Two implementations:** `registry/uxio/inputs-input-currency-radix/input-currency.tsx` and `registry/uxio/inputs-input-currency-base/input-currency.tsx`, mirroring `input-number` import paths (radix vs base `Input` / `InputGroup`).
 - **`registry/uxio/registry.config.json`:** new item `input-currency`, `registry:ui`, category `inputs`, `registryDependencies`: `["@uxio/input-group"]`, dependencies aligned with `input-number` (omit `lucide-react` if no icons are used).
 - **Docs:** `content/docs/inputs/radix/input-currency.mdx` and `content/docs/inputs/base/input-currency.mdx` (Overview, props table, Install `@uxio/input-currency`, Usage examples, `ComponentPreview`).
-- **Nav:** Update `content/docs/inputs/meta.json` (or equivalent) to include the new pages.
+- **Nav:** Update `content/docs/inputs/meta.json` to include the new pages (same pattern as existing input docs).
 - **Examples:** `src/examples/radix/input-currency-default.tsx` and `src/examples/base/input-currency-default.tsx` with preview names `radix/input-currency-default` and `base/input-currency-default`.
 - **Tests:** `tests/input-currency/input-currency-radix.test.tsx` and `tests/input-currency/input-currency-base.test.tsx`.
 
