@@ -29,8 +29,8 @@
  */
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync } from "fs"
-import { resolve, dirname, relative } from "path"
-import { fileURLToPath } from "url"
+import { resolve, dirname, relative, sep } from "path"
+import { fileURLToPath, pathToFileURL } from "url"
 import chalk from "chalk"
 import { createStyleMap, transformStyle } from "shadcn/utils"
 
@@ -258,6 +258,261 @@ function readComponentFiles(dirPath: string): Array<{ filename: string; content:
     }))
 }
 
+/** Same initial scan as `buildItem` for a given base (used for lib closure + granular rebuilds). */
+function gatherInitialLibScanForBase(
+  config: ItemConfig,
+  dirs: ComponentDirs,
+  allDirs: Map<string, ComponentDirs>,
+  base: "base" | "radix",
+): string[] {
+  const dirName = dirs[base] ?? dirs.shared
+  if (!dirName) return []
+
+  const dirPath = resolve(REGISTRY_COMPONENTS, dirName)
+  const sourceFiles = readComponentFiles(dirPath)
+  const initialLibScan: string[] = sourceFiles.map(({ content }) => content)
+  for (const depName of config.registryDependencies ?? []) {
+    const depDirs = allDirs.get(stripRegistryScope(depName))
+    if (!depDirs) continue
+    const depDirName = depDirs[base] ?? depDirs.shared
+    if (!depDirName) continue
+    const depPath = resolve(REGISTRY_COMPONENTS, depDirName)
+    for (const { content: raw } of readComponentFiles(depPath)) {
+      initialLibScan.push(raw)
+    }
+  }
+  for (const f of config.files ?? []) {
+    if (f.type !== "registry:lib") continue
+    const abs = resolveConfigRegistryLibFile(f.path)
+    if (!abs) {
+      throw new Error(`files entry not found under registry/lib: ${f.path}`)
+    }
+    initialLibScan.push(readFileSync(abs, "utf-8"))
+  }
+  return initialLibScan
+}
+
+/** Union of `registry/lib` rel paths merged into this item across base and radix variants. */
+function collectLibRelKeysForItem(
+  config: ItemConfig,
+  dirs: ComponentDirs,
+  allDirs: Map<string, ComponentDirs>,
+): Set<string> {
+  const keys = new Set<string>()
+  for (const b of BASES) {
+    const scan = gatherInitialLibScanForBase(config, dirs, allDirs, b)
+    if (scan.length === 0) continue
+    const libMap = collectRegistryLibRecursive(scan)
+    for (const k of libMap.keys()) keys.add(k)
+  }
+  return keys
+}
+
+/** Items that declare `depName` in `registryDependencies` (bare or `@uxio/…`). */
+function reverseRegistryDependents(configs: ItemConfig[], depName: string): Set<string> {
+  const out = new Set<string>()
+  for (const c of configs) {
+    for (const d of c.registryDependencies ?? []) {
+      if (stripRegistryScope(d) === depName) {
+        out.add(c.name)
+        break
+      }
+    }
+  }
+  return out
+}
+
+function logicalNameFromComponentFolderName(folderName: string): string | null {
+  const withoutPrefix = folderName.replace(/^(overrides|layers|inputs)-/, "")
+  if (withoutPrefix.endsWith("-base")) return withoutPrefix.replace(/-base$/, "")
+  if (withoutPrefix.endsWith("-radix")) return withoutPrefix.replace(/-radix$/, "")
+  return withoutPrefix
+}
+
+function parseCliArgs(argv: string[]): { changedPaths: string[] } {
+  const changedPaths: string[] = []
+  for (let i = 0; i < argv.length; i++) {
+    const a = argv[i]
+    if (a === "--changed" && argv[i + 1]) {
+      changedPaths.push(argv[++i]!)
+      continue
+    }
+    if (a.startsWith("--changed=")) {
+      changedPaths.push(a.slice("--changed=".length))
+    }
+  }
+  return { changedPaths }
+}
+
+/**
+ * Map filesystem paths under `registry/` to registry item names that must be rebuilt.
+ * Returns `"all"` when the change can affect every output (config, global styles).
+ */
+function getAffectedItemNames(
+  changedPaths: string[],
+  configs: ItemConfig[],
+  allDirs: Map<string, ComponentDirs>,
+): "all" | Set<string> {
+  if (changedPaths.length === 0) return "all"
+
+  const normalized = changedPaths.map((p) => resolve(p))
+  const SHARED_ROOT = resolve(REGISTRY_COMPONENTS, "shared")
+
+  for (const abs of normalized) {
+    if (abs === CONFIG_PATH) return "all"
+    if (abs.startsWith(REGISTRY_STYLES + sep) || abs === REGISTRY_STYLES) return "all"
+  }
+
+  const affected = new Set<string>()
+  const libKeyCache = new Map<string, Set<string>>()
+
+  const getLibKeysCached = (itemName: string): Set<string> => {
+    const hit = libKeyCache.get(itemName)
+    if (hit) return hit
+    const config = configs.find((c) => c.name === itemName)
+    const dirs = allDirs.get(itemName)
+    if (!config || !dirs || (config.categories ?? []).includes("meta")) {
+      libKeyCache.set(itemName, new Set())
+      return libKeyCache.get(itemName)!
+    }
+    const itemType = config.type ?? "registry:ui"
+    if (itemType !== "registry:ui") {
+      libKeyCache.set(itemName, new Set())
+      return libKeyCache.get(itemName)!
+    }
+    const keys = collectLibRelKeysForItem(config, dirs, allDirs)
+    libKeyCache.set(itemName, keys)
+    return keys
+  }
+
+  const addWithDependents = (logicalName: string) => {
+    affected.add(logicalName)
+    for (const n of reverseRegistryDependents(configs, logicalName)) {
+      affected.add(n)
+    }
+  }
+
+  for (const abs of normalized) {
+    if (abs.startsWith(REGISTRY_LIB + sep) || abs === REGISTRY_LIB) {
+      const libRel = relative(REGISTRY_LIB, abs).replace(/\\/g, "/")
+      for (const c of configs) {
+        if ((c.type ?? "registry:ui") !== "registry:ui") continue
+        if ((c.categories ?? []).includes("meta")) continue
+        if (!allDirs.has(c.name)) continue
+        const dirs = allDirs.get(c.name)!
+        if (!dirs.shared && !dirs.base && !dirs.radix) continue
+        if (getLibKeysCached(c.name).has(libRel)) {
+          addWithDependents(c.name)
+        }
+      }
+      continue
+    }
+
+    if (abs.startsWith(SHARED_ROOT + sep) || abs === SHARED_ROOT) {
+      const rel = relative(SHARED_ROOT, abs).replace(/\\/g, "/")
+      const modStem = rel.replace(/\.(tsx|ts)$/, "")
+      if (!modStem) return "all"
+      const needles: string[] = []
+      const parts = modStem.split("/")
+      for (let i = 0; i < parts.length; i++) {
+        needles.push(`@/registry/uxio/shared/${parts.slice(0, i + 1).join("/")}`)
+      }
+
+      for (const [, dirs] of allDirs) {
+        for (const variant of BASES) {
+          const dirName = dirs[variant] ?? dirs.shared
+          if (!dirName) continue
+          const srcDir = resolve(REGISTRY_COMPONENTS, dirName)
+          if (!existsSync(srcDir)) continue
+          for (const f of readdirSync(srcDir).filter((n) => n.endsWith(".tsx") || n.endsWith(".ts"))) {
+            const content = readFileSync(resolve(srcDir, f), "utf-8")
+            if (needles.some((n) => content.includes(n))) {
+              const logical = logicalNameFromComponentFolderName(dirName)
+              if (logical) addWithDependents(logical)
+            }
+          }
+        }
+      }
+      continue
+    }
+
+    if (!abs.startsWith(REGISTRY_COMPONENTS + sep) && abs !== REGISTRY_COMPONENTS) {
+      return "all"
+    }
+
+    const relToUxio = relative(REGISTRY_COMPONENTS, abs).replace(/\\/g, "/")
+    const top = relToUxio.split("/")[0] ?? ""
+
+    if (top === "shared") {
+      continue
+    }
+
+    if (
+      top.startsWith("overrides-") ||
+      top.startsWith("layers-") ||
+      top.startsWith("inputs-")
+    ) {
+      const logical = logicalNameFromComponentFolderName(top)
+      if (logical) addWithDependents(logical)
+      continue
+    }
+
+    return "all"
+  }
+
+  if (affected.size === 0) return "all"
+  return affected
+}
+
+/** True when `name` is a top-level registry UI item in config (not meta / style). */
+function isPublishableRegistryUiConfig(name: string, configs: ItemConfig[]): boolean {
+  const config = configs.find((c) => c.name === name)
+  if (!config) return false
+  if ((config.type ?? "registry:ui") !== "registry:ui") return false
+  if ((config.categories ?? []).includes("meta")) return false
+  return true
+}
+
+/**
+ * Folders like `overrides-calendar-*` map to `calendar` but there is no `calendar` config row;
+ * those components are only published as part of dependents. Map them to items that list them in
+ * `registryDependencies`.
+ */
+function expandBundledOnlyComponents(names: Set<string>, configs: ItemConfig[]): Set<string> {
+  const out = new Set<string>()
+  for (const name of names) {
+    if (isPublishableRegistryUiConfig(name, configs)) {
+      out.add(name)
+      continue
+    }
+    for (const d of reverseRegistryDependents(configs, name)) {
+      out.add(d)
+    }
+  }
+  return out
+}
+
+/** Names that produce registry UI JSON + example copies (excludes meta, styles, missing dirs). */
+function filterPublishableItemNames(
+  names: Set<string>,
+  configs: ItemConfig[],
+  allDirs: Map<string, ComponentDirs>,
+): Set<string> {
+  const out = new Set<string>()
+  for (const name of names) {
+    const config = configs.find((c) => c.name === name)
+    if (!config) continue
+    const itemType = config.type ?? "registry:ui"
+    if (itemType !== "registry:ui") continue
+    if ((config.categories ?? []).includes("meta")) continue
+    const dirs = allDirs.get(name)
+    if (!dirs) continue
+    if (!dirs.shared && !dirs.base && !dirs.radix) continue
+    out.add(name)
+  }
+  return out
+}
+
 // ---------------------------------------------------------------------------
 // Registry item types
 // ---------------------------------------------------------------------------
@@ -296,25 +551,7 @@ async function buildItem(
   const dirPath = resolve(REGISTRY_COMPONENTS, dirName)
   const sourceFiles = readComponentFiles(dirPath)
 
-  const initialLibScan: string[] = sourceFiles.map(({ content }) => content)
-  for (const depName of config.registryDependencies ?? []) {
-    const depDirs = allDirs.get(stripRegistryScope(depName))
-    if (!depDirs) continue
-    const depDirName = depDirs[base] ?? depDirs.shared
-    if (!depDirName) continue
-    const depPath = resolve(REGISTRY_COMPONENTS, depDirName)
-    for (const { content: raw } of readComponentFiles(depPath)) {
-      initialLibScan.push(raw)
-    }
-  }
-  for (const f of config.files ?? []) {
-    if (f.type !== "registry:lib") continue
-    const abs = resolveConfigRegistryLibFile(f.path)
-    if (!abs) {
-      throw new Error(`files entry not found under registry/lib: ${f.path}`)
-    }
-    initialLibScan.push(readFileSync(abs, "utf-8"))
-  }
+  const initialLibScan = gatherInitialLibScanForBase(config, dirs, allDirs, base)
 
   const libMap = collectRegistryLibRecursive(initialLibScan)
   for (const f of config.files ?? []) {
@@ -385,10 +622,15 @@ async function buildItem(
 // Copy nova-styled components into src/examples/{base}/ui/ for docs previews
 // ---------------------------------------------------------------------------
 
-async function copyUIToExamples(allDirs: Map<string, ComponentDirs>, configs: ItemConfig[]) {
+async function copyUIToExamples(
+  allDirs: Map<string, ComponentDirs>,
+  configs: ItemConfig[],
+  onlyNames: Set<string> | null,
+) {
   const styleCss = readFileSync(resolve(REGISTRY_STYLES, `style-${DEFAULT_STYLE}.css`), "utf-8")
   const styleMap = createStyleMap(styleCss)
   const registryNames = new Set(allDirs.keys())
+  const partial = onlyNames !== null
 
   for (const base of BASES) {
     const targetDir = resolve(EXAMPLES_DIR, base, "ui")
@@ -399,7 +641,8 @@ async function copyUIToExamples(allDirs: Map<string, ComponentDirs>, configs: It
     mkdirSync(libDir, { recursive: true })
 
     const initialLibScan: string[] = []
-    for (const [, dirs] of allDirs) {
+    for (const [name, dirs] of allDirs) {
+      if (partial && !onlyNames!.has(name)) continue
       const dirName = dirs[base] ?? dirs.shared
       if (!dirName) continue
       const srcDir = resolve(REGISTRY_COMPONENTS, dirName)
@@ -408,6 +651,7 @@ async function copyUIToExamples(allDirs: Map<string, ComponentDirs>, configs: It
       }
     }
     for (const c of configs) {
+      if (partial && !onlyNames!.has(c.name)) continue
       for (const f of c.files ?? []) {
         if (f.type !== "registry:lib") continue
         const abs = resolveConfigRegistryLibFile(f.path)
@@ -433,7 +677,8 @@ async function copyUIToExamples(allDirs: Map<string, ComponentDirs>, configs: It
       writeFileSync(outLib, content)
     }
 
-    for (const [, dirs] of allDirs) {
+    for (const [name, dirs] of allDirs) {
+      if (partial && !onlyNames!.has(name)) continue
       const dirName = dirs[base] ?? dirs.shared
       if (!dirName) continue
 
@@ -448,8 +693,12 @@ async function copyUIToExamples(allDirs: Map<string, ComponentDirs>, configs: It
       }
     }
 
+    const scope =
+      partial && onlyNames!.size > 0
+        ? `${onlyNames!.size} item(s)`
+        : "all components"
     console.log(
-      `  ${chalk.green("➜")}  ${chalk.bold("Copied:")}   ${chalk.cyan(`${base}/ui/`)} ${chalk.cyan(`${base}/lib/`)}`,
+      `  ${chalk.green("➜")}  ${chalk.bold("Copied:")}   ${chalk.cyan(`${base}/ui/`)} ${chalk.cyan(`${base}/lib/`)} ${chalk.dim(`(${scope})`)}`,
     )
   }
 }
@@ -458,9 +707,16 @@ async function copyUIToExamples(allDirs: Map<string, ComponentDirs>, configs: It
 // Main
 // ---------------------------------------------------------------------------
 
-async function main() {
+async function runBuild(onlyNames: Set<string> | null) {
+  const partial = onlyNames !== null
   const configs = JSON.parse(readFileSync(CONFIG_PATH, "utf-8")) as ItemConfig[]
   const allDirs = scanComponents()
+
+  if (partial && onlyNames!.size > 0) {
+    console.log(
+      `  ${chalk.blue("○")}  ${chalk.bold("Partial registry build:")} ${chalk.cyan([...onlyNames!].sort().join(", "))}`,
+    )
+  }
 
   for (const style of STYLES) {
     const outDir = resolve(OUTPUT, "styles", style)
@@ -482,6 +738,7 @@ async function main() {
       const deps = config.registryDependencies ?? []
 
       if (itemType === "registry:style") {
+        if (partial) continue
         const styleItem = {
           ...config,
           description: getDescription(config, base),
@@ -497,6 +754,7 @@ async function main() {
 
       const dirs = allDirs.get(config.name)
       if (!dirs && (config.categories ?? []).includes("meta")) {
+        if (partial) continue
         if (deps.length === 0) {
           throw new Error(`Meta item "${config.name}" must define registryDependencies`)
         }
@@ -514,10 +772,14 @@ async function main() {
       }
 
       if (!dirs) {
-        console.warn(`  ${chalk.yellow("⚠")}  No directory found for "${config.name}", skipping`)
+        if (!partial) {
+          console.warn(`  ${chalk.yellow("⚠")}  No directory found for "${config.name}", skipping`)
+        }
         continue
       }
       if (!dirs.shared && !dirs[base]) continue
+
+      if (partial && onlyNames && !onlyNames.has(config.name)) continue
 
       const item = await buildItem(config, dirs, allDirs, style, styleMap)
       writeFileSync(resolve(outDir, `${config.name}.json`), JSON.stringify(item, null, 2))
@@ -527,26 +789,61 @@ async function main() {
     }
   }
 
-  const registryIndex = {
-    $schema: "https://ui.shadcn.com/schema/registry.json",
-    name: "uxio",
-    homepage: "https://ui.uxio.dev",
-    items: configs.map((c) => ({
-      name: c.name,
-      type: c.type ?? "registry:ui",
-      title: c.title,
-      description: getIndexDescription(c),
-      categories: c.categories ?? [],
-    })),
+  if (!partial) {
+    const registryIndex = {
+      $schema: "https://ui.shadcn.com/schema/registry.json",
+      name: "uxio",
+      homepage: "https://ui.uxio.dev",
+      items: configs.map((c) => ({
+        name: c.name,
+        type: c.type ?? "registry:ui",
+        title: c.title,
+        description: getIndexDescription(c),
+        categories: c.categories ?? [],
+      })),
+    }
+
+    writeFileSync(resolve(OUTPUT, "registry.json"), JSON.stringify(registryIndex, null, 2))
+    console.log(`  ${chalk.green("➜")}  ${chalk.bold("Built:")}   ${chalk.cyan("registry.json")}`)
   }
 
-  writeFileSync(resolve(OUTPUT, "registry.json"), JSON.stringify(registryIndex, null, 2))
-  console.log(`  ${chalk.green("➜")}  ${chalk.bold("Built:")}   ${chalk.cyan("registry.json")}`)
-
-  await copyUIToExamples(allDirs, configs)
+  await copyUIToExamples(allDirs, configs, onlyNames)
 }
 
-main().catch((err: unknown) => {
-  console.error(err)
-  process.exit(1)
-})
+async function main() {
+  const { changedPaths } = parseCliArgs(process.argv.slice(2))
+  const configs = JSON.parse(readFileSync(CONFIG_PATH, "utf-8")) as ItemConfig[]
+  const allDirs = scanComponents()
+
+  let onlyNames: Set<string> | null = null
+  if (changedPaths.length > 0) {
+    const affected = getAffectedItemNames(changedPaths, configs, allDirs)
+    if (affected === "all") {
+      onlyNames = null
+    } else {
+      onlyNames = filterPublishableItemNames(
+        expandBundledOnlyComponents(affected, configs),
+        configs,
+        allDirs,
+      )
+      if (onlyNames.size === 0) {
+        console.log(
+          `  ${chalk.dim("[registry] No component outputs affected by these paths; skipping rebuild.")}`,
+        )
+        return
+      }
+    }
+  }
+
+  await runBuild(onlyNames)
+}
+
+const isMain =
+  process.argv[1] && pathToFileURL(resolve(process.argv[1])).href === import.meta.url
+
+if (isMain) {
+  main().catch((err: unknown) => {
+    console.error(err)
+    process.exit(1)
+  })
+}

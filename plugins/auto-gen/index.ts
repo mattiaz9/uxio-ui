@@ -15,9 +15,16 @@ const ROOT = resolve(__dirname, "..", "..")
 const REGISTRY_DIR = resolve(ROOT, "registry")
 const BUILD_SCRIPT = resolve(ROOT, "scripts/build-registry.ts")
 
-function runBuild(): Promise<void> {
+function runBuild(changedPaths?: string[]): Promise<void> {
   return new Promise((resolvePromise, reject) => {
-    const child = spawn("pnpm", ["exec", "tsx", BUILD_SCRIPT], {
+    const args = ["exec", "tsx", BUILD_SCRIPT]
+    if (changedPaths && changedPaths.length > 0) {
+      for (const p of changedPaths) {
+        args.push("--changed", p)
+      }
+    }
+
+    const child = spawn("pnpm", args, {
       cwd: ROOT,
       stdio: "inherit",
     })
@@ -37,13 +44,18 @@ function runBuild(): Promise<void> {
 export function autoGenRegistry(): Plugin {
   let debounceTimer: ReturnType<typeof setTimeout> | null = null
   const DEBOUNCE_MS = 150
+  /** Paths coalesced within the debounce window; passed to the registry script for granular rebuilds. */
+  const pendingChanged = new Set<string>()
 
-  const scheduleBuild = () => {
+  const scheduleBuild = (changedPath?: string) => {
+    if (changedPath) pendingChanged.add(changedPath)
     if (debounceTimer) clearTimeout(debounceTimer)
     debounceTimer = setTimeout(async () => {
       debounceTimer = null
+      const paths = [...pendingChanged]
+      pendingChanged.clear()
       try {
-        await runBuild()
+        await runBuild(paths.length > 0 ? paths : undefined)
       } catch (err) {
         console.error("[auto-gen-registry]", err)
       }
@@ -63,19 +75,19 @@ export function autoGenRegistry(): Plugin {
 
       server.watcher.on("change", (path) => {
         if (path.startsWith(REGISTRY_DIR)) {
-          scheduleBuild()
+          scheduleBuild(path)
         }
       })
 
       server.watcher.on("add", (path) => {
         if (path.startsWith(REGISTRY_DIR)) {
-          scheduleBuild()
+          scheduleBuild(path)
         }
       })
 
       server.watcher.on("unlink", (path) => {
         if (path.startsWith(REGISTRY_DIR)) {
-          scheduleBuild()
+          scheduleBuild(path)
         }
       })
     },
