@@ -1,38 +1,34 @@
 ---
 title: Input Fraction
-description:
-  Segmented numerator and denominator with a fixed visual layout, compact fraction string value, and
-  hidden input for forms.
+description: Input that handles fraction entry with numerator and denominator segments and a compact value for controlled or native forms.
 ---
 
 ## Overview
 
-`InputFraction` composes **Input Group** only (no calendar). The layout is fixed: **numerator**,
-a static ` / ` separator, then **denominator**—the same segment + literal pattern used by Input
-DateTime, but with only these two numeric fields.
+`InputFraction` composes **Input Group** with a fixed **numerator** ` / ` **denominator** layout (the
+same segment pattern as Input DateTime, without a calendar). A **hidden** input stores the compact
+`n/d` string (e.g. `2/5`) for form submission. **`onValueChange`** runs on **Enter** or **blur**
+with a **normalized** fraction—non-negative numerator, positive denominator—or `null` when both
+segments are cleared.
 
-The **hidden** `<input>` always holds a **compact** string `numerator/denominator` (no spaces),
-for example `2/5`. Use `onChange` for the hidden field whenever the string changes, including
-partial input; use `onValueChange` when a **committed**, **normalized** fraction is available, or
-`null` when both segments are cleared.
+### Key bindings
 
-A committed value requires a **non-negative** integer numerator, a **positive** integer denominator
-(≥ 1), and emits normalized integers (e.g. `7/12`, not leading zeros).
-
-Digits-only entry, arrow keys to move between segments, **Enter** to commit, and blur commits the
-current segments.
+| Key | Behavior |
+| --- | -------- |
+| <Kbd>⌫</Kbd> | Deletes the last digit in the focused segment. If the segment is empty, focus moves to the **previous** segment. |
+| <Kbd>⌦</Kbd> | Clears the focused segment. The next digit typed **replaces** the whole segment (same as focusing fresh). |
+| <span className="inline-flex items-center gap-1.5"><Kbd>←</Kbd><span className="text-muted-foreground">/</span><Kbd>→</Kbd></span> | Move focus between **numerator** and **denominator** (at the ends of the field, the key has no effect). |
+| <Kbd>↵</Kbd> | **Commits** the current segments: if they form a valid fraction, `onValueChange` runs with the normalized string. Works from a segment or from the surrounding control. |
+| <Kbd>⇥</Kbd> | Moves between segments in focus order. |
+| `blur` | Leaving a segment **commits** the same way as <Kbd>↵</Kbd> (when the value is valid). |
 
 ## Custom props
 
-| Prop            | Type                                   | Description                                                                                                                                 |
-| --------------- | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| `maxDigits`     | `number`                               | Maximum digits per segment. Default: `6`.                                                                                                   |
-| `value`         | `string \| null`                       | Controlled compact fraction (`n/d`) or empty.                                                                                               |
-| `defaultValue`  | `string \| null`                       | Uncontrolled initial compact fraction.                                                                                                      |
-| `onValueChange` | `(value: string \| null) => void`      | Fires when segments yield a valid normalized fraction after commit, or `null` when both segments are cleared.                               |
-| `onChange`      | `ChangeEventHandler<HTMLInputElement>` | Fires with the hidden input’s compact string whenever segments change (including partial).                                                 |
-| `name`          | `string`                               | Passed to the hidden input for forms.                                                                                                       |
-| `ref`           | `HTMLInputElement`                     | Attached to the **hidden** input.                                                                                                           |
+| Prop            | Type                              | Description                                                                                                   |
+| --------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `maxDigits`     | `number`                          | Maximum digits per segment. Default: `6`.                                                                    |
+| `value`         | `string \| null`                  | Controlled compact fraction (`n/d`) or empty.                                                                 |
+| `onValueChange` | `(value: string \| null) => void` | Fires when segments yield a valid normalized fraction after commit, or `null` when both segments are cleared. |
 
 ## Install
 
@@ -54,6 +50,36 @@ npx shadcn@latest add @uxio/input-fraction
 
 This pulls `input-group` as a registry dependency. The correct variant (Base UI or Radix) follows
 your `components.json` style. The bundle includes `lib/fraction-format`.
+
+## Usage
+
+### Controlled value
+
+```tsx
+import * as React from "react"
+
+import { InputFraction } from "@/components/ui/input-fraction"
+
+export function PortionField() {
+  const [value, setValue] = React.useState<string | null>(null)
+
+  return <InputFraction value={value} onValueChange={setValue} />
+}
+```
+
+### Shorter segments (`maxDigits`)
+
+```tsx
+import * as React from "react"
+
+import { InputFraction } from "@/components/ui/input-fraction"
+
+export function ShortFractionField() {
+  const [value, setValue] = React.useState<string | null>(null)
+
+  return <InputFraction maxDigits={3} value={value} onValueChange={setValue} />
+}
+```
 
 ## Examples
 

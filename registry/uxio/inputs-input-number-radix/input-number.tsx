@@ -26,7 +26,7 @@ interface InputNumberProps extends Omit<
   React.ComponentProps<typeof Input>,
   "type" | "value" | "defaultValue" | "onChange"
 > {
-  value?: string | number
+  value?: string | number | null
   defaultValue?: string | number
   onChange?: React.ChangeEventHandler<HTMLInputElement>
   onValueChange?: (value: number | null) => void
@@ -53,6 +53,7 @@ function InputNumber({
   ...props
 }: InputNumberProps) {
   const isStringControlled = typeof value === "string"
+  const isNullControlled = value === null
   const isNumberControlled = isFiniteNumber(value)
   const safeStep = isFiniteNumber(step) && step > 0 ? step : 1
   const bounds = sanitizeBounds(min, max)
@@ -80,12 +81,14 @@ function InputNumber({
     ? stringControlledValue
     : isNumberControlled
       ? (numberDraft ?? numberControlledValue)
-      : uncontrolledDisplay
+      : isNullControlled
+        ? (numberDraft ?? "")
+        : uncontrolledDisplay
 
   React.useEffect(() => {
-    if (!isNumberControlled) return
+    if (!isNumberControlled && !isNullControlled) return
     setNumberDraft(null)
-  }, [isNumberControlled, value])
+  }, [isNullControlled, isNumberControlled, value])
 
   React.useEffect(() => {
     const parsed = parseCommittedValue(displayValue)
@@ -114,13 +117,13 @@ function InputNumber({
   const updateLocalDisplay = React.useCallback(
     (nextValue: string) => {
       if (isStringControlled) return
-      if (isNumberControlled) {
+      if (isNumberControlled || isNullControlled) {
         setNumberDraft(nextValue)
         return
       }
       setUncontrolledDisplay(nextValue)
     },
-    [isNumberControlled, isStringControlled],
+    [isNullControlled, isNumberControlled, isStringControlled],
   )
 
   const emitValueChange = React.useCallback(

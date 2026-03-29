@@ -1,35 +1,33 @@
 ---
 title: Input Number
-description:
-  Numeric input built on Input Group with inline step buttons, filtered text entry, and separate
-  callbacks for visible text and committed numeric value.
+description: Input that handles numeric entry with step buttons, filtered typing, and separate display vs committed value for controlled or native forms.
 ---
 
 ## Overview
 
-`InputNumber` composes **Input Group** with a visible text input and two suffix step buttons. It
-accepts either **string** or **number** values, filters non-numeric characters as the user types,
-and keeps `onChange` separate from `onValueChange`.
+`InputNumber` composes **Input Group** with a text field and suffix step buttons. It accepts **string**
+or **number** control, strips invalid characters while typing, and uses `onChange` for the visible
+text and `onValueChange` when a value **commits** (blur, <Kbd>↵</Kbd>, <Kbd>↑</Kbd>/<Kbd>↓</Kbd>, or the
+step buttons). Scrolling over the field does not change the value.
 
-- Use `onChange` for the visible input text.
-- Use `onValueChange` for the committed numeric value.
-- Blur, `Enter`, `ArrowUp`, `ArrowDown`, and the suffix buttons all perform a commit.
-- Wheel changes are disabled so scrolling over the field does not change the value.
+### Key bindings
+
+| Key | Behavior |
+| --- | -------- |
+| <Kbd>↑</Kbd> | Increases by `step`, clamped to `min` / `max`. |
+| <Kbd>↓</Kbd> | Decreases by `step`, clamped to `min` / `max`. |
+| <Kbd>↵</Kbd> | **Commits** the current text: parses, clamps, reformats, and fires `onValueChange` when valid. |
+| `blur` | **Commits** the same way as <Kbd>↵</Kbd> when focus leaves the input. |
 
 ## Custom props
 
-| Prop            | Type                                   | Description                                                                 |
-| --------------- | -------------------------------------- | --------------------------------------------------------------------------- |
-| `value`         | `string \| number`                     | Controlled value. Strings control the visible text; numbers control the numeric state. |
-| `defaultValue`  | `string \| number`                     | Uncontrolled initial value.                                                 |
-| `onChange`      | `ChangeEventHandler<HTMLInputElement>` | Fires with the visible string while typing and again on commit.             |
-| `onValueChange` | `(value: number \| null) => void`      | Fires only when the committed numeric value changes.                        |
-| `min`           | `number`                               | Optional minimum clamp. Ignored if `min > max`.                             |
-| `max`           | `number`                               | Optional maximum clamp. Ignored if `min > max`.                             |
-| `step`          | `number`                               | Step size for buttons and arrow keys. Invalid or non-positive values fall back to `1`. |
-
-All remaining props come from the underlying `Input` primitive and are spread onto the visible
-input field.
+| Prop            | Type                              | Description                                                                 |
+| --------------- | --------------------------------- | --------------------------------------------------------------------------- |
+| `value`         | `string \| number`                | Controlled value. Strings control the visible text; numbers control the numeric state. |
+| `onValueChange` | `(value: number \| null) => void` | Fires when the committed numeric value changes (see Overview and Key bindings). |
+| `min`           | `number`                          | Optional minimum clamp. Ignored if `min > max`.                             |
+| `max`           | `number`                          | Optional maximum clamp. Ignored if `min > max`.                             |
+| `step`          | `number`                          | Step size for buttons and arrow keys. Invalid or non-positive values fall back to `1`. |
 
 ## Install
 

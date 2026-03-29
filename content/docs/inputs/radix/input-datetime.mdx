@@ -1,17 +1,29 @@
 ---
 title: Input DateTime
-description:
-  Segmented date, time, or datetime control with input group layout, optional calendar popover (not
-  in time-only mode), and a hidden string field for forms.
+description: Input that handles datetime input and output for controlled or native forms.
 ---
 
 ## Overview
 
 `InputDatetime` composes **Input Group** and, for `date` / `datetime` modes, **Popover** and
 **Calendar**. The visible value is split into focusable segments (one per date/time field in your
-`format`). A **hidden** `<input>` mirrors the composed string for native form posts; use `onChange`
-on that flow for **partial** updates as the user types, and `onValueChange` when a full `Date` is
-**committed** (all segments valid, Enter, blur after completion, or a calendar pick).
+`format`). A **hidden** `<input>` mirrors the composed string for native form posts. Use
+`onValueChange` when a full `Date` is **committed** (all segments valid, **Enter**, blur after
+completion, or a calendar pick).
+
+In `date` and `datetime` modes, the trailing button opens a **Calendar** popover for day selection;
+`time` mode has no calendar.
+
+### Key bindings
+
+| Key | Behavior |
+| --- | -------- |
+| <Kbd>⌫</Kbd> | Deletes the last digit in the focused segment. If the segment is empty, focus moves to the **previous** segment. |
+| <Kbd>⌦</Kbd> | Clears the focused segment. The next digit typed **replaces** the whole segment (same as focusing fresh). |
+| <span className="inline-flex items-center gap-1.5"><Kbd>←</Kbd><span className="text-muted-foreground">/</span><Kbd>→</Kbd></span> | Move focus to the **previous** or **next** segment (at ends of the field, the key has no effect). |
+| <Kbd>↵</Kbd> | **Commits** the current composed string: if every segment is filled and the value parses for the format, `onValueChange` runs with the resulting `Date`. Works from a segment or from the surrounding control. |
+| <Kbd>⇥</Kbd> | Moves through segments and the calendar button (in `date` / `datetime` modes) in focus order. |
+| `blur` | Leaving a segment **commits** the same way as <Kbd>↵</Kbd> (when the value is complete and valid). |
 
 ## Custom props
 
@@ -20,15 +32,7 @@ on that flow for **partial** updates as the user types, and `onValueChange` when
 | `mode`          | `'date' \| 'time' \| 'datetime'`       | Defaults to `'datetime'`. Narrows which field tokens from `format` are editable (date parts, time parts, or both).                                                                          |
 | `format`        | `string`                               | Pattern for editable segments (`y`, `M`, `d`, `H`, `m`, `s` runs, as in date-fns) and static text between them (e.g. `yyyy/MM/dd - HH:mm`). If omitted: `yyyy/MM/dd` (date), `HH:mm` (time), `yyyy/MM/dd HH:mm` (datetime). |
 | `value`         | `Date \| string \| null`               | Controlled value: a `Date` or an ISO-like / formatted string parseable with `format`.                                                                                                       |
-| `defaultValue`  | `Date \| string \| null`               | Uncontrolled initial value.                                                                                                                                                                 |
-| `onValueChange` | `(date: Date \| null) => void`         | Fires when a committed, valid `Date` is available (see Overview).                                                                                                                           |
-| `onChange`      | `ChangeEventHandler<HTMLInputElement>` | Fires with the hidden input’s string `value` whenever segments change, including **partial** input.                                                                                         |
-| `name`          | `string`                               | Passed to the hidden input for forms.                                                                                                                                                       |
-| `ref`           | `HTMLInputElement`                     | Attached to the **hidden** input.                                                                                                                                                           |
-
-Segments accept digits only; Arrow keys move between segments; **Enter** commits the current string.
-In `date` and `datetime` modes, the calendar button opens a popover with **Calendar** (day
-selection). In `time` mode there is no calendar—only the time segments.
+| `onValueChange` | `(date: Date \| null) => void`         | Fires when a committed, valid `Date` is available (see Overview and Key bindings).                                                                                                          |
 
 ## Install
 
@@ -50,6 +54,61 @@ npx shadcn@latest add @uxio/input-datetime
 
 This pulls `input-group`, `calendar`, and `popover` as registry dependencies. The correct variant
 (Base UI or Radix) follows your `components.json` style.
+
+## Usage
+
+### Controlled datetime
+
+```tsx
+import * as React from "react"
+
+import { InputDatetime } from "@/components/ui/input-datetime"
+
+export function ScheduledAtField() {
+  const [value, setValue] = React.useState<Date | null>(null)
+
+  return (
+    <InputDatetime mode="datetime" value={value ?? undefined} onValueChange={setValue} />
+  )
+}
+```
+
+### Date-only with custom format
+
+```tsx
+import * as React from "react"
+
+import { InputDatetime } from "@/components/ui/input-datetime"
+
+export function BirthDateField() {
+  const [value, setValue] = React.useState<Date | null>(null)
+
+  return (
+    <InputDatetime
+      mode="date"
+      format="dd/MM/yyyy"
+      value={value ?? undefined}
+      onValueChange={setValue}
+    />
+  )
+}
+```
+
+### Time-only
+
+```tsx
+import * as React from "react"
+
+import { InputDatetime } from "@/components/ui/input-datetime"
+
+export function TimeField() {
+  const [value, setValue] = React.useState<Date | null>(null)
+
+  return (
+    <InputDatetime mode="time" format="HH:mm" value={value ?? undefined} onValueChange={setValue} />
+  )
+}
+```
 
 ## Examples
 

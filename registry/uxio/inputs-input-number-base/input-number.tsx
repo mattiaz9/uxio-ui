@@ -26,7 +26,7 @@ type InputNumberProps = Omit<
   React.ComponentProps<typeof Input>,
   "type" | "value" | "defaultValue" | "onChange"
 > & {
-  value?: string | number
+  value?: string | number | null
   defaultValue?: string | number
   onChange?: React.ChangeEventHandler<HTMLInputElement>
   onValueChange?: (value: number | null) => void
@@ -56,6 +56,7 @@ const InputNumber = React.forwardRef<HTMLInputElement, InputNumberProps>(functio
   ref,
 ) {
   const isStringControlled = typeof value === "string"
+  const isNullControlled = value === null
   const isNumberControlled = isFiniteNumber(value)
   const safeStep = isFiniteNumber(step) && step > 0 ? step : 1
   const bounds = sanitizeBounds(min, max)
@@ -83,7 +84,9 @@ const InputNumber = React.forwardRef<HTMLInputElement, InputNumberProps>(functio
     ? stringControlledValue
     : isNumberControlled
       ? (numberDraft ?? numberControlledValue)
-      : uncontrolledDisplay
+      : isNullControlled
+        ? (numberDraft ?? "")
+        : uncontrolledDisplay
 
   const setRefs = React.useCallback(
     (node: HTMLInputElement | null) => {
@@ -95,9 +98,9 @@ const InputNumber = React.forwardRef<HTMLInputElement, InputNumberProps>(functio
   )
 
   React.useEffect(() => {
-    if (!isNumberControlled) return
+    if (!isNumberControlled && !isNullControlled) return
     setNumberDraft(null)
-  }, [isNumberControlled, value])
+  }, [isNullControlled, isNumberControlled, value])
 
   React.useEffect(() => {
     const parsed = parseCommittedValue(displayValue)
@@ -126,13 +129,13 @@ const InputNumber = React.forwardRef<HTMLInputElement, InputNumberProps>(functio
   const updateLocalDisplay = React.useCallback(
     (nextValue: string) => {
       if (isStringControlled) return
-      if (isNumberControlled) {
+      if (isNumberControlled || isNullControlled) {
         setNumberDraft(nextValue)
         return
       }
       setUncontrolledDisplay(nextValue)
     },
-    [isNumberControlled, isStringControlled],
+    [isNullControlled, isNumberControlled, isStringControlled],
   )
 
   const emitValueChange = React.useCallback(

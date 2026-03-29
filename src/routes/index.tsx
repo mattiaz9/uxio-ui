@@ -125,12 +125,6 @@ const registryComponents: RegistryComponentItem[] = [
     docsSplat: "overrides/base/item",
   },
   {
-    title: "Popover",
-    description: "Popover with content background using bg-popover instead of bg-background.",
-    category: "Overrides",
-    docsSplat: "overrides/base/popover",
-  },
-  {
     title: "Scroll Area",
     description:
       "Scroll area with a scrollbar prop to show vertical, horizontal, or both scrollbars.",

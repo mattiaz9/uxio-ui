@@ -10,7 +10,6 @@ import {
   fieldTokens,
   normalizeCommittedFraction,
   parseSegmentsFromFractionString,
-  type FractionFormatToken,
 } from "@/registry/lib/fraction-format"
 import { InputGroup } from "@/registry/uxio/overrides-input-group-radix/input-group"
 
@@ -125,7 +124,7 @@ function InputFraction({
         lastComposedCommit.current = null
         return
       }
-      const normalized = normalizeCommittedFraction(segs[0]!, segs[1]!)
+      const normalized = normalizeCommittedFraction(segs[0], segs[1])
       if (!normalized) return
       if (lastComposedCommit.current === normalized) return
       lastComposedCommit.current = normalized
@@ -193,13 +192,12 @@ function InputFraction({
           }
           const idx = fieldIndexAtToken[ti]
           if (idx === undefined || idx < 0) return null
-          const f = t as Extract<FractionFormatToken, { type: "field" }>
           const raw = segments[idx] ?? ""
-          const max = f.pattern.length
-          const label = f.kind === "numerator" ? "Numerator" : "Denominator"
+          const max = t.pattern.length
+          const label = t.kind === "numerator" ? "Numerator" : "Denominator"
           return (
             <span
-              key={`field-${idx}-${f.kind}`}
+              key={`field-${idx}-${t.kind}`}
               ref={(el) => {
                 segmentRefs.current[idx] = el
               }}
@@ -269,9 +267,7 @@ function InputFraction({
               {raw.length === 0 ? (
                 <span className="text-muted-foreground/40">0</span>
               ) : (
-                raw.split("").map((ch, i) => (
-                  <span key={i}>{ch}</span>
-                ))
+                raw.split("").map((ch, i) => <span key={i}>{ch}</span>)
               )}
             </span>
           )

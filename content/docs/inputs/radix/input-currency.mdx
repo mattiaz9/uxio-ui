@@ -1,36 +1,38 @@
 ---
 title: Input Currency
-description:
-  Money field built on Input Group with a currency symbol addon, plain decimal entry while typing,
-  Intl-formatted numeric display after commit, and normalized string values from onValueChange.
+description: Currency field with symbol addon, locale-aware decimals, and normalized values on commit.
 ---
 
 ## Overview
 
-`InputCurrency` composes **Input Group** with a text input and an **inline-start** or **inline-end**
-addon for the **currency symbol** (from `currency` and `Intl`). While typing, the field behaves like
-a filtered decimal text input (no grouping, no symbol inside the input). On **blur** or **Enter**, the
-visible value updates to the **Intl** numeric fragment; `onValueChange` emits a **normalized decimal
-string** for APIs.
+`InputCurrency` composes **Input Group**: a text input plus an **inline-start** or **inline-end**
+addon for the **currency symbol** (`currency` and `Intl`). While typing, the field is plain decimal
+text (no symbol inside the input). **Blur** or **Enter** reformats the numeric fragment with **Intl**
+and `onValueChange` emits a **normalized decimal string** (or `null` when empty/invalid). Use
+`onValueChange` for committed amounts; use `onChange` from the underlying input only when you need
+the visible string while typing (see Usage).
 
-- Use `onChange` for the visible input string.
-- Use `onValueChange` for the committed normalized string (or `null` when empty/invalid).
-- Arrow keys do **not** step the value; wheel changes are prevented.
+### Key binding
+
+| Key | Behavior |
+| --- | -------- |
+| <Kbd>⌫</Kbd> | Deletes before the caret (native); input is re-sanitized on change. |
+| <Kbd>⌦</Kbd> | Deletes after the caret (native). |
+| <span className="inline-flex items-center gap-1.5"><Kbd>←</Kbd><span className="text-muted-foreground">/</span><Kbd>→</Kbd></span> | Moves the caret; **does not** increment or decrement the amount. |
+| <Kbd>↵</Kbd> | **Commits**: applies Intl formatting and fires `onValueChange` when the normalized value changes. |
+| <Kbd>⇥</Kbd> | Moves focus in normal tab order. |
+| `blur` | **Commits** when leaving the field (same commit path as <Kbd>↵</Kbd>). |
 
 ## Custom props
 
-| Prop            | Type                                   | Description                                                                 |
-| --------------- | -------------------------------------- | --------------------------------------------------------------------------- |
-| `currency`      | `string`                               | **Required.** ISO 4217 code (`USD`, `EUR`, …).                              |
-| `locale`        | `string \| undefined`                  | Passed to `Intl`. Omit for the runtime default locale.                      |
-| `value`         | `string \| number`                     | Controlled value. Strings control draft text; numbers control numeric state. |
-| `defaultValue`  | `string \| number`                     | Uncontrolled initial value.                                                 |
-| `onChange`      | `ChangeEventHandler<HTMLInputElement>` | Fires with the visible string while typing and on commit.                   |
-| `onValueChange` | `(value: string \| null) => void`      | Fires only on commit when the normalized value changes.                     |
-| `min`           | `number`                               | Optional minimum clamp. Ignored if `min > max`.                             |
-| `max`           | `number`                               | Optional maximum clamp. Ignored if `min > max`.                             |
-
-There is no `step` prop. Remaining props are passed to the underlying `Input`.
+| Prop            | Type                              | Description                                                                 |
+| --------------- | --------------------------------- | --------------------------------------------------------------------------- |
+| `currency`      | `string`                          | **Required.** ISO 4217 code (`USD`, `EUR`, …).                            |
+| `locale`        | `string \| undefined`             | Passed to `Intl`. Omit for the runtime default locale.                      |
+| `value`         | `string \| number`                | Controlled value. Strings control draft text; numbers control numeric state. |
+| `onValueChange` | `(value: string \| null) => void` | Fires on commit when the normalized value changes (see Overview). |
+| `min`           | `number`                          | Optional minimum clamp. Ignored if `min > max`.                             |
+| `max`           | `number`                          | Optional maximum clamp. Ignored if `min > max`.                             |
 
 ## Install
 

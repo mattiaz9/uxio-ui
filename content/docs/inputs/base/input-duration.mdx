@@ -1,52 +1,43 @@
 ---
 title: Input Duration
-description:
-  Segmented duration control with input group layout, the same letter-token format model as Input
-  DateTime, and a hidden field for forms. Values are total seconds.
+description: Input that handles duration in total seconds for controlled or native forms.
 ---
 
 ## Overview
 
 `InputDuration` composes **Input Group** only (no calendar). The visible value is split into
-focusable segments—one per duration field in your `format` string. A **hidden** `<input>` stores the
-**total duration in seconds** (string) for native form posts.
+focusable segments—one per field in your `format`. The API uses **total seconds** (`number | null`).
 
-**Input and output** use **seconds** (`number | null`): `value`, `defaultValue`, and `onValueChange`.
-`onChange` on the hidden input fires when a value is **committed** (segment blur, or **Enter** on
-the control), with `target.value` as the seconds string.
+A **hidden** `<input>` mirrors the seconds string for native forms. **Commit** happens on segment
+**blur** or **Enter** (`onValueChange` and normalization run then).
 
-Digits append **right-to-left in numeric value**: the first digit you type is the least significant
-digit for display (e.g. with minimum width 2, `1` → `01`, then `2` → `12`, then `3` → `123`). Segments
-are **not** capped to the pattern length; you can type arbitrarily large integers.
+Within each segment, digits accumulate **right-to-left**. Segments are uncapped until commit. On
+commit, values **normalize** with overflow carried into larger units that exist in `format` (60/24
+rules for time; approximate **30-day** months and **365-day** years for `y` / `M` / `d`—see
+`lib/duration-format.ts`). If a larger unit is absent from the pattern, the smaller segment does
+not carry upward.
 
-On **blur** (or **Enter**), segments are **normalized** with overflow carried to the next larger unit
-when that unit exists in `format` (e.g. 170 minutes → 2 hours and 50 minutes). Bounds: seconds roll
-into minutes in steps of 60 when minutes exist; minutes into hours (60); hours into days (24) when
-days exist; days into months (30-day chunks) when months exist; months into years (12) when years
-exist; days into years (365-day chunks) when only years and days exist (no months). If a “higher”
-unit is **not** in the format, the lower unit is unbounded (no carry).
+Editable fields use `y`, `M`, `d`, `H`, `m`, `s` (runs set **minimum width**); other characters are
+static labels; use **single quotes** for literals. Default: `HH'h' mm'm' ss's'`.
 
-Total seconds use approximate calendar weights: **365-day years** and **30-day months** when mapping
-between seconds and `y` / `M` / `d` segments (see `lib/duration-format.ts`).
+### Key bindings
 
-Editable segments use the same field letters as date-fns-style patterns: `y`, `M`, `d`, `H`, `m`,
-`s`. Runs of the same letter set the **minimum display width** (leading zeros for short values).
-Any other characters are **static labels**. Wrap text in **single quotes** when it would otherwise
-start a field: `HH'h' mm'm' ss's'`. Default: `HH'h' mm'm' ss's'`.
+| Key | Behavior |
+| --- | -------- |
+| <Kbd>⌫</Kbd> | Deletes the last digit in the focused segment. If the segment is empty, focus moves to the **previous** segment. |
+| <Kbd>⌦</Kbd> | Clears the focused segment. The next digit typed **replaces** the whole segment. |
+| <span className="inline-flex items-center gap-1.5"><Kbd>←</Kbd><span className="text-muted-foreground">/</span><Kbd>→</Kbd></span> | Move focus to the **previous** or **next** segment (at the ends, the key has no effect). |
+| <Kbd>↵</Kbd> | **Commits** and normalizes the duration. Works from a segment or from the surrounding control. |
+| <Kbd>⇥</Kbd> | Moves through segments in focus order. |
+| `blur` | Leaving a segment **commits** with the same normalization as <Kbd>↵</Kbd>. |
 
 ## Custom props
 
-| Prop            | Type                                   | Description                                                                                                                                          |
-| --------------- | -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `format`        | `string`                               | Pattern for segments and static text. Default: `HH'h' mm'm' ss's'`. Use `'…'` for literal text; see Overview.                                         |
-| `value`         | `number \| null`                       | Controlled total duration in **seconds**, or `null` for empty.                                                                                      |
-| `defaultValue`  | `number \| null`                       | Uncontrolled initial total seconds.                                                                                                                  |
-| `onValueChange` | `(seconds: number \| null) => void`    | Fires after **blur** of a segment or **Enter**, with normalized carry; `null` when all segments are cleared.                                         |
-| `onChange`      | `ChangeEventHandler<HTMLInputElement>` | Fires with the hidden input’s string **seconds** value on commit (same moments as `onValueChange`).                                                 |
-| `name`          | `string`                               | Passed to the hidden input for forms.                                                                                                                |
-| `ref`           | `HTMLInputElement`                     | Attached to the **hidden** input.                                                                                                                    |
-
-Arrow keys move between segments; **Enter** on the outer control commits normalization.
+| Prop            | Type                                | Description                                                                                                                                          |
+| --------------- | ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `format`        | `string`                            | Pattern for segments and static text. Default: `HH'h' mm'm' ss's'`. Use `'…'` for literal text; see Overview.                                         |
+| `value`         | `number \| null`                    | Controlled total duration in **seconds**, or `null` for empty.                                                                                      |
+| `onValueChange` | `(seconds: number \| null) => void` | Fires after **blur** of a segment or **Enter**, with normalized carry; `null` when all segments are cleared.                                         |
 
 ## Install
 
@@ -68,6 +59,58 @@ npx shadcn@latest add @uxio/input-duration
 
 This pulls `input-group` as a registry dependency. The correct variant (Base UI or Radix) follows
 your `components.json` style. The bundle includes `lib/datetime-format` and `lib/duration-format`.
+
+## Usage
+
+### Controlled duration (seconds)
+
+```tsx
+import * as React from "react"
+
+import { InputDuration } from "@/components/ui/input-duration"
+
+export function DurationField() {
+  const [value, setValue] = React.useState<number | null>(null)
+
+  return <InputDuration value={value} onValueChange={setValue} />
+}
+```
+
+### Custom format
+
+```tsx
+import * as React from "react"
+
+import { InputDuration } from "@/components/ui/input-duration"
+
+export function DurationFormatField() {
+  const [value, setValue] = React.useState<number | null>(null)
+
+  return (
+    <InputDuration
+      format="dd'd' HH'h' mm'm'"
+      value={value}
+      onValueChange={setValue}
+    />
+  )
+}
+```
+
+### Colon-separated time
+
+```tsx
+import * as React from "react"
+
+import { InputDuration } from "@/components/ui/input-duration"
+
+export function ColonDurationField() {
+  const [value, setValue] = React.useState<number | null>(null)
+
+  return (
+    <InputDuration format="HH:mm:ss" value={value} onValueChange={setValue} />
+  )
+}
+```
 
 ## Examples
 

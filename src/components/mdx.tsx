@@ -3,6 +3,7 @@ import defaultMdxComponents from "fumadocs-ui/mdx"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { DocsAlerterBase, DocsAlerterRadix } from "@/components/docs/docs-alerter"
 import { DocsConfirmerBase, DocsConfirmerRadix } from "@/components/docs/docs-confirmer"
+import { Kbd } from "@/components/ui/kbd"
 
 import type { MDXComponents } from "mdx/types"
 
@@ -14,6 +15,7 @@ export function getMDXComponents(components?: MDXComponents) {
     DocsAlerterRadix,
     DocsConfirmerBase,
     DocsConfirmerRadix,
+    Kbd,
     ...components,
   } satisfies MDXComponents
 }
