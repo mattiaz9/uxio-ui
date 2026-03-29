@@ -56,6 +56,7 @@ function transformSource(source: string): string {
     .replace(/from\s*"\.\/ui\/input-datetime"/g, 'from "@/components/ui/input-datetime"')
     .replace(/from\s*"\.\/ui\/input-number"/g, 'from "@/components/ui/input-number"')
     .replace(/from\s*"\.\/ui\/input-currency"/g, 'from "@/components/ui/input-currency"')
+    .replace(/from\s*"\.\/ui\/input-password"/g, 'from "@/components/ui/input-password"')
     .replace(/from\s*"\.\/ui\/calendar"/g, 'from "@/components/ui/calendar"')
     .replace(/from\s*"\.\/ui\/textarea"/g, 'from "@/components/ui/textarea"')
     .replace(/from\s*"\.\/ui\/popover"/g, 'from "@/components/ui/popover"')

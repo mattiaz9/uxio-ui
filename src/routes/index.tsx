@@ -197,6 +197,13 @@ const registryComponents: RegistryComponentItem[] = [
     category: "Inputs",
     docsSplat: "inputs/base/input-currency",
   },
+  {
+    title: "Input Password",
+    description:
+      "Password input with the same API as Input, plus a suffix control to reveal or mask the value.",
+    category: "Inputs",
+    docsSplat: "inputs/base/input-password",
+  },
   // Layout
   {
     title: "Split Content",

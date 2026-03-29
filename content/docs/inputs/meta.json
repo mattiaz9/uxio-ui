@@ -3,7 +3,8 @@
   "pages": [
     "[Input DateTime](/docs/inputs/radix/input-datetime)",
     "[Input Number](/docs/inputs/radix/input-number)",
-    "[Input Currency](/docs/inputs/radix/input-currency)"
+    "[Input Currency](/docs/inputs/radix/input-currency)",
+    "[Input Password](/docs/inputs/radix/input-password)"
   ],
   "collapsible": false,
   "defaultOpen": true

@@ -318,6 +318,18 @@
     ]
   },
   {
+    "name": "input-password",
+    "type": "registry:ui",
+    "title": "Input Password",
+    "description": "Password field on Input Group with a suffix toggle to show or hide the value.",
+    "categories": ["inputs"],
+    "dependencies": {
+      "base": ["class-variance-authority", "clsx", "tailwind-merge"],
+      "radix": ["class-variance-authority", "clsx", "tailwind-merge"]
+    },
+    "registryDependencies": ["input-group"]
+  },
+  {
     "name": "item",
     "type": "registry:ui",
     "title": "Item",
