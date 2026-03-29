@@ -289,6 +289,22 @@
     "files": [{ "path": "lib/datetime-format.ts", "type": "registry:lib" }]
   },
   {
+    "name": "input-duration",
+    "type": "registry:ui",
+    "title": "Input Duration",
+    "description": "Segmented duration field with the same y/M/d/H/m/s token model as Input DateTime, optional quoted unit labels, and a hidden string value for forms.",
+    "categories": ["inputs"],
+    "dependencies": {
+      "base": ["date-fns", "clsx", "tailwind-merge"],
+      "radix": ["date-fns", "clsx", "tailwind-merge"]
+    },
+    "registryDependencies": ["input-group"],
+    "files": [
+      { "path": "lib/datetime-format.ts", "type": "registry:lib" },
+      { "path": "lib/duration-format.ts", "type": "registry:lib" }
+    ]
+  },
+  {
     "name": "input-number",
     "type": "registry:ui",
     "title": "Input Number",

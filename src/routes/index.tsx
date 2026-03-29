@@ -184,6 +184,13 @@ const registryComponents: RegistryComponentItem[] = [
     docsSplat: "inputs/base/input-datetime",
   },
   {
+    title: "Input Duration",
+    description:
+      "Segmented duration in total seconds with carry between units, RTL digit entry, and hidden seconds field for forms.",
+    category: "Inputs",
+    docsSplat: "inputs/base/input-duration",
+  },
+  {
     title: "Input Number",
     description:
       "Numeric input with step controls, filtered typing, and separate text and committed-value callbacks.",

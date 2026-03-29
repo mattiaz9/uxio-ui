@@ -329,6 +329,12 @@ function InputDatetime({
                   }
                   return
                 }
+                if (e.key === "Delete") {
+                  e.preventDefault()
+                  replaceOnNextDigitRef.current = true
+                  updateSegment(idx, "")
+                  return
+                }
                 if (e.key === "ArrowLeft" && idx > 0) {
                   e.preventDefault()
                   focusSegment(idx - 1)

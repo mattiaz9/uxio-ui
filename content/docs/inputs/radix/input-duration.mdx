@@ -1,0 +1,88 @@
+---
+title: Input Duration
+description:
+  Segmented duration control with input group layout, the same letter-token format model as Input
+  DateTime, and a hidden field for forms. Values are total seconds.
+---
+
+## Overview
+
+`InputDuration` composes **Input Group** only (no calendar). The visible value is split into
+focusable segments—one per duration field in your `format` string. A **hidden** `<input>` stores the
+**total duration in seconds** (string) for native form posts.
+
+**Input and output** use **seconds** (`number | null`): `value`, `defaultValue`, and `onValueChange`.
+`onChange` on the hidden input fires when a value is **committed** (segment blur, or **Enter** on
+the control), with `target.value` as the seconds string.
+
+Digits append **right-to-left in numeric value**: the first digit you type is the least significant
+digit for display (e.g. with minimum width 2, `1` → `01`, then `2` → `12`, then `3` → `123`). Segments
+are **not** capped to the pattern length; you can type arbitrarily large integers.
+
+On **blur** (or **Enter**), segments are **normalized** with overflow carried to the next larger unit
+when that unit exists in `format` (e.g. 170 minutes → 2 hours and 50 minutes). Bounds: seconds roll
+into minutes in steps of 60 when minutes exist; minutes into hours (60); hours into days (24) when
+days exist; days into months (30-day chunks) when months exist; months into years (12) when years
+exist; days into years (365-day chunks) when only years and days exist (no months). If a “higher”
+unit is **not** in the format, the lower unit is unbounded (no carry).
+
+Total seconds use approximate calendar weights: **365-day years** and **30-day months** when mapping
+between seconds and `y` / `M` / `d` segments (see `lib/duration-format.ts`).
+
+Editable segments use the same field letters as date-fns-style patterns: `y`, `M`, `d`, `H`, `m`,
+`s`. Runs of the same letter set the **minimum display width** (leading zeros for short values).
+Any other characters are **static labels**. Wrap text in **single quotes** when it would otherwise
+start a field: `HH'h' mm'm' ss's'`. Default: `HH'h' mm'm' ss's'`.
+
+## Custom props
+
+| Prop            | Type                                   | Description                                                                                                                                          |
+| --------------- | -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `format`        | `string`                               | Pattern for segments and static text. Default: `HH'h' mm'm' ss's'`. Use `'…'` for literal text; see Overview.                                         |
+| `value`         | `number \| null`                       | Controlled total duration in **seconds**, or `null` for empty.                                                                                      |
+| `defaultValue`  | `number \| null`                       | Uncontrolled initial total seconds.                                                                                                                  |
+| `onValueChange` | `(seconds: number \| null) => void`    | Fires after **blur** of a segment or **Enter**, with normalized carry; `null` when all segments are cleared.                                         |
+| `onChange`      | `ChangeEventHandler<HTMLInputElement>` | Fires with the hidden input’s string **seconds** value on commit (same moments as `onValueChange`).                                                 |
+| `name`          | `string`                               | Passed to the hidden input for forms.                                                                                                                |
+| `ref`           | `HTMLInputElement`                     | Attached to the **hidden** input.                                                                                                                    |
+
+Arrow keys move between segments; **Enter** on the outer control commits normalization.
+
+## Install
+
+Configure your registry in `components.json`:
+
+```json
+{
+  "registries": {
+    "@uxio": "https://ui.uxio.dev/r/styles/{style}/{name}.json"
+  }
+}
+```
+
+Then run:
+
+```bash
+npx shadcn@latest add @uxio/input-duration
+```
+
+This pulls `input-group` as a registry dependency. The correct variant (Base UI or Radix) follows
+your `components.json` style. The bundle includes `lib/datetime-format` and `lib/duration-format`.
+
+## Examples
+
+### Default format (`HH'h' mm'm' ss's'`)
+
+<ComponentPreview name="radix/input-duration-default" />
+
+### Days, hours, and minutes
+
+<ComponentPreview name="radix/input-duration-format-ymd" />
+
+### Colon-separated (`HH:mm:ss`)
+
+<ComponentPreview name="radix/input-duration-format-colons" />
+
+### Years, months, days (and time)
+
+<ComponentPreview name="radix/input-duration-years-months-days" />
