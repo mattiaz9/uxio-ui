@@ -1,0 +1,70 @@
+---
+title: Input Fraction
+description:
+  Segmented numerator and denominator with a fixed visual layout, compact fraction string value, and
+  hidden input for forms.
+---
+
+## Overview
+
+`InputFraction` composes **Input Group** only (no calendar). The layout is fixed: **numerator**,
+a static ` / ` separator, then **denominator**—the same segment + literal pattern used by Input
+DateTime, but with only these two numeric fields.
+
+The **hidden** `<input>` always holds a **compact** string `numerator/denominator` (no spaces),
+for example `2/5`. Use `onChange` for the hidden field whenever the string changes, including
+partial input; use `onValueChange` when a **committed**, **normalized** fraction is available, or
+`null` when both segments are cleared.
+
+A committed value requires a **non-negative** integer numerator, a **positive** integer denominator
+(≥ 1), and emits normalized integers (e.g. `7/12`, not leading zeros).
+
+Digits-only entry, arrow keys to move between segments, **Enter** to commit, and blur commits the
+current segments.
+
+## Custom props
+
+| Prop            | Type                                   | Description                                                                                                                                 |
+| --------------- | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `maxDigits`     | `number`                               | Maximum digits per segment. Default: `6`.                                                                                                   |
+| `value`         | `string \| null`                       | Controlled compact fraction (`n/d`) or empty.                                                                                               |
+| `defaultValue`  | `string \| null`                       | Uncontrolled initial compact fraction.                                                                                                      |
+| `onValueChange` | `(value: string \| null) => void`      | Fires when segments yield a valid normalized fraction after commit, or `null` when both segments are cleared.                               |
+| `onChange`      | `ChangeEventHandler<HTMLInputElement>` | Fires with the hidden input’s compact string whenever segments change (including partial).                                                 |
+| `name`          | `string`                               | Passed to the hidden input for forms.                                                                                                       |
+| `ref`           | `HTMLInputElement`                     | Attached to the **hidden** input.                                                                                                           |
+
+## Install
+
+Configure your registry in `components.json`:
+
+```json
+{
+  "registries": {
+    "@uxio": "https://ui.uxio.dev/r/styles/{style}/{name}.json"
+  }
+}
+```
+
+Then run:
+
+```bash
+npx shadcn@latest add @uxio/input-fraction
+```
+
+This pulls `input-group` as a registry dependency. The correct variant (Base UI or Radix) follows
+your `components.json` style. The bundle includes `lib/fraction-format`.
+
+## Examples
+
+### Default
+
+<ComponentPreview name="base/input-fraction-default" />
+
+### Controlled value
+
+<ComponentPreview name="base/input-fraction-controlled" />
+
+### Shorter segments (`maxDigits={3}`)
+
+<ComponentPreview name="base/input-fraction-max-digits" />

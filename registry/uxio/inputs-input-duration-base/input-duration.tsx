@@ -37,10 +37,6 @@ interface InputDurationProps extends Omit<
   disabled?: boolean
 }
 
-function segmentsAllEmpty(segments: string[]): boolean {
-  return segments.every((s) => s === "")
-}
-
 function InputDuration({
   className,
   format: formatStr = "HH'h' mm'm' ss's'",

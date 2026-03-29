@@ -1,22 +1,8 @@
-import {
-  fieldCharToKind,
-  fieldTokens,
-  type FieldKind,
-  type FormatToken,
-} from "./datetime-format"
+import { fieldCharToKind, fieldTokens, type FieldKind, type FormatToken } from "./datetime-format"
 
 export type DurationParts = Partial<
   Record<"years" | "months" | "days" | "hours" | "minutes" | "seconds", number>
 >
-
-/**
- * Segmented duration pattern: runs of `y`, `M`, `d`, `H`, `m`, or `s` are fields. Run length sets
- * **minimum display width** (leading zeros for short values). Segments accept unbounded digits.
- * Use single quotes for literal text, e.g. `HH'h'` for unit `h` after hours.
- *
- * Default: `HH'h' mm'm' ss's'` — hours, minutes, seconds with `h` / `m` / `s` suffixes.
- */
-export const DEFAULT_DURATION_FORMAT = "HH'h' mm'm' ss's'" as const
 
 const PART_KEY: Record<FieldKind, keyof DurationParts> = {
   year: "years",
@@ -68,11 +54,7 @@ export function tokenizeDurationFormat(fmt: string): FormatToken[] {
       continue
     }
     let j = i + 1
-    while (
-      j < fmt.length &&
-      fmt.charAt(j) !== "'" &&
-      !"yMdHms".includes(fmt.charAt(j))
-    ) {
+    while (j < fmt.length && fmt.charAt(j) !== "'" && !"yMdHms".includes(fmt.charAt(j))) {
       j++
     }
     tokens.push({ type: "literal", text: fmt.slice(i, j) })
@@ -315,7 +297,4 @@ export function backspaceDigitRtl(currentRaw: string): string {
   return n === 0 ? "" : String(n)
 }
 
-export {
-  fieldTokens,
-  type FormatToken,
-} from "./datetime-format"
+export { fieldTokens, type FormatToken } from "./datetime-format"

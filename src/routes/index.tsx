@@ -191,6 +191,13 @@ const registryComponents: RegistryComponentItem[] = [
     docsSplat: "inputs/base/input-duration",
   },
   {
+    title: "Input Fraction",
+    description:
+      "Segmented numerator and denominator with fixed separator, compact fraction string, and hidden field for forms.",
+    category: "Inputs",
+    docsSplat: "inputs/base/input-fraction",
+  },
+  {
     title: "Input Number",
     description:
       "Numeric input with step controls, filtered typing, and separate text and committed-value callbacks.",

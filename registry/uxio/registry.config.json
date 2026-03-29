@@ -305,6 +305,19 @@
     ]
   },
   {
+    "name": "input-fraction",
+    "type": "registry:ui",
+    "title": "Input Fraction",
+    "description": "Segmented numerator and denominator with a fixed ` / ` separator, compact `n/d` string value, and hidden input for forms.",
+    "categories": ["inputs"],
+    "dependencies": {
+      "base": ["clsx", "tailwind-merge"],
+      "radix": ["clsx", "tailwind-merge"]
+    },
+    "registryDependencies": ["input-group"],
+    "files": [{ "path": "lib/fraction-format.ts", "type": "registry:lib" }]
+  },
+  {
     "name": "input-number",
     "type": "registry:ui",
     "title": "Input Number",

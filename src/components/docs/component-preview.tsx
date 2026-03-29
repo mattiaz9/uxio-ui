@@ -55,6 +55,7 @@ function transformSource(source: string): string {
     .replace(/from\s*"\.\/ui\/input-group"/g, 'from "@/components/ui/input-group"')
     .replace(/from\s*"\.\/ui\/input-datetime"/g, 'from "@/components/ui/input-datetime"')
     .replace(/from\s*"\.\/ui\/input-duration"/g, 'from "@/components/ui/input-duration"')
+    .replace(/from\s*"\.\/ui\/input-fraction"/g, 'from "@/components/ui/input-fraction"')
     .replace(/from\s*"\.\/ui\/input-number"/g, 'from "@/components/ui/input-number"')
     .replace(/from\s*"\.\/ui\/input-currency"/g, 'from "@/components/ui/input-currency"')
     .replace(/from\s*"\.\/ui\/input-password"/g, 'from "@/components/ui/input-password"')
