@@ -283,13 +283,13 @@ function InputNumber({
       />
       <InputGroupAddon
         align="inline-end"
-        className="flex h-full flex-col gap-px p-0 pr-1.5 text-muted-foreground"
+        className="flex h-full flex-col gap-px border-l border-input p-0 pr-1.5 text-muted-foreground"
       >
         <InputGroupButton
           type="button"
           className="h-[calc((100%-2px)/2)] focus-visible:ring-1"
           size="xs"
-          variant="secondary"
+          variant="ghost"
           disabled={disabled || readOnly}
           aria-label="Increase value"
           onClick={() => {
@@ -309,7 +309,7 @@ function InputNumber({
           type="button"
           className="h-[calc((100%-2px)/2)] focus-visible:ring-1"
           size="xs"
-          variant="secondary"
+          variant="ghost"
           disabled={disabled || readOnly}
           aria-label="Decrease value"
           onClick={() => {
