@@ -11,6 +11,22 @@ function getLastChangedValue(onChange: ReturnType<typeof vi.fn>) {
 }
 
 describe("InputFraction base", () => {
+  test("sets empty segment to 0 on blur", async () => {
+    const user = userEvent.setup()
+    const onValueChange = vi.fn()
+
+    render(<InputFraction onValueChange={onValueChange} />)
+
+    const boxes = screen.getAllByRole("textbox")
+    await user.click(boxes[0]!)
+    await user.click(boxes[1]!)
+    expect(boxes[0]).toHaveTextContent("0")
+    await user.keyboard("5")
+    await user.tab()
+
+    expect(onValueChange).toHaveBeenLastCalledWith("0/5")
+  })
+
   test("commits normalized fraction after numerator and denominator entry", async () => {
     const user = userEvent.setup()
     const onChange = vi.fn()

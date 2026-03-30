@@ -21,6 +21,9 @@ const SECONDS_PER_MONTH = 30 * SECONDS_PER_DAY
 /** Approximate year length for total-seconds conversion (365 days). */
 const SECONDS_PER_YEAR = 365 * SECONDS_PER_DAY
 
+/** Default pattern matching `InputDuration` (quoted unit literals between fields). */
+export const DEFAULT_DURATION_FORMAT = "HH'h' mm'm' ss's'"
+
 export function tokenizeDurationFormat(fmt: string): FormatToken[] {
   const tokens: FormatToken[] = []
   let i = 0
@@ -179,7 +182,7 @@ export function normalizeDurationDigitMaps(
 
   return fields.map((f) => {
     const n = v[f.kind]
-    return n === 0 ? "" : String(n)
+    return String(n)
   })
 }
 
@@ -264,7 +267,7 @@ export function totalSecondsToSegmentDigits(
 
   return fields.map((f) => {
     const n = out[f.kind]
-    return n === 0 ? "" : String(n)
+    return String(n)
   })
 }
 
@@ -294,7 +297,7 @@ export function appendDigitRtl(currentRaw: string, digit: string, replaceFirst: 
 export function backspaceDigitRtl(currentRaw: string): string {
   if (currentRaw.length <= 1) return ""
   const n = Math.floor(parseInt(currentRaw, 10) / 10)
-  return n === 0 ? "" : String(n)
+  return String(n)
 }
 
 export { fieldTokens, type FormatToken } from "./datetime-format"

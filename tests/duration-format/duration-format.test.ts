@@ -2,9 +2,11 @@ import { describe, expect, test } from "vitest"
 
 import {
   appendDigitRtl,
+  backspaceDigitRtl,
   composeDurationSegments,
   DEFAULT_DURATION_FORMAT,
   formatSegmentDisplay,
+  getFieldMinWidth,
   normalizeDurationDigitMaps,
   parseVariableDurationSegments,
   tokenizeDurationFormat,
@@ -71,5 +73,44 @@ describe("duration-format", () => {
     expect(fields.map((f) => f.pattern)).toEqual(["HH", "mm"])
     const lit = tokens.filter((t) => t.type === "literal")
     expect(lit.map((t) => t.text)).toEqual(["×"])
+  })
+
+  test("totalSecondsToSegmentDigits(0) emits digit strings for zero, not empty segments", () => {
+    const tokens = tokenizeDurationFormat("HH:mm:ss")
+    const flds = fieldTokens(tokens)
+    expect(totalSecondsToSegmentDigits(0, flds)).toEqual(["0", "0", "0"])
+  })
+
+  test("totalSecondsToSegmentDigits single second field only", () => {
+    const tokens = tokenizeDurationFormat("ss")
+    const flds = fieldTokens(tokens)
+    expect(totalSecondsToSegmentDigits(0, flds)).toEqual(["0"])
+    expect(totalSecondsToSegmentDigits(5, flds)).toEqual(["5"])
+  })
+
+  test("normalizeDurationDigitMaps preserves explicit zeros after carry", () => {
+    const tokens = tokenizeDurationFormat("HH:mm:ss")
+    const flds = fieldTokens(tokens)
+    expect(normalizeDurationDigitMaps(flds, ["0", "0", "0"])).toEqual(["0", "0", "0"])
+    expect(normalizeDurationDigitMaps(flds, ["0", "1", "0"])).toEqual(["0", "1", "0"])
+    // 60 seconds → 1 minute, 0 seconds
+    expect(normalizeDurationDigitMaps(flds, ["0", "0", "60"])).toEqual(["0", "1", "0"])
+  })
+
+  test("formatSegmentDisplay shows padded zeros for numeric zero raw", () => {
+    const tokens = tokenizeDurationFormat("HH:mm:ss")
+    const flds = fieldTokens(tokens)
+    const f = flds[0]!
+    expect(getFieldMinWidth(f)).toBe(2)
+    expect(formatSegmentDisplay("0", 2)).toBe("00")
+    expect(formatSegmentDisplay("", 2)).toBe("00")
+  })
+
+  test("backspaceDigitRtl: multi-digit shrinks; two-digit zero stays as single 0", () => {
+    expect(backspaceDigitRtl("105")).toBe("10")
+    expect(backspaceDigitRtl("10")).toBe("1")
+    expect(backspaceDigitRtl("00")).toBe("0")
+    expect(backspaceDigitRtl("0")).toBe("")
+    expect(backspaceDigitRtl("")).toBe("")
   })
 })

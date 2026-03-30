@@ -16,11 +16,12 @@ export function fractionTokens(maxDigits: number): FractionFormatToken[] {
   ]
 }
 
-export function fieldTokens(tokens: FractionFormatToken[]): Extract<
-  FractionFormatToken,
-  { type: "field" }
->[] {
-  return tokens.filter((t): t is Extract<FractionFormatToken, { type: "field" }> => t.type === "field")
+export function fieldTokens(
+  tokens: FractionFormatToken[],
+): Extract<FractionFormatToken, { type: "field" }>[] {
+  return tokens.filter(
+    (t): t is Extract<FractionFormatToken, { type: "field" }> => t.type === "field",
+  )
 }
 
 export function composeFractionDisplay(tokens: FractionFormatToken[], segments: string[]): string {
@@ -47,10 +48,7 @@ export function compactFractionValue(numerator: string, denominator: string): st
 /**
  * Parse a compact or spaced fraction string into two digit segments (trimmed to maxDigits each).
  */
-export function parseSegmentsFromFractionString(
-  raw: string,
-  maxDigits: number,
-): [string, string] {
+export function parseSegmentsFromFractionString(raw: string, maxDigits: number): [string, string] {
   const s = raw.trim().replace(/\s+/g, "")
   if (!s) return ["", ""]
   const slash = s.indexOf("/")
@@ -59,7 +57,10 @@ export function parseSegmentsFromFractionString(
     return [only, ""]
   }
   const n = s.slice(0, slash).replace(/\D/g, "").slice(0, maxDigits)
-  const d = s.slice(slash + 1).replace(/\D/g, "").slice(0, maxDigits)
+  const d = s
+    .slice(slash + 1)
+    .replace(/\D/g, "")
+    .slice(0, maxDigits)
   return [n, d]
 }
 

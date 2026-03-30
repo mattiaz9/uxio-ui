@@ -162,7 +162,12 @@ function InputFraction({
       }
 
       const normalized = fractionBounds
-        ? normalizeCommittedFractionWithBounds(segs[0] ?? "", segs[1] ?? "", fractionBounds, maxDigits)
+        ? normalizeCommittedFractionWithBounds(
+            segs[0] ?? "",
+            segs[1] ?? "",
+            fractionBounds,
+            maxDigits,
+          )
         : normalizeCommittedFraction(segs[0] ?? "", segs[1] ?? "")
       if (!normalized) return
 
@@ -318,7 +323,17 @@ function InputFraction({
                   flushCommit()
                 }
               }}
-              onBlur={() => flushCommit()}
+              onBlur={() => {
+                if (disabled) return
+                const cur = segmentsRef.current
+                if ((cur[idx] ?? "") === "") {
+                  const copy = [...cur]
+                  copy[idx] = "0"
+                  segmentsRef.current = copy
+                  setSegments(copy)
+                }
+                flushCommit()
+              }}
             >
               {raw.length === 0 ? (
                 <span className="text-muted-foreground/40">0</span>
