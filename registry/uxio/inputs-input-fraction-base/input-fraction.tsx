@@ -14,8 +14,8 @@ import {
 import { InputGroup } from "@/registry/uxio/overrides-input-group-base/input-group"
 
 interface InputFractionProps extends Omit<
-  React.ComponentProps<"div">,
-  "onChange" | "defaultValue"
+  React.ComponentProps<"input">,
+  "type" | "value" | "defaultValue" | "onChange" | "readOnly"
 > {
   /** Max digits per segment (numerator and denominator). Defaults to `6`. */
   maxDigits?: number
@@ -29,12 +29,11 @@ interface InputFractionProps extends Omit<
   onValueChange?: (value: string | null) => void
   /** Fires with the compact `n/d` string whenever segments change (including partial input). */
   onChange?: React.ChangeEventHandler<HTMLInputElement>
-  name?: string
-  disabled?: boolean
 }
 
 function InputFraction({
   className,
+  ref,
   maxDigits = 6,
   value: valueProp,
   defaultValue,
@@ -42,8 +41,7 @@ function InputFraction({
   onChange,
   name,
   disabled,
-  id,
-  ...props
+  ...inputProps
 }: InputFractionProps) {
   const tokens = React.useMemo(() => fractionTokens(maxDigits), [maxDigits])
   const fields = React.useMemo(() => fieldTokens(tokens), [tokens])
@@ -66,15 +64,12 @@ function InputFraction({
     }
     return flds.map(() => "")
   })
+
   const innerInputRef = React.useRef<HTMLInputElement>(null)
   const segmentRefs = React.useRef<(HTMLSpanElement | null)[]>([])
   const segmentsRef = React.useRef(segments)
   const lastComposedCommit = React.useRef<string | null>(null)
   const replaceOnNextDigitRef = React.useRef(false)
-
-  React.useLayoutEffect(() => {
-    segmentsRef.current = segments
-  }, [segments])
 
   const stringValue = React.useMemo(
     () => compactFractionValue(segments[0] ?? "", segments[1] ?? ""),
@@ -82,6 +77,12 @@ function InputFraction({
   )
 
   const isControlled = valueProp !== undefined
+
+  React.useImperativeHandle(ref, () => innerInputRef.current as HTMLInputElement, [])
+
+  React.useLayoutEffect(() => {
+    segmentsRef.current = segments
+  }, [segments])
 
   React.useEffect(() => {
     if (!isControlled) return
@@ -157,10 +158,11 @@ function InputFraction({
   }
 
   return (
-    <InputGroup className={className} data-slot="input-fraction" {...props}>
+    <InputGroup className={className} data-slot="input-fraction">
       <input
+        {...inputProps}
         type="hidden"
-        id={id}
+        data-slot="input-fraction-hidden"
         ref={innerInputRef}
         name={name}
         value={stringValue}

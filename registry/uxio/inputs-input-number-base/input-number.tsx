@@ -14,16 +14,16 @@ import {
   sanitizeBounds,
   sanitizeInput,
 } from "@/registry/lib/numbers"
-import { Input } from "@/registry/uxio/overrides-input-base/input"
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupButton,
+  InputGroupInput,
 } from "@/registry/uxio/overrides-input-group-base/input-group"
 import { IconPlaceholder } from "@/registry/uxio/shared/icon-placeholder/icon-placeholder"
 
 type InputNumberProps = Omit<
-  React.ComponentProps<typeof Input>,
+  React.ComponentProps<typeof InputGroupInput>,
   "type" | "value" | "defaultValue" | "onChange"
 > & {
   value?: string | number | null
@@ -55,12 +55,10 @@ const InputNumber = React.forwardRef<HTMLInputElement, InputNumberProps>(functio
   },
   ref,
 ) {
-  const isStringControlled = typeof value === "string"
-  const isNullControlled = value === null
-  const isNumberControlled = isFiniteNumber(value)
-  const safeStep = isFiniteNumber(step) && step > 0 ? step : 1
-  const bounds = sanitizeBounds(min, max)
   const inputRef = React.useRef<HTMLInputElement | null>(null)
+  const lastCommittedValueRef = React.useRef<number | null | undefined>(undefined)
+  const lastValidSteppedValueRef = React.useRef<number | null>(null)
+
   const [preferredSeparator, setPreferredSeparator] = React.useState<"." | ",">(() =>
     typeof defaultValue === "string" ? getPreferredSeparator(defaultValue, ".") : ".",
   )
@@ -68,9 +66,12 @@ const InputNumber = React.forwardRef<HTMLInputElement, InputNumberProps>(functio
     coerceInitialDisplay(defaultValue, preferredSeparator),
   )
   const [numberDraft, setNumberDraft] = React.useState<string | null>(null)
-  const lastCommittedValueRef = React.useRef<number | null | undefined>(undefined)
-  const lastValidSteppedValueRef = React.useRef<number | null>(null)
 
+  const isStringControlled = typeof value === "string"
+  const isNullControlled = value === null
+  const isNumberControlled = isFiniteNumber(value)
+  const safeStep = isFiniteNumber(step) && step > 0 ? step : 1
+  const bounds = sanitizeBounds(min, max)
   const stringControlledValue = isStringControlled ? sanitizeInput(value) : ""
   const numberControlledValue = isNumberControlled
     ? formatNumber(
@@ -88,15 +89,6 @@ const InputNumber = React.forwardRef<HTMLInputElement, InputNumberProps>(functio
         ? (numberDraft ?? "")
         : uncontrolledDisplay
 
-  const setRefs = React.useCallback(
-    (node: HTMLInputElement | null) => {
-      inputRef.current = node
-      if (typeof ref === "function") ref(node)
-      else if (ref) ref.current = node
-    },
-    [ref],
-  )
-
   React.useEffect(() => {
     if (!isNumberControlled && !isNullControlled) return
     setNumberDraft(null)
@@ -108,6 +100,15 @@ const InputNumber = React.forwardRef<HTMLInputElement, InputNumberProps>(functio
       lastValidSteppedValueRef.current = clampNumber(parsed, bounds.min, bounds.max)
     }
   }, [bounds.max, bounds.min, displayValue])
+
+  const setRefs = React.useCallback(
+    (node: HTMLInputElement | null) => {
+      inputRef.current = node
+      if (typeof ref === "function") ref(node)
+      else if (ref) ref.current = node
+    },
+    [ref],
+  )
 
   const emitChange = React.useCallback(
     (nextValue: string, source?: HTMLInputElement | null) => {
@@ -228,16 +229,14 @@ const InputNumber = React.forwardRef<HTMLInputElement, InputNumberProps>(functio
   )
 
   return (
-    <InputGroup className="cn-input-number">
-      <Input
+    <InputGroup className={cn("cn-input-number", className)}>
+      <InputGroupInput
         {...props}
         ref={setRefs}
         type="text"
         inputMode="decimal"
         disabled={disabled}
         readOnly={readOnly}
-        data-slot="input-group-control"
-        className={cn("cn-input-group-input flex-1", className)}
         value={displayValue}
         onChange={(event) => {
           const sanitized = sanitizeInput(event.currentTarget.value)

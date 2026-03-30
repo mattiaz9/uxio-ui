@@ -2,7 +2,6 @@
 
 import * as React from "react"
 
-import { cn } from "@/lib/utils"
 import {
   committedAmountToTypingDraft,
   computeRoundedAmount,
@@ -18,11 +17,11 @@ import { clampNumber, isFiniteNumber, sanitizeBounds } from "@/registry/lib/numb
 import {
   InputGroup,
   InputGroupAddon,
+  InputGroupInput,
 } from "@/registry/uxio/overrides-input-group-radix/input-group"
-import { Input } from "@/registry/uxio/overrides-input-radix/input"
 
 interface InputCurrencyProps extends Omit<
-  React.ComponentProps<typeof Input>,
+  React.ComponentProps<typeof InputGroupInput>,
   "type" | "value" | "defaultValue" | "onChange"
 > {
   currency: string
@@ -54,9 +53,6 @@ function InputCurrency({
   max,
   ...props
 }: InputCurrencyProps) {
-  const isStringControlled = typeof value === "string"
-  const isNumberControlled = isFiniteNumber(value)
-  const bounds = sanitizeBounds(min, max)
   const inputRef = React.useRef<HTMLInputElement | null>(null)
   const lastEmittedRef = React.useRef<string | null | undefined>(undefined)
 
@@ -82,6 +78,9 @@ function InputCurrency({
   const [numberDraft, setNumberDraft] = React.useState<string | null>(null)
   const [focused, setFocused] = React.useState(false)
 
+  const isStringControlled = typeof value === "string"
+  const isNumberControlled = isFiniteNumber(value)
+  const bounds = sanitizeBounds(min, max)
   const stringControlledValue = isStringControlled
     ? getStringControlledDisplay(value, focused, locale, currency, min, max)
     : ""
@@ -177,22 +176,22 @@ function InputCurrency({
   const { symbol, addonAlign } = getCurrencyFormatParts(locale, currency, probeAmount)
 
   return (
-    <InputGroup data-slot="input-currency">
-      <Input
+    <InputGroup data-slot="input-currency" className={className}>
+      <InputGroupInput
         {...props}
         ref={inputRef}
-        className={cn(
-          "rounded-none border-0 bg-transparent shadow-none ring-0 focus-visible:ring-0 disabled:bg-transparent aria-invalid:ring-0 dark:bg-transparent dark:disabled:bg-transparent flex-1",
-          className,
-        )}
+        className="rounded-none border-0 bg-transparent shadow-none ring-0 focus-visible:ring-0 disabled:bg-transparent aria-invalid:ring-0 dark:bg-transparent dark:disabled:bg-transparent"
         type="text"
         inputMode="decimal"
         disabled={disabled}
         readOnly={readOnly}
-        data-slot="input-currency-control"
         value={displayValue}
         onChange={(event) => {
-          const sanitized = sanitizeCurrencyDecimalInput(event.currentTarget.value, locale, currency)
+          const sanitized = sanitizeCurrencyDecimalInput(
+            event.currentTarget.value,
+            locale,
+            currency,
+          )
           updateLocalDisplay(sanitized)
           emitChange(sanitized, event.currentTarget)
         }}
@@ -256,7 +255,7 @@ function InputCurrency({
       />
       <InputGroupAddon
         align={addonAlign}
-        className="text-muted-foreground tabular-nums select-none px-2 text-sm"
+        className="px-2 text-sm text-muted-foreground tabular-nums select-none group-has-[input[aria-invalid=true]]/input-group:text-destructive"
       >
         <span aria-hidden>{symbol}</span>
       </InputGroupAddon>

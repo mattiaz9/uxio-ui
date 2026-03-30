@@ -2,7 +2,6 @@
 
 import * as React from "react"
 
-import { cn } from "@/lib/utils"
 import {
   clampNumber,
   coerceInitialDisplay,
@@ -18,12 +17,12 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupButton,
+  InputGroupInput,
 } from "@/registry/uxio/overrides-input-group-radix/input-group"
-import { Input } from "@/registry/uxio/overrides-input-radix/input"
 import { IconPlaceholder } from "@/registry/uxio/shared/icon-placeholder/icon-placeholder"
 
 interface InputNumberProps extends Omit<
-  React.ComponentProps<typeof Input>,
+  React.ComponentProps<typeof InputGroupInput>,
   "type" | "value" | "defaultValue" | "onChange"
 > {
   value?: string | number | null
@@ -52,12 +51,10 @@ function InputNumber({
   step = 1,
   ...props
 }: InputNumberProps) {
-  const isStringControlled = typeof value === "string"
-  const isNullControlled = value === null
-  const isNumberControlled = isFiniteNumber(value)
-  const safeStep = isFiniteNumber(step) && step > 0 ? step : 1
-  const bounds = sanitizeBounds(min, max)
   const inputRef = React.useRef<HTMLInputElement | null>(null)
+  const lastCommittedValueRef = React.useRef<number | null | undefined>(undefined)
+  const lastValidSteppedValueRef = React.useRef<number | null>(null)
+
   const [preferredSeparator, setPreferredSeparator] = React.useState<"." | ",">(() =>
     typeof defaultValue === "string" ? getPreferredSeparator(defaultValue, ".") : ".",
   )
@@ -65,9 +62,12 @@ function InputNumber({
     coerceInitialDisplay(defaultValue, preferredSeparator),
   )
   const [numberDraft, setNumberDraft] = React.useState<string | null>(null)
-  const lastCommittedValueRef = React.useRef<number | null | undefined>(undefined)
-  const lastValidSteppedValueRef = React.useRef<number | null>(null)
 
+  const isStringControlled = typeof value === "string"
+  const isNullControlled = value === null
+  const isNumberControlled = isFiniteNumber(value)
+  const safeStep = isFiniteNumber(step) && step > 0 ? step : 1
+  const bounds = sanitizeBounds(min, max)
   const stringControlledValue = isStringControlled ? sanitizeInput(value) : ""
   const numberControlledValue = isNumberControlled
     ? formatNumber(
@@ -216,16 +216,14 @@ function InputNumber({
   )
 
   return (
-    <InputGroup data-slot="input-number">
-      <Input
+    <InputGroup data-slot="input-number" className={className}>
+      <InputGroupInput
         {...props}
         ref={inputRef}
-        className={cn("cn-input-group-input flex-1", className)}
         type="text"
         inputMode="decimal"
         disabled={disabled}
         readOnly={readOnly}
-        data-slot="input-number-control"
         value={displayValue}
         onChange={(event) => {
           const sanitized = sanitizeInput(event.currentTarget.value)

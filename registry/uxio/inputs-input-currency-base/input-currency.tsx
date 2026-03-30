@@ -15,11 +15,14 @@ import {
   sanitizeCurrencyDecimalInput,
 } from "@/registry/lib/currency"
 import { clampNumber, isFiniteNumber, sanitizeBounds } from "@/registry/lib/numbers"
-import { Input } from "@/registry/uxio/overrides-input-base/input"
-import { InputGroup, InputGroupAddon } from "@/registry/uxio/overrides-input-group-base/input-group"
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/registry/uxio/overrides-input-group-base/input-group"
 
 type InputCurrencyProps = Omit<
-  React.ComponentProps<typeof Input>,
+  React.ComponentProps<typeof InputGroupInput>,
   "type" | "value" | "defaultValue" | "onChange"
 > & {
   currency: string
@@ -54,9 +57,6 @@ const InputCurrency = React.forwardRef<HTMLInputElement, InputCurrencyProps>(fun
   },
   ref,
 ) {
-  const isStringControlled = typeof value === "string"
-  const isNumberControlled = isFiniteNumber(value)
-  const bounds = sanitizeBounds(min, max)
   const inputRef = React.useRef<HTMLInputElement | null>(null)
   const lastEmittedRef = React.useRef<string | null | undefined>(undefined)
 
@@ -82,6 +82,9 @@ const InputCurrency = React.forwardRef<HTMLInputElement, InputCurrencyProps>(fun
   const [numberDraft, setNumberDraft] = React.useState<string | null>(null)
   const [focused, setFocused] = React.useState(false)
 
+  const isStringControlled = typeof value === "string"
+  const isNumberControlled = isFiniteNumber(value)
+  const bounds = sanitizeBounds(min, max)
   const stringControlledValue = isStringControlled
     ? getStringControlledDisplay(value, focused, locale, currency, min, max)
     : ""
@@ -101,15 +104,6 @@ const InputCurrency = React.forwardRef<HTMLInputElement, InputCurrencyProps>(fun
       ? (numberDraft ?? numberControlledValue)
       : uncontrolledDisplay
 
-  const setRefs = React.useCallback(
-    (node: HTMLInputElement | null) => {
-      inputRef.current = node
-      if (typeof ref === "function") ref(node)
-      else if (ref) ref.current = node
-    },
-    [ref],
-  )
-
   React.useEffect(() => {
     if (!isNumberControlled) return
     setNumberDraft(null)
@@ -119,6 +113,15 @@ const InputCurrency = React.forwardRef<HTMLInputElement, InputCurrencyProps>(fun
     if (!isNumberControlled || !isFiniteNumber(value)) return
     setProbeAmount(computeRoundedAmount(value, locale, currency, min, max))
   }, [isNumberControlled, value, locale, currency, min, max])
+
+  const setRefs = React.useCallback(
+    (node: HTMLInputElement | null) => {
+      inputRef.current = node
+      if (typeof ref === "function") ref(node)
+      else if (ref) ref.current = node
+    },
+    [ref],
+  )
 
   const emitChange = React.useCallback(
     (nextValue: string, source?: HTMLInputElement | null) => {
@@ -188,19 +191,21 @@ const InputCurrency = React.forwardRef<HTMLInputElement, InputCurrencyProps>(fun
   const { symbol, addonAlign } = getCurrencyFormatParts(locale, currency, probeAmount)
 
   return (
-    <InputGroup className="cn-input-currency">
-      <Input
+    <InputGroup className={cn("cn-input-currency", className)}>
+      <InputGroupInput
         {...props}
         ref={setRefs}
         type="text"
         inputMode="decimal"
         disabled={disabled}
         readOnly={readOnly}
-        data-slot="input-group-control"
-        className={cn("cn-input-group-input flex-1", className)}
         value={displayValue}
         onChange={(event) => {
-          const sanitized = sanitizeCurrencyDecimalInput(event.currentTarget.value, locale, currency)
+          const sanitized = sanitizeCurrencyDecimalInput(
+            event.currentTarget.value,
+            locale,
+            currency,
+          )
           updateLocalDisplay(sanitized)
           emitChange(sanitized, event.currentTarget)
         }}
@@ -264,7 +269,7 @@ const InputCurrency = React.forwardRef<HTMLInputElement, InputCurrencyProps>(fun
       />
       <InputGroupAddon
         align={addonAlign}
-        className="text-muted-foreground tabular-nums select-none px-2 text-sm"
+        className="px-2 text-sm text-muted-foreground tabular-nums select-none group-has-[input[aria-invalid=true]]/input-group:text-destructive"
       >
         <span aria-hidden>{symbol}</span>
       </InputGroupAddon>

@@ -18,8 +18,8 @@ import {
 import { InputGroup } from "@/registry/uxio/overrides-input-group-radix/input-group"
 
 interface InputDurationProps extends Omit<
-  React.ComponentProps<"div">,
-  "onChange" | "defaultValue"
+  React.ComponentProps<"input">,
+  "type" | "value" | "defaultValue" | "onChange" | "readOnly"
 > {
   /**
    * Pattern: runs of `y`, `M`, `d`, `H`, `m`, or `s` set minimum display width (leading zeros).
@@ -33,12 +33,11 @@ interface InputDurationProps extends Omit<
   onValueChange?: (seconds: number | null) => void
   /** Fires when the committed seconds value changes (same moments as `onValueChange`). */
   onChange?: React.ChangeEventHandler<HTMLInputElement>
-  name?: string
-  disabled?: boolean
 }
 
 function InputDuration({
   className,
+  ref,
   format: formatStr = "HH'h' mm'm' ss's'",
   value: valueProp,
   defaultValue,
@@ -46,8 +45,7 @@ function InputDuration({
   onChange,
   name,
   disabled,
-  id,
-  ...props
+  ...inputProps
 }: InputDurationProps) {
   const tokens = React.useMemo(() => tokenizeDurationFormat(formatStr), [formatStr])
   const fieldCount = React.useMemo(() => fieldTokens(tokens).length, [tokens])
@@ -66,7 +64,6 @@ function InputDuration({
   const [committedSeconds, setCommittedSeconds] = React.useState<number | null>(() =>
     isControlled ? null : (defaultValue ?? null),
   )
-  const lastEmittedSeconds = React.useRef<number | null | undefined>(undefined)
 
   const [segments, setSegments] = React.useState<string[]>(() => {
     const flds = fieldTokens(tokens)
@@ -76,10 +73,14 @@ function InputDuration({
     }
     return flds.map(() => "")
   })
+
+  const lastEmittedSeconds = React.useRef<number | null | undefined>(undefined)
   const innerInputRef = React.useRef<HTMLInputElement>(null)
   const segmentRefs = React.useRef<(HTMLSpanElement | null)[]>([])
   const segmentsRef = React.useRef(segments)
   const replaceOnNextDigitRef = React.useRef(false)
+
+  React.useImperativeHandle(ref, () => innerInputRef.current as HTMLInputElement, [])
 
   React.useLayoutEffect(() => {
     segmentsRef.current = segments
@@ -165,10 +166,11 @@ function InputDuration({
       : String(displayHiddenSeconds)
 
   return (
-    <InputGroup className={className} data-slot="input-duration" {...props}>
+    <InputGroup className={className} data-slot="input-duration">
       <input
+        {...inputProps}
         type="hidden"
-        id={id}
+        data-slot="input-duration-hidden"
         ref={innerInputRef}
         name={name}
         value={hiddenValue}

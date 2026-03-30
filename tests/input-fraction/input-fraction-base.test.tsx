@@ -30,9 +30,7 @@ describe("InputFraction base", () => {
   })
 
   test("controlled value updates display", () => {
-    const { rerender } = render(
-      <InputFraction value="2/5" onValueChange={() => {}} />,
-    )
+    const { rerender } = render(<InputFraction value="2/5" onValueChange={() => {}} />)
 
     let boxes = screen.getAllByRole("textbox")
     expect(boxes[0]).toHaveTextContent("2")

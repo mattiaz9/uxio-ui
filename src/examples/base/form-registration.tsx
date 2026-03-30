@@ -68,7 +68,7 @@ export default function FormRegistrationExample() {
           {
             username: value.username,
             password: "[redacted]",
-            birthDate: value.birthDate ? value.birthDate.toISOString().slice(0, 10) : null,
+            birthDate: value.birthDate ? value.birthDate.toLocaleDateString() : null,
             hourlyRate: value.hourlyRate,
             coffeeBreaksPerDay: value.coffeeBreaksPerDay,
             typicalBreakDurationSeconds: value.typicalBreakDuration,
@@ -95,6 +95,7 @@ export default function FormRegistrationExample() {
                     id={`${id}-${field.name}`}
                     name={field.name}
                     autoComplete="username"
+                    placeholder="jane.doe"
                     value={field.state.value}
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(e.target.value)}
@@ -117,6 +118,7 @@ export default function FormRegistrationExample() {
                     id={`${id}-${field.name}`}
                     name={field.name}
                     autoComplete="new-password"
+                    placeholder="••••••••"
                     value={field.state.value}
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(e.target.value)}

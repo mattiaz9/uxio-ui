@@ -7,11 +7,11 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupButton,
+  InputGroupInput,
 } from "@/registry/uxio/overrides-input-group-radix/input-group"
-import { Input } from "@/registry/uxio/overrides-input-radix/input"
 import { IconPlaceholder } from "@/registry/uxio/shared/icon-placeholder/icon-placeholder"
 
-type InputPasswordProps = Omit<React.ComponentProps<typeof Input>, "type">
+type InputPasswordProps = Omit<React.ComponentProps<typeof InputGroupInput>, "type">
 
 const InputPassword = React.forwardRef<HTMLInputElement, InputPasswordProps>(function InputPassword(
   { className, disabled, readOnly, autoComplete = "current-password", ...props },
@@ -20,16 +20,14 @@ const InputPassword = React.forwardRef<HTMLInputElement, InputPasswordProps>(fun
   const [visible, setVisible] = React.useState(false)
 
   return (
-    <InputGroup className="cn-input-password">
-      <Input
+    <InputGroup className={cn("cn-input-password", className)}>
+      <InputGroupInput
         {...props}
         ref={ref}
-        className={cn("cn-input-group-input flex-1", className)}
         type={visible ? "text" : "password"}
         disabled={disabled}
         readOnly={readOnly}
         autoComplete={autoComplete}
-        data-slot="input-group-control"
       />
       <InputGroupAddon align="inline-end" className="px-1 text-muted-foreground">
         <InputGroupButton

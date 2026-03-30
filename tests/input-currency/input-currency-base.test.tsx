@@ -17,7 +17,12 @@ describe("InputCurrency base", () => {
     const onValueChange = vi.fn()
 
     render(
-      <InputCurrency currency="USD" locale="en-US" onChange={onChange} onValueChange={onValueChange} />,
+      <InputCurrency
+        currency="USD"
+        locale="en-US"
+        onChange={onChange}
+        onValueChange={onValueChange}
+      />,
     )
 
     const input = screen.getByRole("textbox")
@@ -58,7 +63,12 @@ describe("InputCurrency base", () => {
     const onValueChange = vi.fn()
 
     render(
-      <InputCurrency currency="USD" locale="en-US" onChange={onChange} onValueChange={onValueChange} />,
+      <InputCurrency
+        currency="USD"
+        locale="en-US"
+        onChange={onChange}
+        onValueChange={onValueChange}
+      />,
     )
 
     const input = screen.getByRole("textbox")
@@ -74,7 +84,12 @@ describe("InputCurrency base", () => {
     const onValueChange = vi.fn()
 
     render(
-      <InputCurrency currency="USD" locale="en-US" onChange={vi.fn()} onValueChange={onValueChange} />,
+      <InputCurrency
+        currency="USD"
+        locale="en-US"
+        onChange={vi.fn()}
+        onValueChange={onValueChange}
+      />,
     )
 
     const input = screen.getByRole("textbox")

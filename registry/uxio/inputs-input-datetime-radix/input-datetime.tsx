@@ -29,8 +29,8 @@ import {
 import { IconPlaceholder } from "@/registry/uxio/shared/icon-placeholder/icon-placeholder"
 
 interface InputDatetimeProps extends Omit<
-  React.ComponentProps<"div">,
-  "onChange" | "defaultValue"
+  React.ComponentProps<"input">,
+  "type" | "value" | "defaultValue" | "onChange" | "readOnly"
 > {
   mode?: InputDatetimeMode
   /**
@@ -46,12 +46,11 @@ interface InputDatetimeProps extends Omit<
   onValueChange?: (date: Date | null) => void
   /** Fires with the composed string whenever segments change (including partial input). */
   onChange?: React.ChangeEventHandler<HTMLInputElement>
-  name?: string
-  disabled?: boolean
 }
 
 function InputDatetime({
   className,
+  ref,
   mode = "datetime",
   format: formatProp,
   value: valueProp,
@@ -60,10 +59,29 @@ function InputDatetime({
   onChange,
   name,
   disabled,
-  id,
-  ...props
+  ...inputProps
 }: InputDatetimeProps) {
   const formatStr = formatProp || DEFAULT_FORMAT[mode]
+
+  const innerInputRef = React.useRef<HTMLInputElement>(null)
+  const segmentRefs = React.useRef<(HTMLSpanElement | null)[]>([])
+  const lastComposedCommit = React.useRef<string | null>(null)
+  /** After focus, first digit replaces the segment; further digits append (avoids selection/DOM quirks). */
+  const replaceOnNextDigitRef = React.useRef(false)
+
+  const [segments, setSegments] = React.useState<string[]>(() => {
+    const initial = coerceToDate(valueProp !== undefined ? valueProp : (defaultValue ?? undefined))
+    const tok = tokensForMode(tokenizeFormat(formatStr), mode)
+    const flds = fieldTokens(tok)
+    if (initial && flds.length) {
+      return parseSegmentsFromString(format(initial, formatStr), tok)
+    }
+    return flds.map(() => "")
+  })
+  const [popoverOpen, setPopoverOpen] = React.useState(false)
+
+  const segmentsRef = React.useRef(segments)
+
   const tokens = React.useMemo(
     () => tokensForMode(tokenizeFormat(formatStr), mode),
     [formatStr, mode],
@@ -78,31 +96,26 @@ function InputDatetime({
       return i
     })
   }, [tokens])
+  const stringValue = React.useMemo(() => composeString(tokens, segments), [tokens, segments])
+  const parsedForCalendar = React.useMemo(() => {
+    if (!segmentsComplete(tokens, segments)) return null
+    const refDate = new Date()
+    const p = parse(stringValue, formatStr, refDate)
+    return isValid(p) ? p : null
+  }, [tokens, segments, stringValue, formatStr])
 
-  const [segments, setSegments] = React.useState<string[]>(() => {
-    const initial = coerceToDate(valueProp !== undefined ? valueProp : (defaultValue ?? undefined))
-    const tok = tokensForMode(tokenizeFormat(formatStr), mode)
-    const flds = fieldTokens(tok)
-    if (initial && flds.length) {
-      return parseSegmentsFromString(format(initial, formatStr), tok)
-    }
-    return flds.map(() => "")
-  })
-  const [popoverOpen, setPopoverOpen] = React.useState(false)
-  const innerInputRef = React.useRef<HTMLInputElement>(null)
-  const segmentRefs = React.useRef<(HTMLSpanElement | null)[]>([])
-  const segmentsRef = React.useRef(segments)
-  const lastComposedCommit = React.useRef<string | null>(null)
-  /** After focus, first digit replaces the segment; further digits append (avoids selection/DOM quirks). */
-  const replaceOnNextDigitRef = React.useRef(false)
+  const calendarSelected = React.useMemo(() => {
+    if (parsedForCalendar) return parsedForCalendar
+    return coerceToDate(valueProp ?? defaultValue ?? undefined) ?? undefined
+  }, [parsedForCalendar, valueProp, defaultValue])
+
+  const isControlled = valueProp !== undefined
+
+  React.useImperativeHandle(ref, () => innerInputRef.current as HTMLInputElement, [])
 
   React.useLayoutEffect(() => {
     segmentsRef.current = segments
   }, [segments])
-
-  const stringValue = React.useMemo(() => composeString(tokens, segments), [tokens, segments])
-
-  const isControlled = valueProp !== undefined
 
   React.useEffect(() => {
     if (!isControlled) return
@@ -170,18 +183,6 @@ function InputDatetime({
     commitParsedValue(composeString(tokens, segs), segs)
   }, [tokens, commitParsedValue])
 
-  const parsedForCalendar = React.useMemo(() => {
-    if (!segmentsComplete(tokens, segments)) return null
-    const refDate = new Date()
-    const p = parse(stringValue, formatStr, refDate)
-    return isValid(p) ? p : null
-  }, [tokens, segments, stringValue, formatStr])
-
-  const calendarSelected = React.useMemo(() => {
-    if (parsedForCalendar) return parsedForCalendar
-    return coerceToDate(valueProp ?? defaultValue ?? undefined) ?? undefined
-  }, [parsedForCalendar, valueProp, defaultValue])
-
   const updateSegment = (index: number, next: string) => {
     const copy = [...segmentsRef.current]
     copy[index] = next
@@ -227,10 +228,11 @@ function InputDatetime({
   }
 
   return (
-    <InputGroup className={className} data-slot="input-datetime" {...props}>
+    <InputGroup className={className} data-slot="input-datetime">
       <input
+        {...inputProps}
         type="hidden"
-        id={id}
+        data-slot="input-datetime-hidden"
         ref={innerInputRef}
         name={name}
         value={stringValue}

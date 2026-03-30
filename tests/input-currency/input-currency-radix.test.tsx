@@ -17,7 +17,12 @@ describe("InputCurrency radix", () => {
     const onValueChange = vi.fn()
 
     render(
-      <InputCurrency currency="USD" locale="en-US" onChange={onChange} onValueChange={onValueChange} />,
+      <InputCurrency
+        currency="USD"
+        locale="en-US"
+        onChange={onChange}
+        onValueChange={onValueChange}
+      />,
     )
 
     const input = screen.getByRole("textbox")
