@@ -4,12 +4,16 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 import {
+  clampFractionStringsForDisplay,
   compactFractionValue,
   fractionSegmentsComplete,
   fractionTokens,
   fieldTokens,
+  hasFractionBounds,
   normalizeCommittedFraction,
+  normalizeCommittedFractionWithBounds,
   parseSegmentsFromFractionString,
+  type FractionBounds,
 } from "@/registry/lib/fraction-format"
 import { InputGroup } from "@/registry/uxio/overrides-input-group-base/input-group"
 
@@ -19,6 +23,17 @@ interface InputFractionProps extends Omit<
 > {
   /** Max digits per segment (numerator and denominator). Defaults to `6`. */
   maxDigits?: number
+  /** Inclusive lower bound for the numerator integer (after digit parsing). */
+  minNumerator?: number
+  /** Inclusive upper bound for the numerator. */
+  maxNumerator?: number
+  /**
+   * Inclusive lower bound for the denominator. When omitted, the minimum is `1` (same as unbounded
+   * validation).
+   */
+  minDenominator?: number
+  /** Inclusive upper bound for the denominator. */
+  maxDenominator?: number
   /** Compact fraction string, e.g. `2/5`. Controlled when set. */
   value?: string | null
   defaultValue?: string | null
@@ -35,6 +50,10 @@ function InputFraction({
   className,
   ref,
   maxDigits = 6,
+  minNumerator,
+  maxNumerator,
+  minDenominator,
+  maxDenominator,
   value: valueProp,
   defaultValue,
   onValueChange,
@@ -43,6 +62,16 @@ function InputFraction({
   disabled,
   ...inputProps
 }: InputFractionProps) {
+  const fractionBounds = React.useMemo((): FractionBounds | undefined => {
+    const b: FractionBounds = {
+      minNumerator,
+      maxNumerator,
+      minDenominator,
+      maxDenominator,
+    }
+    return hasFractionBounds(b) ? b : undefined
+  }, [minNumerator, maxNumerator, minDenominator, maxDenominator])
+
   const tokens = React.useMemo(() => fractionTokens(maxDigits), [maxDigits])
   const fields = React.useMemo(() => fieldTokens(tokens), [tokens])
   const fieldIndexAtToken = React.useMemo(() => {
@@ -60,7 +89,8 @@ function InputFraction({
     const init = valueProp !== undefined ? valueProp : (defaultValue ?? undefined)
     if (init !== undefined && init !== null && init !== "") {
       const [n, d] = parseSegmentsFromFractionString(String(init), maxDigits)
-      return [n, d]
+      const [n2, d2] = clampFractionStringsForDisplay(n, d, fractionBounds, maxDigits)
+      return [n2, d2]
     }
     return flds.map(() => "")
   })
@@ -94,10 +124,11 @@ function InputFraction({
       return
     }
     const [n, d] = parseSegmentsFromFractionString(String(valueProp), maxDigits)
-    const next = [n, d]
+    const [n2, d2] = clampFractionStringsForDisplay(n, d, fractionBounds, maxDigits)
+    const next = [n2, d2]
     segmentsRef.current = next
     setSegments(next)
-  }, [isControlled, valueProp, maxDigits])
+  }, [isControlled, valueProp, maxDigits, fractionBounds])
 
   const emitStringChange = React.useCallback(
     (next: string) => {
@@ -113,38 +144,61 @@ function InputFraction({
   )
 
   const commitParsedValue = React.useCallback(
-    (segs: string[]) => {
-      emitStringChange(compactFractionValue(segs[0] ?? "", segs[1] ?? ""))
+    (segs: string[], fromFlush = false) => {
       const empty = segs.every((s) => s === "")
       if (empty) {
         lastComposedCommit.current = null
+        emitStringChange("")
         onValueChange?.(null)
         return
       }
-      if (!fractionSegmentsComplete(segs)) {
+
+      const rawCompact = compactFractionValue(segs[0] ?? "", segs[1] ?? "")
+
+      if (!fractionSegmentsComplete(segs, fractionBounds, maxDigits)) {
         lastComposedCommit.current = null
+        emitStringChange(rawCompact)
         return
       }
-      const normalized = normalizeCommittedFraction(segs[0], segs[1])
+
+      const normalized = fractionBounds
+        ? normalizeCommittedFractionWithBounds(segs[0] ?? "", segs[1] ?? "", fractionBounds, maxDigits)
+        : normalizeCommittedFraction(segs[0] ?? "", segs[1] ?? "")
       if (!normalized) return
-      if (lastComposedCommit.current === normalized) return
+
+      const syncClampToDisplay = () => {
+        const [n, d] = parseSegmentsFromFractionString(normalized, maxDigits)
+        if ((segs[0] ?? "") !== n || (segs[1] ?? "") !== d) {
+          segmentsRef.current = [n, d]
+          setSegments([n, d])
+        }
+      }
+
+      if (lastComposedCommit.current === normalized) {
+        if (fromFlush) syncClampToDisplay()
+        emitStringChange(normalized)
+        return
+      }
+
       lastComposedCommit.current = normalized
       onValueChange?.(normalized)
+      emitStringChange(normalized)
+      if (fromFlush) syncClampToDisplay()
     },
-    [onValueChange, emitStringChange],
+    [onValueChange, emitStringChange, fractionBounds, maxDigits],
   )
 
   const pushSegments = React.useCallback(
     (next: string[]) => {
       segmentsRef.current = next
       setSegments(next)
-      commitParsedValue(next)
+      commitParsedValue(next, false)
     },
     [commitParsedValue],
   )
 
   const flushCommit = React.useCallback(() => {
-    commitParsedValue(segmentsRef.current)
+    commitParsedValue(segmentsRef.current, true)
   }, [commitParsedValue])
 
   const updateSegment = (index: number, next: string) => {

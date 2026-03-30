@@ -1,12 +1,14 @@
 import { describe, expect, test } from "vitest"
 
 import {
+  clampFractionStringsForDisplay,
   compactFractionValue,
   composeFractionDisplay,
   fractionSegmentsComplete,
   fractionTokens,
   fieldTokens,
   normalizeCommittedFraction,
+  normalizeCommittedFractionWithBounds,
   parseSegmentsFromFractionString,
 } from "@/registry/lib/fraction-format"
 
@@ -47,5 +49,24 @@ describe("fraction-format", () => {
     expect(fractionSegmentsComplete(["2", "5"])).toBe(true)
     expect(fractionSegmentsComplete(["1", "0"])).toBe(false)
     expect(fractionSegmentsComplete(["", "5"])).toBe(false)
+  })
+
+  test("normalizeCommittedFractionWithBounds clamps segments", () => {
+    const b = { minNumerator: 0, maxNumerator: 5, minDenominator: 5, maxDenominator: 5 }
+    expect(normalizeCommittedFractionWithBounds("9", "5", b, 6)).toBe("5/5")
+    expect(normalizeCommittedFractionWithBounds("0", "5", b, 6)).toBe("0/5")
+    expect(normalizeCommittedFractionWithBounds("3", "5", b, 6)).toBe("3/5")
+  })
+
+  test("clampFractionStringsForDisplay clamps partial segments for controlled sync", () => {
+    const b = { minNumerator: 0, maxNumerator: 5, minDenominator: 5, maxDenominator: 5 }
+    expect(clampFractionStringsForDisplay("9", "5", b, 6)).toEqual(["5", "5"])
+    expect(clampFractionStringsForDisplay("12", "", b, 6)).toEqual(["5", ""])
+  })
+
+  test("fractionSegmentsComplete with bounds", () => {
+    const b = { minNumerator: 0, maxNumerator: 5, minDenominator: 5, maxDenominator: 5 }
+    expect(fractionSegmentsComplete(["2", "5"], b, 6)).toBe(true)
+    expect(fractionSegmentsComplete(["9", "5"], b, 6)).toBe(true)
   })
 })

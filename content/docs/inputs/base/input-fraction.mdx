@@ -24,11 +24,17 @@ segments are cleared.
 
 ## Custom props
 
-| Prop            | Type                              | Description                                                                                                   |
-| --------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| `maxDigits`     | `number`                          | Maximum digits per segment. Default: `6`.                                                                    |
-| `value`         | `string \| null`                  | Controlled compact fraction (`n/d`) or empty.                                                                 |
-| `onValueChange` | `(value: string \| null) => void` | Fires when segments yield a valid normalized fraction after commit, or `null` when both segments are cleared. |
+| Prop               | Type                              | Description                                                                                                   |
+| ------------------ | --------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `maxDigits`        | `number`                          | Maximum digits per segment. Default: `6`.                                                                    |
+| `minNumerator`     | `number`                          | Optional inclusive minimum for the numerator integer (after parsing digits).                                   |
+| `maxNumerator`     | `number`                          | Optional inclusive maximum for the numerator.                                                                |
+| `minDenominator`   | `number`                          | Optional inclusive minimum for the denominator; when omitted, the floor remains `1` (same as unbounded rules).   |
+| `maxDenominator`   | `number`                          | Optional inclusive maximum for the denominator.                                                              |
+| `value`            | `string \| null`                  | Controlled compact fraction (`n/d`) or empty.                                                                 |
+| `onValueChange`    | `(value: string \| null) => void` | Fires when segments yield a valid normalized fraction after commit, or `null` when both segments are cleared. |
+
+Bounds use the same `sanitizeBounds` / `clampNumber` behavior as other numeric inputs: on **blur** or **Enter**, each segment is clamped to its range and the compact value is re-emitted. **Controlled** values from the parent are clamped for display so segments stay in range. Clamping applies to each integer segment, not to the rational `n/d` as a single value.
 
 ## Install
 
@@ -81,6 +87,29 @@ export function ShortFractionField() {
 }
 ```
 
+### Segment bounds
+
+```tsx
+import * as React from "react"
+
+import { InputFraction } from "@/components/ui/input-fraction"
+
+export function BoundedFractionField() {
+  const [value, setValue] = React.useState<string | null>(null)
+
+  return (
+    <InputFraction
+      minNumerator={0}
+      maxNumerator={5}
+      minDenominator={5}
+      maxDenominator={5}
+      value={value}
+      onValueChange={setValue}
+    />
+  )
+}
+```
+
 ## Examples
 
 ### Default
@@ -94,3 +123,7 @@ export function ShortFractionField() {
 ### Shorter segments (`maxDigits={3}`)
 
 <ComponentPreview name="base/input-fraction-max-digits" />
+
+### Segment bounds (`minNumerator` / `maxNumerator` / `minDenominator` / `maxDenominator`)
+
+<ComponentPreview name="base/input-fraction-min-max" />

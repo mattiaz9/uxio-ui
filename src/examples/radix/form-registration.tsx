@@ -40,8 +40,12 @@ const registrationSchema = z.object({
     }),
   weeklyRemoteFraction: z
     .union([z.string(), z.null()])
-    .refine((v) => v != null && /^\d+\/\d+$/.test(v), {
-      message: "Use a fraction like 2/5",
+    .refine((v) => {
+      if (v == null || !/^\d+\/\d+$/.test(v)) return false
+      const [n, d] = v.split("/").map((x) => Number.parseInt(x, 10))
+      return n >= 0 && n <= 5 && d === 5
+    }, {
+      message: "Use a fraction from 0/5 to 5/5",
     }),
 })
 
@@ -225,6 +229,10 @@ export default function FormRegistrationExample() {
                   </FieldLabel>
                   <InputFraction
                     id={`${id}-${field.name}`}
+                    minNumerator={0}
+                    maxNumerator={5}
+                    minDenominator={5}
+                    maxDenominator={5}
                     value={field.state.value}
                     onValueChange={(v) => field.handleChange(v)}
                     aria-invalid={isInvalid}

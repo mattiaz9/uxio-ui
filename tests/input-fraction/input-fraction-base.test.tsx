@@ -57,4 +57,48 @@ describe("InputFraction base", () => {
 
     expect(onValueChange).not.toHaveBeenCalled()
   })
+
+  test("commit clamps numerator and denominator to bounds", async () => {
+    const user = userEvent.setup()
+    const onValueChange = vi.fn()
+
+    render(
+      <InputFraction
+        minNumerator={0}
+        maxNumerator={5}
+        minDenominator={5}
+        maxDenominator={5}
+        onValueChange={onValueChange}
+      />,
+    )
+
+    let boxes = screen.getAllByRole("textbox")
+    await user.click(boxes[0]!)
+    await user.keyboard("9")
+    await user.click(boxes[1]!)
+    await user.keyboard("5")
+    await user.tab()
+
+    expect(onValueChange).toHaveBeenLastCalledWith("5/5")
+    boxes = screen.getAllByRole("textbox")
+    expect(boxes[0]).toHaveTextContent("5")
+    expect(boxes[1]).toHaveTextContent("5")
+  })
+
+  test("controlled value from parent is clamped for display", () => {
+    render(
+      <InputFraction
+        value="9/5"
+        minNumerator={0}
+        maxNumerator={5}
+        minDenominator={5}
+        maxDenominator={5}
+        onValueChange={() => {}}
+      />,
+    )
+
+    const boxes = screen.getAllByRole("textbox")
+    expect(boxes[0]).toHaveTextContent("5")
+    expect(boxes[1]).toHaveTextContent("5")
+  })
 })

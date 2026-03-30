@@ -308,7 +308,7 @@
     "name": "input-fraction",
     "type": "registry:ui",
     "title": "Input Fraction",
-    "description": "Segmented numerator and denominator with a fixed ` / ` separator, compact `n/d` string value, and hidden input for forms.",
+    "description": "Segmented numerator and denominator with a fixed ` / ` separator, compact `n/d` string value, optional per-segment min/max, and hidden input for forms.",
     "categories": ["inputs"],
     "dependencies": {
       "base": ["clsx", "tailwind-merge"],
