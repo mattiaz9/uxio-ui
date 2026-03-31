@@ -1,0 +1,28 @@
+import { SearchIcon } from "lucide-react"
+
+import { Button } from "./ui/button"
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from "./ui/input-group"
+
+export default function InputGroupSizeSm() {
+  return (
+    <div className="flex flex-nowrap items-center gap-2">
+      <InputGroup size="sm" className="max-w-xs">
+        <InputGroupInput placeholder="Search..." />
+        <InputGroupAddon>
+          <SearchIcon className="size-3.5 text-muted-foreground" />
+        </InputGroupAddon>
+        <InputGroupAddon align="inline-end">
+          <InputGroupButton type="button" variant="secondary">
+            Search
+          </InputGroupButton>
+        </InputGroupAddon>
+      </InputGroup>
+      <Button size="sm">Button</Button>
+    </div>
+  )
+}

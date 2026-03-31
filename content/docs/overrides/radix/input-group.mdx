@@ -1,0 +1,59 @@
+---
+title: Input Group
+---
+
+## Extended Features
+
+- [Size variants](#size-variants) — `xs`, `sm`, `default`, and `lg` on `InputGroup`, aligned with the
+  [Input](/docs/overrides/radix/input) override. `InputGroupInput` and `InputGroupButton` inherit the
+  group size when you omit their own `size` prop.
+
+## Install
+
+Configure your registry in `components.json`:
+
+```json
+{
+  "registries": {
+    "@uxio": "https://ui.uxio.dev/r/styles/{style}/{name}.json"
+  }
+}
+```
+
+Then run:
+
+```bash
+npx shadcn@latest add @uxio/input-group
+```
+
+The correct variant (base or radix) is resolved automatically from your `components.json` style.
+
+## Usage
+
+Set `size` on `InputGroup` so the shell height matches the inner `Input` (and optional addons). Pass
+`size` explicitly on `InputGroupInput` or `InputGroupButton` only when you need a different size
+than the group.
+
+## Examples
+
+### Size Variants
+
+Use `size` on `InputGroup` so the group matches [Input](/docs/overrides/radix/input) and
+[Button](/docs/overrides/radix/button) dimensions. Heights follow each theme’s input tokens (lyra,
+vega, nova, mira, maia).
+
+### Extra Small (xs)
+
+<ComponentPreview name="radix/input-group-size-xs" />
+
+### Small (sm)
+
+<ComponentPreview name="radix/input-group-size-sm" />
+
+### Default
+
+<ComponentPreview name="radix/input-group-size-default" />
+
+### Large (lg)
+
+<ComponentPreview name="radix/input-group-size-lg" />

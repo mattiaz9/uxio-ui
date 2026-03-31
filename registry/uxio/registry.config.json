@@ -276,6 +276,18 @@
     }
   },
   {
+    "name": "input-group",
+    "type": "registry:ui",
+    "title": "Input Group",
+    "description": "Grouped input primitives with addons and aligned controls. `size` matches the Input override (xs, sm, default, lg); inner input and buttons inherit when their own `size` is omitted.",
+    "categories": ["overrides"],
+    "dependencies": {
+      "base": ["class-variance-authority", "clsx", "tailwind-merge"],
+      "radix": ["class-variance-authority", "clsx", "tailwind-merge"]
+    },
+    "registryDependencies": ["@uxio/button", "@uxio/input", "textarea"]
+  },
+  {
     "name": "input-datetime",
     "type": "registry:ui",
     "title": "Input DateTime",
@@ -285,7 +297,7 @@
       "base": ["date-fns", "clsx", "tailwind-merge", "lucide-react"],
       "radix": ["date-fns", "clsx", "tailwind-merge", "lucide-react"]
     },
-    "registryDependencies": ["input-group", "calendar", "popover"],
+    "registryDependencies": ["@uxio/input-group", "calendar", "popover"],
     "files": [{ "path": "lib/datetime-format.ts", "type": "registry:lib" }]
   },
   {
@@ -298,7 +310,7 @@
       "base": ["date-fns", "clsx", "tailwind-merge"],
       "radix": ["date-fns", "clsx", "tailwind-merge"]
     },
-    "registryDependencies": ["input-group"],
+    "registryDependencies": ["@uxio/input-group"],
     "files": [
       { "path": "lib/datetime-format.ts", "type": "registry:lib" },
       { "path": "lib/duration-format.ts", "type": "registry:lib" }
@@ -314,7 +326,7 @@
       "base": ["clsx", "tailwind-merge"],
       "radix": ["clsx", "tailwind-merge"]
     },
-    "registryDependencies": ["input-group"],
+    "registryDependencies": ["@uxio/input-group"],
     "files": [{ "path": "lib/fraction-format.ts", "type": "registry:lib" }]
   },
   {
@@ -327,7 +339,7 @@
       "base": ["clsx", "tailwind-merge", "lucide-react"],
       "radix": ["clsx", "tailwind-merge", "lucide-react"]
     },
-    "registryDependencies": ["input-group"],
+    "registryDependencies": ["@uxio/input-group"],
     "files": [{ "path": "lib/numbers.ts", "type": "registry:lib" }]
   },
   {
@@ -340,7 +352,7 @@
       "base": ["clsx", "tailwind-merge"],
       "radix": ["clsx", "tailwind-merge"]
     },
-    "registryDependencies": ["input-group"],
+    "registryDependencies": ["@uxio/input-group"],
     "files": [
       { "path": "lib/numbers.ts", "type": "registry:lib" },
       { "path": "lib/currency.ts", "type": "registry:lib" }
@@ -356,7 +368,7 @@
       "base": ["class-variance-authority", "clsx", "tailwind-merge"],
       "radix": ["class-variance-authority", "clsx", "tailwind-merge"]
     },
-    "registryDependencies": ["input-group"]
+    "registryDependencies": ["@uxio/input-group"]
   },
   {
     "name": "item",
@@ -527,6 +539,7 @@
       "@uxio/form",
       "sidebar",
       "@uxio/input",
+      "@uxio/input-group",
       "@uxio/item",
       "command",
       "@uxio/chart",
@@ -576,6 +589,7 @@
       "@uxio/form",
       "sidebar",
       "@uxio/input",
+      "@uxio/input-group",
       "@uxio/item",
       "command",
       "@uxio/chart",

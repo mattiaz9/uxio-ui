@@ -106,7 +106,7 @@ const registryComponents: RegistryComponentItem[] = [
   {
     title: "Input Group",
     description:
-      "Grouped input primitives with addons and aligned controls (used by Command and Combobox).",
+      "Grouped input primitives with addons and aligned controls; `size` matches the Input override (xs–lg).",
     category: "Overrides",
     docsSplat: "overrides/base/input-group",
   },

@@ -12,6 +12,7 @@
     "[Drawer](/docs/overrides/radix/drawer)",
     "[Form (Tanstack)](/docs/overrides/radix/form)",
     "[Input](/docs/overrides/radix/input)",
+    "[Input Group](/docs/overrides/radix/input-group)",
     "[Item](/docs/overrides/radix/item)",
     "[Scroll Area](/docs/overrides/radix/scroll-area)",
     "[Sheet](/docs/overrides/radix/sheet)",
