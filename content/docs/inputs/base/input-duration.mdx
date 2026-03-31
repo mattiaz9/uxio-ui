@@ -38,6 +38,7 @@ static labels; use **single quotes** for literals. Default: `HH'h' mm'm' ss's'`.
 | `format`        | `string`                            | Pattern for segments and static text. Default: `HH'h' mm'm' ss's'`. Use `'…'` for literal text; see Overview.                                         |
 | `value`         | `number \| null`                    | Controlled total duration in **seconds**, or `null` for empty.                                                                                      |
 | `onValueChange` | `(seconds: number \| null) => void` | Fires after **blur** of a segment or **Enter**, with normalized carry; `null` when all segments are cleared.                                         |
+| `size`          | `'xs' \| 'sm' \| 'default' \| 'lg'`   | Optional. **Input Group** size: shell height and segment padding/text scale together. This is not the HTML `size` attribute (that prop is not forwarded to the hidden input).              |
 
 ## Install
 
@@ -129,3 +130,9 @@ export function ColonDurationField() {
 ### Years, months, days (and time)
 
 <ComponentPreview name="base/input-duration-years-months-days" />
+
+### Size variants
+
+Use `size` so the field aligns with [`InputGroup`](/docs/overrides/base/input-group) and [`Input`](/docs/overrides/base/input) dimensions. Segment padding and text scale with the group.
+
+<ComponentPreview name="base/input-duration-sizes" />

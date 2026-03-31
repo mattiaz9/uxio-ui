@@ -15,6 +15,7 @@ import {
   tokenizeFormat,
   tokensForMode,
 } from "@/registry/lib/datetime-format"
+import { cnInputGroupCustomControl } from "@/registry/lib/input-group-custom-control"
 import { Calendar } from "@/registry/uxio/overrides-calendar-radix/calendar"
 import {
   InputGroup,
@@ -30,8 +31,9 @@ import { IconPlaceholder } from "@/registry/uxio/shared/icon-placeholder/icon-pl
 
 interface InputDatetimeProps extends Omit<
   React.ComponentProps<"input">,
-  "type" | "value" | "defaultValue" | "onChange" | "readOnly"
-> {
+  "type" | "value" | "defaultValue" | "onChange" | "readOnly" | "size"
+>,
+  Pick<React.ComponentProps<typeof InputGroup>, "size"> {
   mode?: InputDatetimeMode
   /**
    * Pattern string: runs of `y`, `M`, `d`, `H`, `m`, or `s` are editable segments (same rules as
@@ -59,6 +61,7 @@ function InputDatetime({
   onChange,
   name,
   disabled,
+  size,
   ...inputProps
 }: InputDatetimeProps) {
   const formatStr = formatProp || DEFAULT_FORMAT[mode]
@@ -228,7 +231,7 @@ function InputDatetime({
   }
 
   return (
-    <InputGroup className={className} data-slot="input-datetime">
+    <InputGroup size={size} className={className} data-slot="input-datetime">
       <input
         {...inputProps}
         type="hidden"
@@ -242,10 +245,7 @@ function InputDatetime({
         tabIndex={-1}
       />
       <div
-        className={cn(
-          "cn-input-group-input flex h-full flex-1 flex-wrap items-center gap-0.5 px-3 py-1 text-sm",
-          disabled && "pointer-events-none opacity-50",
-        )}
+        className={cnInputGroupCustomControl(size, { disabled })}
         data-slot="input-datetime-control"
         onKeyDown={(e) => {
           if (disabled) return

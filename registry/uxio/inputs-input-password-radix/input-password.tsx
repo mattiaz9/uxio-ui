@@ -11,16 +11,17 @@ import {
 } from "@/registry/uxio/overrides-input-group-radix/input-group"
 import { IconPlaceholder } from "@/registry/uxio/shared/icon-placeholder/icon-placeholder"
 
-type InputPasswordProps = Omit<React.ComponentProps<typeof InputGroupInput>, "type">
+type InputPasswordProps = Omit<React.ComponentProps<typeof InputGroupInput>, "type" | "size"> &
+  Pick<React.ComponentProps<typeof InputGroup>, "size">
 
 const InputPassword = React.forwardRef<HTMLInputElement, InputPasswordProps>(function InputPassword(
-  { className, disabled, readOnly, autoComplete = "current-password", ...props },
+  { className, disabled, readOnly, autoComplete = "current-password", size, ...props },
   ref,
 ) {
   const [visible, setVisible] = React.useState(false)
 
   return (
-    <InputGroup className={cn("cn-input-password", className)}>
+    <InputGroup size={size} className={cn("cn-input-password", className)}>
       <InputGroupInput
         {...props}
         ref={ref}

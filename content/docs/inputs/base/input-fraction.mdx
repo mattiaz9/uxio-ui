@@ -33,6 +33,7 @@ segments are cleared.
 | `maxDenominator`   | `number`                          | Optional inclusive maximum for the denominator.                                                              |
 | `value`            | `string \| null`                  | Controlled compact fraction (`n/d`) or empty.                                                                 |
 | `onValueChange`    | `(value: string \| null) => void` | Fires when segments yield a valid normalized fraction after commit, or `null` when both segments are cleared. |
+| `size`             | `'xs' \| 'sm' \| 'default' \| 'lg'` | Optional. **Input Group** size: shell height and segment padding/text scale together. This is not the HTML `size` attribute (that prop is not forwarded to the hidden input). |
 
 Bounds use the same `sanitizeBounds` / `clampNumber` behavior as other numeric inputs: on **blur** or **Enter**, each segment is clamped to its range and the compact value is re-emitted. **Controlled** values from the parent are clamped for display so segments stay in range. Clamping applies to each integer segment, not to the rational `n/d` as a single value.
 
@@ -127,3 +128,9 @@ export function BoundedFractionField() {
 ### Segment bounds (`minNumerator` / `maxNumerator` / `minDenominator` / `maxDenominator`)
 
 <ComponentPreview name="base/input-fraction-min-max" />
+
+### Size variants
+
+Use `size` so the field aligns with [`InputGroup`](/docs/overrides/base/input-group) and [`Input`](/docs/overrides/base/input) dimensions. Segment padding and text scale with the group.
+
+<ComponentPreview name="base/input-fraction-sizes" />

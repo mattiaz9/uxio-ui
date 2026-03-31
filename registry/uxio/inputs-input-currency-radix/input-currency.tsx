@@ -22,8 +22,9 @@ import {
 
 interface InputCurrencyProps extends Omit<
   React.ComponentProps<typeof InputGroupInput>,
-  "type" | "value" | "defaultValue" | "onChange"
-> {
+  "type" | "value" | "defaultValue" | "onChange" | "size"
+>,
+  Pick<React.ComponentProps<typeof InputGroup>, "size"> {
   currency: string
   locale?: string
   value?: string | number
@@ -51,6 +52,7 @@ function InputCurrency({
   readOnly,
   min,
   max,
+  size,
   ...props
 }: InputCurrencyProps) {
   const inputRef = React.useRef<HTMLInputElement | null>(null)
@@ -176,7 +178,7 @@ function InputCurrency({
   const { symbol, addonAlign } = getCurrencyFormatParts(locale, currency, probeAmount)
 
   return (
-    <InputGroup data-slot="input-currency" className={className}>
+    <InputGroup data-slot="input-currency" size={size} className={className}>
       <InputGroupInput
         {...props}
         ref={inputRef}

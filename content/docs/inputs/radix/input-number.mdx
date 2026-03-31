@@ -28,6 +28,7 @@ step buttons). Scrolling over the field does not change the value.
 | `min`           | `number`                          | Optional minimum clamp. Ignored if `min > max`.                             |
 | `max`           | `number`                          | Optional maximum clamp. Ignored if `min > max`.                             |
 | `step`          | `number`                          | Step size for buttons and arrow keys. Invalid or non-positive values fall back to `1`. |
+| `size`          | `'xs' \| 'sm' \| 'default' \| 'lg'` | Optional. Passed to the root [`InputGroup`](/docs/overrides/radix/input-group): shell height matches other inputs; the text field and step buttons scale with the group. |
 
 ## Install
 
@@ -106,3 +107,9 @@ export function PriceField() {
 ### Default
 
 <ComponentPreview name="radix/input-number-default" />
+
+### Size variants
+
+Use `size` so the field aligns with [`InputGroup`](/docs/overrides/radix/input-group) and [`Input`](/docs/overrides/radix/input) dimensions. The inner `InputGroupInput` inherits the group size when you omit its own `size`.
+
+<ComponentPreview name="radix/input-number-sizes" />

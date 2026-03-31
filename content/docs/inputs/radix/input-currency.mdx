@@ -33,6 +33,7 @@ the visible string while typing (see Usage).
 | `onValueChange` | `(value: string \| null) => void` | Fires on commit when the normalized value changes (see Overview). |
 | `min`           | `number`                          | Optional minimum clamp. Ignored if `min > max`.                             |
 | `max`           | `number`                          | Optional maximum clamp. Ignored if `min > max`.                             |
+| `size`          | `'xs' \| 'sm' \| 'default' \| 'lg'` | Optional. Passed to the root [`InputGroup`](/docs/overrides/radix/input-group): shell height matches other inputs; the text field and symbol addon scale with the group. |
 
 ## Install
 
@@ -112,3 +113,9 @@ export function AmountField() {
 ### Default
 
 <ComponentPreview name="radix/input-currency-default" />
+
+### Size variants
+
+Use `size` so the field aligns with [`InputGroup`](/docs/overrides/radix/input-group) and [`Input`](/docs/overrides/radix/input) dimensions. The inner `InputGroupInput` inherits the group size when you omit its own `size`.
+
+<ComponentPreview name="radix/input-currency-sizes" />

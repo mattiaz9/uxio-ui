@@ -15,12 +15,14 @@ import {
   durationPartsFromDigitMap,
   fieldTokens,
 } from "@/registry/lib/duration-format"
+import { cnInputGroupCustomControl } from "@/registry/lib/input-group-custom-control"
 import { InputGroup } from "@/registry/uxio/overrides-input-group-base/input-group"
 
 interface InputDurationProps extends Omit<
   React.ComponentProps<"input">,
-  "type" | "value" | "defaultValue" | "onChange" | "readOnly"
-> {
+  "type" | "value" | "defaultValue" | "onChange" | "readOnly" | "size"
+>,
+  Pick<React.ComponentProps<typeof InputGroup>, "size"> {
   /**
    * Pattern: runs of `y`, `M`, `d`, `H`, `m`, or `s` set minimum display width (leading zeros).
    * Segments accept unbounded digits. Use `'quotes'` for literal text (e.g. `HH'h'`).
@@ -45,6 +47,7 @@ function InputDuration({
   onChange,
   name,
   disabled,
+  size,
   ...inputProps
 }: InputDurationProps) {
   const tokens = React.useMemo(() => tokenizeDurationFormat(formatStr), [formatStr])
@@ -166,7 +169,7 @@ function InputDuration({
       : String(displayHiddenSeconds)
 
   return (
-    <InputGroup className={className} data-slot="input-duration">
+    <InputGroup size={size} className={className} data-slot="input-duration">
       <input
         {...inputProps}
         type="hidden"
@@ -180,10 +183,7 @@ function InputDuration({
         tabIndex={-1}
       />
       <div
-        className={cn(
-          "cn-input-group-input flex h-full flex-1 flex-wrap items-center gap-0.5 px-3 py-1 text-sm",
-          disabled && "pointer-events-none opacity-50",
-        )}
+        className={cnInputGroupCustomControl(size, { disabled })}
         data-slot="input-duration-control"
         onKeyDown={(e) => {
           if (disabled) return

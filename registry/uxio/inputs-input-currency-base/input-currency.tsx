@@ -23,8 +23,9 @@ import {
 
 type InputCurrencyProps = Omit<
   React.ComponentProps<typeof InputGroupInput>,
-  "type" | "value" | "defaultValue" | "onChange"
-> & {
+  "type" | "value" | "defaultValue" | "onChange" | "size"
+> &
+  Pick<React.ComponentProps<typeof InputGroup>, "size"> & {
   currency: string
   locale?: string
   value?: string | number
@@ -53,6 +54,7 @@ const InputCurrency = React.forwardRef<HTMLInputElement, InputCurrencyProps>(fun
     readOnly,
     min,
     max,
+    size,
     ...props
   },
   ref,
@@ -191,7 +193,7 @@ const InputCurrency = React.forwardRef<HTMLInputElement, InputCurrencyProps>(fun
   const { symbol, addonAlign } = getCurrencyFormatParts(locale, currency, probeAmount)
 
   return (
-    <InputGroup className={cn("cn-input-currency", className)}>
+    <InputGroup size={size} className={cn("cn-input-currency", className)}>
       <InputGroupInput
         {...props}
         ref={setRefs}

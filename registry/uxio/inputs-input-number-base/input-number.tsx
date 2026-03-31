@@ -24,8 +24,9 @@ import { IconPlaceholder } from "@/registry/uxio/shared/icon-placeholder/icon-pl
 
 type InputNumberProps = Omit<
   React.ComponentProps<typeof InputGroupInput>,
-  "type" | "value" | "defaultValue" | "onChange"
-> & {
+  "type" | "value" | "defaultValue" | "onChange" | "size"
+> &
+  Pick<React.ComponentProps<typeof InputGroup>, "size"> & {
   value?: string | number | null
   defaultValue?: string | number
   onChange?: React.ChangeEventHandler<HTMLInputElement>
@@ -51,6 +52,7 @@ const InputNumber = React.forwardRef<HTMLInputElement, InputNumberProps>(functio
     min,
     max,
     step = 1,
+    size,
     ...props
   },
   ref,
@@ -229,7 +231,7 @@ const InputNumber = React.forwardRef<HTMLInputElement, InputNumberProps>(functio
   )
 
   return (
-    <InputGroup className={cn("cn-input-number", className)}>
+    <InputGroup size={size} className={cn("cn-input-number", className)}>
       <InputGroupInput
         {...props}
         ref={setRefs}

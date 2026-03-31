@@ -33,6 +33,7 @@ In `date` and `datetime` modes, the trailing button opens a **Calendar** popover
 | `format`        | `string`                               | Pattern for editable segments (`y`, `M`, `d`, `H`, `m`, `s` runs, as in date-fns) and static text between them (e.g. `yyyy/MM/dd - HH:mm`). If omitted: `yyyy/MM/dd` (date), `HH:mm` (time), `yyyy/MM/dd HH:mm` (datetime). |
 | `value`         | `Date \| string \| null`               | Controlled value: a `Date` or an ISO-like / formatted string parseable with `format`.                                                                                                       |
 | `onValueChange` | `(date: Date \| null) => void`         | Fires when a committed, valid `Date` is available (see Overview and Key bindings).                                                                                                          |
+| `size`          | `'xs' \| 'sm' \| 'default' \| 'lg'`    | Optional. **Input Group** size: shell height, segment padding/text, and calendar control scale together. This is not the HTML `size` attribute (that prop is not forwarded to the hidden input). |
 
 ## Install
 
@@ -123,3 +124,9 @@ export function TimeField() {
 ### Datetime mode (`mode="datetime"`)
 
 <ComponentPreview name="radix/input-datetime-mode-datetime" />
+
+### Size variants
+
+Use `size` so the field aligns with [`InputGroup`](/docs/overrides/radix/input-group) and [`Input`](/docs/overrides/radix/input) dimensions. Segment padding and text scale with the group.
+
+<ComponentPreview name="radix/input-datetime-sizes" />

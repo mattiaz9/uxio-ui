@@ -15,12 +15,14 @@ import {
   parseSegmentsFromFractionString,
   type FractionBounds,
 } from "@/registry/lib/fraction-format"
+import { cnInputGroupCustomControl } from "@/registry/lib/input-group-custom-control"
 import { InputGroup } from "@/registry/uxio/overrides-input-group-radix/input-group"
 
 interface InputFractionProps extends Omit<
   React.ComponentProps<"input">,
-  "type" | "value" | "defaultValue" | "onChange" | "readOnly"
-> {
+  "type" | "value" | "defaultValue" | "onChange" | "readOnly" | "size"
+>,
+  Pick<React.ComponentProps<typeof InputGroup>, "size"> {
   /** Max digits per segment (numerator and denominator). Defaults to `6`. */
   maxDigits?: number
   /** Inclusive lower bound for the numerator integer (after digit parsing). */
@@ -60,6 +62,7 @@ function InputFraction({
   onChange,
   name,
   disabled,
+  size,
   ...inputProps
 }: InputFractionProps) {
   const fractionBounds = React.useMemo((): FractionBounds | undefined => {
@@ -217,7 +220,7 @@ function InputFraction({
   }
 
   return (
-    <InputGroup className={className} data-slot="input-fraction">
+    <InputGroup size={size} className={className} data-slot="input-fraction">
       <input
         {...inputProps}
         type="hidden"
@@ -231,10 +234,7 @@ function InputFraction({
         tabIndex={-1}
       />
       <div
-        className={cn(
-          "cn-input-group-input flex h-full flex-1 flex-wrap items-center gap-0.5 px-3 py-1 text-sm",
-          disabled && "pointer-events-none opacity-50",
-        )}
+        className={cnInputGroupCustomControl(size, { disabled })}
         data-slot="input-fraction-control"
         onKeyDown={(e) => {
           if (disabled) return
