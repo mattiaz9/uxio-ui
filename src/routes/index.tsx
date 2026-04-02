@@ -276,7 +276,7 @@ const COMPONENT_SECTIONS: {
   },
 ]
 
-const styles = ["Lyra", "Maia", "Mira", "Nova", "Vega"]
+const styles = ["Lyra", "Maia", "Mira", "Nova", "Vega", "Luma"]
 
 function Home() {
   return (
@@ -317,7 +317,7 @@ function Home() {
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
             Refined shadcn/ui components compatible with Radix, Base and the styles Lyra, Maia,
-            Mira, Nova, Vega. Plus few extra components that makes your life easier!
+            Mira, Nova, Vega, Luma. Plus few extra components that makes your life easier!
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
             <Link

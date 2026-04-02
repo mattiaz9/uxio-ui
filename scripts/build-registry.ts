@@ -21,6 +21,10 @@
  * Config drives: title, description, dependencies, registryDependencies,
  * css, cssVars, categories.
  *
+ * Styles: `registry/styles/style-<name>.css` matches upstream shadcn; optional
+ * `style-<name>-uxio.css` extends or overrides `cn-*` maps (custom components and Uxio tweaks).
+ * The build merges maps with `tailwind-merge` (uxio wins on conflicting utilities).
+ *
  * Shared helpers under `registry/lib/` are imported as `@/registry/lib/…`. The build merges them
  * into each published item with `path` `lib/…`, `type` `registry:lib`, and imports rewritten to
  * `@/lib/…`. (Using `registry:ui` for those files makes the shadcn CLI write them under
@@ -33,6 +37,7 @@ import { resolve, dirname, relative, sep } from "path"
 import { fileURLToPath, pathToFileURL } from "url"
 import chalk from "chalk"
 import { createStyleMap, transformStyle } from "shadcn/utils"
+import { twMerge } from "tailwind-merge"
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = resolve(__dirname, "..")
@@ -54,10 +59,12 @@ const STYLES = [
   "radix-lyra",
   "base-mira",
   "radix-mira",
+  "base-luma",
+  "radix-luma",
 ] as const
 
 const BASES = ["base", "radix"] as const
-const DEFAULT_STYLE = "nova"
+const DEFAULT_STYLE = "luma"
 
 // ---------------------------------------------------------------------------
 // Config types
@@ -140,6 +147,42 @@ function stripRegistryScope(dep: string): string {
 
 function getStyleName(style: string): string {
   return style.replace(/^(base|radix)-/, "")
+}
+
+/**
+ * Merge shadcn `createStyleMap` outputs: same `cn-*` keys combine with `tailwind-merge`,
+ * with the override value winning on conflicting utilities (same semantics as shadcn's
+ * internal `transformStyle` merge of mapped classes with existing literals).
+ */
+function mergeStyleMaps(
+  base: Record<string, string>,
+  uxio: Record<string, string>,
+): Record<string, string> {
+  const keys = new Set([...Object.keys(base), ...Object.keys(uxio)])
+  const out: Record<string, string> = {}
+  for (const k of keys) {
+    const b = base[k] ?? ""
+    const o = uxio[k] ?? ""
+    if (!o) out[k] = b
+    else if (!b) out[k] = o
+    else out[k] = twMerge(b, o)
+  }
+  return out
+}
+
+/** Base `style-<name>.css` (upstream shadcn) plus optional `style-<name>-uxio.css`. */
+function loadMergedStyleMap(styleName: string): Record<string, string> {
+  const basePath = resolve(REGISTRY_STYLES, `style-${styleName}.css`)
+  if (!existsSync(basePath)) {
+    throw new Error(`Style CSS not found: ${basePath}`)
+  }
+  const baseMap = createStyleMap(readFileSync(basePath, "utf-8"))
+  const uxioPath = resolve(REGISTRY_STYLES, `style-${styleName}-uxio.css`)
+  if (!existsSync(uxioPath)) {
+    return baseMap
+  }
+  const uxioMap = createStyleMap(readFileSync(uxioPath, "utf-8"))
+  return mergeStyleMaps(baseMap, uxioMap)
 }
 
 function getDependencies(config: ItemConfig, base: "base" | "radix"): string[] {
@@ -334,7 +377,7 @@ function parseCliArgs(argv: string[]): { changedPaths: string[] } {
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i]
     if (a === "--changed" && argv[i + 1]) {
-      changedPaths.push(argv[++i]!)
+      changedPaths.push(argv[++i])
       continue
     }
     if (a.startsWith("--changed=")) {
@@ -373,12 +416,12 @@ function getAffectedItemNames(
     const dirs = allDirs.get(itemName)
     if (!config || !dirs || (config.categories ?? []).includes("meta")) {
       libKeyCache.set(itemName, new Set())
-      return libKeyCache.get(itemName)!
+      return libKeyCache.get(itemName) ?? new Set()
     }
     const itemType = config.type ?? "registry:ui"
     if (itemType !== "registry:ui") {
       libKeyCache.set(itemName, new Set())
-      return libKeyCache.get(itemName)!
+      return libKeyCache.get(itemName) ?? new Set()
     }
     const keys = collectLibRelKeysForItem(config, dirs, allDirs)
     libKeyCache.set(itemName, keys)
@@ -399,7 +442,8 @@ function getAffectedItemNames(
         if ((c.type ?? "registry:ui") !== "registry:ui") continue
         if ((c.categories ?? []).includes("meta")) continue
         if (!allDirs.has(c.name)) continue
-        const dirs = allDirs.get(c.name)!
+        const dirs = allDirs.get(c.name)
+        if (!dirs) continue
         if (!dirs.shared && !dirs.base && !dirs.radix) continue
         if (getLibKeysCached(c.name).has(libRel)) {
           addWithDependents(c.name)
@@ -424,7 +468,9 @@ function getAffectedItemNames(
           if (!dirName) continue
           const srcDir = resolve(REGISTRY_COMPONENTS, dirName)
           if (!existsSync(srcDir)) continue
-          for (const f of readdirSync(srcDir).filter((n) => n.endsWith(".tsx") || n.endsWith(".ts"))) {
+          for (const f of readdirSync(srcDir).filter(
+            (n) => n.endsWith(".tsx") || n.endsWith(".ts"),
+          )) {
             const content = readFileSync(resolve(srcDir, f), "utf-8")
             if (needles.some((n) => content.includes(n))) {
               const logical = logicalNameFromComponentFolderName(dirName)
@@ -447,11 +493,7 @@ function getAffectedItemNames(
       continue
     }
 
-    if (
-      top.startsWith("overrides-") ||
-      top.startsWith("layers-") ||
-      top.startsWith("inputs-")
-    ) {
+    if (top.startsWith("overrides-") || top.startsWith("layers-") || top.startsWith("inputs-")) {
       const logical = logicalNameFromComponentFolderName(top)
       if (logical) addWithDependents(logical)
       continue
@@ -627,8 +669,7 @@ async function copyUIToExamples(
   configs: ItemConfig[],
   onlyNames: Set<string> | null,
 ) {
-  const styleCss = readFileSync(resolve(REGISTRY_STYLES, `style-${DEFAULT_STYLE}.css`), "utf-8")
-  const styleMap = createStyleMap(styleCss)
+  const styleMap = loadMergedStyleMap(DEFAULT_STYLE)
   const registryNames = new Set(allDirs.keys())
   const partial = onlyNames !== null
 
@@ -642,7 +683,7 @@ async function copyUIToExamples(
 
     const initialLibScan: string[] = []
     for (const [name, dirs] of allDirs) {
-      if (partial && !onlyNames!.has(name)) continue
+      if (partial && !onlyNames.has(name)) continue
       const dirName = dirs[base] ?? dirs.shared
       if (!dirName) continue
       const srcDir = resolve(REGISTRY_COMPONENTS, dirName)
@@ -651,7 +692,7 @@ async function copyUIToExamples(
       }
     }
     for (const c of configs) {
-      if (partial && !onlyNames!.has(c.name)) continue
+      if (partial && !onlyNames.has(c.name)) continue
       for (const f of c.files ?? []) {
         if (f.type !== "registry:lib") continue
         const abs = resolveConfigRegistryLibFile(f.path)
@@ -678,7 +719,7 @@ async function copyUIToExamples(
     }
 
     for (const [name, dirs] of allDirs) {
-      if (partial && !onlyNames!.has(name)) continue
+      if (partial && !onlyNames.has(name)) continue
       const dirName = dirs[base] ?? dirs.shared
       if (!dirName) continue
 
@@ -693,10 +734,7 @@ async function copyUIToExamples(
       }
     }
 
-    const scope =
-      partial && onlyNames!.size > 0
-        ? `${onlyNames!.size} item(s)`
-        : "all components"
+    const scope = partial && onlyNames.size > 0 ? `${onlyNames.size} item(s)` : "all components"
     console.log(
       `  ${chalk.green("➜")}  ${chalk.bold("Copied:")}   ${chalk.cyan(`${base}/ui/`)} ${chalk.cyan(`${base}/lib/`)} ${chalk.dim(`(${scope})`)}`,
     )
@@ -712,9 +750,9 @@ async function runBuild(onlyNames: Set<string> | null) {
   const configs = JSON.parse(readFileSync(CONFIG_PATH, "utf-8")) as ItemConfig[]
   const allDirs = scanComponents()
 
-  if (partial && onlyNames!.size > 0) {
+  if (partial && onlyNames.size > 0) {
     console.log(
-      `  ${chalk.blue("○")}  ${chalk.bold("Partial registry build:")} ${chalk.cyan([...onlyNames!].sort().join(", "))}`,
+      `  ${chalk.blue("○")}  ${chalk.bold("Partial registry build:")} ${chalk.cyan([...onlyNames].sort().join(", "))}`,
     )
   }
 
@@ -725,12 +763,7 @@ async function runBuild(onlyNames: Set<string> | null) {
     }
 
     const styleName = getStyleName(style)
-    const styleCssPath = resolve(REGISTRY_STYLES, `style-${styleName}.css`)
-    if (!existsSync(styleCssPath)) {
-      throw new Error(`Style CSS not found: ${styleCssPath}`)
-    }
-    const styleCss = readFileSync(styleCssPath, "utf-8")
-    const styleMap = createStyleMap(styleCss)
+    const styleMap = loadMergedStyleMap(styleName)
     const base = getBaseForStyle(style)
 
     for (const config of configs) {
@@ -838,8 +871,7 @@ async function main() {
   await runBuild(onlyNames)
 }
 
-const isMain =
-  process.argv[1] && pathToFileURL(resolve(process.argv[1])).href === import.meta.url
+const isMain = process.argv[1] && pathToFileURL(resolve(process.argv[1])).href === import.meta.url
 
 if (isMain) {
   main().catch((err: unknown) => {

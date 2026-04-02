@@ -1,0 +1,85 @@
+.style-luma {
+  .cn-alert-variant-info {
+    @apply bg-card text-info *:data-[slot=alert-description]:text-info/90 *:[svg]:text-current;
+  }
+
+  .cn-alert-variant-success {
+    @apply bg-card text-success *:data-[slot=alert-description]:text-success/90 *:[svg]:text-current;
+  }
+
+  .cn-alert-variant-warning {
+    @apply bg-card text-warning *:data-[slot=alert-description]:text-warning/90 *:[svg]:text-current;
+  }
+
+  .cn-badge-variant-info {
+    @apply bg-info/10 text-info focus-visible:ring-info/20 dark:bg-info/20 dark:focus-visible:ring-info/40 [a]:hover:bg-info/20;
+  }
+
+  .cn-badge-variant-success {
+    @apply bg-success/10 text-success focus-visible:ring-success/20 dark:bg-success/20 dark:focus-visible:ring-success/40 [a]:hover:bg-success/20;
+  }
+
+  .cn-badge-variant-warning {
+    @apply bg-warning/10 text-warning focus-visible:ring-warning/20 dark:bg-warning/20 dark:focus-visible:ring-warning/40 [a]:hover:bg-warning/20;
+  }
+
+  .cn-button-variant-info {
+    @apply bg-info/10 text-info hover:bg-info/20 focus-visible:border-info/40 focus-visible:ring-info/20 dark:bg-info/20 dark:hover:bg-info/30 dark:focus-visible:ring-info/40;
+  }
+
+  .cn-button-variant-success {
+    @apply bg-success/10 text-success hover:bg-success/20 focus-visible:border-success/40 focus-visible:ring-success/20 dark:bg-success/20 dark:hover:bg-success/30 dark:focus-visible:ring-success/40;
+  }
+
+  .cn-button-variant-warning {
+    @apply bg-warning/10 text-warning hover:bg-warning/20 focus-visible:border-warning/40 focus-visible:ring-warning/20 dark:bg-warning/20 dark:hover:bg-warning/30 dark:focus-visible:ring-warning/40;
+  }
+
+  .cn-card-variant-destructive {
+    @apply ring-destructive/30 dark:ring-destructive/60;
+  }
+
+  .cn-card-footer {
+    @apply group-data-[variant=destructive]/card:[.border-t]:border-destructive/30;
+  }
+
+  .cn-chart-tooltip {
+    @apply bg-popover;
+  }
+
+  .cn-input-group-button-size-2xs {
+    @apply h-5 gap-0.5 rounded-[calc(var(--radius)-4px)] px-1 text-[0.625rem] [&>svg:not([class*='size-'])]:size-3;
+  }
+
+  .cn-input-group-size-default {
+    @apply h-9;
+  }
+
+  .cn-input-group-size-lg {
+    @apply h-10;
+  }
+
+  .cn-input-group-size-sm {
+    @apply h-8;
+  }
+
+  .cn-input-group-size-xs {
+    @apply h-6;
+  }
+
+  .cn-input-size-default {
+    @apply h-9 px-3 py-1 text-base file:h-7 file:text-sm md:text-sm;
+  }
+
+  .cn-input-size-lg {
+    @apply h-10 px-4 py-1.5 text-base file:h-7 file:text-sm md:text-sm;
+  }
+
+  .cn-input-size-sm {
+    @apply h-8 px-3 py-1 text-base file:h-6 file:text-sm md:text-sm;
+  }
+
+  .cn-input-size-xs {
+    @apply h-6 px-2.5 py-0.5 text-xs file:h-5 file:text-xs md:text-xs;
+  }
+}
