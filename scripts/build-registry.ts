@@ -25,6 +25,10 @@
  * `style-<name>-uxio.css` extends or overrides `cn-*` maps (custom components and Uxio tweaks).
  * The build merges maps with `tailwind-merge` (uxio wins on conflicting utilities).
  *
+ * Docs examples under `src/examples/{base,radix}/` are copied from registry sources without
+ * `transformStyle`, so `cn-*` tokens stay literal; the docs app loads `registry/styles` and scopes
+ * themes with `.style-<name>` on `body`.
+ *
  * Shared helpers under `registry/lib/` are imported as `@/registry/lib/…`. The build merges them
  * into each published item with `path` `lib/…`, `type` `registry:lib`, and imports rewritten to
  * `@/lib/…`. (Using `registry:ui` for those files makes the shadcn CLI write them under
@@ -64,7 +68,6 @@ const STYLES = [
 ] as const
 
 const BASES = ["base", "radix"] as const
-const DEFAULT_STYLE = "luma"
 
 // ---------------------------------------------------------------------------
 // Config types
@@ -676,7 +679,8 @@ async function buildItem(
 }
 
 // ---------------------------------------------------------------------------
-// Copy nova-styled components into src/examples/{base}/ui/ for docs previews
+// Copy registry components into src/examples/{base}/ui/ for docs previews
+// (keep `cn-*` tokens; docs apply `registry/styles` theme wrappers at runtime)
 // ---------------------------------------------------------------------------
 
 async function copyUIToExamples(
@@ -685,7 +689,6 @@ async function copyUIToExamples(
   onlyNames: Set<string> | null,
   pendingWrites: Array<{ path: string; content: string }>,
 ) {
-  const styleMap = loadMergedStyleMap(DEFAULT_STYLE)
   const registryNames = new Set(allDirs.keys())
   const partial = onlyNames !== null
 
@@ -723,8 +726,7 @@ async function copyUIToExamples(
       }
     }
     for (const [rel, raw] of [...libMap.entries()].sort(([a], [b]) => a.localeCompare(b))) {
-      let content = await transformStyle(raw, { styleMap })
-      content = rewriteRegistryLibImports(content, "example")
+      const content = rewriteRegistryLibImports(raw, "example")
       const outLib = resolve(libDir, rel)
       pendingWrites.push({ path: outLib, content })
     }
@@ -737,8 +739,7 @@ async function copyUIToExamples(
       const srcDir = resolve(REGISTRY_COMPONENTS, dirName)
       for (const f of readdirSync(srcDir).filter((n) => n.endsWith(".tsx") || n.endsWith(".ts"))) {
         const source = readFileSync(resolve(srcDir, f), "utf-8")
-        let content = await transformStyle(source, { styleMap })
-        content = rewriteRegistryImports(content, "example")
+        let content = rewriteRegistryImports(source, "example")
         content = rewriteRegistryLibImports(content, "example")
         content = rewriteComponentsUiForExamples(content, registryNames)
         pendingWrites.push({ path: resolve(targetDir, f), content })

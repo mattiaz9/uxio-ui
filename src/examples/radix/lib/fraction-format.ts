@@ -1,3 +1,8 @@
+/**
+ * Fixed-layout fraction input: numerator, literal ` / `, denominator.
+ * Stored value is compact `numerator/denominator` (no spaces), e.g. `2/5`.
+ */
+
 import { clampNumber, sanitizeBounds } from "./numbers"
 
 export type FractionFormatToken =
