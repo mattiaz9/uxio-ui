@@ -40,32 +40,47 @@ function alert(options: AlerterOptions) {
 }
 
 function Alerter() {
-  const [state, setState] = React.useState<AlerterOptions>()
+  const [open, setOpen] = React.useState(false)
+  const [payload, setPayload] = React.useState<AlerterOptions>()
 
   React.useEffect(() => {
-    listener = setState
+    listener = (next) => {
+      if (next) {
+        setPayload(next)
+        setOpen(true)
+      } else setOpen(false)
+    }
   }, [])
 
   return (
     <AlertDialog
-      open={!!state}
-      onOpenChange={(open) => {
-        if (!open) hideAlert()
-      }}
+      open={open}
+      onOpenChange={(o) => !o && hideAlert()}
     >
-      <AlertDialogContent size="sm">
+      <AlertDialogContent
+        size="sm"
+        onAnimationEnd={(e) => {
+          if (e.target !== e.currentTarget) return
+          const t = e.currentTarget
+          if (
+            t.getAttribute("data-state") === "closed" ||
+            (t.hasAttribute("data-closed") && !t.hasAttribute("data-open"))
+          )
+            setPayload(undefined)
+        }}
+      >
         <AlertDialogHeader>
-          {state?.variant && (
+          {payload?.variant && (
             <AlertDialogMedia
               className={cn({
-                "bg-muted/50 text-muted-foreground": state.variant === "default",
-                "bg-success/10 text-success": state.variant === "success",
-                "bg-info/10 text-info": state.variant === "info",
-                "bg-warning/10 text-warning": state.variant === "warning",
-                "bg-destructive/10 text-destructive": state.variant === "destructive",
+                "bg-muted/50 text-muted-foreground": payload.variant === "default",
+                "bg-success/10 text-success": payload.variant === "success",
+                "bg-info/10 text-info": payload.variant === "info",
+                "bg-warning/10 text-warning": payload.variant === "warning",
+                "bg-destructive/10 text-destructive": payload.variant === "destructive",
               })}
             >
-              {state.variant === "default" && (
+              {payload.variant === "default" && (
                 <IconPlaceholder
                   lucide="CircleAlertIcon"
                   tabler="IconAlertCircle"
@@ -74,7 +89,7 @@ function Alerter() {
                   remixicon="RiQuestionLine"
                 />
               )}
-              {state.variant === "success" && (
+              {payload.variant === "success" && (
                 <IconPlaceholder
                   lucide="CircleCheckIcon"
                   tabler="IconCircleCheck"
@@ -83,7 +98,7 @@ function Alerter() {
                   remixicon="RiCheckboxCircleLine"
                 />
               )}
-              {state.variant === "info" && (
+              {payload.variant === "info" && (
                 <IconPlaceholder
                   lucide="InfoIcon"
                   tabler="IconInfoCircle"
@@ -92,7 +107,7 @@ function Alerter() {
                   remixicon="RiInformationLine"
                 />
               )}
-              {state.variant === "warning" && (
+              {payload.variant === "warning" && (
                 <IconPlaceholder
                   lucide="TriangleAlertIcon"
                   tabler="IconAlertTriangle"
@@ -101,7 +116,7 @@ function Alerter() {
                   remixicon="RiErrorWarningLine"
                 />
               )}
-              {state.variant === "destructive" && (
+              {payload.variant === "destructive" && (
                 <IconPlaceholder
                   lucide="TriangleAlertIcon"
                   tabler="IconAlertTriangle"
@@ -112,12 +127,12 @@ function Alerter() {
               )}
             </AlertDialogMedia>
           )}
-          <AlertDialogTitle>{state?.title}</AlertDialogTitle>
-          <AlertDialogDescription dangerouslySetInnerHTML={{ __html: state?.description ?? "" }} />
+          <AlertDialogTitle>{payload?.title}</AlertDialogTitle>
+          <AlertDialogDescription dangerouslySetInnerHTML={{ __html: payload?.description ?? "" }} />
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogAction className="col-span-full" onClick={() => hideAlert()} data-action="ok">
-            {state?.okButtonTitle || "OK"}
+            {payload?.okButtonTitle || "OK"}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

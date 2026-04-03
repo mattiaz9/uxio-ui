@@ -106,39 +106,66 @@ function DefaultRenderError({ error }: { error: Error }) {
 }
 
 function Confirmer() {
-  const [state, setState] = React.useState<ConfirmerState>()
+  const [open, setOpen] = React.useState(false)
+  const [payload, setPayload] = React.useState<ConfirmerState>()
 
   React.useEffect(() => {
-    listener = setState
+    listener = (action) => {
+      if (typeof action === "function") {
+        setPayload((prev) => {
+          const next = action(prev)
+          if (next === undefined) {
+            setOpen(false)
+            return undefined
+          }
+          return next
+        })
+      } else if (action === undefined) {
+        setOpen(false)
+      } else {
+        setPayload(action)
+        setOpen(true)
+      }
+    }
   }, [])
 
   return (
-    <AlertDialog open={!!state}>
-      <AlertDialogContent>
+    <AlertDialog open={open}>
+      <AlertDialogContent
+        onAnimationEnd={(e) => {
+          if (e.target !== e.currentTarget) return
+          const t = e.currentTarget
+          if (
+            t.getAttribute("data-state") === "closed" ||
+            (t.hasAttribute("data-closed") && !t.hasAttribute("data-open"))
+          )
+            setPayload(undefined)
+        }}
+      >
         <AlertDialogHeader>
-          <AlertDialogTitle>{state?.title}</AlertDialogTitle>
-          <AlertDialogDescription dangerouslySetInnerHTML={{ __html: state?.description ?? "" }} />
+          <AlertDialogTitle>{payload?.title}</AlertDialogTitle>
+          <AlertDialogDescription dangerouslySetInnerHTML={{ __html: payload?.description ?? "" }} />
         </AlertDialogHeader>
         <div className="flex flex-col gap-y-3">
-          {state?.error &&
-            state.displayError === "above-content" &&
-            (state.renderError?.(state.error) ?? <DefaultRenderError error={state.error} />)}
-          {state?.children}
-          {state?.error &&
-            state.displayError === "below-content" &&
-            (state.renderError?.(state.error) ?? <DefaultRenderError error={state.error} />)}
+          {payload?.error &&
+            payload.displayError === "above-content" &&
+            (payload.renderError?.(payload.error) ?? <DefaultRenderError error={payload.error} />)}
+          {payload?.children}
+          {payload?.error &&
+            payload.displayError === "below-content" &&
+            (payload.renderError?.(payload.error) ?? <DefaultRenderError error={payload.error} />)}
         </div>
         <AlertDialogFooter>
           <AlertDialogCancel onClick={() => hideConfirmer(false)} data-action="cancel">
-            {state?.cancelButtonTitle || "Cancel"}
+            {payload?.cancelButtonTitle || "Cancel"}
           </AlertDialogCancel>
           <AlertDialogAction
-            variant={state?.variant ?? "default"}
-            onClick={() => (state?.action ? runAction(state?.action) : hideConfirmer(true))}
+            variant={payload?.variant ?? "default"}
+            onClick={() => (payload?.action ? runAction(payload.action) : hideConfirmer(true))}
             data-action="confirm"
           >
-            {state?.isLoading && <Spinner data-icon="inline-start" />}
-            {state?.confirmButtonTitle || "OK"}
+            {payload?.isLoading && <Spinner data-icon="inline-start" />}
+            {payload?.confirmButtonTitle || "OK"}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
