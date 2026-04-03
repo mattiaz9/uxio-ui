@@ -19,13 +19,13 @@ describe("InputDuration radix", () => {
     render(<InputDuration format="HH:mm:ss" onChange={onChange} onValueChange={onValueChange} />)
 
     const boxes = screen.getAllByRole("textbox")
-    await user.click(boxes[0]!)
+    await user.click(boxes[0])
     await user.keyboard("1")
     await user.tab()
-    await user.click(boxes[1]!)
+    await user.click(boxes[1])
     await user.keyboard("2")
     await user.tab()
-    await user.click(boxes[2]!)
+    await user.click(boxes[2])
     await user.keyboard("3")
     await user.tab()
 

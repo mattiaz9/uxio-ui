@@ -94,7 +94,7 @@ function Alerter() {
               )}
               {state.variant === "warning" && (
                 <IconPlaceholder
-                  lucide="AlertTriangleIcon"
+                  lucide="TriangleAlertIcon"
                   tabler="IconAlertTriangle"
                   hugeicons="Alert02Icon"
                   phosphor="WarningIcon"
@@ -103,7 +103,7 @@ function Alerter() {
               )}
               {state.variant === "destructive" && (
                 <IconPlaceholder
-                  lucide="AlertTriangleIcon"
+                  lucide="TriangleAlertIcon"
                   tabler="IconAlertTriangle"
                   hugeicons="Alert02Icon"
                   phosphor="WarningIcon"

@@ -18,8 +18,8 @@ describe("InputFraction radix", () => {
     render(<InputFraction onValueChange={onValueChange} />)
 
     const boxes = screen.getAllByRole("textbox")
-    await user.click(boxes[0]!)
-    await user.click(boxes[1]!)
+    await user.click(boxes[0])
+    await user.click(boxes[1])
     expect(boxes[0]).toHaveTextContent("0")
     await user.keyboard("5")
     await user.tab()
@@ -35,9 +35,9 @@ describe("InputFraction radix", () => {
     render(<InputFraction onChange={onChange} onValueChange={onValueChange} />)
 
     const boxes = screen.getAllByRole("textbox")
-    await user.click(boxes[0]!)
+    await user.click(boxes[0])
     await user.keyboard("2")
-    await user.click(boxes[1]!)
+    await user.click(boxes[1])
     await user.keyboard("5")
     await user.tab()
 
@@ -60,9 +60,9 @@ describe("InputFraction radix", () => {
     )
 
     let boxes = screen.getAllByRole("textbox")
-    await user.click(boxes[0]!)
+    await user.click(boxes[0])
     await user.keyboard("9")
-    await user.click(boxes[1]!)
+    await user.click(boxes[1])
     await user.keyboard("5")
     await user.tab()
 

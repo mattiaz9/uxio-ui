@@ -6,7 +6,7 @@ import { RootProvider } from "fumadocs-ui/provider/tanstack"
 
 import { DefaultCatchBoundary } from "@/components/default-catch-boundary"
 import { NotFound } from "@/components/not-found"
-import appCss from "@/styles/app.css?url"
+import appCss from "@/styles/globals.css?url"
 import { seo } from "@/utils/seo"
 
 export const Route = createRootRoute({

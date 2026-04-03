@@ -372,6 +372,21 @@ function logicalNameFromComponentFolderName(folderName: string): string | null {
   return withoutPrefix
 }
 
+/** Ensure dirs exist once, then write all outputs — avoids dev-server refresh storms from per-file writes. */
+function flushWrites(writes: Array<{ path: string; content: string }>) {
+  if (writes.length === 0) return
+  const dirs = new Set<string>()
+  for (const { path: p } of writes) {
+    dirs.add(dirname(p))
+  }
+  for (const d of dirs) {
+    mkdirSync(d, { recursive: true })
+  }
+  for (const { path: p, content } of writes) {
+    writeFileSync(p, content)
+  }
+}
+
 function parseCliArgs(argv: string[]): { changedPaths: string[] } {
   const changedPaths: string[] = []
   for (let i = 0; i < argv.length; i++) {
@@ -668,6 +683,7 @@ async function copyUIToExamples(
   allDirs: Map<string, ComponentDirs>,
   configs: ItemConfig[],
   onlyNames: Set<string> | null,
+  pendingWrites: Array<{ path: string; content: string }>,
 ) {
   const styleMap = loadMergedStyleMap(DEFAULT_STYLE)
   const registryNames = new Set(allDirs.keys())
@@ -676,10 +692,6 @@ async function copyUIToExamples(
   for (const base of BASES) {
     const targetDir = resolve(EXAMPLES_DIR, base, "ui")
     const libDir = resolve(EXAMPLES_DIR, base, "lib")
-    if (!existsSync(targetDir)) {
-      mkdirSync(targetDir, { recursive: true })
-    }
-    mkdirSync(libDir, { recursive: true })
 
     const initialLibScan: string[] = []
     for (const [name, dirs] of allDirs) {
@@ -714,8 +726,7 @@ async function copyUIToExamples(
       let content = await transformStyle(raw, { styleMap })
       content = rewriteRegistryLibImports(content, "example")
       const outLib = resolve(libDir, rel)
-      mkdirSync(dirname(outLib), { recursive: true })
-      writeFileSync(outLib, content)
+      pendingWrites.push({ path: outLib, content })
     }
 
     for (const [name, dirs] of allDirs) {
@@ -730,7 +741,7 @@ async function copyUIToExamples(
         content = rewriteRegistryImports(content, "example")
         content = rewriteRegistryLibImports(content, "example")
         content = rewriteComponentsUiForExamples(content, registryNames)
-        writeFileSync(resolve(targetDir, f), content)
+        pendingWrites.push({ path: resolve(targetDir, f), content })
       }
     }
 
@@ -745,7 +756,10 @@ async function copyUIToExamples(
 // Main
 // ---------------------------------------------------------------------------
 
-async function runBuild(onlyNames: Set<string> | null) {
+async function runBuild(
+  onlyNames: Set<string> | null,
+  pendingWrites: Array<{ path: string; content: string }>,
+) {
   const partial = onlyNames !== null
   const configs = JSON.parse(readFileSync(CONFIG_PATH, "utf-8")) as ItemConfig[]
   const allDirs = scanComponents()
@@ -758,9 +772,6 @@ async function runBuild(onlyNames: Set<string> | null) {
 
   for (const style of STYLES) {
     const outDir = resolve(OUTPUT, "styles", style)
-    if (!existsSync(outDir)) {
-      mkdirSync(outDir, { recursive: true })
-    }
 
     const styleName = getStyleName(style)
     const styleMap = loadMergedStyleMap(styleName)
@@ -778,7 +789,10 @@ async function runBuild(onlyNames: Set<string> | null) {
           dependencies: getDependencies(config, base),
           registryDependencies: deps,
         }
-        writeFileSync(resolve(outDir, `${config.name}.json`), JSON.stringify(styleItem, null, 2))
+        pendingWrites.push({
+          path: resolve(outDir, `${config.name}.json`),
+          content: JSON.stringify(styleItem, null, 2),
+        })
         console.log(
           `  ${chalk.green("➜")}  ${chalk.bold("Built:")}   ${chalk.cyan(`${style}/${config.name}.json`)}`,
         )
@@ -797,7 +811,10 @@ async function runBuild(onlyNames: Set<string> | null) {
           dependencies: getDependencies(config, base),
           registryDependencies: deps,
         }
-        writeFileSync(resolve(outDir, `${config.name}.json`), JSON.stringify(metaItem, null, 2))
+        pendingWrites.push({
+          path: resolve(outDir, `${config.name}.json`),
+          content: JSON.stringify(metaItem, null, 2),
+        })
         console.log(
           `  ${chalk.green("➜")}  ${chalk.bold("Built:")}   ${chalk.cyan(`${style}/${config.name}.json`)} (meta)`,
         )
@@ -815,7 +832,10 @@ async function runBuild(onlyNames: Set<string> | null) {
       if (partial && onlyNames && !onlyNames.has(config.name)) continue
 
       const item = await buildItem(config, dirs, allDirs, style, styleMap)
-      writeFileSync(resolve(outDir, `${config.name}.json`), JSON.stringify(item, null, 2))
+      pendingWrites.push({
+        path: resolve(outDir, `${config.name}.json`),
+        content: JSON.stringify(item, null, 2),
+      })
       console.log(
         `  ${chalk.green("➜")}  ${chalk.bold("Built:")}   ${chalk.cyan(`${style}/${config.name}.json`)}`,
       )
@@ -836,11 +856,14 @@ async function runBuild(onlyNames: Set<string> | null) {
       })),
     }
 
-    writeFileSync(resolve(OUTPUT, "registry.json"), JSON.stringify(registryIndex, null, 2))
+    pendingWrites.push({
+      path: resolve(OUTPUT, "registry.json"),
+      content: JSON.stringify(registryIndex, null, 2),
+    })
     console.log(`  ${chalk.green("➜")}  ${chalk.bold("Built:")}   ${chalk.cyan("registry.json")}`)
   }
 
-  await copyUIToExamples(allDirs, configs, onlyNames)
+  await copyUIToExamples(allDirs, configs, onlyNames, pendingWrites)
 }
 
 async function main() {
@@ -868,7 +891,9 @@ async function main() {
     }
   }
 
-  await runBuild(onlyNames)
+  const pendingWrites: Array<{ path: string; content: string }> = []
+  await runBuild(onlyNames, pendingWrites)
+  flushWrites(pendingWrites)
 }
 
 const isMain = process.argv[1] && pathToFileURL(resolve(process.argv[1])).href === import.meta.url

@@ -47,6 +47,10 @@
     @apply bg-popover;
   }
 
+  .cn-item-group {
+    @apply data-[variant=grouped]:gap-0;
+  }
+
   .cn-input-group-button-size-2xs {
     @apply h-5 gap-0.5 px-1 text-[0.625rem] [&>svg:not([class*='size-'])]:size-3;
   }
@@ -81,5 +85,13 @@
 
   .cn-input-size-xs {
     @apply h-6 px-2.5 py-1 text-xs file:h-5 file:text-xs file:font-medium md:text-xs;
+  }
+
+  .cn-combobox-trigger {
+    @apply h-9 min-h-0 rounded-4xl border border-input bg-input/30 bg-clip-padding px-3 py-1.5 text-sm font-medium transition-colors outline-none hover:bg-input/50 hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-expanded:bg-muted aria-expanded:text-foreground aria-invalid:border-destructive aria-invalid:ring-[3px] aria-invalid:ring-destructive/20 data-placeholder:text-muted-foreground dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground;
+  }
+
+  .cn-input-segment {
+    @apply min-w-[1ch] rounded-xs px-0.5 font-mono tabular-nums outline-none focus:bg-foreground/10 focus:text-accent-foreground data-[placeholder=true]:text-muted-foreground [&_[data-empty=true]]:text-muted-foreground/40;
   }
 }

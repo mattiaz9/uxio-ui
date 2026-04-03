@@ -3,7 +3,6 @@
 import * as React from "react"
 import { format, isValid, parse, set } from "date-fns"
 
-import { cn } from "@/lib/utils"
 import {
   composeString,
   coerceToDate,
@@ -267,6 +266,7 @@ function InputDatetime({
           const f = t
           const raw = segments[idx] ?? ""
           const max = f.pattern.length
+          const isPlaceholder = (segments[idx]?.length ?? 0) !== f.pattern.length
           const label = (() => {
             switch (f.kind) {
               case "year":
@@ -289,15 +289,12 @@ function InputDatetime({
               ref={(el) => {
                 segmentRefs.current[idx] = el
               }}
-              className={cn(
-                "min-w-[1ch] rounded-xs px-0.5 font-mono tabular-nums outline-none focus:bg-accent focus:text-accent-foreground",
-                !(segments[idx]?.length === f.pattern.length) && "text-muted-foreground",
-              )}
+              className="cn-input-segment"
+              data-placeholder={isPlaceholder}
               tabIndex={disabled ? -1 : 0}
               role="textbox"
               aria-label={label}
               aria-disabled={disabled}
-              data-placeholder={f.pattern.replace(/./g, "0")}
               onFocus={() => {
                 replaceOnNextDigitRef.current = true
               }}
@@ -355,7 +352,7 @@ function InputDatetime({
               {Array.from({ length: max }, (_, i) => {
                 const ch = raw[i]
                 return (
-                  <span key={i} className={cn(!ch && "text-muted-foreground/40")}>
+                  <span key={i} data-empty={!ch}>
                     {ch ?? "0"}
                   </span>
                 )

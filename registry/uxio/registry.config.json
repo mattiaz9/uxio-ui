@@ -459,7 +459,7 @@
       "base": ["@base-ui/react/alert-dialog", "class-variance-authority", "clsx", "tailwind-merge"],
       "radix": ["radix-ui", "class-variance-authority", "clsx", "tailwind-merge"]
     },
-    "registryDependencies": ["@uxio/alert-dialog", "@uxio/spinner", "@uxio/semantic-colors"]
+    "registryDependencies": ["alert-dialog", "@uxio/spinner", "@uxio/semantic-colors"]
   },
   {
     "name": "alerter",
@@ -471,7 +471,7 @@
       "base": ["@base-ui/react/alert-dialog", "class-variance-authority", "clsx", "tailwind-merge"],
       "radix": ["radix-ui", "class-variance-authority", "clsx", "tailwind-merge"]
     },
-    "registryDependencies": ["@uxio/alert-dialog", "@uxio/semantic-colors"]
+    "registryDependencies": ["alert-dialog", "@uxio/semantic-colors"]
   },
   {
     "name": "vercel-sidebar",
@@ -533,9 +533,6 @@
       "@uxio/alert",
       "@uxio/badge",
       "@uxio/button",
-      "@uxio/dialog",
-      "@uxio/sheet",
-      "@uxio/drawer",
       "@uxio/form",
       "sidebar",
       "@uxio/input",
@@ -544,7 +541,6 @@
       "command",
       "@uxio/chart",
       "@uxio/card",
-      "@uxio/alert-dialog",
       "popover",
       "@uxio/scroll-area",
       "@uxio/combobox",
@@ -563,7 +559,7 @@
     "name": "layers",
     "title": "Layers",
     "type": "registry:ui",
-    "description": "Confirmer and Alerter; pulls alert-dialog, spinner, and semantic colors as needed.",
+    "description": "Confirmer and Alerter; spinner and semantic colors install as needed.",
     "categories": ["meta"],
     "registryDependencies": ["@uxio/confirmer", "@uxio/alerter"]
   },
@@ -583,9 +579,6 @@
       "@uxio/alert",
       "@uxio/badge",
       "@uxio/button",
-      "@uxio/dialog",
-      "@uxio/sheet",
-      "@uxio/drawer",
       "@uxio/form",
       "sidebar",
       "@uxio/input",
@@ -594,7 +587,6 @@
       "command",
       "@uxio/chart",
       "@uxio/card",
-      "@uxio/alert-dialog",
       "popover",
       "@uxio/scroll-area",
       "@uxio/combobox",

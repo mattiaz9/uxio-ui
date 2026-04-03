@@ -100,7 +100,7 @@ describe("duration-format", () => {
   test("formatSegmentDisplay shows padded zeros for numeric zero raw", () => {
     const tokens = tokenizeDurationFormat("HH:mm:ss")
     const flds = fieldTokens(tokens)
-    const f = flds[0]!
+    const f = flds[0]
     expect(getFieldMinWidth(f)).toBe(2)
     expect(formatSegmentDisplay("0", 2)).toBe("00")
     expect(formatSegmentDisplay("", 2)).toBe("00")

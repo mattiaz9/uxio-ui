@@ -1,26 +1,26 @@
-import { tanstackStart } from '@tanstack/react-start/plugin/vite'
-import { defineConfig } from 'vite'
-import tsConfigPaths from 'vite-tsconfig-paths'
-import viteReact from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
-import { nitro } from 'nitro/vite'
-import mdx from 'fumadocs-mdx/vite'
-import * as MdxConfig from './source.config'
-import { autoGenRegistry } from './plugins/auto-gen'
+import { tanstackStart } from "@tanstack/react-start/plugin/vite"
+import tailwindcss from "@tailwindcss/vite"
+import viteReact from "@vitejs/plugin-react"
+import mdx from "fumadocs-mdx/vite"
+import { nitro } from "nitro/vite"
+import { defineConfig } from "vite"
+
+import { autoGenRegistry } from "./plugins/auto-gen"
+import * as MdxConfig from "./source.config"
 
 export default defineConfig({
   server: {
     port: 3000,
   },
+  resolve: {
+    tsconfigPaths: true,
+  },
   plugins: [
     autoGenRegistry(),
     tailwindcss(),
-    tsConfigPaths({
-      projects: ['./tsconfig.json'],
-    }),
     mdx(MdxConfig),
     tanstackStart({
-      srcDirectory: 'src',
+      srcDirectory: "src",
       prerender: {
         enabled: true,
         autoSubfolderIndex: true,

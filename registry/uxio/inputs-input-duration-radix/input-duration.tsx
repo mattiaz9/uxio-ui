@@ -2,7 +2,6 @@
 
 import * as React from "react"
 
-import { cn } from "@/lib/utils"
 import {
   appendDigitRtl,
   backspaceDigitRtl,
@@ -229,10 +228,8 @@ function InputDuration({
               ref={(el) => {
                 segmentRefs.current[idx] = el
               }}
-              className={cn(
-                "min-w-[1ch] rounded-xs px-0.5 font-mono tabular-nums outline-none focus:bg-accent focus:text-accent-foreground",
-                isPlaceholder && "text-muted-foreground",
-              )}
+              className="cn-input-segment"
+              data-placeholder={isPlaceholder}
               tabIndex={disabled ? -1 : 0}
               role="textbox"
               aria-label={label}
@@ -281,10 +278,7 @@ function InputDuration({
               onBlur={() => commitNormalized(segmentsRef.current)}
             >
               {display.split("").map((ch, i) => (
-                <span
-                  key={`${idx}-${i}`}
-                  className={cn(isPlaceholder && "text-muted-foreground/40")}
-                >
+                <span key={`${idx}-${i}`} data-empty={isPlaceholder}>
                   {ch}
                 </span>
               ))}

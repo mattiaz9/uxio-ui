@@ -62,9 +62,9 @@
     ]
   },
   "sortTailwindcss": {
-    "stylesheet": "./src/styles/app.css",
+    "stylesheet": "./src/styles/globals.css",
     "functions": ["clsx", "cva", "cn"]
   },
   "sortPackageJson": false,
-  "ignorePatterns": ["vite.config.ts", "source.config.ts", "*.gen.ts"]
+  "ignorePatterns": ["*.gen.ts"]
 }

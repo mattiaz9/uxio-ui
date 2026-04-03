@@ -31,15 +31,9 @@ type RegistryComponentItem = {
   docsSplat: string
 }
 
-/** Mirrors `registry/uxio/registry.config.json` UI items plus registry-only pieces that have docs (input-group, textarea). Sidebar links to the bundle overview. */
+/** Overrides grid aligns with `content/docs/overrides/meta.json` (see also `registry/uxio/registry.config.json`). */
 const registryComponents: RegistryComponentItem[] = [
   // Overrides
-  {
-    title: "Alert Dialog",
-    description: "Alert dialog with content background using bg-popover instead of bg-background.",
-    category: "Overrides",
-    docsSplat: "overrides/base/alert-dialog",
-  },
   {
     title: "Alert",
     description: "Extended alert component with semantic color variants (info, success, warning).",
@@ -78,25 +72,6 @@ const registryComponents: RegistryComponentItem[] = [
     docsSplat: "overrides/base/combobox",
   },
   {
-    title: "Command",
-    description:
-      "Command palette component. Same as the original shadcn command with lucide-react icons.",
-    category: "Overrides",
-    docsSplat: "overrides/base/command",
-  },
-  {
-    title: "Dialog",
-    description: "Dialog with content background using bg-popover instead of bg-background.",
-    category: "Overrides",
-    docsSplat: "overrides/base/dialog",
-  },
-  {
-    title: "Drawer",
-    description: "Drawer with content background using bg-popover instead of bg-background.",
-    category: "Overrides",
-    docsSplat: "overrides/base/drawer",
-  },
-  {
     title: "Form (Tanstack)",
     description:
       "Form element with TanStack Form context: prevents default submit, calls `form.handleSubmit()`, and exposes `useFormContext` for nested components.",
@@ -104,18 +79,18 @@ const registryComponents: RegistryComponentItem[] = [
     docsSplat: "overrides/base/form",
   },
   {
-    title: "Input Group",
-    description:
-      "Grouped input primitives with addons and aligned controls; `size` matches the Input override (xs–lg).",
-    category: "Overrides",
-    docsSplat: "overrides/base/input-group",
-  },
-  {
     title: "Input",
     description:
       "Extended input component with size variants (xs, sm, default, lg) matching button dimensions.",
     category: "Overrides",
     docsSplat: "overrides/base/input",
+  },
+  {
+    title: "Input Group",
+    description:
+      "Grouped input primitives with addons and aligned controls; `size` matches the Input override (xs–lg).",
+    category: "Overrides",
+    docsSplat: "overrides/base/input-group",
   },
   {
     title: "Item",
@@ -132,19 +107,6 @@ const registryComponents: RegistryComponentItem[] = [
     docsSplat: "overrides/base/scroll-area",
   },
   {
-    title: "Sheet",
-    description: "Sheet with content background using bg-popover instead of bg-background.",
-    category: "Overrides",
-    docsSplat: "overrides/base/sheet",
-  },
-  {
-    title: "Sidebar",
-    description:
-      "Collapsible sidebar with mobile sheet, keyboard shortcut, and menu primitives (see bundle overview).",
-    category: "Overrides",
-    docsSplat: "bundle",
-  },
-  {
     title: "Skeleton",
     description: "Skeleton with a shimmer loading animation instead of pulse.",
     category: "Overrides",
@@ -155,12 +117,6 @@ const registryComponents: RegistryComponentItem[] = [
     description: "Tick-based spinner. A redesign of the original shadcn spinner.",
     category: "Overrides",
     docsSplat: "overrides/base/spinner",
-  },
-  {
-    title: "Textarea",
-    description: "Same as the original shadcn textarea component.",
-    category: "Overrides",
-    docsSplat: "overrides/base/textarea",
   },
   {
     title: "Tooltip",
@@ -271,7 +227,7 @@ const COMPONENT_SECTIONS: {
   {
     category: "Layers",
     label: "Layers",
-    blurb: "Imperative dialogs for confirm/alert flows on top of alert-dialog.",
+    blurb: "Imperative confirm and alert flows built on the registry alert-dialog primitive.",
     icon: <LayersIcon className="size-5" />,
   },
 ]
@@ -357,7 +313,7 @@ function Home() {
             },
             {
               icon: <PaletteIcon className="size-5" />,
-              title: "5 style themes",
+              title: "6 style themes",
               desc: `Ship with ${styles.join(", ")} — curated themes that map to your components.json style.`,
             },
             {

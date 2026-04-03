@@ -2,7 +2,6 @@
 
 import * as React from "react"
 
-import { cn } from "@/lib/utils"
 import {
   clampFractionStringsForDisplay,
   compactFractionValue,
@@ -255,6 +254,7 @@ function InputFraction({
           if (idx === undefined || idx < 0) return null
           const raw = segments[idx] ?? ""
           const max = t.pattern.length
+          const isPlaceholder = !raw.length
           const label = t.kind === "numerator" ? "Numerator" : "Denominator"
           return (
             <span
@@ -262,15 +262,12 @@ function InputFraction({
               ref={(el) => {
                 segmentRefs.current[idx] = el
               }}
-              className={cn(
-                "min-w-[1ch] rounded-xs px-0.5 font-mono tabular-nums outline-none focus:bg-accent focus:text-accent-foreground",
-                !raw.length && "text-muted-foreground",
-              )}
+              className="cn-input-segment"
+              data-placeholder={isPlaceholder}
               tabIndex={disabled ? -1 : 0}
               role="textbox"
               aria-label={label}
               aria-disabled={disabled}
-              data-placeholder="0"
               onFocus={() => {
                 replaceOnNextDigitRef.current = true
               }}
@@ -336,7 +333,7 @@ function InputFraction({
               }}
             >
               {raw.length === 0 ? (
-                <span className="text-muted-foreground/40">0</span>
+                <span data-empty={true}>0</span>
               ) : (
                 raw.split("").map((ch, i) => <span key={i}>{ch}</span>)
               )}

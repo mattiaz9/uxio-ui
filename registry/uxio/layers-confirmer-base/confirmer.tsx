@@ -93,7 +93,7 @@ function DefaultRenderError({ error }: { error: Error }) {
   return (
     <div className="flex items-center gap-x-2 rounded-md bg-destructive/5 p-3 text-sm text-destructive">
       <IconPlaceholder
-        lucide="AlertTriangleIcon"
+        lucide="TriangleAlertIcon"
         tabler="IconAlertTriangle"
         hugeicons="Alert02Icon"
         phosphor="WarningIcon"
