@@ -3,18 +3,18 @@
 @source "../examples/*/ui";
 
 /* Docs: `cn-*` in examples resolve under `.style-{theme}` (see docs registry theme switcher) */
-@import "../../registry/styles/style-lyra.css";
-@import "../../registry/styles/style-lyra-uxio.css";
-@import "../../registry/styles/style-maia.css";
-@import "../../registry/styles/style-maia-uxio.css";
-@import "../../registry/styles/style-mira.css";
-@import "../../registry/styles/style-mira-uxio.css";
-@import "../../registry/styles/style-nova.css";
-@import "../../registry/styles/style-nova-uxio.css";
-@import "../../registry/styles/style-vega.css";
-@import "../../registry/styles/style-vega-uxio.css";
-@import "../../registry/styles/style-luma.css";
-@import "../../registry/styles/style-luma-uxio.css";
+@import "../../registry/styles/style-lyra.css" layer(base);
+@import "../../registry/styles/style-lyra-uxio.css" layer(base);
+@import "../../registry/styles/style-maia.css" layer(base);
+@import "../../registry/styles/style-maia-uxio.css" layer(base);
+@import "../../registry/styles/style-mira.css" layer(base);
+@import "../../registry/styles/style-mira-uxio.css" layer(base);
+@import "../../registry/styles/style-nova.css" layer(base);
+@import "../../registry/styles/style-nova-uxio.css" layer(base);
+@import "../../registry/styles/style-vega.css" layer(base);
+@import "../../registry/styles/style-vega-uxio.css" layer(base);
+@import "../../registry/styles/style-luma.css" layer(base);
+@import "../../registry/styles/style-luma-uxio.css" layer(base);
 
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";

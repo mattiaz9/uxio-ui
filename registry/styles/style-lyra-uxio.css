@@ -55,36 +55,61 @@
     @apply h-5 gap-0.5 rounded-none px-1 text-[0.625rem] [&>svg:not([class*='size-'])]:size-3;
   }
 
+  .cn-input-group-button-size-xs {
+    @apply h-6 gap-1 rounded-none px-2 text-xs has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3;
+  }
+
+  .cn-input-group-button-size-sm {
+    @apply h-7 gap-1 rounded-none px-2.5 has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3.5;
+  }
+
   .cn-input-group-size-default {
-    @apply h-8;
+    @apply h-8 rounded-none;
   }
 
   .cn-input-group-size-lg {
-    @apply h-9;
+    @apply h-9 rounded-none;
   }
 
   .cn-input-group-size-sm {
-    @apply h-7;
+    @apply h-7 rounded-none;
   }
 
   .cn-input-group-size-xs {
-    @apply h-6;
+    @apply h-6 rounded-none;
+  }
+
+  .cn-input-group-addon-align-inline-start {
+    @apply group-data-[size=sm]/input-group:pl-2 group-data-[size=xs]/input-group:pl-1.5;
+  }
+
+  .cn-input-group-addon-align-inline-end {
+    @apply group-data-[size=sm]/input-group:pr-1.5 group-data-[size=xs]/input-group:pr-1.5;
+  }
+
+  .cn-input-group-custom-control {
+    @apply flex h-full min-h-0 min-w-0 flex-1 flex-wrap items-center gap-0.5
+      [data-disabled]:pointer-events-none [data-disabled]:opacity-50
+      group-data-[size=xs]/input-group:px-2 group-data-[size=xs]/input-group:py-0.5 group-data-[size=xs]/input-group:font-mono group-data-[size=xs]/input-group:text-xs
+      group-data-[size=sm]/input-group:px-2.5 group-data-[size=sm]/input-group:py-1 group-data-[size=sm]/input-group:text-xs
+      group-data-[size=default]/input-group:px-2.5 group-data-[size=default]/input-group:py-1 group-data-[size=default]/input-group:text-xs
+      group-data-[size=lg]/input-group:px-2.5 group-data-[size=lg]/input-group:py-1.5 group-data-[size=lg]/input-group:text-xs;
   }
 
   .cn-input-size-default {
-    @apply h-8 px-2.5 py-1 text-xs file:h-6 file:text-xs file:font-medium md:text-xs;
+    @apply h-8 rounded-none px-2.5 py-1 text-xs file:h-6 file:text-xs file:font-medium md:text-xs;
   }
 
   .cn-input-size-lg {
-    @apply h-9 px-2.5 py-1.5 text-xs file:h-7 file:text-xs file:font-medium md:text-xs;
+    @apply h-9 rounded-none px-2.5 py-1.5 text-xs file:h-7 file:text-xs file:font-medium md:text-xs;
   }
 
   .cn-input-size-sm {
-    @apply h-7 px-2.5 py-1 text-xs file:h-6 file:text-xs file:font-medium md:text-xs;
+    @apply h-7 rounded-none px-2.5 py-1 text-xs file:h-6 file:text-xs file:font-medium md:text-xs;
   }
 
   .cn-input-size-xs {
-    @apply h-6 px-2 py-0.5 text-xs file:h-5 file:text-xs file:font-medium md:text-xs;
+    @apply h-6 rounded-none px-2 py-0.5 text-xs file:h-5 file:text-xs file:font-medium md:text-xs;
   }
 
   .cn-combobox-trigger {
@@ -92,6 +117,6 @@
   }
 
   .cn-input-segment {
-    @apply min-w-[1ch] rounded-none px-0.5 font-mono tabular-nums outline-none focus:bg-foreground/10 focus:text-accent-foreground data-[placeholder=true]:text-muted-foreground [&_[data-empty=true]]:text-muted-foreground/40;
+    @apply min-w-[1ch] rounded-none px-0.5 py-0 font-mono leading-snug tabular-nums outline-none focus:bg-foreground/10 focus:text-accent-foreground **:data-[empty=true]:text-muted-foreground/40 data-[placeholder=true]:text-muted-foreground;
   }
 }

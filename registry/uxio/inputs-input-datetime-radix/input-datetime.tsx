@@ -14,7 +14,6 @@ import {
   tokenizeFormat,
   tokensForMode,
 } from "@/registry/lib/datetime-format"
-import { cnInputGroupCustomControl } from "@/registry/lib/input-group-custom-control"
 import { Calendar } from "@/registry/uxio/overrides-calendar-radix/calendar"
 import {
   InputGroup,
@@ -28,11 +27,13 @@ import {
 } from "@/registry/uxio/overrides-popover-radix/popover"
 import { IconPlaceholder } from "@/registry/uxio/shared/icon-placeholder/icon-placeholder"
 
-interface InputDatetimeProps extends Omit<
-  React.ComponentProps<"input">,
-  "type" | "value" | "defaultValue" | "onChange" | "readOnly" | "size"
->,
-  Pick<React.ComponentProps<typeof InputGroup>, "size"> {
+interface InputDatetimeProps
+  extends
+    Omit<
+      React.ComponentProps<"input">,
+      "type" | "value" | "defaultValue" | "onChange" | "readOnly" | "size"
+    >,
+    Pick<React.ComponentProps<typeof InputGroup>, "size"> {
   mode?: InputDatetimeMode
   /**
    * Pattern string: runs of `y`, `M`, `d`, `H`, `m`, or `s` are editable segments (same rules as
@@ -193,7 +194,7 @@ function InputDatetime({
 
   const focusSegment = (index: number) => {
     const el = segmentRefs.current[index]
-    el?.focus()
+    el?.focus({ focusVisible: true })
   }
 
   const applyCalendarDate = (picked: Date | undefined) => {
@@ -244,7 +245,8 @@ function InputDatetime({
         tabIndex={-1}
       />
       <div
-        className={cnInputGroupCustomControl(size, { disabled })}
+        className="cn-input-group-input cn-input-group-custom-control"
+        data-disabled={disabled ? "" : undefined}
         data-slot="input-datetime-control"
         onKeyDown={(e) => {
           if (disabled) return
@@ -256,7 +258,11 @@ function InputDatetime({
         {tokens.map((t, ti) => {
           if (t.type === "literal") {
             return (
-              <span key={`lit-${ti}`} className="text-muted-foreground select-none" aria-hidden>
+              <span
+                key={`lit-${ti}`}
+                className="cn-input-segment text-muted-foreground select-none"
+                aria-hidden
+              >
                 {t.text}
               </span>
             )
@@ -291,12 +297,16 @@ function InputDatetime({
               }}
               className="cn-input-segment"
               data-placeholder={isPlaceholder}
+              data-slot="input-group-control"
               tabIndex={disabled ? -1 : 0}
               role="textbox"
               aria-label={label}
               aria-disabled={disabled}
               onFocus={() => {
                 replaceOnNextDigitRef.current = true
+              }}
+              onMouseDown={(e) => {
+                e.currentTarget.focus({ focusVisible: true })
               }}
               onKeyDown={(e) => {
                 if (disabled) return

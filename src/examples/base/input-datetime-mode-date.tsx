@@ -19,7 +19,7 @@ export default function InputDatetimeModeDateExample() {
       <div className="space-y-1 text-xs text-muted-foreground">
         <p>
           <span className="font-medium text-foreground">Committed (onValueChange): </span>
-          {committed ? committed.toISOString().slice(0, 10) : "—"}
+          {committed ? committed.toLocaleDateString().slice(0, 10) : "—"}
         </p>
         <p>
           <span className="font-medium text-foreground">Hidden string (onChange): </span>

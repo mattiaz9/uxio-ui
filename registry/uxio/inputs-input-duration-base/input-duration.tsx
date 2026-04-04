@@ -14,14 +14,15 @@ import {
   durationPartsFromDigitMap,
   fieldTokens,
 } from "@/registry/lib/duration-format"
-import { cnInputGroupCustomControl } from "@/registry/lib/input-group-custom-control"
 import { InputGroup } from "@/registry/uxio/overrides-input-group-base/input-group"
 
-interface InputDurationProps extends Omit<
-  React.ComponentProps<"input">,
-  "type" | "value" | "defaultValue" | "onChange" | "readOnly" | "size"
->,
-  Pick<React.ComponentProps<typeof InputGroup>, "size"> {
+interface InputDurationProps
+  extends
+    Omit<
+      React.ComponentProps<"input">,
+      "type" | "value" | "defaultValue" | "onChange" | "readOnly" | "size"
+    >,
+    Pick<React.ComponentProps<typeof InputGroup>, "size"> {
   /**
    * Pattern: runs of `y`, `M`, `d`, `H`, `m`, or `s` set minimum display width (leading zeros).
    * Segments accept unbounded digits. Use `'quotes'` for literal text (e.g. `HH'h'`).
@@ -158,7 +159,7 @@ function InputDuration({
   }
 
   const focusSegment = (index: number) => {
-    segmentRefs.current[index]?.focus()
+    segmentRefs.current[index]?.focus({ focusVisible: true })
   }
 
   const displayHiddenSeconds = isControlled ? (valueProp ?? null) : committedSeconds
@@ -182,7 +183,8 @@ function InputDuration({
         tabIndex={-1}
       />
       <div
-        className={cnInputGroupCustomControl(size, { disabled })}
+        className="cn-input-group-input cn-input-group-custom-control"
+        data-disabled={disabled ? "" : undefined}
         data-slot="input-duration-control"
         onKeyDown={(e) => {
           if (disabled) return
@@ -194,7 +196,11 @@ function InputDuration({
         {tokens.map((t, ti) => {
           if (t.type === "literal") {
             return (
-              <span key={`lit-${ti}`} className="text-muted-foreground select-none" aria-hidden>
+              <span
+                key={`lit-${ti}`}
+                className="cn-input-segment text-muted-foreground select-none"
+                aria-hidden
+              >
                 {t.text}
               </span>
             )
@@ -230,12 +236,16 @@ function InputDuration({
               }}
               className="cn-input-segment"
               data-placeholder={isPlaceholder}
+              data-slot="input-group-control"
               tabIndex={disabled ? -1 : 0}
               role="textbox"
               aria-label={label}
               aria-disabled={disabled}
               onFocus={() => {
                 replaceOnNextDigitRef.current = true
+              }}
+              onMouseDown={(e) => {
+                e.currentTarget.focus({ focusVisible: true })
               }}
               onKeyDown={(e) => {
                 if (disabled) return

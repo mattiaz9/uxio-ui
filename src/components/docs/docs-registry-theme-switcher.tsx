@@ -12,18 +12,7 @@ import {
   NovaThemeIcon,
   VegaThemeIcon,
 } from "@/components/docs/docs-registry-theme-icons"
-import {
-  DOCS_REGISTRY_THEMES,
-  type DocsRegistryThemeId,
-  setDocsRegistryTheme,
-  useDocsRegistryTheme,
-} from "@/lib/docs-registry-theme-client"
-import {
-  Command,
-  CommandGroup,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command"
+import { Command, CommandGroup, CommandItem, CommandList } from "@/components/ui/command"
 import {
   Popover,
   PopoverContent,
@@ -31,17 +20,21 @@ import {
   PopoverTitle,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import {
+  DOCS_REGISTRY_THEMES,
+  type DocsRegistryThemeId,
+  setDocsRegistryTheme,
+  useDocsRegistryTheme,
+} from "@/lib/docs-registry-theme-client"
 import { cn } from "@/lib/utils"
 
 type ThemeIcon = ComponentType<SVGProps<SVGSVGElement>>
 
 /** Active theme: blue/cyan ring + glyph only (no fill). */
-const iconShellSelected =
-  "bg-transparent text-cyan-600 ring-1 ring-inset ring-cyan-500/55"
+const iconShellSelected = "bg-transparent text-cyan-600 ring-1 ring-inset ring-cyan-500/55"
 
 /** Other themes: muted ring + glyph only (no fill). */
-const iconShellMuted =
-  "bg-transparent text-fd-muted-foreground ring-1 ring-inset ring-fd-border/70"
+const iconShellMuted = "bg-transparent text-fd-muted-foreground ring-1 ring-inset ring-fd-border/70"
 
 const THEME_UI: Record<DocsRegistryThemeId, { title: string; Icon: ThemeIcon }> = {
   vega: { title: "Vega", Icon: VegaThemeIcon },
@@ -60,7 +53,7 @@ export function DocsRegistryThemeSwitcher({ className }: { className?: string })
 
   return (
     <div className={cn("w-full", className)}>
-      <Popover open={open} onOpenChange={setOpen}>
+      <Popover open={open} onOpenChange={setOpen} modal={true}>
         <PopoverTrigger
           type="button"
           className={cn(
@@ -86,7 +79,7 @@ export function DocsRegistryThemeSwitcher({ className }: { className?: string })
         <PopoverContent
           align="start"
           sideOffset={4}
-          className="w-[var(--anchor-width)] gap-0 p-0 text-[0.8125rem] shadow-md ring-1 ring-fd-border"
+          className="w-(--radix-popper-anchor-width) gap-0 p-0 text-[0.8125rem] shadow-md ring-1 ring-fd-border"
         >
           <PopoverHeader className="sr-only">
             <PopoverTitle>Registry theme</PopoverTitle>
@@ -121,7 +114,9 @@ export function DocsRegistryThemeSwitcher({ className }: { className?: string })
                       >
                         <OptIcon className="size-3.5" />
                       </span>
-                      <span className="min-w-0 flex-1 truncate font-medium text-fd-foreground">{opt.title}</span>
+                      <span className="min-w-0 flex-1 truncate font-medium text-fd-foreground">
+                        {opt.title}
+                      </span>
                       <CheckIcon
                         className={cn(
                           "size-3.5 shrink-0 text-cyan-600",

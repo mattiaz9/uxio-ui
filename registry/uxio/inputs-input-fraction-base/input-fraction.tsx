@@ -14,14 +14,15 @@ import {
   parseSegmentsFromFractionString,
   type FractionBounds,
 } from "@/registry/lib/fraction-format"
-import { cnInputGroupCustomControl } from "@/registry/lib/input-group-custom-control"
 import { InputGroup } from "@/registry/uxio/overrides-input-group-base/input-group"
 
-interface InputFractionProps extends Omit<
-  React.ComponentProps<"input">,
-  "type" | "value" | "defaultValue" | "onChange" | "readOnly" | "size"
->,
-  Pick<React.ComponentProps<typeof InputGroup>, "size"> {
+interface InputFractionProps
+  extends
+    Omit<
+      React.ComponentProps<"input">,
+      "type" | "value" | "defaultValue" | "onChange" | "readOnly" | "size"
+    >,
+    Pick<React.ComponentProps<typeof InputGroup>, "size"> {
   /** Max digits per segment (numerator and denominator). Omit for no limit. */
   maxDigits?: number
   /** Inclusive lower bound for the numerator integer (after digit parsing). */
@@ -215,7 +216,7 @@ function InputFraction({
   }
 
   const focusSegment = (index: number) => {
-    segmentRefs.current[index]?.focus()
+    segmentRefs.current[index]?.focus({ focusVisible: true })
   }
 
   return (
@@ -233,7 +234,8 @@ function InputFraction({
         tabIndex={-1}
       />
       <div
-        className={cnInputGroupCustomControl(size, { disabled })}
+        className="cn-input-group-input cn-input-group-custom-control"
+        data-disabled={disabled ? "" : undefined}
         data-slot="input-fraction-control"
         onKeyDown={(e) => {
           if (disabled) return
@@ -245,7 +247,11 @@ function InputFraction({
         {tokens.map((t, ti) => {
           if (t.type === "literal") {
             return (
-              <span key={`lit-${ti}`} className="text-muted-foreground select-none" aria-hidden>
+              <span
+                key={`lit-${ti}`}
+                className="cn-input-segment text-muted-foreground select-none"
+                aria-hidden
+              >
                 {t.text}
               </span>
             )
@@ -253,8 +259,7 @@ function InputFraction({
           const idx = fieldIndexAtToken[ti]
           if (idx === undefined || idx < 0) return null
           const raw = segments[idx] ?? ""
-          const segmentMax =
-            maxDigits === undefined ? Number.POSITIVE_INFINITY : maxDigits
+          const segmentMax = maxDigits === undefined ? Number.POSITIVE_INFINITY : maxDigits
           const isPlaceholder = !raw.length
           const label = t.kind === "numerator" ? "Numerator" : "Denominator"
           return (
@@ -265,12 +270,16 @@ function InputFraction({
               }}
               className="cn-input-segment"
               data-placeholder={isPlaceholder}
+              data-slot="input-group-control"
               tabIndex={disabled ? -1 : 0}
               role="textbox"
               aria-label={label}
               aria-disabled={disabled}
               onFocus={() => {
                 replaceOnNextDigitRef.current = true
+              }}
+              onMouseDown={(e) => {
+                e.currentTarget.focus({ focusVisible: true })
               }}
               onKeyDown={(e) => {
                 if (disabled) return
@@ -286,8 +295,7 @@ function InputFraction({
                   } else {
                     next = cur + e.key
                   }
-                  if (next.length > segmentMax)
-                    next = next.slice(0, segmentMax)
+                  if (next.length > segmentMax) next = next.slice(0, segmentMax)
                   updateSegment(idx, next)
                   if (next.length >= segmentMax && idx < fields.length - 1) {
                     focusSegment(idx + 1)

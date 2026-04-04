@@ -17,7 +17,7 @@ export default function InputGroupSizeDefault() {
           <SearchIcon className="size-4 text-muted-foreground" />
         </InputGroupAddon>
         <InputGroupAddon align="inline-end">
-          <InputGroupButton type="button" variant="secondary">
+          <InputGroupButton type="button" variant="default">
             Search
           </InputGroupButton>
         </InputGroupAddon>
