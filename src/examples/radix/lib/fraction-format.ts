@@ -12,8 +12,9 @@ export type FractionFormatToken =
 /** Visual separator between segments (spaces around slash). */
 export const FRACTION_DISPLAY_LITERAL = " / " as const
 
-export function fractionTokens(maxDigits: number): FractionFormatToken[] {
-  const pattern = "n".repeat(Math.max(1, maxDigits))
+export function fractionTokens(maxDigits?: number): FractionFormatToken[] {
+  const pattern =
+    maxDigits === undefined ? "" : "n".repeat(Math.max(1, maxDigits))
   return [
     { type: "field", kind: "numerator", pattern },
     { type: "literal", text: FRACTION_DISPLAY_LITERAL },
@@ -51,9 +52,13 @@ export function compactFractionValue(numerator: string, denominator: string): st
 }
 
 /**
- * Parse a compact or spaced fraction string into two digit segments (trimmed to maxDigits each).
+ * Parse a compact or spaced fraction string into two digit segments (trimmed to `maxDigits` each).
+ * When `maxDigits` is omitted, segments are not length-capped.
  */
-export function parseSegmentsFromFractionString(raw: string, maxDigits: number): [string, string] {
+export function parseSegmentsFromFractionString(
+  raw: string,
+  maxDigits?: number,
+): [string, string] {
   const s = raw.trim().replace(/\s+/g, "")
   if (!s) return ["", ""]
   const slash = s.indexOf("/")
@@ -111,7 +116,7 @@ export function normalizeCommittedFractionWithBounds(
   numerator: string,
   denominator: string,
   bounds: FractionBounds | undefined,
-  maxDigits: number,
+  maxDigits?: number,
 ): string | null {
   if (!bounds || !hasFractionBounds(bounds)) {
     return normalizeCommittedFraction(numerator, denominator)
@@ -146,7 +151,7 @@ export function clampFractionStringsForDisplay(
   numerator: string,
   denominator: string,
   bounds: FractionBounds | undefined,
-  maxDigits: number,
+  maxDigits?: number,
 ): [string, string] {
   const nRaw = numerator.replace(/\D/g, "").slice(0, maxDigits)
   const dRaw = denominator.replace(/\D/g, "").slice(0, maxDigits)
@@ -173,7 +178,7 @@ export function clampFractionStringsForDisplay(
 export function fractionSegmentsComplete(
   segments: string[],
   bounds?: FractionBounds,
-  maxDigits = 6,
+  maxDigits?: number,
 ): boolean {
   const [n, d] = segments
   if (n === undefined || d === undefined) return false

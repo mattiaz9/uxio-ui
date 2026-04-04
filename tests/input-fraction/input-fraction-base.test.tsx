@@ -45,6 +45,38 @@ describe("InputFraction base", () => {
     expect(getLastChangedValue(onChange)).toBe("2/5")
   })
 
+  test("default allows more than six digits per segment", async () => {
+    const user = userEvent.setup()
+    const onValueChange = vi.fn()
+
+    render(<InputFraction onValueChange={onValueChange} />)
+
+    const boxes = screen.getAllByRole("textbox")
+    await user.click(boxes[0])
+    await user.keyboard("1234567")
+    await user.click(boxes[1])
+    await user.keyboard("89")
+    await user.tab()
+
+    expect(onValueChange).toHaveBeenLastCalledWith("1234567/89")
+    expect(boxes[0]).toHaveTextContent("1234567")
+    expect(boxes[1]).toHaveTextContent("89")
+  })
+
+  test("maxDigits limits parsed controlled segment strings", () => {
+    render(
+      <InputFraction
+        maxDigits={3}
+        value="12345678901234567890/1"
+        onValueChange={() => {}}
+      />,
+    )
+
+    const boxes = screen.getAllByRole("textbox")
+    expect(boxes[0]).toHaveTextContent("123")
+    expect(boxes[1]).toHaveTextContent("1")
+  })
+
   test("controlled value updates display", () => {
     const { rerender } = render(<InputFraction value="2/5" onValueChange={() => {}} />)
 

@@ -22,7 +22,7 @@ interface InputFractionProps extends Omit<
   "type" | "value" | "defaultValue" | "onChange" | "readOnly" | "size"
 >,
   Pick<React.ComponentProps<typeof InputGroup>, "size"> {
-  /** Max digits per segment (numerator and denominator). Defaults to `6`. */
+  /** Max digits per segment (numerator and denominator). Omit for no limit. */
   maxDigits?: number
   /** Inclusive lower bound for the numerator integer (after digit parsing). */
   minNumerator?: number
@@ -50,7 +50,7 @@ interface InputFractionProps extends Omit<
 function InputFraction({
   className,
   ref,
-  maxDigits = 6,
+  maxDigits,
   minNumerator,
   maxNumerator,
   minDenominator,
@@ -253,7 +253,8 @@ function InputFraction({
           const idx = fieldIndexAtToken[ti]
           if (idx === undefined || idx < 0) return null
           const raw = segments[idx] ?? ""
-          const max = t.pattern.length
+          const segmentMax =
+            maxDigits === undefined ? Number.POSITIVE_INFINITY : maxDigits
           const isPlaceholder = !raw.length
           const label = t.kind === "numerator" ? "Numerator" : "Denominator"
           return (
@@ -280,14 +281,15 @@ function InputFraction({
                   if (replaceOnNextDigitRef.current) {
                     next = e.key
                     replaceOnNextDigitRef.current = false
-                  } else if (cur.length >= max) {
+                  } else if (cur.length >= segmentMax) {
                     next = e.key
                   } else {
                     next = cur + e.key
                   }
-                  if (next.length > max) next = next.slice(0, max)
+                  if (next.length > segmentMax)
+                    next = next.slice(0, segmentMax)
                   updateSegment(idx, next)
-                  if (next.length >= max && idx < fields.length - 1) {
+                  if (next.length >= segmentMax && idx < fields.length - 1) {
                     focusSegment(idx + 1)
                   }
                   return

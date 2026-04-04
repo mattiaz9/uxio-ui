@@ -23,6 +23,11 @@ describe("fraction-format", () => {
     expect(fieldTokens(tokens).map((f) => f.pattern.length)).toEqual([4, 4])
   })
 
+  test("tokens without maxDigits use empty pattern (unlimited segments)", () => {
+    const tokens = fractionTokens(undefined)
+    expect(fieldTokens(tokens).map((f) => f.pattern)).toEqual(["", ""])
+  })
+
   test("compose display joins segments with spaced slash", () => {
     const tokens = fractionTokens(6)
     const display = composeFractionDisplay(tokens, ["2", "5"])
@@ -38,6 +43,11 @@ describe("fraction-format", () => {
     expect(parseSegmentsFromFractionString("2/5", 6)).toEqual(["2", "5"])
     expect(parseSegmentsFromFractionString("2 / 5", 6)).toEqual(["2", "5"])
     expect(parseSegmentsFromFractionString("  12  /  99 ", 6)).toEqual(["12", "99"])
+  })
+
+  test("parse without maxDigits does not trim segment length", () => {
+    const long = "12345678901234567890"
+    expect(parseSegmentsFromFractionString(`${long}/3`, undefined)).toEqual([long, "3"])
   })
 
   test("normalize rejects denominator zero", () => {
