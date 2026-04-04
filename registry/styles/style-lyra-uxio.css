@@ -92,6 +92,6 @@
   }
 
   .cn-input-segment {
-    @apply min-w-[1ch] rounded-xs px-0.5 font-mono tabular-nums outline-none focus:bg-foreground/10 focus:text-accent-foreground data-[placeholder=true]:text-muted-foreground [&_[data-empty=true]]:text-muted-foreground/40;
+    @apply min-w-[1ch] rounded-none px-0.5 font-mono tabular-nums outline-none focus:bg-foreground/10 focus:text-accent-foreground data-[placeholder=true]:text-muted-foreground [&_[data-empty=true]]:text-muted-foreground/40;
   }
 }
