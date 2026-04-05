@@ -6,6 +6,7 @@
       "files": ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"],
       "rules": {
         "ban-ts-comment": "off",
+        "no-unused-vars": "off",
         "consistent-type-imports": "off"
       }
     }

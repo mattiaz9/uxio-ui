@@ -390,8 +390,8 @@ function InputDatetime({
                 lucide="CalendarIcon"
                 tabler="IconCalendar"
                 hugeicons="Calendar01Icon"
-                phosphor="calendar"
-                remixicon="calendar"
+                phosphor="CalendarIcon"
+                remixicon="RiCalendarLine"
               />
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="end">

@@ -4,6 +4,9 @@ import { lazy, Suspense, type ComponentProps } from "react"
 
 import { SquareIcon, type icons as lucideIcons } from "lucide-react"
 
+import type * as hugeiconsIcons from "@hugeicons/core-free-icons"
+import type * as phosphorIcons from "@phosphor-icons/react"
+import type * as remixiconIcons from "@remixicon/react"
 import type { icons as tablerIcons } from "@tabler/icons-react"
 import type { IconLibraryName } from "shadcn/icons"
 
@@ -46,9 +49,9 @@ void import("@/registry/icons/icon-remixicon")
 type IconNames = {
   lucide: `${keyof typeof lucideIcons}Icon`
   tabler: keyof typeof tablerIcons
-  hugeicons: string
-  phosphor: string
-  remixicon: string
+  hugeicons: keyof typeof hugeiconsIcons
+  phosphor: keyof typeof phosphorIcons
+  remixicon: keyof typeof remixiconIcons
 }
 
 export function IconPlaceholder({ ...props }: IconNames & ComponentProps<"svg">) {

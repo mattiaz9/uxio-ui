@@ -3,8 +3,7 @@
 import * as React from "react"
 import { motion } from "motion/react"
 
-import { ChevronLeft } from "lucide-react"
-
+import { IconPlaceholder } from "../shared/icon-placeholder/icon-placeholder"
 import { cn } from "@/lib/utils"
 import {
   Command,
@@ -47,7 +46,6 @@ import {
 
 import type { ReactNode } from "react"
 
-/** One row in the sidebar command palette; pass `panelId` to jump with `VercelSidebarSearchPopover` inside `VercelSidebarNav`. */
 export interface VercelSidebarSearchItem {
   id: string
   title: string
@@ -56,33 +54,6 @@ export interface VercelSidebarSearchItem {
   panelId?: string
   onSelect?: () => void
   icon?: ReactNode
-}
-
-function normalizeQuery(query: string): string[] {
-  return query.trim().toLowerCase().split(/\s+/).filter(Boolean)
-}
-
-function haystackForItem(item: VercelSidebarSearchItem): string {
-  return [item.title, item.subtitle, ...(item.keywords ?? [])]
-    .filter(Boolean)
-    .join(" ")
-    .toLowerCase()
-}
-
-/**
- * Case-insensitive match: every whitespace-separated token in `query` must appear
- * somewhere in the item’s title, subtitle, or keywords (same rules as the palette).
- */
-export function filterVercelSidebarItems(
-  items: readonly VercelSidebarSearchItem[],
-  query: string,
-): VercelSidebarSearchItem[] {
-  const words = normalizeQuery(query)
-  if (words.length === 0) return [...items]
-  return items.filter((item) => {
-    const hay = haystackForItem(item)
-    return words.every((w) => hay.includes(w))
-  })
 }
 
 interface VercelSidebarNavContextValue {
@@ -99,10 +70,6 @@ function useVercelSidebarNav() {
     throw new Error("useVercelSidebarNav must be used within VercelSidebarNav.")
   }
   return ctx
-}
-
-function useOptionalVercelSidebarNav() {
-  return React.useContext(VercelSidebarNavContext)
 }
 
 interface VercelSidebarNavProviderProps {
@@ -226,7 +193,14 @@ function VercelSidebarBack({ title, className, onBack, ...props }: VercelSidebar
             onClick={() => (onBack ? onBack() : setActivePanel(rootPanelId))}
             aria-label="Back"
           >
-            <ChevronLeft className="size-4 shrink-0" />
+            <IconPlaceholder
+              className="size-4 shrink-0"
+              lucide="ChevronLeftIcon"
+              tabler="IconChevronLeft"
+              hugeicons="ChevronLeft"
+              phosphor="ArrowLeftIcon"
+              remixicon="RiArrowLeftSLine"
+            />
             <span className="min-w-0 truncate font-medium">{title}</span>
           </SidebarMenuButton>
         </SidebarMenuItem>
@@ -265,14 +239,24 @@ function VercelSidebarSearchPopover({
   sideOffset = 6,
   className,
 }: VercelSidebarSearchPopoverProps) {
-  const nav = useOptionalVercelSidebarNav()
+  const nav = useVercelSidebarNav()
   const [search, setSearch] = React.useState("")
 
   React.useEffect(() => {
     if (!open) setSearch("")
   }, [open])
 
-  const filtered = React.useMemo(() => filterVercelSidebarItems(items, search), [items, search])
+  const filtered = React.useMemo(() => {
+    const words = search.trim().toLowerCase().split(/\s+/).filter(Boolean)
+    if (words.length === 0) return [...items]
+    return items.filter((item) => {
+      const hay = [item.title, item.subtitle, ...(item.keywords ?? [])]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase()
+      return words.every((w) => hay.includes(w))
+    })
+  }, [items, search])
 
   const handlePick = React.useCallback(
     (item: VercelSidebarSearchItem) => {
@@ -298,7 +282,7 @@ function VercelSidebarSearchPopover({
         align={align}
         sideOffset={sideOffset}
         className={cn(
-          "cn-vercel-sidebar-search-popover z-50 flex w-[var(--radix-popover-trigger-width,min(20rem,calc(100vw-2rem)))] max-w-[min(24rem,calc(100vw-1rem))] flex-col overflow-hidden border border-border bg-popover p-0 text-popover-foreground shadow-lg",
+          "cn-vercel-sidebar-search-popover z-50 flex w-(--anchor-width,min(20rem,calc(100vw-2rem))) max-w-[min(24rem,calc(100vw-1rem))] flex-col overflow-hidden border border-border bg-popover p-0 text-popover-foreground shadow-lg",
           className,
         )}
       >
@@ -355,13 +339,9 @@ function VercelSidebarSearchPopover({
   )
 }
 
-interface VercelSidebarSearchTriggerProps extends React.ComponentPropsWithoutRef<"button"> {}
+interface VercelSidebarSearchTriggerProps extends React.ComponentProps<"button"> {}
 
-/** Search row trigger for `VercelSidebarSearchPopover`; uses `cn-vercel-sidebar-search-trigger` so registry themes match `SidebarInput`. */
-const VercelSidebarSearchTrigger = React.forwardRef<
-  HTMLButtonElement,
-  VercelSidebarSearchTriggerProps
->(function VercelSidebarSearchTrigger({ className, ...props }, ref) {
+function VercelSidebarSearchTrigger({ className, ref, ...props }: VercelSidebarSearchTriggerProps) {
   return (
     <button
       ref={ref}
@@ -371,8 +351,7 @@ const VercelSidebarSearchTrigger = React.forwardRef<
       {...props}
     />
   )
-})
-VercelSidebarSearchTrigger.displayName = "VercelSidebarSearchTrigger"
+}
 
 export {
   VercelSidebarBack,
@@ -381,7 +360,6 @@ export {
   VercelSidebarPanel,
   VercelSidebarSearchPopover,
   VercelSidebarSearchTrigger,
-  useOptionalVercelSidebarNav,
   useVercelSidebarNav,
 }
 

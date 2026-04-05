@@ -218,6 +218,18 @@ function rewriteRegistryImports(content: string, mode: "consumer" | "example"): 
 }
 
 /**
+ * Normalize `../shared/…` imports from registry component folders into
+ * `@/registry/uxio/shared/…`. Relative shared imports are valid in the registry tree but break
+ * once files live under `components/ui/` or `src/examples/.../ui/` (different depth).
+ */
+function rewriteRegistrySharedRelativeImports(content: string): string {
+  return content.replace(
+    /from\s*(["'])(\.\.\/)+shared\/([^"']+)\1/g,
+    `from "@/registry/uxio/shared/$3"`,
+  )
+}
+
+/**
  * Rewrite @/components/ui/{name} to ./{name} for registry components when copying to examples.
  */
 function rewriteComponentsUiForExamples(content: string, registryNames: Set<string>): string {
@@ -627,6 +639,7 @@ async function buildItem(
   for (const [rel, raw] of libEntries) {
     let content = await transformStyle(raw, { styleMap })
     content = rewriteRegistryImports(content, "consumer")
+    content = rewriteRegistrySharedRelativeImports(content)
     content = rewriteRegistryLibImports(content, "consumer")
     files.push({
       path: `lib/${rel}`,
@@ -638,6 +651,7 @@ async function buildItem(
   for (const { filename, content: raw } of sourceFiles) {
     let content = await transformStyle(raw, { styleMap })
     content = rewriteRegistryImports(content, "consumer")
+    content = rewriteRegistrySharedRelativeImports(content)
     content = rewriteRegistryLibImports(content, "consumer")
     files.push({
       path: `components/ui/${filename}`,
@@ -656,6 +670,7 @@ async function buildItem(
       if (files.some((f) => f.path === `components/ui/${filename}`)) continue
       let content = await transformStyle(raw, { styleMap })
       content = rewriteRegistryImports(content, "consumer")
+      content = rewriteRegistrySharedRelativeImports(content)
       content = rewriteRegistryLibImports(content, "consumer")
       files.push({ path: `components/ui/${filename}`, content, type: "registry:ui" })
     }
@@ -683,7 +698,7 @@ async function buildItem(
 // (keep `cn-*` tokens; docs apply `registry/styles` theme wrappers at runtime)
 // ---------------------------------------------------------------------------
 
-async function copyUIToExamples(
+function copyUIToExamples(
   allDirs: Map<string, ComponentDirs>,
   configs: ItemConfig[],
   onlyNames: Set<string> | null,
@@ -740,6 +755,7 @@ async function copyUIToExamples(
       for (const f of readdirSync(srcDir).filter((n) => n.endsWith(".tsx") || n.endsWith(".ts"))) {
         const source = readFileSync(resolve(srcDir, f), "utf-8")
         let content = rewriteRegistryImports(source, "example")
+        content = rewriteRegistrySharedRelativeImports(content)
         content = rewriteRegistryLibImports(content, "example")
         content = rewriteComponentsUiForExamples(content, registryNames)
         pendingWrites.push({ path: resolve(targetDir, f), content })
@@ -864,7 +880,7 @@ async function runBuild(
     console.log(`  ${chalk.green("➜")}  ${chalk.bold("Built:")}   ${chalk.cyan("registry.json")}`)
   }
 
-  await copyUIToExamples(allDirs, configs, onlyNames, pendingWrites)
+  copyUIToExamples(allDirs, configs, onlyNames, pendingWrites)
 }
 
 async function main() {

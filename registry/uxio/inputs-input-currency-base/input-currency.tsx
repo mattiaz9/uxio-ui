@@ -26,39 +26,37 @@ type InputCurrencyProps = Omit<
   "type" | "value" | "defaultValue" | "onChange" | "size"
 > &
   Pick<React.ComponentProps<typeof InputGroup>, "size"> & {
-  currency: string
-  locale?: string
-  value?: string | number
-  defaultValue?: string | number
-  onChange?: React.ChangeEventHandler<HTMLInputElement>
-  onValueChange?: (value: string | null) => void
-  min?: number
-  max?: number
-}
+    currency: string
+    locale?: string
+    value?: string | number
+    defaultValue?: string | number
+    onChange?: React.ChangeEventHandler<HTMLInputElement>
+    onValueChange?: (value: string | null) => void
+    min?: number
+    max?: number
+  }
 
-const InputCurrency = React.forwardRef<HTMLInputElement, InputCurrencyProps>(function InputCurrency(
-  {
-    className,
-    currency,
-    locale,
-    value,
-    defaultValue,
-    onChange,
-    onValueChange,
-    onBlur,
-    onFocus,
-    onKeyDown,
-    onPaste,
-    onWheel,
-    disabled,
-    readOnly,
-    min,
-    max,
-    size,
-    ...props
-  },
+function InputCurrency({
+  className,
+  currency,
+  locale,
+  value,
+  defaultValue,
+  onChange,
+  onValueChange,
+  onBlur,
+  onFocus,
+  onKeyDown,
+  onPaste,
+  onWheel,
+  disabled,
+  readOnly,
+  min,
+  max,
+  size,
   ref,
-) {
+  ...props
+}: InputCurrencyProps) {
   const inputRef = React.useRef<HTMLInputElement | null>(null)
   const lastEmittedRef = React.useRef<string | null | undefined>(undefined)
 
@@ -106,6 +104,8 @@ const InputCurrency = React.forwardRef<HTMLInputElement, InputCurrencyProps>(fun
       ? (numberDraft ?? numberControlledValue)
       : uncontrolledDisplay
 
+  React.useImperativeHandle(ref, () => inputRef.current as HTMLInputElement, [])
+
   React.useEffect(() => {
     if (!isNumberControlled) return
     setNumberDraft(null)
@@ -115,15 +115,6 @@ const InputCurrency = React.forwardRef<HTMLInputElement, InputCurrencyProps>(fun
     if (!isNumberControlled || !isFiniteNumber(value)) return
     setProbeAmount(computeRoundedAmount(value, locale, currency, min, max))
   }, [isNumberControlled, value, locale, currency, min, max])
-
-  const setRefs = React.useCallback(
-    (node: HTMLInputElement | null) => {
-      inputRef.current = node
-      if (typeof ref === "function") ref(node)
-      else if (ref) ref.current = node
-    },
-    [ref],
-  )
 
   const emitChange = React.useCallback(
     (nextValue: string, source?: HTMLInputElement | null) => {
@@ -196,7 +187,7 @@ const InputCurrency = React.forwardRef<HTMLInputElement, InputCurrencyProps>(fun
     <InputGroup size={size} className={cn("cn-input-currency", className)}>
       <InputGroupInput
         {...props}
-        ref={setRefs}
+        ref={inputRef}
         type="text"
         inputMode="decimal"
         disabled={disabled}
@@ -277,6 +268,6 @@ const InputCurrency = React.forwardRef<HTMLInputElement, InputCurrencyProps>(fun
       </InputGroupAddon>
     </InputGroup>
   )
-})
+}
 
 export { InputCurrency }

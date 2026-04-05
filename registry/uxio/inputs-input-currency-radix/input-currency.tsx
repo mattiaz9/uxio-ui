@@ -20,11 +20,13 @@ import {
   InputGroupInput,
 } from "@/registry/uxio/overrides-input-group-radix/input-group"
 
-interface InputCurrencyProps extends Omit<
-  React.ComponentProps<typeof InputGroupInput>,
-  "type" | "value" | "defaultValue" | "onChange" | "size"
->,
-  Pick<React.ComponentProps<typeof InputGroup>, "size"> {
+interface InputCurrencyProps
+  extends
+    Omit<
+      React.ComponentProps<typeof InputGroupInput>,
+      "type" | "value" | "defaultValue" | "onChange" | "size"
+    >,
+    Pick<React.ComponentProps<typeof InputGroup>, "size"> {
   currency: string
   locale?: string
   value?: string | number
@@ -53,6 +55,7 @@ function InputCurrency({
   min,
   max,
   size,
+  ref,
   ...props
 }: InputCurrencyProps) {
   const inputRef = React.useRef<HTMLInputElement | null>(null)
@@ -99,6 +102,8 @@ function InputCurrency({
     : isNumberControlled
       ? (numberDraft ?? numberControlledValue)
       : uncontrolledDisplay
+
+  React.useImperativeHandle(ref, () => inputRef.current as HTMLInputElement, [])
 
   React.useEffect(() => {
     if (!isNumberControlled) return

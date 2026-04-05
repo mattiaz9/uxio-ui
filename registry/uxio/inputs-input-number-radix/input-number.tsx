@@ -21,11 +21,13 @@ import {
 } from "@/registry/uxio/overrides-input-group-radix/input-group"
 import { IconPlaceholder } from "@/registry/uxio/shared/icon-placeholder/icon-placeholder"
 
-interface InputNumberProps extends Omit<
-  React.ComponentProps<typeof InputGroupInput>,
-  "type" | "value" | "defaultValue" | "onChange" | "size"
->,
-  Pick<React.ComponentProps<typeof InputGroup>, "size"> {
+interface InputNumberProps
+  extends
+    Omit<
+      React.ComponentProps<typeof InputGroupInput>,
+      "type" | "value" | "defaultValue" | "onChange" | "size"
+    >,
+    Pick<React.ComponentProps<typeof InputGroup>, "size"> {
   value?: string | number | null
   defaultValue?: string | number
   onChange?: React.ChangeEventHandler<HTMLInputElement>
@@ -51,6 +53,7 @@ function InputNumber({
   max,
   step = 1,
   size,
+  ref,
   ...props
 }: InputNumberProps) {
   const inputRef = React.useRef<HTMLInputElement | null>(null)
@@ -86,6 +89,8 @@ function InputNumber({
       : isNullControlled
         ? (numberDraft ?? "")
         : uncontrolledDisplay
+
+  React.useImperativeHandle(ref, () => inputRef.current as HTMLInputElement, [])
 
   React.useEffect(() => {
     if (!isNumberControlled && !isNullControlled) return
@@ -301,8 +306,8 @@ function InputNumber({
             lucide="ChevronUpIcon"
             tabler="IconChevronUp"
             hugeicons="ArrowUp01Icon"
-            phosphor="caret-up"
-            remixicon="arrow-up-s"
+            phosphor="CaretUpIcon"
+            remixicon="RiArrowUpSLine"
           />
         </InputGroupButton>
         <InputGroupButton
@@ -321,8 +326,8 @@ function InputNumber({
             lucide="ChevronDownIcon"
             tabler="IconChevronDown"
             hugeicons="ArrowDown01Icon"
-            phosphor="caret-down"
-            remixicon="arrow-down-s"
+            phosphor="CaretDownIcon"
+            remixicon="RiArrowDownSLine"
           />
         </InputGroupButton>
       </InputGroupAddon>

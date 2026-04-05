@@ -27,36 +27,34 @@ type InputNumberProps = Omit<
   "type" | "value" | "defaultValue" | "onChange" | "size"
 > &
   Pick<React.ComponentProps<typeof InputGroup>, "size"> & {
-  value?: string | number | null
-  defaultValue?: string | number
-  onChange?: React.ChangeEventHandler<HTMLInputElement>
-  onValueChange?: (value: number | null) => void
-  min?: number
-  max?: number
-  step?: number
-}
+    value?: string | number | null
+    defaultValue?: string | number
+    onChange?: React.ChangeEventHandler<HTMLInputElement>
+    onValueChange?: (value: number | null) => void
+    min?: number
+    max?: number
+    step?: number
+  }
 
-const InputNumber = React.forwardRef<HTMLInputElement, InputNumberProps>(function InputNumber(
-  {
-    className,
-    value,
-    defaultValue,
-    onChange,
-    onValueChange,
-    onBlur,
-    onKeyDown,
-    onPaste,
-    onWheel,
-    disabled,
-    readOnly,
-    min,
-    max,
-    step = 1,
-    size,
-    ...props
-  },
+function InputNumber({
+  className,
+  value,
+  defaultValue,
+  onChange,
+  onValueChange,
+  onBlur,
+  onKeyDown,
+  onPaste,
+  onWheel,
+  disabled,
+  readOnly,
+  min,
+  max,
+  step = 1,
+  size,
   ref,
-) {
+  ...props
+}: InputNumberProps) {
   const inputRef = React.useRef<HTMLInputElement | null>(null)
   const lastCommittedValueRef = React.useRef<number | null | undefined>(undefined)
   const lastValidSteppedValueRef = React.useRef<number | null>(null)
@@ -91,6 +89,8 @@ const InputNumber = React.forwardRef<HTMLInputElement, InputNumberProps>(functio
         ? (numberDraft ?? "")
         : uncontrolledDisplay
 
+  React.useImperativeHandle(ref, () => inputRef.current as HTMLInputElement, [])
+
   React.useEffect(() => {
     if (!isNumberControlled && !isNullControlled) return
     setNumberDraft(null)
@@ -102,15 +102,6 @@ const InputNumber = React.forwardRef<HTMLInputElement, InputNumberProps>(functio
       lastValidSteppedValueRef.current = clampNumber(parsed, bounds.min, bounds.max)
     }
   }, [bounds.max, bounds.min, displayValue])
-
-  const setRefs = React.useCallback(
-    (node: HTMLInputElement | null) => {
-      inputRef.current = node
-      if (typeof ref === "function") ref(node)
-      else if (ref) ref.current = node
-    },
-    [ref],
-  )
 
   const emitChange = React.useCallback(
     (nextValue: string, source?: HTMLInputElement | null) => {
@@ -234,7 +225,7 @@ const InputNumber = React.forwardRef<HTMLInputElement, InputNumberProps>(functio
     <InputGroup size={size} className={cn("cn-input-number", className)}>
       <InputGroupInput
         {...props}
-        ref={setRefs}
+        ref={inputRef}
         type="text"
         inputMode="decimal"
         disabled={disabled}
@@ -314,8 +305,8 @@ const InputNumber = React.forwardRef<HTMLInputElement, InputNumberProps>(functio
             lucide="ChevronUpIcon"
             tabler="IconChevronUp"
             hugeicons="ArrowUp01Icon"
-            phosphor="caret-up"
-            remixicon="arrow-up-s"
+            phosphor="CaretUpIcon"
+            remixicon="RiArrowUpSLine"
           />
         </InputGroupButton>
         <InputGroupButton
@@ -334,13 +325,13 @@ const InputNumber = React.forwardRef<HTMLInputElement, InputNumberProps>(functio
             lucide="ChevronDownIcon"
             tabler="IconChevronDown"
             hugeicons="ArrowDown01Icon"
-            phosphor="caret-down"
-            remixicon="arrow-down-s"
+            phosphor="CaretDownIcon"
+            remixicon="RiArrowDownSLine"
           />
         </InputGroupButton>
       </InputGroupAddon>
     </InputGroup>
   )
-})
+}
 
 export { InputNumber }

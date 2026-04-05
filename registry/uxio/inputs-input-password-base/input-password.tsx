@@ -14,17 +14,20 @@ import { IconPlaceholder } from "@/registry/uxio/shared/icon-placeholder/icon-pl
 type InputPasswordProps = Omit<React.ComponentProps<typeof InputGroupInput>, "type" | "size"> &
   Pick<React.ComponentProps<typeof InputGroup>, "size">
 
-const InputPassword = React.forwardRef<HTMLInputElement, InputPasswordProps>(function InputPassword(
-  { className, disabled, readOnly, autoComplete = "current-password", size, ...props },
-  ref,
-) {
+function InputPassword({
+  className,
+  disabled,
+  readOnly,
+  autoComplete = "current-password",
+  size,
+  ...props
+}: InputPasswordProps) {
   const [visible, setVisible] = React.useState(false)
 
   return (
     <InputGroup size={size} className={cn("cn-input-password", className)}>
       <InputGroupInput
         {...props}
-        ref={ref}
         type={visible ? "text" : "password"}
         disabled={disabled}
         readOnly={readOnly}
@@ -45,13 +48,13 @@ const InputPassword = React.forwardRef<HTMLInputElement, InputPasswordProps>(fun
             lucide={visible ? "EyeOffIcon" : "EyeIcon"}
             tabler={visible ? "IconEyeOff" : "IconEye"}
             hugeicons={visible ? "ViewOffIcon" : "ViewIcon"}
-            phosphor={visible ? "eye-slash" : "eye"}
+            phosphor={visible ? "EyeSlashIcon" : "EyeIcon"}
             remixicon={visible ? "RiEyeOffLine" : "RiEyeLine"}
           />
         </InputGroupButton>
       </InputGroupAddon>
     </InputGroup>
   )
-})
+}
 
 export { InputPassword }

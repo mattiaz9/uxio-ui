@@ -387,8 +387,8 @@ function InputDatetime({
                   lucide="CalendarIcon"
                   tabler="IconCalendar"
                   hugeicons="Calendar01Icon"
-                  phosphor="calendar"
-                  remixicon="calendar"
+                  phosphor="CalendarIcon"
+                  remixicon="RiCalendarLine"
                 />
               </InputGroupButton>
             </PopoverTrigger>
