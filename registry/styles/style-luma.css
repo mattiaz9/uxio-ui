@@ -1005,6 +1005,10 @@
     @apply h-8 w-full bg-input/50 shadow-none;
   }
 
+  .cn-vercel-sidebar-search-trigger {
+    @apply inline-flex h-9 w-full min-w-0 cursor-pointer items-center gap-2 rounded-xl border border-input bg-input/50 px-2.5 text-left text-sm text-muted-foreground shadow-none outline-none transition-colors hover:bg-input/65 focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/40;
+  }
+
   .cn-sidebar-header {
     @apply gap-2 p-2 [--radius:var(--radius-xl)];
   }

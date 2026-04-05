@@ -47,6 +47,7 @@ import {
   VercelSidebarPanel,
   VercelSidebarProvider,
   VercelSidebarSearchPopover,
+  VercelSidebarSearchTrigger,
   VercelSidebarSeparator,
   useVercelSidebarNav,
   type VercelSidebarSearchItem,
@@ -611,19 +612,13 @@ export default function VercelSidebarDemo() {
                 open={searchOpen}
                 onOpenChange={setSearchOpen}
               >
-                <button
-                  type="button"
-                  className="flex h-9 w-full cursor-pointer items-center gap-2 rounded-md border border-sidebar-border bg-sidebar-accent/40 px-2.5 text-left shadow-none transition-[color,box-shadow] outline-none hover:bg-sidebar-accent/55 focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/40"
-                  aria-label="Search navigation"
-                >
+                <VercelSidebarSearchTrigger aria-label="Search navigation">
                   <Search className="size-4 shrink-0 text-muted-foreground" aria-hidden />
-                  <span className="min-w-0 flex-1 truncate text-sm text-muted-foreground">
-                    Find…
-                  </span>
-                  <kbd className="pointer-events-none hidden h-5 max-h-5 shrink-0 items-center justify-center self-center rounded border border-sidebar-border/80 bg-sidebar/80 px-1.5 font-mono text-[10px] leading-none text-muted-foreground sm:inline-flex">
+                  <span className="min-w-0 flex-1 truncate">Find…</span>
+                  <kbd className="pointer-events-none hidden h-5 max-h-5 shrink-0 items-center justify-center self-center rounded border border-border/80 bg-muted/50 px-1.5 font-mono text-[10px] leading-none text-muted-foreground sm:inline-flex">
                     F
                   </kbd>
-                </button>
+                </VercelSidebarSearchTrigger>
               </VercelSidebarSearchPopover>
             </VercelSidebarHeader>
 

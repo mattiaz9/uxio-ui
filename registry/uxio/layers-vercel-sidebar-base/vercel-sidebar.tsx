@@ -355,12 +355,32 @@ function VercelSidebarSearchPopover({
   )
 }
 
+interface VercelSidebarSearchTriggerProps extends React.ComponentPropsWithoutRef<"button"> {}
+
+/** Search row trigger for `VercelSidebarSearchPopover`; uses `cn-vercel-sidebar-search-trigger` so registry themes match `SidebarInput`. */
+const VercelSidebarSearchTrigger = React.forwardRef<
+  HTMLButtonElement,
+  VercelSidebarSearchTriggerProps
+>(function VercelSidebarSearchTrigger({ className, ...props }, ref) {
+  return (
+    <button
+      ref={ref}
+      type="button"
+      data-slot="vercel-sidebar-search-trigger"
+      className={cn("cn-vercel-sidebar-search-trigger", className)}
+      {...props}
+    />
+  )
+})
+VercelSidebarSearchTrigger.displayName = "VercelSidebarSearchTrigger"
+
 export {
   VercelSidebarBack,
   VercelSidebarNav,
   VercelSidebarNavProvider,
   VercelSidebarPanel,
   VercelSidebarSearchPopover,
+  VercelSidebarSearchTrigger,
   useOptionalVercelSidebarNav,
   useVercelSidebarNav,
 }
