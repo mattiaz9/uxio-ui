@@ -1,6 +1,6 @@
 ---
 title: Vercel Sidebar
-description: Sidebar with multi-step panels navigation.
+description: Vercel-style sidebar with multi-panel navigation.
 ---
 
 ## Overview
@@ -8,8 +8,10 @@ description: Sidebar with multi-step panels navigation.
 A layout built on the **sidebar** primitives that swaps the **scrollable middle** between a **root
 rail** and **sub-panels** (similar to the Vercel dashboard). Items with sub-navigation **replace**
 the whole middle region; they do not expand inline. Each sub-panel shows a **back** control and
-**title**. **Header and footer** sit outside the scrollable **`VercelSidebarNav`** region, but
-**`VercelSidebarNavProvider`** wraps the whole **`VercelSidebar`** so header widgets (e.g. a
+**title**.
+
+**Header and footer** sit outside the scrollable **`VercelSidebarNav`** region.
+**`VercelSidebarNavProvider`** wraps the whole **`VercelSidebar`** so header widgets (for example, a
 **command palette** over the search field) can call **`setActivePanel`**.
 
 The module **re-exports** every sidebar primitive from the registry `sidebar` item with a **`Vercel`
@@ -37,7 +39,7 @@ npx shadcn@latest add @uxio/vercel-sidebar
 ```
 
 This installs **vercel-sidebar** and bundles **sidebar**, **command**, and **popover** (and their
-dependencies). The Base UI or Radix variant follows your `components.json` style.
+dependencies). The Base UI or Radix implementation follows your `components.json` style.
 
 ## Usage
 
@@ -53,7 +55,7 @@ popover is under the same provider (or pass **`onSelect`** for full control). Us
 **`filterVercelSidebarItems(items, query)`** anywhere you need the same matching rules (e.g. inline
 filtering).
 
-### SSR and refresh
+### SSR and client-side navigation
 
 Set **`defaultPanel`** on **`VercelSidebarNavProvider`** to match the current route so the first
 paint shows the correct panel (no flash of the root rail). For client-side navigations, use
@@ -124,7 +126,7 @@ least everything that needs **`useVercelSidebarNav`**).
 | Prop            | Type                   | Default  | Description                                                                  |
 | --------------- | ---------------------- | -------- | ---------------------------------------------------------------------------- |
 | `defaultPanel`  | `string`               | `"root"` | Initial panel when **uncontrolled**. Should match the server render for SSR. |
-| `rootPanelId`   | `string`               | `"root"` | Panel id **Back** returns to when `onBack` is not passed.                    |
+| `rootPanelId`   | `string`               | `"root"` | Panel the **Back** control returns to when `onBack` is not passed.           |
 | `panel`         | `string`               | —        | **Controlled** active panel. When set, use `onPanelChange` to update.        |
 | `onPanelChange` | `(id: string) => void` | —        | Called when the active panel changes in controlled mode.                     |
 
@@ -175,7 +177,7 @@ set for styling.
 | …        | `Omit<React.ComponentProps<"div">, "title">` | Row wrapper for the back control and title.          |
 
 `data-slot="vercel-sidebar-back"`. Full-width **`VercelSidebarMenuButton`**: chevron + panel
-**title** only (`aria-label="Back"`). Panels animate with **slide + fade** via **Motion**
+**title** only (`aria-label="Back"`). Panels use **slide** and **fade** animations via **Motion**
 (`motion`).
 
 ### `useVercelSidebarNav()`

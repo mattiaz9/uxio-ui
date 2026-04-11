@@ -4,12 +4,12 @@ title: Combobox
 
 ## Extended Features
 
-- Component rewrite based on the Select component using just Popover, Command, and Button.
+- Rewrite inspired by Select to use only Popover, Command, and Button.
 
 ## Install
 
 This component requires `button`, `command`, and `popover`. Install them from the default shadcn
-registry first if you haven't already:
+registry first:
 
 ```bash
 npx shadcn@latest add button command popover
@@ -25,12 +25,11 @@ Then configure your registry in `components.json`:
 }
 ```
 
-And run:
+Then run:
 
 ```bash
 npx shadcn@latest add @uxio/combobox
 ```
-
 
 ## Usage
 
@@ -58,9 +57,7 @@ export function FrameworkCombobox() {
       <ComboboxTrigger>
         <ComboboxValue placeholder="Select framework..." />
       </ComboboxTrigger>
-      <ComboboxContent
-        search={{ placeholder: "Filter...", emptyMessage: "No framework found." }}
-      >
+      <ComboboxContent search={{ placeholder: "Filter...", emptyMessage: "No framework found." }}>
         <ComboboxGroup>
           {options.map((opt) => (
             <ComboboxItem key={opt.value} value={opt.value}>

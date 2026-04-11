@@ -5,8 +5,8 @@ description: Input that handles fraction entry with numerator and denominator se
 
 ## Overview
 
-`InputFraction` composes **Input Group** with a fixed **numerator** ` / ` **denominator** layout (the
-same segment pattern as Input DateTime, without a calendar). A **hidden** input stores the compact
+`InputFraction` composes **Input Group** with a fixed numerator / denominator layout (the same
+segmented pattern as `InputDatetime`, without a calendar). A **hidden** input stores the compact
 `n/d` string (e.g. `2/5`) for form submission. **`onValueChange`** runs on **Enter** or **blur**
 with a **normalized** fraction—non-negative numerator, positive denominator—or `null` when both
 segments are cleared.
@@ -29,13 +29,13 @@ segments are cleared.
 | `maxDigits`        | `number`                          | Maximum digits per segment. Omit for no limit.                                                              |
 | `minNumerator`     | `number`                          | Optional inclusive minimum for the numerator integer (after parsing digits).                                   |
 | `maxNumerator`     | `number`                          | Optional inclusive maximum for the numerator.                                                                |
-| `minDenominator`   | `number`                          | Optional inclusive minimum for the denominator; when omitted, the floor remains `1` (same as unbounded rules).   |
+| `minDenominator`   | `number`                          | Optional inclusive minimum for the denominator; when omitted, the minimum stays `1` (the default unbounded behavior).   |
 | `maxDenominator`   | `number`                          | Optional inclusive maximum for the denominator.                                                              |
 | `value`            | `string \| null`                  | Controlled compact fraction (`n/d`) or empty.                                                                 |
 | `onValueChange`    | `(value: string \| null) => void` | Fires when segments yield a valid normalized fraction after commit, or `null` when both segments are cleared. |
 | `size`             | `'xs' \| 'sm' \| 'default' \| 'lg'` | Optional. **Input Group** size: shell height and segment padding/text scale together. This is not the HTML `size` attribute (that prop is not forwarded to the hidden input). |
 
-Bounds use the same `sanitizeBounds` / `clampNumber` behavior as other numeric inputs: on **blur** or **Enter**, each segment is clamped to its range and the compact value is re-emitted. **Controlled** values from the parent are clamped for display so segments stay in range. Clamping applies to each integer segment, not to the rational `n/d` as a single value.
+Bounds use the same `sanitizeBounds` / `clampNumber` behavior as other numeric inputs: on **blur** or **Enter**, each segment is clamped to its range and the compact value is re-emitted. **Controlled** values from the parent are clamped for display so segments stay in range. Clamping applies to each integer segment, not to the fraction `n/d` as a single rational value.
 
 ## Install
 

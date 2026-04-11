@@ -1,6 +1,6 @@
 ---
 title: Input Number
-description: Input that handles numeric entry with step buttons, filtered typing, and separate display vs committed value for controlled or native forms.
+description: Numeric input with step controls, filtered typing, and separate visible and committed values for controlled or native forms.
 ---
 
 ## Overview
@@ -8,7 +8,7 @@ description: Input that handles numeric entry with step buttons, filtered typing
 `InputNumber` composes **Input Group** with a text field and suffix step buttons. It accepts **string**
 or **number** control, strips invalid characters while typing, and uses `onChange` for the visible
 text and `onValueChange` when a value **commits** (blur, <Kbd>↵</Kbd>, <Kbd>↑</Kbd>/<Kbd>↓</Kbd>, or the
-step buttons). Scrolling over the field does not change the value.
+step buttons). Mouse-wheel scrolling over the field does not change the value.
 
 ### Key bindings
 
@@ -48,8 +48,8 @@ Then run:
 npx shadcn@latest add @uxio/input-number
 ```
 
-This pulls `input-group` as a registry dependency. The correct variant follows your
-`components.json` style.
+This pulls `input-group` as a registry dependency. The correct variant (Base UI or Radix) follows
+your `components.json` style.
 
 ## Usage
 

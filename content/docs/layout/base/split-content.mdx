@@ -4,13 +4,13 @@ title: Split Content
 
 ## Overview
 
-A flexible 2 columns layout that keeps the content aligned with the container.
+A flexible two-column layout that keeps content aligned with the container.
 
 The grid uses **`--container-inset`** for outer gutter columns. Each side is a `SplitContentItem`
 that can align to the **container** or **screen** edge. Use the **responsive** variant to stack
 below the `md` breakpoint, or **fixed** to keep two columns at all widths. Choose **viewport**
-(`breakpointQuery="media"`, default) or **component width** (`breakpointQuery="container"`) for that
-breakpoint.
+(`breakpointQuery="media"`, default) or **container width** (`breakpointQuery="container"`) to
+control when the layout switches.
 
 ## Install
 
@@ -70,12 +70,12 @@ export function HeroSplit() {
 The preview sets **`--container-max-width: 480px`** on the wrapper so **container** vs **screen**
 anchors are easy to compare. With **`breakpointQuery="container"`**, `SplitContent` itself sets
 **`--container-inset`** (padding below `md`, then the same centered-gutter math as the site shell
-using **`cqw`** from `md` up). This demo-only max width is not something your app needs.
+using **`cqw`** from `md` up). You do not need this narrow max width in a real app; it is only for the demo.
 
 With **`anchor="screen"`**, the demo adds a **background image** (plus overlay) so the bleed is
 obvious, and uses **`pl-container-inset`** / **`pr-container-inset`** on the inner copy.
 
-Resize the resizable panel to see **container** breakpoints respond to preview width. Controls
+Resize the panel to see **container** breakpoints respond to preview width. Controls
 update `variant`, `ratio`, and each column’s `anchor`.
 
 <ComponentPreview

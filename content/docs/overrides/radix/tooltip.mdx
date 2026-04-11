@@ -4,8 +4,8 @@ title: Tooltip
 
 ## Extended Features
 
-- [`AutoTooltip`](#auto-mode) composes trigger and content, and with `mode="auto"` only opens when
-  the trigger is truncated (overflow hidden / ellipsis).
+- [`AutoTooltip`](#auto-mode) composes trigger and content. With `mode="auto"`, it opens only
+  when the trigger is truncated (overflow hidden / ellipsis).
 
 ## Install
 
@@ -26,14 +26,14 @@ npx shadcn@latest add @uxio/tooltip
 ```
 
 For Radix, wrap your app (or a subtree) with `TooltipProvider` from the same module when you use the
-low-level `Tooltip` / `TooltipTrigger` / `TooltipContent` primitives so delay and “skip delay”
+low-level `Tooltip` / `TooltipTrigger` / `TooltipContent` primitives so delay and skip-delay
 behavior work across tooltips. `AutoTooltip` wraps an inner provider for its own delay.
 
 ## Usage
 
 `AutoTooltip` wraps a single trigger element and supports truncation-based **`mode`**, **`content`**
 / **`htmlContent`**, **`delay`**, **`placement`**, **`offset`**, **`appendTo`**, and **`className`**
-on the content.
+on the tooltip content.
 
 ```tsx
 import { Button } from "@/components/ui/button"
@@ -71,7 +71,7 @@ to decide whether the tooltip may open when `mode` is `"auto"`.
 | `delay`       | `number`                                       | `250`    | Delay before open (ms), forwarded to `TooltipProvider`.                                                                                        |
 | `offset`      | `number`                                       | —        | Distance from the trigger; passed as `sideOffset` to `TooltipContent`.                                                                         |
 | `placement`   | `"top"` \| `"bottom"` \| `"left"` \| `"right"` | —        | Preferred side of the tooltip.                                                                                                                 |
-| `appendTo`    | `HTMLElement` \| `null`                        | —        | Optional portal container for the tooltip content; `null`/`undefined` uses the default portal target.                                          |
+| `appendTo`    | `HTMLElement` \| `null`                        | —        | Optional portal container for the tooltip content. When omitted, the default portal target is used.                                           |
 | `className`   | `string`                                       | —        | Extra classes merged onto `TooltipContent` (in addition to `max-w-xs`).                                                                        |
 
 If neither `content` nor `htmlContent` is provided, `AutoTooltip` returns `children` unchanged (no
@@ -81,8 +81,8 @@ tooltip).
 
 ### Auto mode
 
-The tooltip appears only when the label is truncated. Below it, a short line that fully fits does
-not open a tooltip.
+The tooltip appears only when the label is truncated. A second line that fully fits does not open
+a tooltip.
 
 <ComponentPreview name="radix/tooltip-auto" />
 

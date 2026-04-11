@@ -28,7 +28,7 @@ npx shadcn@latest add @uxio/scroll-area
 
 ## Usage
 
-The **`scrollbar`** prop controls which tracks are shown: **`"vertical"`** (default),
+The **`scrollbar`** prop controls which scrollbars are shown: **`"vertical"`** (default),
 **`"horizontal"`**, or **`"both"`**.
 
 ```tsx
@@ -68,19 +68,19 @@ export function ScrollAreaBothAxes() {
 
 ## Examples
 
-### Scrollbar vertical (default)
+### Vertical (default)
 
-Shows only the vertical track; same default behavior as the upstream component.
+Shows only the vertical scrollbar, matching the upstream default.
 
 <ComponentPreview name="radix/scroll-area-scrollbar-vertical" />
 
-### Scrollbar horizontal
+### Horizontal
 
 Use `scrollbar="horizontal"` for wide content inside a fixed-width container.
 
 <ComponentPreview name="radix/scroll-area-scrollbar-horizontal" />
 
-### Scrollbar both
+### Both
 
 Use `scrollbar="both"` when content overflows on both axes.
 

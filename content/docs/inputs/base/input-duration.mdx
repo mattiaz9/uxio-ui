@@ -8,8 +8,8 @@ description: Input that handles duration in total seconds for controlled or nati
 `InputDuration` composes **Input Group** only (no calendar). The visible value is split into
 focusable segments—one per field in your `format`. The API uses **total seconds** (`number | null`).
 
-A **hidden** `<input>` mirrors the seconds string for native forms. **Commit** happens on segment
-**blur** or **Enter** (`onValueChange` and normalization run then).
+A **hidden** `<input>` mirrors the seconds string for native forms. Commit occurs on segment
+**blur** or **Enter**; `onValueChange` and normalization run then.
 
 Within each segment, digits accumulate **right-to-left**. Segments are uncapped until commit. On
 commit, values **normalize** with overflow carried into larger units that exist in `format` (60/24
@@ -35,7 +35,7 @@ static labels; use **single quotes** for literals. Default: `HH'h' mm'm' ss's'`.
 
 | Prop            | Type                                | Description                                                                                                                                          |
 | --------------- | ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `format`        | `string`                            | Pattern for segments and static text. Default: `HH'h' mm'm' ss's'`. Use `'…'` for literal text; see Overview.                                         |
+| `format`        | `string`                            | Pattern for segments and static text. Default: `HH'h' mm'm' ss's'`. Use single-quoted literals for static text; see Overview.                                         |
 | `value`         | `number \| null`                    | Controlled total duration in **seconds**, or `null` for empty.                                                                                      |
 | `onValueChange` | `(seconds: number \| null) => void` | Fires after **blur** of a segment or **Enter**, with normalized carry; `null` when all segments are cleared.                                         |
 | `size`          | `'xs' \| 'sm' \| 'default' \| 'lg'`   | Optional. **Input Group** size: shell height and segment padding/text scale together. This is not the HTML `size` attribute (that prop is not forwarded to the hidden input).              |
@@ -59,7 +59,8 @@ npx shadcn@latest add @uxio/input-duration
 ```
 
 This pulls `input-group` as a registry dependency. The correct variant (Base UI or Radix) follows
-your `components.json` style. The bundle includes `lib/datetime-format` and `lib/duration-format`.
+your `components.json` style. The installed bundle includes `lib/datetime-format` and
+`lib/duration-format`.
 
 ## Usage
 

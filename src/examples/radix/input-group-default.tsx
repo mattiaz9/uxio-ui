@@ -4,7 +4,7 @@ import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group"
 
 export default function InputGroupDefault() {
   return (
-    <InputGroup className="max-w-xs">
+    <InputGroup size="default" className="max-w-xs">
       <InputGroupInput placeholder="Search..." />
       <InputGroupAddon>
         <SearchIcon className="size-4 text-muted-foreground" />

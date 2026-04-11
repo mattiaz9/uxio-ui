@@ -1,6 +1,6 @@
 ---
 title: Input DateTime
-description: Input that handles datetime input and output for controlled or native forms.
+description: Date and time input with segmented editing, a hidden field for native forms, and optional calendar selection.
 ---
 
 ## Overview
@@ -8,8 +8,8 @@ description: Input that handles datetime input and output for controlled or nati
 `InputDatetime` composes **Input Group** and, for `date` / `datetime` modes, **Popover** and
 **Calendar**. The visible value is split into focusable segments (one per date/time field in your
 `format`). A **hidden** `<input>` mirrors the composed string for native form posts. Use
-`onValueChange` when a full `Date` is **committed** (all segments valid, **Enter**, blur after
-completion, or a calendar pick).
+`onValueChange` when a full `Date` is **committed**: all segments are valid, then **Enter**, blur
+after completion, or a calendar pick.
 
 In `date` and `datetime` modes, the trailing button opens a **Calendar** popover for day selection;
 `time` mode has no calendar.
@@ -30,8 +30,8 @@ In `date` and `datetime` modes, the trailing button opens a **Calendar** popover
 | Prop            | Type                                   | Description                                                                                                                                                                                 |
 | --------------- | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `mode`          | `'date' \| 'time' \| 'datetime'`       | Defaults to `'datetime'`. Narrows which field tokens from `format` are editable (date parts, time parts, or both).                                                                          |
-| `format`        | `string`                               | Pattern for editable segments (`y`, `M`, `d`, `H`, `m`, `s` runs, as in date-fns) and static text between them (e.g. `yyyy/MM/dd - HH:mm`). If omitted: `yyyy/MM/dd` (date), `HH:mm` (time), `yyyy/MM/dd HH:mm` (datetime). |
-| `value`         | `Date \| string \| null`               | Controlled value: a `Date` or an ISO-like / formatted string parseable with `format`.                                                                                                       |
+| `format`        | `string`                               | Pattern for editable segments (`y`, `M`, `d`, `H`, `m`, `s` runs, as in date-fns) and static text between them (e.g. `yyyy/MM/dd - HH:mm`). If omitted, defaults are `yyyy/MM/dd` (date), `HH:mm` (time), and `yyyy/MM/dd HH:mm` (datetime). |
+| `value`         | `Date \| string \| null`               | Controlled value: a `Date` or an ISO-like or formatted string parseable with `format`.                                                                                                      |
 | `onValueChange` | `(date: Date \| null) => void`         | Fires when a committed, valid `Date` is available (see Overview and Key bindings).                                                                                                          |
 | `size`          | `'xs' \| 'sm' \| 'default' \| 'lg'`    | Optional. **Input Group** size: shell height, segment padding/text, and calendar control scale together. This is not the HTML `size` attribute (that prop is not forwarded to the hidden input). |
 

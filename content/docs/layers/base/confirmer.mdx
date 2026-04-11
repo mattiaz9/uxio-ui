@@ -5,7 +5,7 @@ title: Confirmer
 ## Overview
 
 Imperative confirmation dialog with async action support, loading state, and inline error display.
-Use `confirm()` to open the confirmer and optionally run an async action.
+Call `confirm()` to open the dialog and optionally run an async action.
 
 ## Install
 
@@ -72,7 +72,7 @@ Await `confirm()` to get a boolean. Use when you need to branch based on user ch
 ```tsx
 const confirmed = await confirm({
   title: "Close document",
-  description: "All changes will not be saved",
+  description: "Your changes will not be saved.",
   variant: "default",
   confirmButtonTitle: "OK",
 })
@@ -90,7 +90,7 @@ inline:
 ```tsx
 void confirm({
   title: "Delete Post",
-  description: "This action is not reversible. Are you sure you want to proceed?",
+  description: "This action cannot be reversed. Are you sure you want to proceed?",
   variant: "destructive",
   confirmButtonTitle: "Delete post",
   displayError: "below-content",
