@@ -1,38 +1,39 @@
 ---
 title: Input Currency
-description: Currency field with symbol addon, locale-aware decimals, and normalized values on commit.
+description:
+  Currency field with symbol addon, locale-aware decimals, and normalized values on commit.
 ---
 
 ## Overview
 
 `InputCurrency` composes **Input Group**: a text input plus an **inline-start** or **inline-end**
 addon for the **currency symbol** (`currency` and `Intl`). While typing, the field is plain decimal
-text (no symbol inside the input). **Blur** or **Enter** reformats the numeric fragment with **Intl**
-and `onValueChange` emits a **normalized decimal string** (or `null` when empty/invalid). Use
-`onValueChange` for committed amounts; use `onChange` from the underlying input only when you need
-the visible string while typing (see Usage).
+text (no symbol inside the input). **Blur** or **Enter** reformats the numeric fragment with
+**Intl** and `onValueChange` emits a **normalized decimal string** (or `null` when empty/invalid).
+Use `onValueChange` for committed amounts; use `onChange` from the underlying input only when you
+need the visible string while typing (see Usage).
 
 ### Key binding
 
-| Key | Behavior |
-| --- | -------- |
-| <Kbd>⌫</Kbd> | Deletes before the caret (native); input is re-sanitized on change. |
-| <Kbd>⌦</Kbd> | Deletes after the caret (native). |
-| <span className="inline-flex items-center gap-1.5"><Kbd>←</Kbd><span className="text-muted-foreground">/</span><Kbd>→</Kbd></span> | Moves the caret; **does not** increment or decrement the amount. |
-| <Kbd>↵</Kbd> | **Commits**: applies Intl formatting and fires `onValueChange` when the normalized value changes. |
-| <Kbd>⇥</Kbd> | Moves focus in normal tab order. |
-| `blur` | **Commits** when leaving the field (same commit path as <Kbd>↵</Kbd>). |
+| Key                                                                                                                                | Behavior                                                                                          |
+| ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| <Kbd>⌫</Kbd>                                                                                                                       | Deletes before the caret (native); input is re-sanitized on change.                               |
+| <Kbd>⌦</Kbd>                                                                                                                       | Deletes after the caret (native).                                                                 |
+| <span className="inline-flex items-center gap-1.5"><Kbd>←</Kbd><span className="text-muted-foreground">/</span><Kbd>→</Kbd></span> | Moves the caret; **does not** increment or decrement the amount.                                  |
+| <Kbd>↵</Kbd>                                                                                                                       | **Commits**: applies Intl formatting and fires `onValueChange` when the normalized value changes. |
+| <Kbd>⇥</Kbd>                                                                                                                       | Moves focus in normal tab order.                                                                  |
+| `blur`                                                                                                                             | **Commits** when leaving the field (same commit path as <Kbd>↵</Kbd>).                            |
 
 ## Custom props
 
-| Prop            | Type                              | Description                                                                 |
-| --------------- | --------------------------------- | --------------------------------------------------------------------------- |
-| `currency`      | `string`                          | **Required.** ISO 4217 code (`USD`, `EUR`, …).                            |
-| `locale`        | `string \| undefined`             | Passed to `Intl`. Omit for the runtime default locale.                      |
-| `value`         | `string \| number`                | Controlled value. Strings control draft text; numbers control numeric state. |
-| `onValueChange` | `(value: string \| null) => void` | Fires on commit when the normalized value changes (see Overview). |
-| `min`           | `number`                          | Optional minimum clamp. Ignored if `min > max`.                             |
-| `max`           | `number`                          | Optional maximum clamp. Ignored if `min > max`.                             |
+| Prop            | Type                                | Description                                                                                                                                                              |
+| --------------- | ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `currency`      | `string`                            | **Required.** ISO 4217 code (`USD`, `EUR`, …).                                                                                                                           |
+| `locale`        | `string \| undefined`               | Passed to `Intl`. Omit for the runtime default locale.                                                                                                                   |
+| `value`         | `string \| number`                  | Controlled value. Strings control draft text; numbers control numeric state.                                                                                             |
+| `onValueChange` | `(value: string \| null) => void`   | Fires on commit when the normalized value changes (see Overview).                                                                                                        |
+| `min`           | `number`                            | Optional minimum clamp. Ignored if `min > max`.                                                                                                                          |
+| `max`           | `number`                            | Optional maximum clamp. Ignored if `min > max`.                                                                                                                          |
 | `size`          | `'xs' \| 'sm' \| 'default' \| 'lg'` | Optional. Passed to the root [`InputGroup`](/docs/overrides/radix/input-group): shell height matches other inputs; the text field and symbol addon scale with the group. |
 
 ## Install
@@ -116,6 +117,8 @@ export function AmountField() {
 
 ### Size variants
 
-Use `size` so the field aligns with [`InputGroup`](/docs/overrides/radix/input-group) and [`Input`](/docs/overrides/radix/input) dimensions. The inner `InputGroupInput` inherits the group size when you omit its own `size`.
+Use `size` so the field aligns with [`InputGroup`](/docs/overrides/radix/input-group) and
+[`Input`](/docs/overrides/radix/input) dimensions. The inner `InputGroupInput` inherits the group
+size when you omit its own `size`.
 
 <ComponentPreview name="radix/input-currency-sizes" />

@@ -206,54 +206,6 @@
     "registryDependencies": ["@uxio/semantic-colors", "@uxio/spinner"]
   },
   {
-    "name": "dialog",
-    "type": "registry:ui",
-    "title": "Dialog",
-    "description": "Dialog with content background using bg-popover instead of bg-background.",
-    "categories": ["overrides"],
-    "dependencies": {
-      "base": [
-        "@base-ui/react/dialog",
-        "class-variance-authority",
-        "clsx",
-        "lucide-react",
-        "tailwind-merge"
-      ],
-      "radix": ["radix-ui", "class-variance-authority", "clsx", "lucide-react", "tailwind-merge"]
-    },
-    "registryDependencies": ["@uxio/button"]
-  },
-  {
-    "name": "sheet",
-    "type": "registry:ui",
-    "title": "Sheet",
-    "description": "Sheet with content background using bg-popover instead of bg-background.",
-    "categories": ["overrides"],
-    "dependencies": {
-      "base": [
-        "@base-ui/react/dialog",
-        "class-variance-authority",
-        "clsx",
-        "lucide-react",
-        "tailwind-merge"
-      ],
-      "radix": ["radix-ui", "class-variance-authority", "clsx", "lucide-react", "tailwind-merge"]
-    },
-    "registryDependencies": ["@uxio/button"]
-  },
-  {
-    "name": "drawer",
-    "type": "registry:ui",
-    "title": "Drawer",
-    "description": "Drawer with content background using bg-popover instead of bg-background.",
-    "categories": ["overrides"],
-    "dependencies": {
-      "base": ["vaul", "clsx", "tailwind-merge"],
-      "radix": ["vaul", "clsx", "tailwind-merge"]
-    },
-    "registryDependencies": ["@uxio/button"]
-  },
-  {
     "name": "form",
     "type": "registry:ui",
     "title": "Form (Tanstack)",
@@ -528,22 +480,18 @@
     "description": "Every override component in the registry (forms, overlays, inputs, sidebar, charts, and primitives they depend on).",
     "categories": ["meta"],
     "registryDependencies": [
-      "@uxio/spinner",
-      "@uxio/skeleton",
       "@uxio/alert",
       "@uxio/badge",
       "@uxio/button",
-      "@uxio/form",
-      "sidebar",
-      "@uxio/input",
-      "@uxio/input-group",
-      "@uxio/item",
-      "command",
-      "@uxio/chart",
       "@uxio/card",
-      "popover",
-      "@uxio/scroll-area",
       "@uxio/combobox",
+      "@uxio/chart",
+      "@uxio/form",
+      "@uxio/input",
+      "@uxio/item",
+      "@uxio/scroll-area",
+      "@uxio/skeleton",
+      "@uxio/spinner",
       "@uxio/tooltip"
     ]
   },
@@ -564,6 +512,21 @@
     "registryDependencies": ["@uxio/confirmer", "@uxio/alerter"]
   },
   {
+    "name": "inputs",
+    "title": "Inputs",
+    "type": "registry:ui",
+    "description": "Custom inputs on Input Group: datetime, duration, fraction, number, currency, and password; base input, group, button, calendar, and popover install as needed.",
+    "categories": ["meta"],
+    "registryDependencies": [
+      "@uxio/input-datetime",
+      "@uxio/input-duration",
+      "@uxio/input-fraction",
+      "@uxio/input-number",
+      "@uxio/input-currency",
+      "@uxio/input-password"
+    ]
+  },
+  {
     "name": "full",
     "title": "Full",
     "type": "registry:ui",
@@ -580,14 +543,17 @@
       "@uxio/badge",
       "@uxio/button",
       "@uxio/form",
-      "sidebar",
       "@uxio/input",
       "@uxio/input-group",
+      "@uxio/input-datetime",
+      "@uxio/input-duration",
+      "@uxio/input-fraction",
+      "@uxio/input-number",
+      "@uxio/input-currency",
+      "@uxio/input-password",
       "@uxio/item",
-      "command",
       "@uxio/chart",
       "@uxio/card",
-      "popover",
       "@uxio/scroll-area",
       "@uxio/combobox",
       "@uxio/tooltip",

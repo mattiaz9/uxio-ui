@@ -194,6 +194,23 @@ function getDependencies(config: ItemConfig, base: "base" | "radix"): string[] {
   return config.dependencies[base] ?? []
 }
 
+/** NPM deps for `registry.json` index (one row per item): union base + radix when split, stable order. */
+function getIndexDependencies(config: ItemConfig): string[] {
+  if (!config.dependencies) return []
+  if (Array.isArray(config.dependencies)) return config.dependencies
+  const base = config.dependencies.base ?? []
+  const radix = config.dependencies.radix ?? []
+  const seen = new Set<string>()
+  const out: string[] = []
+  for (const d of [...base, ...radix]) {
+    if (!seen.has(d)) {
+      seen.add(d)
+      out.push(d)
+    }
+  }
+  return out
+}
+
 function getDescription(config: ItemConfig, base: "base" | "radix"): string {
   if (typeof config.description === "string") return config.description
   return config.description[base]
@@ -870,6 +887,8 @@ async function runBuild(
         title: c.title,
         description: getIndexDescription(c),
         categories: c.categories ?? [],
+        dependencies: getIndexDependencies(c),
+        registryDependencies: c.registryDependencies ?? [],
       })),
     }
 

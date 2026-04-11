@@ -113,7 +113,7 @@ function AutoTooltip({
 
   return (
     <TooltipProvider delay={delay}>
-      <Tooltip open={canOpen ? undefined : false}>
+      <Tooltip disabled={!canOpen}>
         <TooltipTrigger
           {...({
             nativeButton: false,

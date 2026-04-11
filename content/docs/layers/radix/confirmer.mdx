@@ -5,8 +5,7 @@ title: Confirmer
 ## Overview
 
 Imperative confirmation dialog with async action support, loading state, and inline error display.
-Use `confirm()` to open the confirmer and optionally run an async action. Options use the
-`ConfirmerOptions` shape (similar to `AlerterOptions` on **Alerter**).
+Use `confirm()` to open the confirmer and optionally run an async action.
 
 ## Install
 
@@ -26,7 +25,21 @@ Then run:
 npx shadcn@latest add @uxio/confirmer
 ```
 
-The correct variant (base or radix) is resolved automatically from your `components.json` style.
+## Configuration
+
+`confirm()` accepts **`ConfirmerOptions`**:
+
+| Prop                 | Type                                                         | Default           | Description                                                                                                                                        |
+| -------------------- | ------------------------------------------------------------ | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `title`              | `string`                                                     | —                 | Dialog title (required).                                                                                                                           |
+| `description`        | `string`                                                     | —                 | Optional body HTML (rendered with `dangerouslySetInnerHTML`).                                                                                      |
+| `variant`            | `AlertDialogAction` `variant`                                | `"default"`       | Visual style of the confirm button.                                                                                                                |
+| `cancelButtonTitle`  | `string`                                                     | `"Cancel"`        | Label for the cancel button.                                                                                                                       |
+| `confirmButtonTitle` | `string`                                                     | `"OK"`            | Label for the confirm button.                                                                                                                      |
+| `children`           | `React.ReactNode`                                            | —                 | Extra content between the description block and the footer.                                                                                      |
+| `displayError`       | `"none"` \| `"above-content"` \| `"below-content"`           | `"below-content"` | Where to show an error when `action` rejects. `"none"` hides inline error UI (the error is still captured).                                        |
+| `renderError`        | `(error: Error) => React.ReactNode`                          | —                 | Custom error UI. If omitted, a default destructive-styled message with an icon is used.                                                            |
+| `action`             | `() => void \| Promise<void>`                                | —                 | Runs when the user confirms. Shows a loading spinner on the confirm button; on failure, the promise rejection is shown per `displayError`.         |
 
 ## Usage
 

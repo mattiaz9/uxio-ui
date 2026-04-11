@@ -25,8 +25,8 @@ const registrationSchema = z.object({
     .string()
     .min(1, "Enter an hourly rate")
     .refine((s) => {
-      const n = Number.parseFloat(s.replaceAll(/[^0-9.-]/g, ""))
-      return !Number.isNaN(n) && n > 0
+      if (!/^\d+(\.\d+)?$/.test(s)) return false
+      return !/^0(\.0+)?$/.test(s)
     }, "Enter a valid amount"),
   coffeeBreaksPerDay: z
     .union([z.number(), z.null()])

@@ -12,7 +12,12 @@ export default function InputDatetimeModeDatetimeExample() {
       <InputDatetime mode="datetime" value={value ?? undefined} onValueChange={setValue} />
       <p className="text-xs text-muted-foreground">
         <span className="font-medium text-foreground">Controlled value: </span>
-        {value ? value.toLocaleDateString() : "—"}
+        {value
+          ? value.toLocaleString(undefined, {
+              dateStyle: "short",
+              timeStyle: "short",
+            })
+          : "—"}
       </p>
     </div>
   )

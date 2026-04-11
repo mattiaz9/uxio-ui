@@ -43,14 +43,25 @@ function InputPassword({
           aria-pressed={visible}
           onClick={() => setVisible((v) => !v)}
         >
-          <IconPlaceholder
-            className="size-4"
-            lucide={visible ? "EyeOffIcon" : "EyeIcon"}
-            tabler={visible ? "IconEyeOff" : "IconEye"}
-            hugeicons={visible ? "ViewOffIcon" : "ViewIcon"}
-            phosphor={visible ? "EyeSlashIcon" : "EyeIcon"}
-            remixicon={visible ? "RiEyeOffLine" : "RiEyeLine"}
-          />
+          {visible ? (
+            <IconPlaceholder
+              className="size-4"
+              lucide="EyeOffIcon"
+              tabler="IconEyeOff"
+              hugeicons="ViewOffIcon"
+              phosphor="EyeSlashIcon"
+              remixicon="RiEyeOffLine"
+            />
+          ) : (
+            <IconPlaceholder
+              className="size-4"
+              lucide="EyeIcon"
+              tabler="IconEye"
+              hugeicons="ViewIcon"
+              phosphor="EyeIcon"
+              remixicon="RiEyeLine"
+            />
+          )}
         </InputGroupButton>
       </InputGroupAddon>
     </InputGroup>

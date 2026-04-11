@@ -26,7 +26,16 @@ Then run:
 npx shadcn@latest add @uxio/alerter
 ```
 
-The correct variant (base or radix) is resolved automatically from your `components.json` style.
+## Configuration
+
+`alert()` accepts **`AlerterOptions`**:
+
+| Prop            | Type                                          | Default | Description                                                                                                                                      |
+| --------------- | --------------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `title`         | `string`                                      | —       | Dialog title (required).                                                                                                                         |
+| `description`   | `string`                                      | —       | Optional body HTML (rendered with `dangerouslySetInnerHTML`).                                                                                    |
+| `variant`       | `AlertDialogAction` `variant`                 | —       | When set, shows a themed icon strip above the title (e.g. `default`, `success`, `info`, `warning`, `destructive`). Omit to hide that media row. |
+| `okButtonTitle` | `string`                                      | `"OK"`  | Label for the single action button.                                                                                                              |
 
 ## Usage
 

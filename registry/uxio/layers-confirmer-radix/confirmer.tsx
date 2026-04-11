@@ -56,7 +56,11 @@ function hideConfirmer(success: boolean) {
 }
 
 async function runAction(action: () => void | Promise<void>) {
-  listener?.((state) => ({ ...(state as ConfirmerState), isLoading: true }))
+  listener?.((state) => ({
+    ...(state as ConfirmerState),
+    isLoading: true,
+    error: undefined,
+  }))
 
   const promisifiedAction = new Promise<void>((resolve, reject) => {
     try {
@@ -77,7 +81,7 @@ async function runAction(action: () => void | Promise<void>) {
   listener?.((state) => ({
     ...(state as ConfirmerState),
     isLoading: false,
-    error: result instanceof Error ? result : new Error(String(result)),
+    error: result instanceof Error ? result : undefined,
   }))
 }
 

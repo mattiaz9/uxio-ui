@@ -8,12 +8,62 @@ These entries are **meta-packages**: they ship no files. The shadcn CLI installs
 
 Configure the registry in `components.json` as usual, then run the command for the set you need.
 
+### Bundles
+
+- [Full](#full) — entire registry in one add
+- [Styles](#styles) — Tailwind theme and utils
+- [Overrides](#overrides) — shadcn/ui primitives enhancements
+- [Inputs](#inputs) — custom inputs
+- [Layout](#layout) — shells and drill-down blocks
+- [Layers](#layers) — app-level UI layers
+
+## Full
+
+One install for styles, overrides, inputs, layout, and layers. Nested dependencies resolve
+recursively.
+
+- `semantic-colors`
+- `tw-config-extended`
+- `tw-extra-utils`
+- `tw-container-extended`
+- `spinner`
+- `skeleton`
+- `alert`
+- `badge`
+- `button`
+- `form`
+- `input`
+- `input-group`
+- `input-datetime`
+- `input-duration`
+- `input-fraction`
+- `input-number`
+- `input-currency`
+- `input-password`
+- `item`
+- `chart`
+- `card`
+- `scroll-area`
+- `combobox`
+- `tooltip`
+- `split-content`
+- `vercel-sidebar`
+- `confirmer`
+- `alerter`
+
+```bash
+npx shadcn@latest add @uxio/full
+```
+
 ## Styles
 
-Semantic **colors** and **Tailwind extensions**: extra breakpoints and text sizes, container inset
-utilities, scroll-area-related variants.
+Design tokens and Tailwind configuration—CSS variables, theme structure, and utility extensions
+beyond the default shadcn setup.
 
-Includes: `semantic-colors`, `tw-config-extended`, `tw-extra-utils`, `tw-container-extended`.
+- `semantic-colors`
+- `tw-config-extended`
+- `tw-extra-utils`
+- `tw-container-extended`
 
 ```bash
 npx shadcn@latest add @uxio/styles
@@ -21,16 +71,49 @@ npx shadcn@latest add @uxio/styles
 
 ## Overrides
 
-All **Overrides** category components: spinner, skeleton, alert, badge, button, form,
-sidebar, input, input-group, item, command, chart, card, scroll-area, combobox, tooltip.
+Enhancements of the original shadcn/ui primitives: same copy-in workflow, with extra variants and
+behavior on top of those foundations.
+
+- `alert`
+- `badge`
+- `button`
+- `card`
+- `combobox`
+- `chart`
+- `form`
+- `input`
+- `item`
+- `scroll-area`
+- `skeleton`
+- `spinner`
+- `tooltip`
 
 ```bash
 npx shadcn@latest add @uxio/overrides
 ```
 
+## Inputs
+
+Custom field controls for structured values and ready to drop into a form as-is.
+
+- `input-datetime`
+- `input-duration`
+- `input-fraction`
+- `input-number`
+- `input-currency`
+- `input-password`
+
+```bash
+npx shadcn@latest add @uxio/inputs
+```
+
 ## Layout
 
-**Split Content** and **Vercel Sidebar** (and their registry dependencies).
+Structural scaffolding for pages—responsive regions, columns, and application-level navigation
+shells.
+
+- `split-content`
+- `vercel-sidebar`
 
 ```bash
 npx shadcn@latest add @uxio/layout
@@ -38,17 +121,11 @@ npx shadcn@latest add @uxio/layout
 
 ## Layers
 
-**Confirmer** and **Alerter**.
+App-wide overlays for blocking confirmations and transient alerts—patterns that sit above the page.
+
+- `confirmer`
+- `alerter`
 
 ```bash
 npx shadcn@latest add @uxio/layers
-```
-
-## Full
-
-Installs **styles**, **overrides**, **layout**, and **layers** in one step (each meta item resolves
-recursively).
-
-```bash
-npx shadcn@latest add @uxio/full
 ```

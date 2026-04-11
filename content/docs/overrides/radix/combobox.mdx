@@ -4,8 +4,7 @@ title: Combobox
 
 ## Extended Features
 
-- Combobox built from Popover, Command, and Button
-- Same logic as Select with search/filter support
+- Component rewrite based on the Select component using just Popover, Command, and Button.
 
 ## Install
 
@@ -32,7 +31,48 @@ And run:
 npx shadcn@latest add @uxio/combobox
 ```
 
-The correct variant (base or radix) is resolved automatically from your `components.json` style.
+
+## Usage
+
+```tsx
+"use client"
+
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxGroup,
+  ComboboxItem,
+  ComboboxText,
+  ComboboxTrigger,
+  ComboboxValue,
+} from "@/components/ui/combobox"
+
+const options = [
+  { value: "next.js", label: "Next.js" },
+  { value: "sveltekit", label: "SvelteKit" },
+]
+
+export function FrameworkCombobox() {
+  return (
+    <Combobox>
+      <ComboboxTrigger>
+        <ComboboxValue placeholder="Select framework..." />
+      </ComboboxTrigger>
+      <ComboboxContent
+        search={{ placeholder: "Filter...", emptyMessage: "No framework found." }}
+      >
+        <ComboboxGroup>
+          {options.map((opt) => (
+            <ComboboxItem key={opt.value} value={opt.value}>
+              <ComboboxText>{opt.label}</ComboboxText>
+            </ComboboxItem>
+          ))}
+        </ComboboxGroup>
+      </ComboboxContent>
+    </Combobox>
+  )
+}
+```
 
 ## Examples
 

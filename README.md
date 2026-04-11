@@ -13,8 +13,7 @@ An extended [shadcn/ui](https://ui.shadcn.com) library, distributed via the
 
 ## Installation
 
-Add components using the shadcn CLI. The correct variant (base or radix) is resolved automatically
-from your `components.json` style. Radix is the default.
+Add components using the shadcn CLI. Radix is the default.
 
 ```bash
 # Add @uxio to your components.json registries, then:

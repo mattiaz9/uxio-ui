@@ -12,9 +12,7 @@ export default function InputNumberDefaultExample() {
     <div className="flex w-full max-w-md flex-col gap-3">
       <InputNumber
         value={text}
-        min={0}
-        max={10}
-        step={0.5}
+        step={1}
         placeholder="0"
         onChange={(event) => setText(event.target.value)}
         onValueChange={setCommitted}
