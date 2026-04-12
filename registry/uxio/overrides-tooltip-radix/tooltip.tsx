@@ -5,23 +5,6 @@ import { Tooltip as TooltipPrimitive } from "radix-ui"
 
 import { cn } from "@/lib/utils"
 
-function mergeRefs<T>(...refs: Array<React.Ref<T> | undefined | null>): React.RefCallback<T> {
-  return (value) => {
-    for (const ref of refs) {
-      if (ref == null) continue
-      if (typeof ref === "function") ref(value)
-      else ref.current = value
-    }
-  }
-}
-
-function childDomRef(element: React.ReactElement): React.Ref<HTMLElement | null> | undefined {
-  type WithRef = { ref?: React.Ref<HTMLElement | null> }
-  const propsRef = (element.props as WithRef).ref
-  const legacyRef = (element as unknown as WithRef).ref
-  return propsRef ?? legacyRef
-}
-
 function TooltipProvider({
   delayDuration = 0,
   ...props
@@ -107,15 +90,34 @@ function AutoTooltip({
     )
   }, [contentRef, mode])
 
+  const mergeRefs =
+    <T,>(...refs: Array<React.Ref<T> | undefined | null>): React.RefCallback<T> =>
+    (value) => {
+      for (const ref of refs) {
+        if (ref == null) continue
+        if (typeof ref === "function") ref(value)
+        else ref.current = value
+      }
+    }
+
+  const childDomRef = (element: React.ReactElement): React.Ref<HTMLElement | null> | undefined => {
+    type WithRef = { ref?: React.Ref<HTMLElement | null> }
+    const propsRef = (element.props as WithRef).ref
+    const legacyRef = (element as unknown as WithRef).ref
+    return propsRef ?? legacyRef
+  }
+
   if (!content && !htmlContent) return children
 
   return (
     <TooltipProvider delayDuration={delay}>
       <Tooltip open={canOpen ? undefined : false}>
         <TooltipTrigger asChild>
-          {React.cloneElement(children, {
-            ref: mergeRefs((el) => setContentRef(el), childDomRef(children)),
-          } as never)}
+          {React.isValidElement(children)
+            ? React.cloneElement(children as React.ReactElement<Record<string, unknown>>, {
+                ref: mergeRefs((el) => setContentRef(el), childDomRef(children)),
+              })
+            : children}
         </TooltipTrigger>
         <TooltipContent
           className={cn("max-w-xs", className)}

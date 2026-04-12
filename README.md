@@ -1,4 +1,4 @@
-# uxio ui
+# uxio/ui
 
 An extended [shadcn/ui](https://ui.shadcn.com) library, distributed via the
 [shadcn registry](https://ui.shadcn.com/docs/registry).
@@ -9,7 +9,7 @@ An extended [shadcn/ui](https://ui.shadcn.com) library, distributed via the
 
 - **Overrides:** Enhancements of existing shadcn components
 - **Layers:** App-level UI layers (e.g. imperative confirmation)
-- **UI:** Custom uxio ui components
+- **UI:** Custom uxio/ui components
 
 ## Installation
 

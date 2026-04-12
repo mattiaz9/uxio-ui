@@ -5,23 +5,6 @@ import { Tooltip as TooltipPrimitive } from "@base-ui/react/tooltip"
 
 import { cn } from "@/lib/utils"
 
-function mergeRefs<T>(...refs: Array<React.Ref<T> | undefined | null>): React.RefCallback<T> {
-  return (value) => {
-    for (const ref of refs) {
-      if (ref == null) continue
-      if (typeof ref === "function") ref(value)
-      else ref.current = value
-    }
-  }
-}
-
-function childDomRef(element: React.ReactElement): React.Ref<HTMLElement | null> | undefined {
-  type WithRef = { ref?: React.Ref<HTMLElement | null> }
-  const propsRef = (element.props as WithRef).ref
-  const legacyRef = (element as unknown as WithRef).ref
-  return propsRef ?? legacyRef
-}
-
 function TooltipProvider({ delay = 0, ...props }: TooltipPrimitive.Provider.Props) {
   return <TooltipPrimitive.Provider data-slot="tooltip-provider" delay={delay} {...props} />
 }
@@ -109,6 +92,23 @@ function AutoTooltip({
     )
   }, [contentRef, mode])
 
+  const mergeRefs =
+    <T,>(...refs: Array<React.Ref<T> | undefined | null>): React.RefCallback<T> =>
+    (value) => {
+      for (const ref of refs) {
+        if (ref == null) continue
+        if (typeof ref === "function") ref(value)
+        else ref.current = value
+      }
+    }
+
+  const childDomRef = (element: React.ReactElement): React.Ref<HTMLElement | null> | undefined => {
+    type WithRef = { ref?: React.Ref<HTMLElement | null> }
+    const propsRef = (element.props as WithRef).ref
+    const legacyRef = (element as unknown as WithRef).ref
+    return propsRef ?? legacyRef
+  }
+
   if (!content && !htmlContent) return children
 
   return (
@@ -116,7 +116,6 @@ function AutoTooltip({
       <Tooltip disabled={!canOpen}>
         <TooltipTrigger
           {...({
-            nativeButton: false,
             render: (
               props: React.ComponentPropsWithoutRef<"span"> & {
                 ref?: React.Ref<HTMLElement | null>

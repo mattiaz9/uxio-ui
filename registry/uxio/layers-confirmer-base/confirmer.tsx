@@ -78,11 +78,16 @@ async function runAction(action: () => void | Promise<void>) {
   const result = await promisifiedAction
     .then(() => true)
     .catch((error: unknown) => (error instanceof Error ? error : new Error(String(error))))
-  listener?.((state) => ({
-    ...(state as ConfirmerState),
-    isLoading: false,
-    error: result instanceof Error ? result : undefined,
-  }))
+
+  if (result instanceof Error) {
+    listener?.((state) => ({
+      ...(state as ConfirmerState),
+      isLoading: false,
+      error: result,
+    }))
+  } else {
+    hideConfirmer(true)
+  }
 }
 
 async function confirm(options: ConfirmerOptions) {
@@ -148,7 +153,9 @@ function Confirmer() {
       >
         <AlertDialogHeader>
           <AlertDialogTitle>{payload?.title}</AlertDialogTitle>
-          <AlertDialogDescription dangerouslySetInnerHTML={{ __html: payload?.description ?? "" }} />
+          <AlertDialogDescription
+            dangerouslySetInnerHTML={{ __html: payload?.description ?? "" }}
+          />
         </AlertDialogHeader>
         <div className="flex flex-col gap-y-3">
           {payload?.error &&

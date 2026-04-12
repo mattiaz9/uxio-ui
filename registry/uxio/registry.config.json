@@ -24,14 +24,6 @@
     }
   },
   {
-    "name": "tw-config-extended",
-    "type": "registry:style",
-    "title": "Tailwind Config Extended",
-    "description": "",
-    "categories": ["styles"],
-    "registryDependencies": ["@uxio/tw-extra-utils", "@uxio/tw-container-extended"]
-  },
-  {
     "name": "tw-extra-utils",
     "type": "registry:style",
     "title": "Tailwind Utils",
@@ -411,7 +403,13 @@
       "base": ["@base-ui/react/alert-dialog", "class-variance-authority", "clsx", "tailwind-merge"],
       "radix": ["radix-ui", "class-variance-authority", "clsx", "tailwind-merge"]
     },
-    "registryDependencies": ["alert-dialog", "@uxio/spinner", "@uxio/semantic-colors"]
+    "registryDependencies": [
+      "alert-dialog",
+      "@uxio/button",
+      "@uxio/spinner",
+      "@uxio/spinner",
+      "@uxio/semantic-colors"
+    ]
   },
   {
     "name": "alerter",
@@ -423,7 +421,7 @@
       "base": ["@base-ui/react/alert-dialog", "class-variance-authority", "clsx", "tailwind-merge"],
       "radix": ["radix-ui", "class-variance-authority", "clsx", "tailwind-merge"]
     },
-    "registryDependencies": ["alert-dialog", "@uxio/semantic-colors"]
+    "registryDependencies": ["alert-dialog", "@uxio/button", "@uxio/semantic-colors"]
   },
   {
     "name": "vercel-sidebar",
@@ -435,7 +433,7 @@
       "base": ["clsx", "lucide-react", "motion", "tailwind-merge"],
       "radix": ["clsx", "lucide-react", "motion", "tailwind-merge"]
     },
-    "registryDependencies": ["sidebar", "command", "popover"]
+    "registryDependencies": ["sidebar", "command", "popover", "@uxio/tooltip"]
   },
   {
     "name": "combobox",
@@ -468,7 +466,6 @@
     "categories": ["meta"],
     "registryDependencies": [
       "@uxio/semantic-colors",
-      "@uxio/tw-config-extended",
       "@uxio/tw-extra-utils",
       "@uxio/tw-container-extended"
     ]
@@ -534,15 +531,12 @@
     "categories": ["meta"],
     "registryDependencies": [
       "@uxio/semantic-colors",
-      "@uxio/tw-config-extended",
       "@uxio/tw-extra-utils",
       "@uxio/tw-container-extended",
-      "@uxio/spinner",
-      "@uxio/skeleton",
-      "@uxio/alert",
-      "@uxio/badge",
-      "@uxio/button",
-      "@uxio/form",
+      "@uxio/split-content",
+      "@uxio/vercel-sidebar",
+      "@uxio/confirmer",
+      "@uxio/alerter",
       "@uxio/input",
       "@uxio/input-group",
       "@uxio/input-datetime",
@@ -551,16 +545,18 @@
       "@uxio/input-number",
       "@uxio/input-currency",
       "@uxio/input-password",
+      "@uxio/spinner",
+      "@uxio/skeleton",
+      "@uxio/alert",
+      "@uxio/badge",
+      "@uxio/button",
+      "@uxio/form",
       "@uxio/item",
       "@uxio/chart",
       "@uxio/card",
       "@uxio/scroll-area",
       "@uxio/combobox",
-      "@uxio/tooltip",
-      "@uxio/split-content",
-      "@uxio/vercel-sidebar",
-      "@uxio/confirmer",
-      "@uxio/alerter"
+      "@uxio/tooltip"
     ]
   }
 ]

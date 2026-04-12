@@ -20,7 +20,7 @@ export const Route = createRootRoute({
         content: "width=device-width, initial-scale=1",
       },
       ...seo({
-        title: "uxio ui | Open-source UI library based on shadcn",
+        title: "uxio/ui | Open-source UI library based on shadcn",
         description: `An open-source UI library based on shadcn/ui. Components for overrides, layout, and custom UI.`,
       }),
     ],
