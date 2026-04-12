@@ -12,6 +12,11 @@ export default defineConfig({
   server: {
     port: 3000,
   },
+  // Rolldown can emit broken CJS→ESM interop for inlined tslib (`__toESM(...).default` is
+  // undefined when `__esModule` is set). Externalize so Node loads `tslib` at runtime.
+  ssr: {
+    external: ["tslib"],
+  },
   resolve: {
     tsconfigPaths: true,
   },

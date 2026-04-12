@@ -65,6 +65,8 @@ export function autoGenRegistry(): Plugin {
   return {
     name: "auto-gen-registry",
     enforce: "pre",
+    /** Only register for `vite` dev server, not `vite build` or preview. */
+    apply: "serve",
 
     async buildStart() {
       await runBuild()
