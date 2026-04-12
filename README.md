@@ -8,17 +8,11 @@ An extended [shadcn/ui](https://ui.shadcn.com) library, distributed via the
 ## Component Categories
 
 - **Overrides:** Enhancements of existing shadcn components
+- **Inputs:** Specialized input fields (currency, datetime, duration, number, password, and more)
 - **Layers:** App-level UI layers (e.g. imperative confirmation)
 - **UI:** Custom uxio/ui components
 
 ## Installation
-
-Add components using the shadcn CLI. Radix is the default.
-
-```bash
-# Add @uxio to your components.json registries, then:
-npx shadcn@latest add @uxio/button
-```
 
 Configure your registry in `components.json`:
 
@@ -28,6 +22,13 @@ Configure your registry in `components.json`:
     "@uxio": "https://ui.uxio.dev/r/styles/{style}/{name}.json"
   }
 }
+```
+
+Add components using the shadcn CLI. Radix is the default.
+
+```bash
+# Add @uxio to your components.json registries, then:
+npx shadcn@latest add @uxio/button
 ```
 
 ## Project Structure
