@@ -156,6 +156,17 @@
     "registryDependencies": ["@uxio/semantic-colors"]
   },
   {
+    "name": "accordion",
+    "type": "registry:ui",
+    "title": "Accordion",
+    "description": "Accordion with an app-style bordered shell, theme-aligned radius, and leading chevron in the trigger.",
+    "categories": ["overrides"],
+    "dependencies": {
+      "base": ["@base-ui/react/accordion", "clsx", "tailwind-merge"],
+      "radix": ["radix-ui", "clsx", "tailwind-merge"]
+    }
+  },
+  {
     "name": "badge",
     "type": "registry:ui",
     "title": "Badge",
@@ -478,6 +489,7 @@
     "categories": ["meta"],
     "registryDependencies": [
       "@uxio/alert",
+      "@uxio/accordion",
       "@uxio/badge",
       "@uxio/button",
       "@uxio/card",
@@ -548,6 +560,7 @@
       "@uxio/spinner",
       "@uxio/skeleton",
       "@uxio/alert",
+      "@uxio/accordion",
       "@uxio/badge",
       "@uxio/button",
       "@uxio/form",

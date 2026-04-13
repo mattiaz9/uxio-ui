@@ -41,6 +41,13 @@ const registryComponents: RegistryComponentItem[] = [
     docsSplat: "overrides/base/alert",
   },
   {
+    title: "Accordion",
+    description:
+      "Accordion with an app-style bordered shell, theme-aligned radius, and leading chevron in the trigger.",
+    category: "Overrides",
+    docsSplat: "overrides/base/accordion",
+  },
+  {
     title: "Badge",
     description: "Extended badge component with semantic color variants (info, success, warning).",
     category: "Overrides",

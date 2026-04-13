@@ -21,6 +21,10 @@ user-invocable: true
   - If the user provided the code in the promp copy it to the file
     `registry/uxio/overrides-{name}-{base}/{name}.tsx` otherwise ask the user for the code.
 
+- Do we need to add or update styles?
+  - if so, add the styles to the `registry/styles/style-{name}-uxio.css` file.
+  - make sure to keep the same radius, spacings and general sizing of the original theme.
+
 - Update the registry config file `registry/uxio/registry.config.json` with the new component,
   making sure to add the same dependencies as the original component. If the component was
   previously found you can find the config references at
@@ -30,8 +34,14 @@ user-invocable: true
 - Add docs pages for each framework used in `content/docs/overrides/{base}/{name}.mdx`
   - Add a brief description and installation instructions. For reference look at
     `content/docs/overrides/{base}/button.mdx`
+  - Never describe in details all the changes made. Keep it simple and concise.
   - Add links in `content/docs/overrides/meta.json` for the new component.
+  - Make sure to add a usage section a bare minimum code showcase of the apis and components
+    composition structure.
   - Add a ToC for the extended features including a example for each feature. For now just use a
     default example with the default component features, unless instruction about the extended
     features are provided.
   - The examples should be placed in `src/examples/{base}/{name}-{feature}.tsx`.
+
+- Update homepage to include the new component.
+- Update the bundles page to include the new component.

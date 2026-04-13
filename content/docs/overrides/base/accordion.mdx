@@ -1,0 +1,53 @@
+---
+title: Accordion
+---
+
+## Extended Features
+
+- Redesigned accordion with a more app feel style
+
+## Install
+
+Configure your registry in `components.json`:
+
+```json
+{
+  "registries": {
+    "@uxio": "https://ui.uxio.dev/r/styles/{style}/{name}.json"
+  }
+}
+```
+
+Then run:
+
+```bash
+npx shadcn@latest add @uxio/accordion
+```
+
+## Usage
+
+```tsx
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
+
+export function Faq() {
+  return (
+    <Accordion>
+      <AccordionItem value="a">
+        <AccordionTrigger>Question</AccordionTrigger>
+        <AccordionContent>Answer</AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  )
+}
+```
+
+## Examples
+
+### Default
+
+<ComponentPreview name="base/accordion-default" />

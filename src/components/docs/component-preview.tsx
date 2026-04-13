@@ -47,6 +47,7 @@ function transformSource(source: string): string {
     .replace(/from\s*"\.\/ui\/button"/g, 'from "@/components/ui/button"')
     .replace(/from\s*"\.\/ui\/spinner"/g, 'from "@/components/ui/spinner"')
     .replace(/from\s*"\.\/ui\/alert"/g, 'from "@/components/ui/alert"')
+    .replace(/from\s*"\.\/ui\/accordion"/g, 'from "@/components/ui/accordion"')
     .replace(/from\s*"\.\/ui\/badge"/g, 'from "@/components/ui/badge"')
     .replace(/from\s*"\.\/ui\/card"/g, 'from "@/components/ui/card"')
     .replace(/from\s*"\.\/ui\/chart"/g, 'from "@/components/ui/chart"')

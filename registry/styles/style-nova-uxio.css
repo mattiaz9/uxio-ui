@@ -140,4 +140,17 @@
   .cn-input-segment {
     @apply min-w-[1ch] rounded-sm px-0.5 py-0 font-mono leading-snug tabular-nums outline-none focus:bg-foreground/10 focus:text-accent-foreground **:data-[empty=true]:text-muted-foreground/40 data-[placeholder=true]:text-muted-foreground;
   }
+
+  /* MARK: Accordion (Uxio) — app shell + leading chevron */
+  .cn-accordion {
+    @apply overflow-hidden rounded-lg border border-border bg-card;
+  }
+
+  .cn-accordion-trigger {
+    @apply px-2.5 **:data-[slot=accordion-trigger-icon]:ml-0 **:data-[slot=accordion-trigger-icon]:shrink-0 hover:no-underline;
+  }
+
+  .cn-accordion-content {
+    @apply px-2.5;
+  }
 }
