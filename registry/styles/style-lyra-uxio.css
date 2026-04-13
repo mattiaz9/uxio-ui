@@ -23,6 +23,27 @@
     @apply bg-warning/10 text-warning focus-visible:ring-warning/20 dark:bg-warning/20 dark:focus-visible:ring-warning/40 [a]:hover:bg-warning/20;
   }
 
+  /* MARK: Badge sizes (Uxio) — overrides base `.cn-badge` with shell + size tokens */
+  .cn-badge {
+    @apply rounded-none border border-transparent font-medium transition-all;
+  }
+
+  .cn-badge-size-xs {
+    @apply h-4 gap-1 px-1.5 py-0 text-2xs has-data-[icon=inline-end]:pr-1 has-data-[icon=inline-start]:pl-1 [&>svg]:size-2.5!;
+  }
+
+  .cn-badge-size-sm {
+    @apply h-5 gap-1 px-1.5 py-0.5 text-2xs has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&>svg]:size-2.5!;
+  }
+
+  .cn-badge-size-default {
+    @apply h-5 gap-1 px-2 py-0.5 text-xs has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&>svg]:size-3!;
+  }
+
+  .cn-badge-size-lg {
+    @apply h-6 gap-1.5 px-2.5 py-0.5 text-sm has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2 [&>svg]:size-3.5!;
+  }
+
   .cn-button-variant-info {
     @apply bg-info/10 text-info hover:bg-info/20 focus-visible:border-info/40 focus-visible:ring-info/20 dark:bg-info/20 dark:hover:bg-info/30 dark:focus-visible:ring-info/40;
   }
@@ -52,7 +73,7 @@
   }
 
   .cn-input-group-button-size-2xs {
-    @apply h-5 gap-0.5 rounded-none px-1 text-[0.625rem] [&>svg:not([class*='size-'])]:size-3;
+    @apply h-5 gap-0.5 rounded-none px-1 text-2xs [&>svg:not([class*='size-'])]:size-3;
   }
 
   .cn-input-group-button-size-xs {

@@ -23,6 +23,27 @@
     @apply bg-warning/10 text-warning focus-visible:ring-warning/20 dark:bg-warning/20 dark:focus-visible:ring-warning/40 [a]:hover:bg-warning/20;
   }
 
+  /* MARK: Badge sizes (Uxio) — overrides base `.cn-badge` with shell + size tokens */
+  .cn-badge {
+    @apply rounded-full border border-transparent font-medium transition-all;
+  }
+
+  .cn-badge-size-xs {
+    @apply h-4 gap-1 px-1.5 py-0 text-[0.5625rem] leading-none has-data-[icon=inline-end]:pr-1 has-data-[icon=inline-start]:pl-1 [&>svg]:size-2!;
+  }
+
+  .cn-badge-size-sm {
+    @apply h-4.5 gap-1 px-1.5 py-0 text-2xs leading-tight has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&>svg]:size-2!;
+  }
+
+  .cn-badge-size-default {
+    @apply h-5 gap-1 px-2 py-0.5 text-2xs has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&>svg]:size-2.5!;
+  }
+
+  .cn-badge-size-lg {
+    @apply h-6 gap-1.5 px-2.5 py-0.5 text-xs/relaxed has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2 [&>svg]:size-3!;
+  }
+
   .cn-button-variant-info {
     @apply bg-info/10 text-info hover:bg-info/20 focus-visible:border-info/40 focus-visible:ring-info/20 dark:bg-info/20 dark:hover:bg-info/30 dark:focus-visible:ring-info/40;
   }
@@ -52,11 +73,11 @@
   }
 
   .cn-input-group-button-size-2xs {
-    @apply h-4 gap-0.5 rounded-sm px-0.5 text-[0.625rem] leading-relaxed [&>svg:not([class*='size-'])]:size-2.5;
+    @apply h-4 gap-0.5 rounded-sm px-0.5 text-2xs leading-relaxed [&>svg:not([class*='size-'])]:size-2.5;
   }
 
   .cn-input-group-button-size-xs {
-    @apply h-5 gap-1 rounded-sm px-2 text-[0.625rem] has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-2.5;
+    @apply h-5 gap-1 rounded-sm px-2 text-2xs has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-2.5;
   }
 
   .cn-input-group-button-size-sm {
@@ -90,7 +111,7 @@
   .cn-input-group-custom-control {
     @apply flex h-full min-h-0 min-w-0 flex-1 flex-wrap items-center gap-0.5
       [data-disabled]:pointer-events-none [data-disabled]:opacity-50
-      group-data-[size=xs]/input-group:px-2 group-data-[size=xs]/input-group:py-0.5 group-data-[size=xs]/input-group:font-mono group-data-[size=xs]/input-group:text-[0.625rem]
+      group-data-[size=xs]/input-group:px-2 group-data-[size=xs]/input-group:py-0.5 group-data-[size=xs]/input-group:font-mono group-data-[size=xs]/input-group:text-2xs
       group-data-[size=sm]/input-group:px-2 group-data-[size=sm]/input-group:py-0.5 group-data-[size=sm]/input-group:text-xs/relaxed
       group-data-[size=default]/input-group:px-2 group-data-[size=default]/input-group:py-0.5 group-data-[size=default]/input-group:text-sm group-data-[size=default]/input-group:md:text-xs/relaxed
       group-data-[size=lg]/input-group:px-2.5 group-data-[size=lg]/input-group:py-1 group-data-[size=lg]/input-group:text-sm group-data-[size=lg]/input-group:md:text-xs/relaxed;
@@ -109,7 +130,7 @@
   }
 
   .cn-input-size-xs {
-    @apply h-5 rounded-sm px-2 py-0.5 text-[0.625rem] file:h-4 file:text-xs/relaxed file:font-medium md:text-xs/relaxed;
+    @apply h-5 rounded-sm px-2 py-0.5 text-2xs file:h-4 file:text-xs/relaxed file:font-medium md:text-xs/relaxed;
   }
 
   .cn-combobox-trigger {
