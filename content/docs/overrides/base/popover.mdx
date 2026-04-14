@@ -1,0 +1,53 @@
+---
+title: Popover
+---
+
+## Extended Features
+
+- [Arrow](#arrow) — optional `arrow` prop on `PopoverContent` (defaults to `false`)
+
+## Install
+
+Configure your registry in `components.json`:
+
+```json
+{
+  "registries": {
+    "@uxio": "https://ui.uxio.dev/r/styles/{style}/{name}.json"
+  }
+}
+```
+
+Then run:
+
+```bash
+npx shadcn@latest add @uxio/popover
+```
+
+## Usage
+
+```tsx
+"use client"
+
+import { Button } from "@/components/ui/button"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+
+export function Example() {
+  return (
+    <Popover>
+      <PopoverTrigger render={<Button variant="outline">Open</Button>} />
+      <PopoverContent arrow>
+        <p className="text-sm">Popover body</p>
+      </PopoverContent>
+    </Popover>
+  )
+}
+```
+
+## Examples
+
+### Arrow
+
+Set `arrow` on `PopoverContent` to show a pointer toward the anchor (`arrow` defaults to `false`).
+
+<ComponentPreview name="base/popover-arrow" />

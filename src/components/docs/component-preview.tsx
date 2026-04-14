@@ -63,6 +63,7 @@ function transformSource(source: string): string {
     .replace(/from\s*"\.\/ui\/calendar"/g, 'from "@/components/ui/calendar"')
     .replace(/from\s*"\.\/ui\/textarea"/g, 'from "@/components/ui/textarea"')
     .replace(/from\s*"\.\/ui\/combobox"/g, 'from "@/components/ui/combobox"')
+    .replace(/from\s*"\.\/ui\/popover"/g, 'from "@/components/ui/popover"')
     .replace(/from\s*"\.\/ui\/alert-dialog"/g, 'from "@/components/ui/alert-dialog"')
     .replace(/from\s*"\.\/ui\/dialog"/g, 'from "@/components/ui/dialog"')
     .replace(/from\s*"\.\/ui\/drawer"/g, 'from "@/components/ui/drawer"')

@@ -1,0 +1,69 @@
+---
+title: Dialog
+---
+
+## Extended Features
+
+- [Dialog body](#dialog-body) — scrollable region between `DialogHeader` and `DialogFooter`
+
+## Install
+
+Configure your registry in `components.json`:
+
+```json
+{
+  "registries": {
+    "@uxio": "https://ui.uxio.dev/r/styles/{style}/{name}.json"
+  }
+}
+```
+
+Then run:
+
+```bash
+npx shadcn@latest add @uxio/dialog
+```
+
+## Usage
+
+```tsx
+"use client"
+
+import { Button } from "@/components/ui/button"
+import {
+  Dialog,
+  DialogBody,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+
+export function Example() {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="outline">Open</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Title</DialogTitle>
+        </DialogHeader>
+        <DialogBody>{/* long content */}</DialogBody>
+        <DialogFooter>
+          <Button type="button">Done</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  )
+}
+```
+
+## Examples
+
+### Dialog body
+
+Use `DialogBody` between the header and footer when the main content may grow beyond the viewport.
+
+<ComponentPreview name="radix/dialog-body" />

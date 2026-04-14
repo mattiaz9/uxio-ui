@@ -252,7 +252,7 @@
       "base": ["date-fns", "clsx", "tailwind-merge", "lucide-react"],
       "radix": ["date-fns", "clsx", "tailwind-merge", "lucide-react"]
     },
-    "registryDependencies": ["@uxio/input-group", "calendar", "popover"],
+    "registryDependencies": ["@uxio/input-group", "calendar", "@uxio/popover"],
     "files": [{ "path": "lib/datetime-format.ts", "type": "registry:lib" }]
   },
   {
@@ -342,6 +342,29 @@
       ],
       "radix": ["radix-ui", "class-variance-authority", "clsx", "tailwind-merge"]
     }
+  },
+  {
+    "name": "popover",
+    "type": "registry:ui",
+    "title": "Popover",
+    "description": "Popover overlay with a pointer arrow aligned to the anchor.",
+    "categories": ["overrides"],
+    "dependencies": {
+      "base": ["@base-ui/react/popover", "clsx", "tailwind-merge"],
+      "radix": ["radix-ui", "clsx", "tailwind-merge"]
+    }
+  },
+  {
+    "name": "dialog",
+    "type": "registry:ui",
+    "title": "Dialog",
+    "description": "Dialog with layout helpers for header, body, and footer.",
+    "categories": ["overrides"],
+    "dependencies": {
+      "base": ["@base-ui/react/dialog", "clsx", "lucide-react", "tailwind-merge"],
+      "radix": ["radix-ui", "clsx", "lucide-react", "tailwind-merge"]
+    },
+    "registryDependencies": ["@uxio/button", "@uxio/scroll-area"]
   },
   {
     "name": "chart",
@@ -444,7 +467,7 @@
       "base": ["clsx", "lucide-react", "motion", "tailwind-merge"],
       "radix": ["clsx", "lucide-react", "motion", "tailwind-merge"]
     },
-    "registryDependencies": ["sidebar", "command", "popover", "@uxio/tooltip"]
+    "registryDependencies": ["sidebar", "command", "@uxio/popover", "@uxio/tooltip"]
   },
   {
     "name": "combobox",
@@ -456,7 +479,7 @@
       "base": ["clsx", "lucide-react", "tailwind-merge"],
       "radix": ["clsx", "lucide-react", "tailwind-merge"]
     },
-    "registryDependencies": ["@uxio/button", "command", "popover"]
+    "registryDependencies": ["@uxio/button", "command", "@uxio/popover"]
   },
   {
     "name": "tooltip",
@@ -495,6 +518,8 @@
       "@uxio/card",
       "@uxio/combobox",
       "@uxio/chart",
+      "@uxio/popover",
+      "@uxio/dialog",
       "@uxio/form",
       "@uxio/input",
       "@uxio/item",
@@ -567,8 +592,10 @@
       "@uxio/item",
       "@uxio/chart",
       "@uxio/card",
+      "@uxio/dialog",
       "@uxio/scroll-area",
       "@uxio/combobox",
+      "@uxio/popover",
       "@uxio/tooltip"
     ]
   }

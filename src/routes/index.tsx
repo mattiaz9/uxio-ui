@@ -79,6 +79,12 @@ const registryComponents: RegistryComponentItem[] = [
     docsSplat: "overrides/base/combobox",
   },
   {
+    title: "Dialog",
+    description: "Dialog with layout helpers for header, body, and footer.",
+    category: "Overrides",
+    docsSplat: "overrides/base/dialog",
+  },
+  {
     title: "Form (Tanstack)",
     description:
       "Form element with TanStack Form context: prevents default submit, calls `form.handleSubmit()`, and exposes `useFormContext` for nested components.",
@@ -105,6 +111,12 @@ const registryComponents: RegistryComponentItem[] = [
       "Item list primitives with ItemGroup layout variants: default spacing or grouped stacked items.",
     category: "Overrides",
     docsSplat: "overrides/base/item",
+  },
+  {
+    title: "Popover",
+    description: "Popover overlay with a pointer arrow aligned to the anchor.",
+    category: "Overrides",
+    docsSplat: "overrides/base/popover",
   },
   {
     title: "Scroll Area",

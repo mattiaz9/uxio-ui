@@ -7,6 +7,7 @@ import { XIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/registry/uxio/overrides-button-radix/button"
+import { ScrollArea } from "@/registry/uxio/overrides-scroll-area-radix/scroll-area"
 
 function Dialog({ ...props }: React.ComponentProps<typeof DialogPrimitive.Root>) {
   return <DialogPrimitive.Root data-slot="dialog" {...props} />
@@ -80,6 +81,16 @@ function DialogHeader({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
+function DialogBody({ children, className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div data-slot="dialog-body" className={cn("flex flex-col py-4", className)} {...props}>
+      <ScrollArea className="-m-2 max-h-[70vh]">
+        <div className="flex max-w-full flex-col p-2">{children}</div>
+      </ScrollArea>
+    </div>
+  )
+}
+
 function DialogFooter({
   className,
   showCloseButton = false,
@@ -132,6 +143,7 @@ function DialogDescription({
 
 export {
   Dialog,
+  DialogBody,
   DialogClose,
   DialogContent,
   DialogDescription,
