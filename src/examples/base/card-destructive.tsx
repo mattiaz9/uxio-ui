@@ -13,7 +13,7 @@ export default function CardDestructive() {
           The destructive variant adds a subtle ring and footer styling.
         </p>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="border-t">
         <Button variant="destructive" size="sm" className="w-full">
           Delete
         </Button>

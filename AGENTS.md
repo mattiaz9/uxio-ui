@@ -21,3 +21,12 @@ or adding utilities or styles NEVER include
 - `src/components/ui/`
 - `src/styles/globals.css` those are shadcn files used for the UI of this website NOT for the
   registry.
+
+Never edit this stylesheets for any reason:
+
+- `registry/styles/style-luma.css`
+- `registry/styles/style-lyra.css`
+- `registry/styles/style-maia.css`
+- `registry/styles/style-mira.css`
+- `registry/styles/style-nova.css`
+- `registry/styles/style-vega.css`

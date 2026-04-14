@@ -56,12 +56,16 @@
     @apply bg-warning/10 text-warning hover:bg-warning/20 focus-visible:border-warning/40 focus-visible:ring-warning/20 dark:bg-warning/20 dark:hover:bg-warning/30 dark:focus-visible:ring-warning/40;
   }
 
+  .cn-card {
+    @apply has-data-[slot=card-footer]:pb-0 data-[size=sm]:has-data-[slot=card-footer]:pb-0;
+  }
+
   .cn-card-variant-destructive {
     @apply ring-destructive/30 dark:ring-destructive/60;
   }
 
   .cn-card-footer {
-    @apply group-data-[variant=destructive]/card:border-destructive/30;
+    @apply pb-6 group-data-[size=sm]/card:pb-4 group-data-[variant=destructive]/card:border-destructive/30 group-data-[variant=destructive]/card:[.border-t]:bg-destructive/5;
   }
 
   .cn-chart-tooltip {

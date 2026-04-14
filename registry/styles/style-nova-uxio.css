@@ -61,7 +61,7 @@
   }
 
   .cn-card-footer {
-    @apply group-data-[variant=destructive]/card:border-destructive/30 group-data-[variant=destructive]/card:bg-destructive/5;
+    @apply group-data-[variant=destructive]/card:border-destructive/30 group-data-[variant=destructive]/card:[.border-t]:bg-destructive/5;
   }
 
   .cn-chart-tooltip {
