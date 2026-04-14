@@ -138,6 +138,12 @@ const registryComponents: RegistryComponentItem[] = [
     docsSplat: "overrides/base/spinner",
   },
   {
+    title: "Tabs",
+    description: "Tabs with optional size so the rail matches input scale in each theme.",
+    category: "Overrides",
+    docsSplat: "overrides/base/tabs",
+  },
+  {
     title: "Tooltip",
     description:
       "Tooltip primitives plus AutoTooltip, which shows the tooltip only when the trigger content is truncated (unless mode is always).",

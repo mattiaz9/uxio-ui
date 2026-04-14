@@ -17,6 +17,7 @@
     "[Scroll Area](/docs/overrides/radix/scroll-area)",
     "[Skeleton](/docs/overrides/radix/skeleton)",
     "[Spinner](/docs/overrides/radix/spinner)",
+    "[Tabs](/docs/overrides/radix/tabs)",
     "[Tooltip](/docs/overrides/radix/tooltip)"
   ],
   "collapsible": false,

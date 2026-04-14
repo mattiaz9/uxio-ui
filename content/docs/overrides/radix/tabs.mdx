@@ -1,0 +1,54 @@
+---
+title: Tabs
+---
+
+## Extended Features
+
+- Sizes — `sm`, `default`, and `lg`
+
+## Install
+
+Configure your registry in `components.json`:
+
+```json
+{
+  "registries": {
+    "@uxio": "https://ui.uxio.dev/r/styles/{style}/{name}.json"
+  }
+}
+```
+
+Then run:
+
+```bash
+npx shadcn@latest add @uxio/tabs
+```
+
+## Usage
+
+```tsx
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+
+export function AccountTabs() {
+  return (
+    <Tabs defaultValue="account" size="default">
+      <TabsList variant="default">
+        <TabsTrigger value="account">Account</TabsTrigger>
+        <TabsTrigger value="password">Password</TabsTrigger>
+      </TabsList>
+      <TabsContent value="account">Account settings</TabsContent>
+      <TabsContent value="password">Password settings</TabsContent>
+    </Tabs>
+  )
+}
+```
+
+## Examples
+
+### List variant: default
+
+<ComponentPreview name="radix/tabs-variant-default" />
+
+### List variant: line
+
+<ComponentPreview name="radix/tabs-variant-line" />

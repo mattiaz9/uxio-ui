@@ -24,6 +24,11 @@ user-invocable: true
 - Do we need to add or update styles?
   - if so, add the styles to the `registry/styles/style-{name}-uxio.css` file.
   - make sure to keep the same radius, spacings and general sizing of the original theme.
+  - Prefer Tailwind variant utilities on the `cn-*` classes (`group-data-[…]/…:…`, other
+    `group-*` variants) over raw CSS descendant selectors such as
+    `.cn-parent[data-attr="…"] .cn-child { … }`. In the component, use a named group on the root and
+    `data-*` (or equivalent) for variants; in the stylesheet, style children through those group
+    variants—do not wire state or size through ad hoc nested selectors.
 
 - Update the registry config file `registry/uxio/registry.config.json` with the new component,
   making sure to add the same dependencies as the original component. If the component was

@@ -141,6 +141,24 @@
     @apply min-w-[1ch] rounded-sm px-0.5 py-0 font-mono leading-snug tabular-nums outline-none focus:bg-foreground/10 focus:text-accent-foreground **:data-[empty=true]:text-muted-foreground/40 data-[placeholder=true]:text-muted-foreground;
   }
 
+  /* MARK: Tabs (Uxio) — size variants */
+  .cn-tabs-list {
+    @apply group-data-[size=sm]/tabs:p-[3px] group-data-[size=sm]/tabs:group-data-horizontal/tabs:h-6
+      group-data-[size=lg]/tabs:p-0.5 group-data-[size=lg]/tabs:group-data-horizontal/tabs:h-10;
+  }
+
+  .cn-tabs-trigger {
+    @apply group-data-[size=sm]/tabs:gap-1 group-data-[size=sm]/tabs:rounded-[min(var(--radius-md),12px)]
+      group-data-[size=sm]/tabs:px-1.5 group-data-[size=sm]/tabs:py-0 group-data-[size=sm]/tabs:text-xs
+      group-data-[size=sm]/tabs:font-medium group-data-[size=sm]/tabs:has-data-[icon=inline-end]:pr-1
+      group-data-[size=sm]/tabs:has-data-[icon=inline-start]:pl-1
+      group-data-[size=sm]/tabs:[&_svg:not([class*='size-'])]:size-3.5
+      group-data-[size=lg]/tabs:gap-1.5 group-data-[size=lg]/tabs:px-3.5 group-data-[size=lg]/tabs:py-1.5
+      group-data-[size=lg]/tabs:text-base group-data-[size=lg]/tabs:font-medium
+      group-data-[size=lg]/tabs:has-data-[icon=inline-end]:pr-3.5 group-data-[size=lg]/tabs:has-data-[icon=inline-start]:pl-3.5
+      group-data-[size=lg]/tabs:[&_svg:not([class*='size-'])]:size-4;
+  }
+
   /* MARK: Accordion (Uxio) — app shell + leading chevron */
   .cn-accordion {
     @apply overflow-hidden rounded-lg border border-border bg-card;

@@ -419,6 +419,17 @@
     }
   },
   {
+    "name": "tabs",
+    "type": "registry:ui",
+    "title": "Tabs",
+    "description": "Tabs list and triggers with optional size to match input scale in each theme.",
+    "categories": ["overrides"],
+    "dependencies": {
+      "base": ["@base-ui/react/tabs", "class-variance-authority", "clsx", "tailwind-merge"],
+      "radix": ["radix-ui", "class-variance-authority", "clsx", "tailwind-merge"]
+    }
+  },
+  {
     "name": "split-content",
     "type": "registry:ui",
     "title": "Split Content",
@@ -526,6 +537,7 @@
       "@uxio/scroll-area",
       "@uxio/skeleton",
       "@uxio/spinner",
+      "@uxio/tabs",
       "@uxio/tooltip"
     ]
   },
@@ -596,6 +608,7 @@
       "@uxio/scroll-area",
       "@uxio/combobox",
       "@uxio/popover",
+      "@uxio/tabs",
       "@uxio/tooltip"
     ]
   }
