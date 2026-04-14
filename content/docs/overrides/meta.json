@@ -2,6 +2,7 @@
   "title": "Overrides",
   "pages": [
     "[Alert](/docs/overrides/radix/alert)",
+    "[Alert Dialog](/docs/overrides/radix/alert-dialog)",
     "[Accordion](/docs/overrides/radix/accordion)",
     "[Badge](/docs/overrides/radix/badge)",
     "[Button](/docs/overrides/radix/button)",

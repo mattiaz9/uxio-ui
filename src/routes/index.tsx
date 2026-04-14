@@ -41,6 +41,13 @@ const registryComponents: RegistryComponentItem[] = [
     docsSplat: "overrides/base/alert",
   },
   {
+    title: "Alert Dialog",
+    description:
+      "Alert dialog on the popover surface; optional `border-t` on the footer for a muted strip aligned to dialog padding.",
+    category: "Overrides",
+    docsSplat: "overrides/base/alert-dialog",
+  },
+  {
     title: "Accordion",
     description:
       "Accordion with an app-style bordered shell, theme-aligned radius, and leading chevron in the trigger.",

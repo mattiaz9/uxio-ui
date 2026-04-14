@@ -171,4 +171,14 @@
   .cn-accordion-trigger {
     @apply **:data-[slot=accordion-trigger-icon]:ml-0 **:data-[slot=accordion-trigger-icon]:shrink-0 hover:no-underline;
   }
+
+  /* MARK: Alert Dialog footer — `border-t` strip (matches dialog `p-4` + `gap-3` + `rounded-xl` from base style) */
+  .cn-alert-dialog-footer {
+    @apply [.border-t]:bg-muted/5 [.border-t]:-mx-4 [.border-t]:-mb-4 [.border-t]:px-4 [.border-t]:pb-4 [.border-t]:pt-3 [.border-t]:rounded-b-xl;
+  }
+
+  /* MARK: Dialog footer — `border-t` strip (matches `cn-dialog-content` `p-4` + `gap-4` + `rounded-xl` from base style) */
+  .cn-dialog-footer {
+    @apply [.border-t]:bg-muted/5 [.border-t]:-mx-4 [.border-t]:-mb-4 [.border-t]:px-4 [.border-t]:pb-4 [.border-t]:pt-4 [.border-t]:rounded-b-xl;
+  }
 }

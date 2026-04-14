@@ -169,4 +169,14 @@
   .cn-accordion-content {
     @apply px-4;
   }
+
+  /* MARK: Alert Dialog footer — `border-t` strip (matches dialog `p-6` + `rounded-xl` from base style) */
+  .cn-alert-dialog-footer {
+    @apply [.border-t]:bg-muted/5 [.border-t]:-mx-6 [.border-t]:-mb-6 [.border-t]:px-6 [.border-t]:pb-6 [.border-t]:pt-6 [.border-t]:rounded-b-xl;
+  }
+
+  /* MARK: Dialog footer — `border-t` strip (matches `cn-dialog-content` `p-6` + `rounded-xl` from base style) */
+  .cn-dialog-footer {
+    @apply [.border-t]:bg-muted/5 [.border-t]:-mx-6 [.border-t]:-mb-6 [.border-t]:px-6 [.border-t]:pb-6 [.border-t]:pt-6 [.border-t]:rounded-b-xl;
+  }
 }

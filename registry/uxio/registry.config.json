@@ -393,7 +393,7 @@
     "name": "alert-dialog",
     "type": "registry:ui",
     "title": "Alert Dialog",
-    "description": "Alert dialog with content background using bg-popover instead of bg-background.",
+    "description": "Alert dialog with popover surface; add `border-t` on the footer for a muted strip aligned to dialog padding (per theme).",
     "categories": ["overrides"],
     "dependencies": {
       "base": [
@@ -449,7 +449,7 @@
       "radix": ["radix-ui", "class-variance-authority", "clsx", "tailwind-merge"]
     },
     "registryDependencies": [
-      "alert-dialog",
+      "@uxio/alert-dialog",
       "@uxio/button",
       "@uxio/spinner",
       "@uxio/spinner",
@@ -466,7 +466,7 @@
       "base": ["@base-ui/react/alert-dialog", "class-variance-authority", "clsx", "tailwind-merge"],
       "radix": ["radix-ui", "class-variance-authority", "clsx", "tailwind-merge"]
     },
-    "registryDependencies": ["alert-dialog", "@uxio/button", "@uxio/semantic-colors"]
+    "registryDependencies": ["@uxio/alert-dialog", "@uxio/button", "@uxio/semantic-colors"]
   },
   {
     "name": "vercel-sidebar",
@@ -523,6 +523,7 @@
     "categories": ["meta"],
     "registryDependencies": [
       "@uxio/alert",
+      "@uxio/alert-dialog",
       "@uxio/accordion",
       "@uxio/badge",
       "@uxio/button",
@@ -597,6 +598,7 @@
       "@uxio/spinner",
       "@uxio/skeleton",
       "@uxio/alert",
+      "@uxio/alert-dialog",
       "@uxio/accordion",
       "@uxio/badge",
       "@uxio/button",

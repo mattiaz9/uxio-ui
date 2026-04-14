@@ -175,4 +175,14 @@
   .cn-accordion-content {
     @apply px-2.5;
   }
+
+  /* MARK: Alert Dialog footer — `border-t` strip (matches dialog `p-4` + `gap-4` + square corners from base style) */
+  .cn-alert-dialog-footer {
+    @apply [.border-t]:bg-muted/5 [.border-t]:-mx-4 [.border-t]:-mb-4 [.border-t]:px-4 [.border-t]:pb-4 [.border-t]:pt-4 [.border-t]:rounded-b-none;
+  }
+
+  /* MARK: Dialog footer — `border-t` strip (matches `cn-dialog-content` `p-4` + `gap-4` + square corners from base style) */
+  .cn-dialog-footer {
+    @apply [.border-t]:bg-muted/5 [.border-t]:-mx-4 [.border-t]:-mb-4 [.border-t]:px-4 [.border-t]:pb-4 [.border-t]:pt-4 [.border-t]:rounded-b-none;
+  }
 }

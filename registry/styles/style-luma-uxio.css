@@ -169,4 +169,14 @@
   .cn-accordion-trigger {
     @apply **:data-[slot=accordion-trigger-icon]:ml-0 **:data-[slot=accordion-trigger-icon]:shrink-0 hover:no-underline;
   }
+
+  /* MARK: Alert Dialog footer — `border-t` strip (matches dialog `p-6` from base style) */
+  .cn-alert-dialog-footer {
+    @apply [.border-t]:bg-muted/5 [.border-t]:-mx-6 [.border-t]:-mb-6 [.border-t]:px-6 [.border-t]:pb-6 [.border-t]:pt-6 [.border-t]:rounded-b-4xl;
+  }
+
+  /* MARK: Dialog footer — `border-t` strip (matches `cn-dialog-content` `p-6` from base style) */
+  .cn-dialog-footer {
+    @apply [.border-t]:bg-muted/5 [.border-t]:-mx-6 [.border-t]:-mb-6 [.border-t]:px-6 [.border-t]:pb-6 [.border-t]:pt-6 [.border-t]:rounded-b-4xl;
+  }
 }

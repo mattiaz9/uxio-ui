@@ -1,0 +1,70 @@
+---
+title: Alert Dialog
+---
+
+## Extended Features
+
+- `AlertDialogFooter` with `.border-t` has a light background
+
+## Install
+
+Configure your registry in `components.json`:
+
+```json
+{
+  "registries": {
+    "@uxio": "https://ui.uxio.dev/r/styles/{style}/{name}.json"
+  }
+}
+```
+
+Then run:
+
+```bash
+npx shadcn@latest add @uxio/alert-dialog
+```
+
+## Usage
+
+```tsx
+"use client"
+
+import { Button } from "@/components/ui/button"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+
+export function Example() {
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger render={<Button variant="outline">Open</Button>} />
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Title</AlertDialogTitle>
+          <AlertDialogDescription>Description text.</AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter className="border-t border-border">
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction>Continue</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  )
+}
+```
+
+## Examples
+
+### Footer with border-t
+
+Add `border-t` (and a border color such as `border-border`) on `AlertDialogFooter` for a full-width muted footer strip.
+
+<ComponentPreview name="base/alert-dialog-footer-border" />

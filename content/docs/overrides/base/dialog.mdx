@@ -5,6 +5,7 @@ title: Dialog
 ## Extended Features
 
 - [Dialog body](#dialog-body) — scrollable region between `DialogHeader` and `DialogFooter`
+- `DialogFooter` with `.border-t` has a light background
 
 ## Install
 
@@ -65,3 +66,9 @@ export function Example() {
 Use `DialogBody` between the header and footer when the main content may grow beyond the viewport.
 
 <ComponentPreview name="base/dialog-body" />
+
+### Footer with border-t
+
+Add `border-t` (and a border color such as `border-border`) on `DialogFooter` for a full-width muted footer strip.
+
+<ComponentPreview name="base/dialog-footer-border" />
