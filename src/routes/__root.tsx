@@ -1,7 +1,13 @@
 import * as React from "react"
-/// <reference types="vite/client" />
-import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router"
+import {
+  HeadContent,
+  Scripts,
+  createRootRoute,
+  defaultStringifySearch,
+  useLocation,
+} from "@tanstack/react-router"
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools"
+import { Analytics } from "@vercel/analytics/react"
 import { RootProvider } from "fumadocs-ui/provider/tanstack"
 
 import { DefaultCatchBoundary } from "@/components/default-catch-boundary"
@@ -37,6 +43,12 @@ export const Route = createRootRoute({
   shellComponent: RootDocument,
 })
 
+function VercelAnalytics() {
+  const { pathname, search } = useLocation()
+  const path = `${pathname}${defaultStringifySearch(search)}`
+  return <Analytics path={path} route={pathname} />
+}
+
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
     <html suppressHydrationWarning>
@@ -47,6 +59,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <RootProvider>{children}</RootProvider>
         <TanStackRouterDevtools position="bottom-right" />
         <Scripts />
+        <VercelAnalytics />
       </body>
     </html>
   )
