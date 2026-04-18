@@ -65,6 +65,8 @@ export interface AutoTooltipProps {
   placement?: "top" | "bottom" | "left" | "right"
   appendTo?: HTMLElement | null
   mode?: "auto" | "always"
+  /** When true, the tooltip never opens, regardless of `mode`. */
+  disabled?: boolean
 }
 
 function AutoTooltip({
@@ -77,6 +79,7 @@ function AutoTooltip({
   placement,
   appendTo,
   mode = "auto",
+  disabled = false,
 }: AutoTooltipProps) {
   const [contentRef, setContentRef] = React.useState<HTMLElement | null>(null)
   const [canOpen, setCanOpen] = React.useState(false)
@@ -113,7 +116,7 @@ function AutoTooltip({
 
   return (
     <TooltipProvider delay={delay}>
-      <Tooltip disabled={!canOpen}>
+      <Tooltip disabled={disabled || !canOpen}>
         <TooltipTrigger
           {...({
             render: (
