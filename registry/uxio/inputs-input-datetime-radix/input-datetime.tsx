@@ -45,7 +45,7 @@ interface InputDatetimeProps
   value?: Date | string | null
   defaultValue?: Date | string | null
   /** Called when the value is committed: all segments filled, Enter, or calendar selection. */
-  onValueChange?: (date: Date | null) => void
+  onValueChange?: (date: Date | null, event: React.SyntheticEvent<HTMLInputElement>) => void
   /** Fires with the composed string whenever segments change (including partial input). */
   onChange?: React.ChangeEventHandler<HTMLInputElement>
 }
@@ -167,7 +167,12 @@ function InputDatetime({
       const parsed = parse(composed, formatStr, new Date())
       if (!isValid(parsed)) return
       lastComposedCommit.current = composed
-      onValueChange?.(parsed)
+      const el = innerInputRef.current
+      if (!el) return
+      onValueChange?.(parsed, {
+        currentTarget: el,
+        target: el,
+      } as unknown as React.SyntheticEvent<HTMLInputElement>)
     },
     [tokens, formatStr, onValueChange, emitStringChange],
   )

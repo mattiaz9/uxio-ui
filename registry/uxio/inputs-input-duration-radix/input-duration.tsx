@@ -32,7 +32,7 @@ interface InputDurationProps
   value?: number | null
   defaultValue?: number | null
   /** Fires after a segment blurs or Enter with normalized carry; `null` when all segments are empty. */
-  onValueChange?: (seconds: number | null) => void
+  onValueChange?: (seconds: number | null, event: React.SyntheticEvent<HTMLInputElement>) => void
   /** Fires when the committed seconds value changes (same moments as `onValueChange`). */
   onChange?: React.ChangeEventHandler<HTMLInputElement>
 }
@@ -111,15 +111,19 @@ function InputDuration({
       if (!isControlled) {
         setCommittedSeconds(seconds)
       }
+      const el = innerInputRef.current
       if (onChange) {
-        const el = innerInputRef.current
         if (!el) return
         onChange({
           target: { value: seconds === null ? "" : String(seconds), name: name ?? "" },
           currentTarget: el,
         } as React.ChangeEvent<HTMLInputElement>)
       }
-      onValueChange?.(seconds)
+      if (!el) return
+      onValueChange?.(seconds, {
+        currentTarget: el,
+        target: el,
+      } as unknown as React.SyntheticEvent<HTMLInputElement>)
     },
     [isControlled, onChange, onValueChange, name],
   )

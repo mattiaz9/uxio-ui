@@ -43,7 +43,7 @@ interface InputFractionProps
    * Fires when the value is committed (blur, Enter) with a normalized fraction, or `null` when
    * both segments are cleared.
    */
-  onValueChange?: (value: string | null) => void
+  onValueChange?: (value: string | null, event: React.SyntheticEvent<HTMLInputElement>) => void
   /** Fires with the compact `n/d` string whenever segments change (including partial input). */
   onChange?: React.ChangeEventHandler<HTMLInputElement>
 }
@@ -148,11 +148,17 @@ function InputFraction({
 
   const commitParsedValue = React.useCallback(
     (segs: string[], fromFlush = false) => {
+      const inputEl = innerInputRef.current
       const empty = segs.every((s) => s === "")
       if (empty) {
         lastComposedCommit.current = null
         emitStringChange("")
-        onValueChange?.(null)
+        if (inputEl) {
+          onValueChange?.(null, {
+            currentTarget: inputEl,
+            target: inputEl,
+          } as unknown as React.SyntheticEvent<HTMLInputElement>)
+        }
         return
       }
 
@@ -189,7 +195,12 @@ function InputFraction({
       }
 
       lastComposedCommit.current = normalized
-      onValueChange?.(normalized)
+      if (inputEl) {
+        onValueChange?.(normalized, {
+          currentTarget: inputEl,
+          target: inputEl,
+        } as unknown as React.SyntheticEvent<HTMLInputElement>)
+      }
       emitStringChange(normalized)
       if (fromFlush) syncClampToDisplay()
     },

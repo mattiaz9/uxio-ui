@@ -29,7 +29,7 @@ describe("InputDuration base", () => {
     await user.keyboard("3")
     await user.tab()
 
-    expect(onValueChange).toHaveBeenLastCalledWith(3723)
+    expect(onValueChange).toHaveBeenLastCalledWith(3723, expect.anything())
     expect(getLastChangedValue(onChange)).toBe("3723")
   })
 
@@ -44,7 +44,7 @@ describe("InputDuration base", () => {
     await user.keyboard("170")
     await user.tab()
 
-    expect(onValueChange).toHaveBeenLastCalledWith(10200)
+    expect(onValueChange).toHaveBeenLastCalledWith(10200, expect.anything())
   })
 
   test("does not emit until blur or Enter", async () => {

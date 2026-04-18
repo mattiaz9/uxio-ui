@@ -54,7 +54,7 @@ describe("InputCurrency base", () => {
 
     expect(input).toHaveValue("10.00")
     expect(getLastChangedValue(onChange)).toBe("10.00")
-    expect(onValueChange).toHaveBeenLastCalledWith("10")
+    expect(onValueChange).toHaveBeenLastCalledWith("10", expect.anything())
   })
 
   test("enter commits and normalizes trailing separator", async () => {
@@ -76,7 +76,7 @@ describe("InputCurrency base", () => {
     await user.keyboard("{Enter}")
 
     expect(input).toHaveValue("1.00")
-    expect(onValueChange).toHaveBeenLastCalledWith("1")
+    expect(onValueChange).toHaveBeenLastCalledWith("1", expect.anything())
   })
 
   test("onValueChange null for incomplete commit", async () => {
@@ -97,7 +97,7 @@ describe("InputCurrency base", () => {
     await user.tab()
 
     expect(input).toHaveValue("-")
-    expect(onValueChange).toHaveBeenLastCalledWith(null)
+    expect(onValueChange).toHaveBeenLastCalledWith(null, expect.anything())
   })
 
   test("addon shows currency symbol for locale", () => {
@@ -228,6 +228,6 @@ describe("InputCurrency base", () => {
     await user.type(input, "1200")
     await user.tab()
 
-    expect(onValueChange).toHaveBeenLastCalledWith("1200")
+    expect(onValueChange).toHaveBeenLastCalledWith("1200", expect.anything())
   })
 })

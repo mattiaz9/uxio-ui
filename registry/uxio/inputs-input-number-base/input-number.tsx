@@ -30,7 +30,7 @@ type InputNumberProps = Omit<
     value?: string | number | null
     defaultValue?: string | number
     onChange?: React.ChangeEventHandler<HTMLInputElement>
-    onValueChange?: (value: number | null) => void
+    onValueChange?: (value: number | null, event: React.SyntheticEvent<HTMLInputElement>) => void
     min?: number
     max?: number
     step?: number
@@ -133,7 +133,7 @@ function InputNumber({
   )
 
   const emitValueChange = React.useCallback(
-    (nextValue: number | null) => {
+    (nextValue: number | null, source?: HTMLInputElement | null) => {
       if (
         lastCommittedValueRef.current !== undefined &&
         Object.is(lastCommittedValueRef.current, nextValue)
@@ -141,7 +141,12 @@ function InputNumber({
         return
       }
       lastCommittedValueRef.current = nextValue
-      onValueChange?.(nextValue)
+      const el = source ?? inputRef.current
+      if (!el) return
+      onValueChange?.(nextValue, {
+        currentTarget: el,
+        target: el,
+      } as unknown as React.SyntheticEvent<HTMLInputElement>)
     },
     [onValueChange],
   )
@@ -156,7 +161,7 @@ function InputNumber({
       if (parsed === null) {
         updateLocalDisplay(sanitized)
         emitChange(sanitized, source)
-        emitValueChange(null)
+        emitValueChange(null, source)
         return
       }
 
@@ -170,7 +175,7 @@ function InputNumber({
 
       updateLocalDisplay(nextDisplay)
       emitChange(nextDisplay, source)
-      emitValueChange(clamped)
+      emitValueChange(clamped, source)
     },
     [
       bounds.max,
@@ -205,7 +210,7 @@ function InputNumber({
       lastValidSteppedValueRef.current = nextNumber
       updateLocalDisplay(nextDisplay)
       emitChange(nextDisplay, inputRef.current)
-      emitValueChange(nextNumber)
+      emitValueChange(nextNumber, inputRef.current)
     },
     [
       bounds.max,

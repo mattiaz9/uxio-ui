@@ -29,7 +29,7 @@ describe("InputDuration radix", () => {
     await user.keyboard("3")
     await user.tab()
 
-    expect(onValueChange).toHaveBeenLastCalledWith(3723)
+    expect(onValueChange).toHaveBeenLastCalledWith(3723, expect.anything())
     expect(getLastChangedValue(onChange)).toBe("3723")
   })
 })

@@ -12,7 +12,9 @@ import {
 import { IconPlaceholder } from "@/registry/uxio/shared/icon-placeholder/icon-placeholder"
 
 type InputPasswordProps = Omit<React.ComponentProps<typeof InputGroupInput>, "type" | "size"> &
-  Pick<React.ComponentProps<typeof InputGroup>, "size">
+  Pick<React.ComponentProps<typeof InputGroup>, "size"> & {
+    onValueChange?: (value: string, event: React.SyntheticEvent<HTMLInputElement>) => void
+  }
 
 function InputPassword({
   className,
@@ -20,6 +22,8 @@ function InputPassword({
   readOnly,
   autoComplete = "current-password",
   size,
+  onChange,
+  onValueChange,
   ...props
 }: InputPasswordProps) {
   const [visible, setVisible] = React.useState(false)
@@ -32,6 +36,10 @@ function InputPassword({
         disabled={disabled}
         readOnly={readOnly}
         autoComplete={autoComplete}
+        onChange={(event) => {
+          onChange?.(event)
+          onValueChange?.(event.currentTarget.value, event)
+        }}
       />
       <InputGroupAddon align="inline-end" className="px-1 text-muted-foreground">
         <InputGroupButton

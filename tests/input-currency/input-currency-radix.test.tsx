@@ -54,7 +54,7 @@ describe("InputCurrency radix", () => {
 
     expect(input).toHaveValue("10.00")
     expect(getLastChangedValue(onChange)).toBe("10.00")
-    expect(onValueChange).toHaveBeenLastCalledWith("10")
+    expect(onValueChange).toHaveBeenLastCalledWith("10", expect.anything())
   })
 
   test("addon shows currency symbol for locale", () => {

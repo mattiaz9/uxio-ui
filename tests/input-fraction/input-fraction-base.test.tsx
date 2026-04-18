@@ -24,7 +24,7 @@ describe("InputFraction base", () => {
     await user.keyboard("5")
     await user.tab()
 
-    expect(onValueChange).toHaveBeenLastCalledWith("0/5")
+    expect(onValueChange).toHaveBeenLastCalledWith("0/5", expect.anything())
   })
 
   test("commits normalized fraction after numerator and denominator entry", async () => {
@@ -41,7 +41,7 @@ describe("InputFraction base", () => {
     await user.keyboard("5")
     await user.tab()
 
-    expect(onValueChange).toHaveBeenLastCalledWith("2/5")
+    expect(onValueChange).toHaveBeenLastCalledWith("2/5", expect.anything())
     expect(getLastChangedValue(onChange)).toBe("2/5")
   })
 
@@ -58,7 +58,7 @@ describe("InputFraction base", () => {
     await user.keyboard("89")
     await user.tab()
 
-    expect(onValueChange).toHaveBeenLastCalledWith("1234567/89")
+    expect(onValueChange).toHaveBeenLastCalledWith("1234567/89", expect.anything())
     expect(boxes[0]).toHaveTextContent("1234567")
     expect(boxes[1]).toHaveTextContent("89")
   })
@@ -127,7 +127,7 @@ describe("InputFraction base", () => {
     await user.keyboard("5")
     await user.tab()
 
-    expect(onValueChange).toHaveBeenLastCalledWith("5/5")
+    expect(onValueChange).toHaveBeenLastCalledWith("5/5", expect.anything())
     boxes = screen.getAllByRole("textbox")
     expect(boxes[0]).toHaveTextContent("5")
     expect(boxes[1]).toHaveTextContent("5")

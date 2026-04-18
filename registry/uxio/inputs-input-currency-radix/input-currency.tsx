@@ -32,7 +32,7 @@ interface InputCurrencyProps
   value?: string | number
   defaultValue?: string | number
   onChange?: React.ChangeEventHandler<HTMLInputElement>
-  onValueChange?: (value: string | null) => void
+  onValueChange?: (value: string | null, event: React.SyntheticEvent<HTMLInputElement>) => void
   min?: number
   max?: number
 }
@@ -145,12 +145,17 @@ function InputCurrency({
   )
 
   const emitValueChange = React.useCallback(
-    (nextValue: string | null) => {
+    (nextValue: string | null, source?: HTMLInputElement | null) => {
       if (lastEmittedRef.current !== undefined && lastEmittedRef.current === nextValue) {
         return
       }
       lastEmittedRef.current = nextValue
-      onValueChange?.(nextValue)
+      const el = source ?? inputRef.current
+      if (!el) return
+      onValueChange?.(nextValue, {
+        currentTarget: el,
+        target: el,
+      } as unknown as React.SyntheticEvent<HTMLInputElement>)
     },
     [onValueChange],
   )
@@ -162,7 +167,7 @@ function InputCurrency({
       if (parsed === null) {
         updateLocalDisplay(sanitized)
         emitChange(sanitized, source)
-        emitValueChange(null)
+        emitValueChange(null, source)
         return
       }
 
@@ -175,7 +180,7 @@ function InputCurrency({
 
       updateLocalDisplay(numericDisplay)
       emitChange(numericDisplay, source)
-      emitValueChange(normalized)
+      emitValueChange(normalized, source)
     },
     [bounds.max, bounds.min, currency, emitChange, emitValueChange, locale, updateLocalDisplay],
   )

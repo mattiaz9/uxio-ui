@@ -39,7 +39,7 @@ describe("InputNumber radix", () => {
 
     expect(input).toHaveValue("10")
     expect(getLastChangedValue(onChange)).toBe("10")
-    expect(onValueChange).toHaveBeenLastCalledWith(10)
+    expect(onValueChange).toHaveBeenLastCalledWith(10, expect.anything())
   })
 
   test("enter commits a trailing separator as a valid number", async () => {
@@ -55,7 +55,7 @@ describe("InputNumber radix", () => {
 
     expect(input).toHaveValue("1")
     expect(getLastChangedValue(onChange)).toBe("1")
-    expect(onValueChange).toHaveBeenLastCalledWith(1)
+    expect(onValueChange).toHaveBeenLastCalledWith(1, expect.anything())
   })
 
   test("arrow keys commit and update both text and numeric value", async () => {
@@ -71,7 +71,7 @@ describe("InputNumber radix", () => {
 
     expect(input).toHaveValue("2")
     expect(getLastChangedValue(onChange)).toBe("2")
-    expect(onValueChange).toHaveBeenLastCalledWith(2)
+    expect(onValueChange).toHaveBeenLastCalledWith(2, expect.anything())
   })
 
   test("step buttons commit and update both text and numeric value", async () => {
@@ -85,7 +85,7 @@ describe("InputNumber radix", () => {
 
     expect(screen.getByRole("textbox")).toHaveValue("2")
     expect(getLastChangedValue(onChange)).toBe("2")
-    expect(onValueChange).toHaveBeenLastCalledWith(2)
+    expect(onValueChange).toHaveBeenLastCalledWith(2, expect.anything())
   })
 
   test("rejects invalid characters and filters paste", async () => {
@@ -126,7 +126,7 @@ describe("InputNumber radix", () => {
 
     expect(input).toHaveValue("-")
     expect(getLastChangedValue(onChange)).toBe("-")
-    expect(onValueChange).toHaveBeenLastCalledWith(null)
+    expect(onValueChange).toHaveBeenLastCalledWith(null, expect.anything())
   })
 
   test("string-controlled mode waits for the parent echo before normalizing display", async () => {
@@ -142,7 +142,7 @@ describe("InputNumber radix", () => {
     await user.tab()
 
     expect(getLastChangedValue(onChange)).toBe("10")
-    expect(onValueChange).toHaveBeenLastCalledWith(10)
+    expect(onValueChange).toHaveBeenLastCalledWith(10, expect.anything())
     expect(input).toHaveValue("99")
 
     rerender(<InputNumber value="10" onChange={onChange} onValueChange={onValueChange} max={10} />)
