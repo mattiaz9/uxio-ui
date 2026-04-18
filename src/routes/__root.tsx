@@ -39,7 +39,7 @@ export const Route = createRootRoute({
     ],
   }),
   errorComponent: DefaultCatchBoundary,
-  notFoundComponent: () => <NotFound />,
+  notFoundComponent: NotFound,
   shellComponent: RootDocument,
 })
 

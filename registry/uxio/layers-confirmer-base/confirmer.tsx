@@ -25,8 +25,9 @@ export interface ConfirmerOptions {
   confirmButtonTitle?: string
   children?: React.ReactNode
   displayError?: "none" | "above-content" | "below-content"
+  disableCancelWhilePending?: boolean
   renderError?: (error: Error) => React.ReactNode
-  action?: () => void | Promise<void>
+  action?: (abortSignal: AbortSignal) => void | Promise<void>
 }
 
 interface ConfirmerState extends ConfirmerOptions {
@@ -37,6 +38,8 @@ interface ConfirmerState extends ConfirmerOptions {
 let listener: Dispatch<SetStateAction<ConfirmerState | undefined>> | undefined
 
 let resolveConfirmer: ((success: boolean) => void) | undefined
+
+let actionAbortController: AbortController | undefined
 
 function openConfirmer(options: ConfirmerOptions) {
   if (listener) {
@@ -55,38 +58,51 @@ function hideConfirmer(success: boolean) {
   listener?.(undefined)
 }
 
-async function runAction(action: () => void | Promise<void>) {
+async function runAction(action: (abortSignal: AbortSignal) => void | Promise<void>) {
+  const abortController = new AbortController()
+  actionAbortController = abortController
+
   listener?.((state) => ({
     ...(state as ConfirmerState),
     isLoading: true,
     error: undefined,
   }))
 
-  const promisifiedAction = new Promise<void>((resolve, reject) => {
-    try {
-      const promise = action()
-      if (promise) {
-        promise.then(resolve).catch(reject)
-        return
+  try {
+    const promisifiedAction = new Promise<void>((resolve, reject) => {
+      try {
+        const promise = action(abortController.signal)
+        if (promise) {
+          promise.then(resolve).catch(reject)
+          return
+        }
+        resolve()
+      } catch (error) {
+        reject(error instanceof Error ? error : new Error(String(error)))
       }
-      resolve()
-    } catch (error) {
-      reject(error instanceof Error ? error : new Error(String(error)))
+    })
+
+    const result = await promisifiedAction
+      .then(() => true)
+      .catch((error: unknown) => (error instanceof Error ? error : new Error(String(error))))
+
+    if (abortController.signal.aborted) {
+      return
     }
-  })
 
-  const result = await promisifiedAction
-    .then(() => true)
-    .catch((error: unknown) => (error instanceof Error ? error : new Error(String(error))))
-
-  if (result instanceof Error) {
-    listener?.((state) => ({
-      ...(state as ConfirmerState),
-      isLoading: false,
-      error: result,
-    }))
-  } else {
-    hideConfirmer(true)
+    if (result instanceof Error) {
+      listener?.((state) => ({
+        ...(state as ConfirmerState),
+        isLoading: false,
+        error: result,
+      }))
+    } else {
+      hideConfirmer(true)
+    }
+  } finally {
+    if (actionAbortController === abortController) {
+      actionAbortController = undefined
+    }
   }
 }
 
@@ -167,7 +183,14 @@ function Confirmer() {
             (payload.renderError?.(payload.error) ?? <DefaultRenderError error={payload.error} />)}
         </div>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={() => hideConfirmer(false)} data-action="cancel">
+          <AlertDialogCancel
+            disabled={Boolean(payload?.disableCancelWhilePending && payload?.isLoading)}
+            onClick={() => {
+              actionAbortController?.abort()
+              hideConfirmer(false)
+            }}
+            data-action="cancel"
+          >
             {payload?.cancelButtonTitle || "Cancel"}
           </AlertDialogCancel>
           <AlertDialogAction
