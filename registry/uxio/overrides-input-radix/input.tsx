@@ -56,14 +56,9 @@ function Input({
         return
       }
       lastCommittedValueRef.current = nextValue
-      const eventTarget = Object.create(target) as HTMLInputElement
-      Object.defineProperty(eventTarget, "value", {
-        value: nextValue,
-        configurable: true,
-      })
       onCommitValue?.({
-        target: eventTarget,
-        currentTarget: eventTarget,
+        target: { value: nextValue } as HTMLInputElement,
+        currentTarget: target,
       } as React.ChangeEvent<HTMLInputElement>)
     },
     [onCommitValue],
