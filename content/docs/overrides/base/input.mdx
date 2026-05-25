@@ -1,11 +1,34 @@
 ---
 title: Input
+description: Text input with size variants and a commit callback for blur and Enter.
 ---
 
 ## Extended Features
 
 - [Size variants](#size-variants) — `xs`, `sm`, `default`, and `lg` with the same dimensions and
   spacing as the Button component
+- [Commit value](#commit-value) — `onCommitValue` fires when the user blurs the field or presses
+  <Kbd>↵</Kbd>, separate from `onChange` while typing
+
+## Commit value
+
+Use `onChange` for every keystroke and `onCommitValue` when the user finishes editing (blur or
+<Kbd>↵</Kbd>). The handler receives a synthetic change event with the current `value`, matching the
+shape of `onChange`. Repeated commits with the same value are skipped until the field changes again.
+
+### Key bindings
+
+| Key | Behavior |
+| --- | -------- |
+| <Kbd>↵</Kbd> | Fires `onCommitValue` with the current value (`preventDefault` on Enter). |
+| `blur` | Fires `onCommitValue` when focus leaves the input (unless `defaultPrevented` or `disabled`). |
+
+## Custom props
+
+| Prop            | Type                                           | Description |
+| --------------- | ---------------------------------------------- | ----------- |
+| `onCommitValue` | `React.ChangeEventHandler<HTMLInputElement>`   | Fires on blur and <Kbd>↵</Kbd> when the value changes since the last commit. |
+| `size`          | `'xs' \| 'sm' \| 'default' \| 'lg'`            | Height and padding aligned with [Button](/docs/overrides/base/button). |
 
 ## Install
 
@@ -25,8 +48,35 @@ Then run:
 npx shadcn@latest add @uxio/input
 ```
 
+## Usage
+
+```tsx
+"use client"
+
+import * as React from "react"
+
+import { Input } from "@/components/ui/input"
+
+export function NameField() {
+  const [text, setText] = React.useState("")
+  const [committed, setCommitted] = React.useState("")
+
+  return (
+    <Input
+      value={text}
+      placeholder="Your name"
+      onChange={(event) => setText(event.target.value)}
+      onCommitValue={(event) => setCommitted(event.target.value)}
+    />
+  )
+}
+```
 
 ## Examples
+
+### Commit value
+
+<ComponentPreview name="base/input-commit-value" />
 
 ### Size Variants
 

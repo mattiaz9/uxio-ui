@@ -25,7 +25,7 @@ interface InputNumberProps
   extends
     Omit<
       React.ComponentProps<typeof InputGroupInput>,
-      "type" | "value" | "defaultValue" | "onChange" | "size"
+      "type" | "value" | "defaultValue" | "onChange" | "onCommitValue" | "size"
     >,
     Pick<React.ComponentProps<typeof InputGroup>, "size"> {
   value?: string | number | null
@@ -243,20 +243,13 @@ function InputNumber({
           updateLocalDisplay(sanitized)
           emitChange(sanitized, event.currentTarget)
         }}
-        onBlur={(event) => {
-          onBlur?.(event)
-          if (event.defaultPrevented || disabled) return
-          commitDisplayValue(event.currentTarget.value, event.currentTarget)
+        onBlur={onBlur}
+        onCommitValue={(event) => {
+          commitDisplayValue(event.target.value, event.currentTarget)
         }}
         onKeyDown={(event) => {
           onKeyDown?.(event)
           if (event.defaultPrevented || disabled) return
-
-          if (event.key === "Enter") {
-            event.preventDefault()
-            commitDisplayValue(event.currentTarget.value, event.currentTarget)
-            return
-          }
 
           if (event.key === "ArrowUp") {
             event.preventDefault()

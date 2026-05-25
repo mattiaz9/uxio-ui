@@ -23,7 +23,7 @@ import {
 
 type InputCurrencyProps = Omit<
   React.ComponentProps<typeof InputGroupInput>,
-  "type" | "value" | "defaultValue" | "onChange" | "size"
+  "type" | "value" | "defaultValue" | "onChange" | "onCommitValue" | "size"
 > &
   Pick<React.ComponentProps<typeof InputGroup>, "size"> & {
     currency: string
@@ -228,22 +228,12 @@ function InputCurrency({
         }}
         onBlur={(event) => {
           onBlur?.(event)
-          if (event.defaultPrevented || disabled) {
-            setFocused(false)
-            return
-          }
-          commitDisplayValue(event.currentTarget.value, event.currentTarget)
           setFocused(false)
         }}
-        onKeyDown={(event) => {
-          onKeyDown?.(event)
-          if (event.defaultPrevented || disabled) return
-
-          if (event.key === "Enter") {
-            event.preventDefault()
-            commitDisplayValue(event.currentTarget.value, event.currentTarget)
-          }
+        onCommitValue={(event) => {
+          commitDisplayValue(event.target.value, event.currentTarget)
         }}
+        onKeyDown={onKeyDown}
         onPaste={(event) => {
           onPaste?.(event)
           if (event.defaultPrevented || disabled || readOnly) return
