@@ -84,7 +84,7 @@ function Input({
         onKeyDown?.(event)
         if (event.defaultPrevented || disabled) return
 
-        if (event.key === "Enter") {
+        if (event.key === "Enter" && onCommitValue) {
           event.preventDefault()
           emitCommitValue(event.currentTarget)
         }
