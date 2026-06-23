@@ -64,13 +64,7 @@ describe("InputFraction base", () => {
   })
 
   test("maxDigits limits parsed controlled segment strings", () => {
-    render(
-      <InputFraction
-        maxDigits={3}
-        value="12345678901234567890/1"
-        onValueChange={() => {}}
-      />,
-    )
+    render(<InputFraction maxDigits={3} value="12345678901234567890/1" onValueChange={() => {}} />)
 
     const boxes = screen.getAllByRole("textbox")
     expect(boxes[0]).toHaveTextContent("123")

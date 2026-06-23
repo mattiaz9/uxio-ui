@@ -14,31 +14,31 @@ A **hidden** `<input>` mirrors the seconds string for native forms. Commit occur
 Within each segment, digits accumulate **right-to-left**. Segments are uncapped until commit. On
 commit, values **normalize** with overflow carried into larger units that exist in `format` (60/24
 rules for time; approximate **30-day** months and **365-day** years for `y` / `M` / `d`—see
-`lib/duration-format.ts`). If a larger unit is absent from the pattern, the smaller segment does
-not carry upward.
+`lib/duration-format.ts`). If a larger unit is absent from the pattern, the smaller segment does not
+carry upward.
 
 Editable fields use `y`, `M`, `d`, `H`, `m`, `s` (runs set **minimum width**); other characters are
 static labels; use **single quotes** for literals. Default: `HH'h' mm'm' ss's'`.
 
 ### Key bindings
 
-| Key | Behavior |
-| --- | -------- |
-| <Kbd>⌫</Kbd> | Deletes the last digit in the focused segment. If the segment is empty, focus moves to the **previous** segment. |
-| <Kbd>⌦</Kbd> | Clears the focused segment. The next digit typed **replaces** the whole segment. |
-| <span className="inline-flex items-center gap-1.5"><Kbd>←</Kbd><span className="text-muted-foreground">/</span><Kbd>→</Kbd></span> | Move focus to the **previous** or **next** segment (at the ends, the key has no effect). |
-| <Kbd>↵</Kbd> | **Commits** and normalizes the duration. Works from a segment or from the surrounding control. |
-| <Kbd>⇥</Kbd> | Moves through segments in focus order. |
-| `blur` | Leaving a segment **commits** with the same normalization as <Kbd>↵</Kbd>. |
+| Key                                                                                                                                | Behavior                                                                                                         |
+| ---------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| <Kbd>⌫</Kbd>                                                                                                                       | Deletes the last digit in the focused segment. If the segment is empty, focus moves to the **previous** segment. |
+| <Kbd>⌦</Kbd>                                                                                                                       | Clears the focused segment. The next digit typed **replaces** the whole segment.                                 |
+| <span className="inline-flex items-center gap-1.5"><Kbd>←</Kbd><span className="text-muted-foreground">/</span><Kbd>→</Kbd></span> | Move focus to the **previous** or **next** segment (at the ends, the key has no effect).                         |
+| <Kbd>↵</Kbd>                                                                                                                       | **Commits** and normalizes the duration. Works from a segment or from the surrounding control.                   |
+| <Kbd>⇥</Kbd>                                                                                                                       | Moves through segments in focus order.                                                                           |
+| `blur`                                                                                                                             | Leaving a segment **commits** with the same normalization as <Kbd>↵</Kbd>.                                       |
 
 ## Custom props
 
-| Prop            | Type                                | Description                                                                                                                                          |
-| --------------- | ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `format`        | `string`                            | Pattern for segments and static text. Default: `HH'h' mm'm' ss's'`. Use single-quoted literals for static text; see Overview.                                         |
-| `value`         | `number \| null`                    | Controlled total duration in **seconds**, or `null` for empty.                                                                                      |
-| `onValueChange` | `(seconds: number \| null) => void` | Fires after **blur** of a segment or **Enter**, with normalized carry; `null` when all segments are cleared.                                         |
-| `size`          | `'xs' \| 'sm' \| 'default' \| 'lg'`   | Optional. **Input Group** size: shell height and segment padding/text scale together. This is not the HTML `size` attribute (that prop is not forwarded to the hidden input).              |
+| Prop            | Type                                | Description                                                                                                                                                                   |
+| --------------- | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `format`        | `string`                            | Pattern for segments and static text. Default: `HH'h' mm'm' ss's'`. Use single-quoted literals for static text; see Overview.                                                 |
+| `value`         | `number \| null`                    | Controlled total duration in **seconds**, or `null` for empty.                                                                                                                |
+| `onValueChange` | `(seconds: number \| null) => void` | Fires after **blur** of a segment or **Enter**, with normalized carry; `null` when all segments are cleared.                                                                  |
+| `size`          | `'xs' \| 'sm' \| 'default' \| 'lg'` | Optional. **Input Group** size: shell height and segment padding/text scale together. This is not the HTML `size` attribute (that prop is not forwarded to the hidden input). |
 
 ## Install
 
@@ -88,13 +88,7 @@ import { InputDuration } from "@/components/ui/input-duration"
 export function DurationFormatField() {
   const [value, setValue] = React.useState<number | null>(null)
 
-  return (
-    <InputDuration
-      format="dd'd' HH'h' mm'm'"
-      value={value}
-      onValueChange={setValue}
-    />
-  )
+  return <InputDuration format="dd'd' HH'h' mm'm'" value={value} onValueChange={setValue} />
 }
 ```
 
@@ -108,9 +102,7 @@ import { InputDuration } from "@/components/ui/input-duration"
 export function ColonDurationField() {
   const [value, setValue] = React.useState<number | null>(null)
 
-  return (
-    <InputDuration format="HH:mm:ss" value={value} onValueChange={setValue} />
-  )
+  return <InputDuration format="HH:mm:ss" value={value} onValueChange={setValue} />
 }
 ```
 
@@ -134,6 +126,7 @@ export function ColonDurationField() {
 
 ### Size variants
 
-Use `size` so the field aligns with [`InputGroup`](/docs/overrides/base/input-group) and [`Input`](/docs/overrides/base/input) dimensions. Segment padding and text scale with the group.
+Use `size` so the field aligns with [`InputGroup`](/docs/overrides/base/input-group) and
+[`Input`](/docs/overrides/base/input) dimensions. Segment padding and text scale with the group.
 
 <ComponentPreview name="base/input-duration-sizes" />

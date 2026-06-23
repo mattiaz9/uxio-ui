@@ -21,7 +21,7 @@ export default function DialogBodyExample() {
         </DialogHeader>
         <DialogBody>
           {Array.from({ length: 28 }, (_, i) => (
-            <p key={i} className="text-muted-foreground text-sm leading-relaxed">
+            <p key={i} className="text-sm leading-relaxed text-muted-foreground">
               Section {i + 1}. In a real screen this might be terms, a long form, or stacked
               sections. The body scrolls independently so the header and footer stay visible.
             </p>

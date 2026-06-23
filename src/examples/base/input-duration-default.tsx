@@ -21,7 +21,9 @@ export default function InputDurationDefaultExample() {
           {committed === null ? "—" : String(committed)}
         </p>
         <p>
-          <span className="font-medium text-foreground">Hidden input (onChange, same as commit): </span>
+          <span className="font-medium text-foreground">
+            Hidden input (onChange, same as commit):{" "}
+          </span>
           {lastChange ? lastChange : "—"}
         </p>
       </div>

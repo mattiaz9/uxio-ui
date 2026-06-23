@@ -71,7 +71,7 @@
     "oxlint": "1.59.0",
     "oxlint-tsgolint": "0.20.0",
     "portless": "0.10.1",
-    "tailwindcss": "4.2.2",
+    "tailwindcss": "4.3.0",
     "tsx": "4.21.0",
     "typescript": "6.0.2",
     "vite": "8.0.8",

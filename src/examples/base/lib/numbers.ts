@@ -79,7 +79,10 @@ export function getPreferredSeparator(value: string, fallback: "." | ","): "." |
   return fallback
 }
 
-export function coerceInitialDisplay(value: string | number | undefined, separator: "." | ","): string {
+export function coerceInitialDisplay(
+  value: string | number | undefined,
+  separator: "." | ",",
+): string {
   if (typeof value === "string") return sanitizeInput(value)
   if (!isFiniteNumber(value)) return ""
   return formatNumber(value, separator, countFractionDigits(String(value)))

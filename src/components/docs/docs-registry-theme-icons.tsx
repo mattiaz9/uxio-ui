@@ -1,6 +1,6 @@
-import type { SVGProps } from "react"
-
 import { cn } from "@/lib/utils"
+
+import type { SVGProps } from "react"
 
 type IconProps = SVGProps<SVGSVGElement>
 
@@ -75,6 +75,29 @@ export function MiraThemeIcon({ className, ...props }: IconProps) {
         strokeWidth={2}
         strokeLinejoin="round"
       />
+    </svg>
+  )
+}
+
+/** Rhea — compact horizontal capsule */
+export function RheaThemeIcon({ className, ...props }: IconProps) {
+  return (
+    <svg {...iconProps(className, props)}>
+      <path
+        d="M3 12C3 9.79086 4.79086 8 7 8H17C19.2091 8 21 9.79086 21 12C21 14.2091 19.2091 16 17 16H7C4.79086 16 3 14.2091 3 12Z"
+        stroke="currentColor"
+        strokeWidth={2}
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+/** Sera — square (editorial) */
+export function SeraThemeIcon({ className, ...props }: IconProps) {
+  return (
+    <svg {...iconProps(className, props)}>
+      <rect x={3} y={3} width={18} height={18} stroke="currentColor" strokeWidth={2} />
     </svg>
   )
 }

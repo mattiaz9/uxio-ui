@@ -48,6 +48,20 @@ user-invocable: true
   and copy the content
 - Paste it in `registry/styles/style-vega.css` (full replace)
 
+## Sera
+
+- Go to
+  https://raw.githubusercontent.com/shadcn-ui/ui/refs/heads/main/apps/v4/registry/styles/style-sera.css
+  and copy the content
+- Paste it in `registry/styles/style-sera.css` (full replace)
+
+## Rhea
+
+- Go to
+  https://raw.githubusercontent.com/shadcn-ui/ui/refs/heads/main/apps/v4/registry/styles/style-rhea.css
+  and copy the content
+- Paste it in `registry/styles/style-rhea.css` (full replace)
+
 ## Format code
 
 - run `pnpm format`

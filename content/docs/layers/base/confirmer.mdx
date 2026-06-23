@@ -29,18 +29,18 @@ npx shadcn@latest add @uxio/confirmer
 
 `confirm()` accepts **`ConfirmerOptions`**:
 
-| Prop                 | Type                                                         | Default           | Description                                                                                                                                        |
-| -------------------- | ------------------------------------------------------------ | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `title`              | `string`                                                     | —                 | Dialog title (required).                                                                                                                           |
-| `description`        | `string`                                                     | —                 | Optional body HTML (rendered with `dangerouslySetInnerHTML`).                                                                                      |
-| `variant`            | `AlertDialogAction` `variant`                                | `"default"`       | Visual style of the confirm button.                                                                                                                |
-| `cancelButtonTitle`  | `string`                                                     | `"Cancel"`        | Label for the cancel button.                                                                                                                       |
-| `confirmButtonTitle` | `string`                                                     | `"OK"`            | Label for the confirm button.                                                                                                                      |
-| `children`           | `React.ReactNode`                                            | —                 | Extra content between the description block and the footer.                                                                                      |
-| `displayError`       | `"none"` \| `"above-content"` \| `"below-content"`           | `"below-content"` | Where to show an error when `action` rejects. `"none"` hides inline error UI (the error is still captured).                                        |
-| `renderError`        | `(error: Error) => React.ReactNode`                          | —                 | Custom error UI. If omitted, a default destructive-styled message with an icon is used.                                                            |
-| `action`             | `(abortSignal: AbortSignal) => void \| Promise<void>`        | —                 | Runs when the user confirms. Receives a fresh `AbortSignal` per run; **Cancel** aborts it so you can pass it to `fetch(..., { signal })`, streams, or your own cancellation logic. Shows a loading spinner; on failure, rejection is shown per `displayError` (abort after cancel does not surface as inline error). |
-| `disableCancelWhilePending` | `boolean`                                             | —                 | If `true`, disables the cancel button while the async `action` is in progress (user cannot abort from the UI until loading finishes or errors). |
+| Prop                        | Type                                                  | Default           | Description                                                                                                                                                                                                                                                                                                          |
+| --------------------------- | ----------------------------------------------------- | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `title`                     | `string`                                              | —                 | Dialog title (required).                                                                                                                                                                                                                                                                                             |
+| `description`               | `string`                                              | —                 | Optional body HTML (rendered with `dangerouslySetInnerHTML`).                                                                                                                                                                                                                                                        |
+| `variant`                   | `AlertDialogAction` `variant`                         | `"default"`       | Visual style of the confirm button.                                                                                                                                                                                                                                                                                  |
+| `cancelButtonTitle`         | `string`                                              | `"Cancel"`        | Label for the cancel button.                                                                                                                                                                                                                                                                                         |
+| `confirmButtonTitle`        | `string`                                              | `"OK"`            | Label for the confirm button.                                                                                                                                                                                                                                                                                        |
+| `children`                  | `React.ReactNode`                                     | —                 | Extra content between the description block and the footer.                                                                                                                                                                                                                                                          |
+| `displayError`              | `"none"` \| `"above-content"` \| `"below-content"`    | `"below-content"` | Where to show an error when `action` rejects. `"none"` hides inline error UI (the error is still captured).                                                                                                                                                                                                          |
+| `renderError`               | `(error: Error) => React.ReactNode`                   | —                 | Custom error UI. If omitted, a default destructive-styled message with an icon is used.                                                                                                                                                                                                                              |
+| `action`                    | `(abortSignal: AbortSignal) => void \| Promise<void>` | —                 | Runs when the user confirms. Receives a fresh `AbortSignal` per run; **Cancel** aborts it so you can pass it to `fetch(..., { signal })`, streams, or your own cancellation logic. Shows a loading spinner; on failure, rejection is shown per `displayError` (abort after cancel does not surface as inline error). |
+| `disableCancelWhilePending` | `boolean`                                             | —                 | If `true`, disables the cancel button while the async `action` is in progress (user cannot abort from the UI until loading finishes or errors).                                                                                                                                                                      |
 
 ## Usage
 
@@ -108,11 +108,17 @@ void confirm({
 
 ### Cancellation and `abortSignal`
 
-When the user confirms, the confirmer creates a new `AbortController` and passes `controller.signal` to `action` as `abortSignal`. Pressing **Cancel** while the action is running calls `abort()` on that controller, then closes the dialog. Use `abortSignal` with network calls (`fetch(..., { signal })`), or listen with `abortSignal.addEventListener("abort", …)` so in-flight work stops when the user backs out.
+When the user confirms, the confirmer creates a new `AbortController` and passes `controller.signal`
+to `action` as `abortSignal`. Pressing **Cancel** while the action is running calls `abort()` on
+that controller, then closes the dialog. Use `abortSignal` with network calls
+(`fetch(..., { signal })`), or listen with `abortSignal.addEventListener("abort", …)` so in-flight
+work stops when the user backs out.
 
-If the action ignores `abortSignal`, the dialog still closes on cancel; the confirmer will not treat the eventual completion as success when the signal was aborted.
+If the action ignores `abortSignal`, the dialog still closes on cancel; the confirmer will not treat
+the eventual completion as success when the signal was aborted.
 
-Set `disableCancelWhilePending: true` if you need to block cancellation (and thus `abortSignal`) until the action settles.
+Set `disableCancelWhilePending: true` if you need to block cancellation (and thus `abortSignal`)
+until the action settles.
 
 ## Examples
 

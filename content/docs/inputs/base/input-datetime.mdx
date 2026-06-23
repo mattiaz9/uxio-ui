@@ -1,6 +1,8 @@
 ---
 title: Input DateTime
-description: Date and time input with segmented editing, a hidden field for native forms, and optional calendar selection.
+description:
+  Date and time input with segmented editing, a hidden field for native forms, and optional calendar
+  selection.
 ---
 
 ## Overview
@@ -16,24 +18,24 @@ In `date` and `datetime` modes, the trailing button opens a **Calendar** popover
 
 ### Key bindings
 
-| Key | Behavior |
-| --- | -------- |
-| <Kbd>⌫</Kbd> | Deletes the last digit in the focused segment. If the segment is empty, focus moves to the **previous** segment. |
-| <Kbd>⌦</Kbd> | Clears the focused segment. The next digit typed **replaces** the whole segment (same as focusing fresh). |
-| <span className="inline-flex items-center gap-1.5"><Kbd>←</Kbd><span className="text-muted-foreground">/</span><Kbd>→</Kbd></span> | Move focus to the **previous** or **next** segment (at ends of the field, the key has no effect). |
-| <Kbd>↵</Kbd> | **Commits** the current composed string: if every segment is filled and the value parses for the format, `onValueChange` runs with the resulting `Date`. Works from a segment or from the surrounding control. |
-| <Kbd>⇥</Kbd> | Moves through segments and the calendar button (in `date` / `datetime` modes) in focus order. |
-| `blur` | Leaving a segment **commits** the same way as <Kbd>↵</Kbd> (when the value is complete and valid). |
+| Key                                                                                                                                | Behavior                                                                                                                                                                                                       |
+| ---------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <Kbd>⌫</Kbd>                                                                                                                       | Deletes the last digit in the focused segment. If the segment is empty, focus moves to the **previous** segment.                                                                                               |
+| <Kbd>⌦</Kbd>                                                                                                                       | Clears the focused segment. The next digit typed **replaces** the whole segment (same as focusing fresh).                                                                                                      |
+| <span className="inline-flex items-center gap-1.5"><Kbd>←</Kbd><span className="text-muted-foreground">/</span><Kbd>→</Kbd></span> | Move focus to the **previous** or **next** segment (at ends of the field, the key has no effect).                                                                                                              |
+| <Kbd>↵</Kbd>                                                                                                                       | **Commits** the current composed string: if every segment is filled and the value parses for the format, `onValueChange` runs with the resulting `Date`. Works from a segment or from the surrounding control. |
+| <Kbd>⇥</Kbd>                                                                                                                       | Moves through segments and the calendar button (in `date` / `datetime` modes) in focus order.                                                                                                                  |
+| `blur`                                                                                                                             | Leaving a segment **commits** the same way as <Kbd>↵</Kbd> (when the value is complete and valid).                                                                                                             |
 
 ## Custom props
 
-| Prop            | Type                                   | Description                                                                                                                                                                                 |
-| --------------- | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `mode`          | `'date' \| 'time' \| 'datetime'`       | Defaults to `'datetime'`. Narrows which field tokens from `format` are editable (date parts, time parts, or both).                                                                          |
-| `format`        | `string`                               | Pattern for editable segments (`y`, `M`, `d`, `H`, `m`, `s` runs, as in date-fns) and static text between them (e.g. `yyyy/MM/dd - HH:mm`). If omitted, defaults are `yyyy/MM/dd` (date), `HH:mm` (time), and `yyyy/MM/dd HH:mm` (datetime). |
-| `value`         | `Date \| string \| null`               | Controlled value: a `Date` or an ISO-like or formatted string parseable with `format`.                                                                                                      |
-| `onValueChange` | `(date: Date \| null) => void`         | Fires when a committed, valid `Date` is available (see Overview and Key bindings).                                                                                                          |
-| `size`          | `'xs' \| 'sm' \| 'default' \| 'lg'`    | Optional. **Input Group** size: shell height, segment padding/text, and calendar control scale together. This is not the HTML `size` attribute (that prop is not forwarded to the hidden input). |
+| Prop            | Type                                | Description                                                                                                                                                                                                                                  |
+| --------------- | ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `mode`          | `'date' \| 'time' \| 'datetime'`    | Defaults to `'datetime'`. Narrows which field tokens from `format` are editable (date parts, time parts, or both).                                                                                                                           |
+| `format`        | `string`                            | Pattern for editable segments (`y`, `M`, `d`, `H`, `m`, `s` runs, as in date-fns) and static text between them (e.g. `yyyy/MM/dd - HH:mm`). If omitted, defaults are `yyyy/MM/dd` (date), `HH:mm` (time), and `yyyy/MM/dd HH:mm` (datetime). |
+| `value`         | `Date \| string \| null`            | Controlled value: a `Date` or an ISO-like or formatted string parseable with `format`.                                                                                                                                                       |
+| `onValueChange` | `(date: Date \| null) => void`      | Fires when a committed, valid `Date` is available (see Overview and Key bindings).                                                                                                                                                           |
+| `size`          | `'xs' \| 'sm' \| 'default' \| 'lg'` | Optional. **Input Group** size: shell height, segment padding/text, and calendar control scale together. This is not the HTML `size` attribute (that prop is not forwarded to the hidden input).                                             |
 
 ## Install
 
@@ -68,9 +70,7 @@ import { InputDatetime } from "@/components/ui/input-datetime"
 export function ScheduledAtField() {
   const [value, setValue] = React.useState<Date | null>(null)
 
-  return (
-    <InputDatetime mode="datetime" value={value ?? undefined} onValueChange={setValue} />
-  )
+  return <InputDatetime mode="datetime" value={value ?? undefined} onValueChange={setValue} />
 }
 ```
 
@@ -127,6 +127,7 @@ export function TimeField() {
 
 ### Size variants
 
-Use `size` so the field aligns with [`InputGroup`](/docs/overrides/base/input-group) and [`Input`](/docs/overrides/base/input) dimensions. Segment padding and text scale with the group.
+Use `size` so the field aligns with [`InputGroup`](/docs/overrides/base/input-group) and
+[`Input`](/docs/overrides/base/input) dimensions. Segment padding and text scale with the group.
 
 <ComponentPreview name="base/input-datetime-sizes" />

@@ -1,6 +1,5 @@
 "use client"
 
-import { Button } from "./ui/button"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,6 +11,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "./ui/alert-dialog"
+import { Button } from "./ui/button"
 
 export default function AlertDialogFooterBorderExample() {
   return (

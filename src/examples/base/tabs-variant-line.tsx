@@ -2,16 +2,10 @@
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs"
 
-function Row({
-  size,
-  label,
-}: {
-  size: "sm" | "default" | "lg"
-  label: string
-}) {
+function Row({ size, label }: { size: "sm" | "default" | "lg"; label: string }) {
   return (
     <div className="space-y-2">
-      <p className="text-muted-foreground text-xs font-medium">{label}</p>
+      <p className="text-xs font-medium text-muted-foreground">{label}</p>
       <Tabs defaultValue="a" size={size} className="w-full">
         <TabsList variant="line">
           <TabsTrigger value="a">Account</TabsTrigger>

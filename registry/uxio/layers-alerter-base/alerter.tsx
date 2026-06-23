@@ -53,10 +53,7 @@ function Alerter() {
   }, [])
 
   return (
-    <AlertDialog
-      open={open}
-      onOpenChange={(o) => !o && hideAlert()}
-    >
+    <AlertDialog open={open} onOpenChange={(o) => !o && hideAlert()}>
       <AlertDialogContent
         size="sm"
         onAnimationEnd={(e) => {
@@ -128,7 +125,9 @@ function Alerter() {
             </AlertDialogMedia>
           )}
           <AlertDialogTitle>{payload?.title}</AlertDialogTitle>
-          <AlertDialogDescription dangerouslySetInnerHTML={{ __html: payload?.description ?? "" }} />
+          <AlertDialogDescription
+            dangerouslySetInnerHTML={{ __html: payload?.description ?? "" }}
+          />
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogAction className="col-span-full" onClick={() => hideAlert()} data-action="ok">

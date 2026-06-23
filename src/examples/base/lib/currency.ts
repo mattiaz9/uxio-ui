@@ -112,8 +112,7 @@ export function parseCurrencyStringToNumber(
     return null
   }
 
-  const forJs =
-    decimalChar === "." ? stripped : stripped.replace(decimalChar, ".")
+  const forJs = decimalChar === "." ? stripped : stripped.replace(decimalChar, ".")
   const parsed = Number(forJs)
   return Number.isFinite(parsed) ? parsed : null
 }
@@ -158,8 +157,14 @@ export function getCurrencyFormatParts(
   amount: number,
 ): CurrencyFormatParts {
   const parts = new Intl.NumberFormat(locale, { style: "currency", currency }).formatToParts(amount)
-  const symbol = parts.filter((p) => p.type === "currency").map((p) => p.value).join("")
-  const numericDisplay = parts.filter((p) => p.type !== "currency").map((p) => p.value).join("")
+  const symbol = parts
+    .filter((p) => p.type === "currency")
+    .map((p) => p.value)
+    .join("")
+  const numericDisplay = parts
+    .filter((p) => p.type !== "currency")
+    .map((p) => p.value)
+    .join("")
   const currencyIdx = parts.findIndex((p) => p.type === "currency")
   const integerIdx = parts.findIndex((p) => p.type === "integer")
   let addonAlign: "inline-start" | "inline-end" = "inline-start"

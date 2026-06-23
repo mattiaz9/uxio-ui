@@ -65,6 +65,10 @@ const STYLES = [
   "radix-mira",
   "base-luma",
   "radix-luma",
+  "base-sera",
+  "radix-sera",
+  "base-rhea",
+  "radix-rhea",
 ] as const
 
 const BASES = ["base", "radix"] as const

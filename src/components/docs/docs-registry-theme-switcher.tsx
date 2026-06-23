@@ -10,6 +10,8 @@ import {
   MaiaThemeIcon,
   MiraThemeIcon,
   NovaThemeIcon,
+  RheaThemeIcon,
+  SeraThemeIcon,
   VegaThemeIcon,
 } from "@/components/docs/docs-registry-theme-icons"
 import { Command, CommandGroup, CommandItem, CommandList } from "@/components/ui/command"
@@ -43,6 +45,8 @@ const THEME_UI: Record<DocsRegistryThemeId, { title: string; Icon: ThemeIcon }> 
   lyra: { title: "Lyra", Icon: LyraThemeIcon },
   mira: { title: "Mira", Icon: MiraThemeIcon },
   luma: { title: "Luma", Icon: LumaThemeIcon },
+  sera: { title: "Sera", Icon: SeraThemeIcon },
+  rhea: { title: "Rhea", Icon: RheaThemeIcon },
 }
 
 export function DocsRegistryThemeSwitcher({ className }: { className?: string }) {

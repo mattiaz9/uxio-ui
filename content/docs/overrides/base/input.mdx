@@ -13,22 +13,23 @@ description: Text input with size variants and a commit callback for blur and En
 ## Commit value
 
 Use `onChange` for every keystroke and `onCommitValue` when the user finishes editing (blur or
+
 <Kbd>↵</Kbd>). The handler receives a synthetic change event with the current `value`, matching the
 shape of `onChange`. Repeated commits with the same value are skipped until the field changes again.
 
 ### Key bindings
 
-| Key | Behavior |
-| --- | -------- |
-| <Kbd>↵</Kbd> | Fires `onCommitValue` with the current value (`preventDefault` on Enter). |
-| `blur` | Fires `onCommitValue` when focus leaves the input (unless `defaultPrevented` or `disabled`). |
+| Key          | Behavior                                                                                     |
+| ------------ | -------------------------------------------------------------------------------------------- |
+| <Kbd>↵</Kbd> | Fires `onCommitValue` with the current value (`preventDefault` on Enter).                    |
+| `blur`       | Fires `onCommitValue` when focus leaves the input (unless `defaultPrevented` or `disabled`). |
 
 ## Custom props
 
-| Prop            | Type                                           | Description |
-| --------------- | ---------------------------------------------- | ----------- |
-| `onCommitValue` | `React.ChangeEventHandler<HTMLInputElement>`   | Fires on blur and <Kbd>↵</Kbd> when the value changes since the last commit. |
-| `size`          | `'xs' \| 'sm' \| 'default' \| 'lg'`            | Height and padding aligned with [Button](/docs/overrides/base/button). |
+| Prop            | Type                                         | Description                                                                  |
+| --------------- | -------------------------------------------- | ---------------------------------------------------------------------------- |
+| `onCommitValue` | `React.ChangeEventHandler<HTMLInputElement>` | Fires on blur and <Kbd>↵</Kbd> when the value changes since the last commit. |
+| `size`          | `'xs' \| 'sm' \| 'default' \| 'lg'`          | Height and padding aligned with [Button](/docs/overrides/base/button).       |
 
 ## Install
 

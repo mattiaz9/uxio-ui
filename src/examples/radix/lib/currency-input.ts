@@ -1,4 +1,3 @@
-import { clampNumber, sanitizeBounds } from "./numbers"
 import {
   getCurrencyFormatParts,
   getCurrencyFractionDigits,
@@ -7,6 +6,7 @@ import {
   roundToCurrencyMinorUnits,
   sanitizeCurrencyDecimalInput,
 } from "./currency"
+import { clampNumber, sanitizeBounds } from "./numbers"
 
 export function computeRoundedAmount(
   n: number,

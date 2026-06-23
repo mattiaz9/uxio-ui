@@ -38,15 +38,16 @@ const registrationSchema = z.object({
     .refine((v) => v != null && v >= 60 && v <= 28800, {
       message: "Between 1 minute and 8 hours",
     }),
-  weeklyRemoteFraction: z
-    .union([z.string(), z.null()])
-    .refine((v) => {
+  weeklyRemoteFraction: z.union([z.string(), z.null()]).refine(
+    (v) => {
       if (v == null || !/^\d+\/\d+$/.test(v)) return false
       const [n, d] = v.split("/").map((x) => Number.parseInt(x, 10))
       return n >= 0 && n <= 5 && d === 5
-    }, {
+    },
+    {
       message: "Use a fraction from 0/5 to 5/5",
-    }),
+    },
+  ),
 })
 
 export default function FormRegistrationExample() {

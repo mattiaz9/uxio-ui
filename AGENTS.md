@@ -30,3 +30,5 @@ Never edit this stylesheets for any reason:
 - `registry/styles/style-mira.css`
 - `registry/styles/style-nova.css`
 - `registry/styles/style-vega.css`
+- `registry/styles/style-sera.css`
+- `registry/styles/style-rhea.css`

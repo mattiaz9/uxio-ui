@@ -1,33 +1,37 @@
 ---
 title: Input Number
-description: Numeric input with step controls, filtered typing, and separate visible and committed values for controlled or native forms.
+description:
+  Numeric input with step controls, filtered typing, and separate visible and committed values for
+  controlled or native forms.
 ---
 
 ## Overview
 
-`InputNumber` composes **Input Group** with a text field and suffix step buttons. It accepts **string**
-or **number** control, strips invalid characters while typing, and uses `onChange` for the visible
-text and `onValueChange` when a value **commits** (blur, <Kbd>↵</Kbd>, <Kbd>↑</Kbd>/<Kbd>↓</Kbd>, or the
-step buttons). Mouse-wheel scrolling over the field does not change the value.
+`InputNumber` composes **Input Group** with a text field and suffix step buttons. It accepts
+**string** or **number** control, strips invalid characters while typing, and uses `onChange` for
+the visible text and `onValueChange` when a value **commits** (blur, <Kbd>↵</Kbd>,
+
+<Kbd>↑</Kbd>/<Kbd>↓</Kbd>, or the step buttons). Mouse-wheel scrolling over the field does not
+change the value.
 
 ### Key bindings
 
-| Key | Behavior |
-| --- | -------- |
-| <Kbd>↑</Kbd> | Increases by `step`, clamped to `min` / `max`. |
-| <Kbd>↓</Kbd> | Decreases by `step`, clamped to `min` / `max`. |
+| Key          | Behavior                                                                                       |
+| ------------ | ---------------------------------------------------------------------------------------------- |
+| <Kbd>↑</Kbd> | Increases by `step`, clamped to `min` / `max`.                                                 |
+| <Kbd>↓</Kbd> | Decreases by `step`, clamped to `min` / `max`.                                                 |
 | <Kbd>↵</Kbd> | **Commits** the current text: parses, clamps, reformats, and fires `onValueChange` when valid. |
-| `blur` | **Commits** the same way as <Kbd>↵</Kbd> when focus leaves the input. |
+| `blur`       | **Commits** the same way as <Kbd>↵</Kbd> when focus leaves the input.                          |
 
 ## Custom props
 
-| Prop            | Type                              | Description                                                                 |
-| --------------- | --------------------------------- | --------------------------------------------------------------------------- |
-| `value`         | `string \| number`                | Controlled value. Strings control the visible text; numbers control the numeric state. |
-| `onValueChange` | `(value: number \| null) => void` | Fires when the committed numeric value changes (see Overview and Key bindings). |
-| `min`           | `number`                          | Optional minimum clamp. Ignored if `min > max`.                             |
-| `max`           | `number`                          | Optional maximum clamp. Ignored if `min > max`.                             |
-| `step`          | `number`                          | Step size for buttons and arrow keys. Invalid or non-positive values fall back to `1`. |
+| Prop            | Type                                | Description                                                                                                                                                             |
+| --------------- | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `value`         | `string \| number`                  | Controlled value. Strings control the visible text; numbers control the numeric state.                                                                                  |
+| `onValueChange` | `(value: number \| null) => void`   | Fires when the committed numeric value changes (see Overview and Key bindings).                                                                                         |
+| `min`           | `number`                            | Optional minimum clamp. Ignored if `min > max`.                                                                                                                         |
+| `max`           | `number`                            | Optional maximum clamp. Ignored if `min > max`.                                                                                                                         |
+| `step`          | `number`                            | Step size for buttons and arrow keys. Invalid or non-positive values fall back to `1`.                                                                                  |
 | `size`          | `'xs' \| 'sm' \| 'default' \| 'lg'` | Optional. Passed to the root [`InputGroup`](/docs/overrides/base/input-group): shell height matches other inputs; the text field and step buttons scale with the group. |
 
 ## Install
@@ -110,6 +114,8 @@ export function PriceField() {
 
 ### Size variants
 
-Use `size` so the field aligns with [`InputGroup`](/docs/overrides/base/input-group) and [`Input`](/docs/overrides/base/input) dimensions. The inner `InputGroupInput` inherits the group size when you omit its own `size`.
+Use `size` so the field aligns with [`InputGroup`](/docs/overrides/base/input-group) and
+[`Input`](/docs/overrides/base/input) dimensions. The inner `InputGroupInput` inherits the group
+size when you omit its own `size`.
 
 <ComponentPreview name="base/input-number-sizes" />

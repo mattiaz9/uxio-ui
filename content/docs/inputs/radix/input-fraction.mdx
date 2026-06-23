@@ -1,6 +1,8 @@
 ---
 title: Input Fraction
-description: Input that handles fraction entry with numerator and denominator segments and a compact value for controlled or native forms.
+description:
+  Input that handles fraction entry with numerator and denominator segments and a compact value for
+  controlled or native forms.
 ---
 
 ## Overview
@@ -13,29 +15,32 @@ segments are cleared.
 
 ### Key bindings
 
-| Key | Behavior |
-| --- | -------- |
-| <Kbd>⌫</Kbd> | Deletes the last digit in the focused segment. If the segment is empty, focus moves to the **previous** segment. |
-| <Kbd>⌦</Kbd> | Clears the focused segment. The next digit typed **replaces** the whole segment (same as focusing fresh). |
-| <span className="inline-flex items-center gap-1.5"><Kbd>←</Kbd><span className="text-muted-foreground">/</span><Kbd>→</Kbd></span> | Move focus between **numerator** and **denominator** (at the ends of the field, the key has no effect). |
-| <Kbd>↵</Kbd> | **Commits** the current segments: if they form a valid fraction, `onValueChange` runs with the normalized string. Works from a segment or from the surrounding control. |
-| <Kbd>⇥</Kbd> | Moves between segments in focus order. |
-| `blur` | Leaving a segment **commits** the same way as <Kbd>↵</Kbd> (when the value is valid). |
+| Key                                                                                                                                | Behavior                                                                                                                                                                |
+| ---------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <Kbd>⌫</Kbd>                                                                                                                       | Deletes the last digit in the focused segment. If the segment is empty, focus moves to the **previous** segment.                                                        |
+| <Kbd>⌦</Kbd>                                                                                                                       | Clears the focused segment. The next digit typed **replaces** the whole segment (same as focusing fresh).                                                               |
+| <span className="inline-flex items-center gap-1.5"><Kbd>←</Kbd><span className="text-muted-foreground">/</span><Kbd>→</Kbd></span> | Move focus between **numerator** and **denominator** (at the ends of the field, the key has no effect).                                                                 |
+| <Kbd>↵</Kbd>                                                                                                                       | **Commits** the current segments: if they form a valid fraction, `onValueChange` runs with the normalized string. Works from a segment or from the surrounding control. |
+| <Kbd>⇥</Kbd>                                                                                                                       | Moves between segments in focus order.                                                                                                                                  |
+| `blur`                                                                                                                             | Leaving a segment **commits** the same way as <Kbd>↵</Kbd> (when the value is valid).                                                                                   |
 
 ## Custom props
 
-| Prop               | Type                              | Description                                                                                                   |
-| ------------------ | --------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| `maxDigits`        | `number`                          | Maximum digits per segment. Omit for no limit.                                                              |
-| `minNumerator`     | `number`                          | Optional inclusive minimum for the numerator integer (after parsing digits).                                   |
-| `maxNumerator`     | `number`                          | Optional inclusive maximum for the numerator.                                                                |
-| `minDenominator`   | `number`                          | Optional inclusive minimum for the denominator; when omitted, the minimum stays `1` (the default unbounded behavior).   |
-| `maxDenominator`   | `number`                          | Optional inclusive maximum for the denominator.                                                              |
-| `value`            | `string \| null`                  | Controlled compact fraction (`n/d`) or empty.                                                                 |
-| `onValueChange`    | `(value: string \| null) => void` | Fires when segments yield a valid normalized fraction after commit, or `null` when both segments are cleared. |
-| `size`             | `'xs' \| 'sm' \| 'default' \| 'lg'` | Optional. **Input Group** size: shell height and segment padding/text scale together. This is not the HTML `size` attribute (that prop is not forwarded to the hidden input). |
+| Prop             | Type                                | Description                                                                                                                                                                   |
+| ---------------- | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `maxDigits`      | `number`                            | Maximum digits per segment. Omit for no limit.                                                                                                                                |
+| `minNumerator`   | `number`                            | Optional inclusive minimum for the numerator integer (after parsing digits).                                                                                                  |
+| `maxNumerator`   | `number`                            | Optional inclusive maximum for the numerator.                                                                                                                                 |
+| `minDenominator` | `number`                            | Optional inclusive minimum for the denominator; when omitted, the minimum stays `1` (the default unbounded behavior).                                                         |
+| `maxDenominator` | `number`                            | Optional inclusive maximum for the denominator.                                                                                                                               |
+| `value`          | `string \| null`                    | Controlled compact fraction (`n/d`) or empty.                                                                                                                                 |
+| `onValueChange`  | `(value: string \| null) => void`   | Fires when segments yield a valid normalized fraction after commit, or `null` when both segments are cleared.                                                                 |
+| `size`           | `'xs' \| 'sm' \| 'default' \| 'lg'` | Optional. **Input Group** size: shell height and segment padding/text scale together. This is not the HTML `size` attribute (that prop is not forwarded to the hidden input). |
 
-Bounds use the same `sanitizeBounds` / `clampNumber` behavior as other numeric inputs: on **blur** or **Enter**, each segment is clamped to its range and the compact value is re-emitted. **Controlled** values from the parent are clamped for display so segments stay in range. Clamping applies to each integer segment, not to the fraction `n/d` as a single rational value.
+Bounds use the same `sanitizeBounds` / `clampNumber` behavior as other numeric inputs: on **blur**
+or **Enter**, each segment is clamped to its range and the compact value is re-emitted.
+**Controlled** values from the parent are clamped for display so segments stay in range. Clamping
+applies to each integer segment, not to the fraction `n/d` as a single rational value.
 
 ## Install
 
@@ -131,6 +136,7 @@ export function BoundedFractionField() {
 
 ### Size variants
 
-Use `size` so the field aligns with [`InputGroup`](/docs/overrides/radix/input-group) and [`Input`](/docs/overrides/radix/input) dimensions. Segment padding and text scale with the group.
+Use `size` so the field aligns with [`InputGroup`](/docs/overrides/radix/input-group) and
+[`Input`](/docs/overrides/radix/input) dimensions. Segment padding and text scale with the group.
 
 <ComponentPreview name="radix/input-fraction-sizes" />

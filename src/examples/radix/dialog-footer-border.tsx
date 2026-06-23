@@ -22,7 +22,7 @@ export default function DialogFooterBorderExample() {
           <DialogTitle>Save changes</DialogTitle>
         </DialogHeader>
         <DialogBody>
-          <p className="text-muted-foreground text-sm leading-relaxed">
+          <p className="text-sm leading-relaxed text-muted-foreground">
             You have unsaved edits. Close anyway or go back to keep editing.
           </p>
         </DialogBody>

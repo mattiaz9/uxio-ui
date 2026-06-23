@@ -1,12 +1,7 @@
 import { SearchIcon } from "lucide-react"
 
 import { Button } from "./ui/button"
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupButton,
-  InputGroupInput,
-} from "./ui/input-group"
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from "./ui/input-group"
 
 export default function InputGroupSizeDefault() {
   return (

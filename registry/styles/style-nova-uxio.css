@@ -109,12 +109,7 @@
   }
 
   .cn-input-group-custom-control {
-    @apply flex h-full min-h-0 min-w-0 flex-1 flex-wrap items-center gap-0.5
-      [data-disabled]:pointer-events-none [data-disabled]:opacity-50
-      group-data-[size=xs]/input-group:px-2 group-data-[size=xs]/input-group:py-0.5 group-data-[size=xs]/input-group:font-mono group-data-[size=xs]/input-group:text-xs
-      group-data-[size=sm]/input-group:px-2.5 group-data-[size=sm]/input-group:py-1 group-data-[size=sm]/input-group:text-[0.8rem] group-data-[size=sm]/input-group:md:text-sm
-      group-data-[size=default]/input-group:px-2.5 group-data-[size=default]/input-group:py-1 group-data-[size=default]/input-group:text-base group-data-[size=default]/input-group:md:text-sm
-      group-data-[size=lg]/input-group:px-2.5 group-data-[size=lg]/input-group:py-1.5 group-data-[size=lg]/input-group:text-base group-data-[size=lg]/input-group:md:text-sm;
+    @apply flex h-full min-h-0 min-w-0 flex-1 flex-wrap items-center gap-0.5 group-data-[size=default]/input-group:px-2.5 group-data-[size=default]/input-group:py-1 group-data-[size=default]/input-group:text-base group-data-[size=lg]/input-group:px-2.5 group-data-[size=lg]/input-group:py-1.5 group-data-[size=lg]/input-group:text-base group-data-[size=sm]/input-group:px-2.5 group-data-[size=sm]/input-group:py-1 group-data-[size=sm]/input-group:text-[0.8rem] group-data-[size=xs]/input-group:px-2 group-data-[size=xs]/input-group:py-0.5 group-data-[size=xs]/input-group:font-mono group-data-[size=xs]/input-group:text-xs group-data-[size=default]/input-group:md:text-sm group-data-[size=lg]/input-group:md:text-sm group-data-[size=sm]/input-group:md:text-sm [data-disabled]:pointer-events-none [data-disabled]:opacity-50;
   }
 
   .cn-input-size-default {
@@ -143,20 +138,11 @@
 
   /* MARK: Tabs (Uxio) — size variants */
   .cn-tabs-list {
-    @apply group-data-[size=sm]/tabs:p-[3px] group-data-[size=sm]/tabs:group-data-horizontal/tabs:h-6
-      group-data-[size=lg]/tabs:p-0.5 group-data-[size=lg]/tabs:group-data-horizontal/tabs:h-10;
+    @apply group-data-[size=lg]/tabs:p-0.5 group-data-[size=sm]/tabs:p-[3px] group-data-[size=lg]/tabs:group-data-horizontal/tabs:h-10 group-data-[size=sm]/tabs:group-data-horizontal/tabs:h-6;
   }
 
   .cn-tabs-trigger {
-    @apply group-data-[size=sm]/tabs:gap-1 group-data-[size=sm]/tabs:rounded-[min(var(--radius-md),12px)]
-      group-data-[size=sm]/tabs:px-1.5 group-data-[size=sm]/tabs:py-0 group-data-[size=sm]/tabs:text-xs
-      group-data-[size=sm]/tabs:font-medium group-data-[size=sm]/tabs:has-data-[icon=inline-end]:pr-1
-      group-data-[size=sm]/tabs:has-data-[icon=inline-start]:pl-1
-      group-data-[size=sm]/tabs:[&_svg:not([class*='size-'])]:size-3.5
-      group-data-[size=lg]/tabs:gap-1.5 group-data-[size=lg]/tabs:px-3.5 group-data-[size=lg]/tabs:py-1.5
-      group-data-[size=lg]/tabs:text-base group-data-[size=lg]/tabs:font-medium
-      group-data-[size=lg]/tabs:has-data-[icon=inline-end]:pr-3.5 group-data-[size=lg]/tabs:has-data-[icon=inline-start]:pl-3.5
-      group-data-[size=lg]/tabs:[&_svg:not([class*='size-'])]:size-4;
+    @apply group-data-[size=lg]/tabs:gap-1.5 group-data-[size=lg]/tabs:px-3.5 group-data-[size=lg]/tabs:py-1.5 group-data-[size=lg]/tabs:text-base group-data-[size=lg]/tabs:font-medium group-data-[size=sm]/tabs:gap-1 group-data-[size=sm]/tabs:rounded-[min(var(--radius-md),12px)] group-data-[size=sm]/tabs:px-1.5 group-data-[size=sm]/tabs:py-0 group-data-[size=sm]/tabs:text-xs group-data-[size=sm]/tabs:font-medium group-data-[size=lg]/tabs:has-data-[icon=inline-end]:pr-3.5 group-data-[size=sm]/tabs:has-data-[icon=inline-end]:pr-1 group-data-[size=lg]/tabs:has-data-[icon=inline-start]:pl-3.5 group-data-[size=sm]/tabs:has-data-[icon=inline-start]:pl-1 group-data-[size=lg]/tabs:[&_svg:not([class*='size-'])]:size-4 group-data-[size=sm]/tabs:[&_svg:not([class*='size-'])]:size-3.5;
   }
 
   /* MARK: Accordion (Uxio) — app shell + leading chevron */
@@ -165,7 +151,7 @@
   }
 
   .cn-accordion-trigger {
-    @apply px-2.5 **:data-[slot=accordion-trigger-icon]:ml-0 **:data-[slot=accordion-trigger-icon]:shrink-0 hover:no-underline;
+    @apply px-2.5 hover:no-underline **:data-[slot=accordion-trigger-icon]:ml-0 **:data-[slot=accordion-trigger-icon]:shrink-0;
   }
 
   .cn-accordion-content {

@@ -2,7 +2,16 @@
 
 import { useLayoutEffect, useSyncExternalStore } from "react"
 
-export const DOCS_REGISTRY_THEMES = ["lyra", "maia", "mira", "nova", "vega", "luma"] as const
+export const DOCS_REGISTRY_THEMES = [
+  "lyra",
+  "maia",
+  "mira",
+  "nova",
+  "vega",
+  "luma",
+  "sera",
+  "rhea",
+] as const
 
 export type DocsRegistryThemeId = (typeof DOCS_REGISTRY_THEMES)[number]
 

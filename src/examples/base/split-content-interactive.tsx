@@ -93,8 +93,7 @@ export default function SplitContentInteractive() {
                   anchor={leftAnchor}
                   className={cn(
                     "flex flex-col justify-center text-sm",
-                    leftAnchor === "container" &&
-                      "rounded-lg border border-dashed border-border",
+                    leftAnchor === "container" && "rounded-lg border border-dashed border-border",
                     leftAnchor === "screen" && "bg-cover bg-center py-6 text-white @md:py-8",
                   )}
                   style={leftAnchor === "screen" ? screenColumnBg : undefined}
@@ -124,8 +123,7 @@ export default function SplitContentInteractive() {
                   anchor={rightAnchor}
                   className={cn(
                     "flex flex-col justify-center text-sm",
-                    rightAnchor === "container" &&
-                      "rounded-lg border border-dashed border-border",
+                    rightAnchor === "container" && "rounded-lg border border-dashed border-border",
                     rightAnchor === "screen" && "bg-cover bg-center py-6 text-white @md:py-8",
                   )}
                   style={rightAnchor === "screen" ? screenColumnBg : undefined}

@@ -13,8 +13,7 @@ export type FractionFormatToken =
 export const FRACTION_DISPLAY_LITERAL = " / " as const
 
 export function fractionTokens(maxDigits?: number): FractionFormatToken[] {
-  const pattern =
-    maxDigits === undefined ? "" : "n".repeat(Math.max(1, maxDigits))
+  const pattern = maxDigits === undefined ? "" : "n".repeat(Math.max(1, maxDigits))
   return [
     { type: "field", kind: "numerator", pattern },
     { type: "literal", text: FRACTION_DISPLAY_LITERAL },
@@ -55,10 +54,7 @@ export function compactFractionValue(numerator: string, denominator: string): st
  * Parse a compact or spaced fraction string into two digit segments (trimmed to `maxDigits` each).
  * When `maxDigits` is omitted, segments are not length-capped.
  */
-export function parseSegmentsFromFractionString(
-  raw: string,
-  maxDigits?: number,
-): [string, string] {
+export function parseSegmentsFromFractionString(raw: string, maxDigits?: number): [string, string] {
   const s = raw.trim().replace(/\s+/g, "")
   if (!s) return ["", ""]
   const slash = s.indexOf("/")

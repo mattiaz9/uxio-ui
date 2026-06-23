@@ -15,7 +15,8 @@ export default function InputFractionMaxDigitsExample() {
         {committed ?? "—"}
       </p>
       <p className="text-xs text-muted-foreground">
-        Each segment accepts at most three digits (e.g. up to <code className="text-foreground">999/999</code>
+        Each segment accepts at most three digits (e.g. up to{" "}
+        <code className="text-foreground">999/999</code>
         ).
       </p>
     </div>

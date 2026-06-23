@@ -70,13 +70,14 @@ export function HeroSplit() {
 The preview sets **`--container-max-width: 480px`** on the wrapper so **container** vs **screen**
 anchors are easy to compare. With **`breakpointQuery="container"`**, `SplitContent` itself sets
 **`--container-inset`** (padding below `md`, then the same centered-gutter math as the site shell
-using **`cqw`** from `md` up). You do not need this narrow max width in a real app; it is only for the demo.
+using **`cqw`** from `md` up). You do not need this narrow max width in a real app; it is only for
+the demo.
 
 With **`anchor="screen"`**, the demo adds a **background image** (plus overlay) so the bleed is
 obvious, and uses **`pl-container-inset`** / **`pr-container-inset`** on the inner copy.
 
-Resize the panel to see **container** breakpoints respond to preview width. Controls
-update `variant`, `ratio`, and each column’s `anchor`.
+Resize the panel to see **container** breakpoints respond to preview width. Controls update
+`variant`, `ratio`, and each column’s `anchor`.
 
 <ComponentPreview
   name="radix/split-content-interactive"

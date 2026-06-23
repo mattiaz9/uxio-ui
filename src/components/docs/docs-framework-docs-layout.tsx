@@ -6,8 +6,8 @@ import { DocsLayout } from "fumadocs-ui/layouts/docs"
 
 import { DocsRegistryThemeSwitcher } from "@/components/docs/docs-registry-theme-switcher"
 import { useDocsSidebarFramework } from "@/lib/docs-framework-client"
-import { DocsRegistryThemeBodyClassEffect } from "@/lib/docs-registry-theme-client"
 import { buildDocsPathFromSplat, mapDocsPageTreeFramework } from "@/lib/docs-page-tree"
+import { DocsRegistryThemeBodyClassEffect } from "@/lib/docs-registry-theme-client"
 
 const docsRouteApi = getRouteApi("/docs/$")
 

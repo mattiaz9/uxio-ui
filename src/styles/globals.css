@@ -15,6 +15,10 @@
 @import "../../registry/styles/style-vega-uxio.css" layer(base);
 @import "../../registry/styles/style-luma.css" layer(base);
 @import "../../registry/styles/style-luma-uxio.css" layer(base);
+@import "../../registry/styles/style-sera.css" layer(base);
+@import "../../registry/styles/style-sera-uxio.css" layer(base);
+@import "../../registry/styles/style-rhea.css" layer(base);
+@import "../../registry/styles/style-rhea-uxio.css" layer(base);
 
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";

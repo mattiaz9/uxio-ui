@@ -1,4 +1,4 @@
-.style-maia {
+.style-rhea {
   .cn-alert-variant-info {
     @apply bg-card text-info *:data-[slot=alert-description]:text-info/90 *:[svg]:text-current;
   }
@@ -25,7 +25,7 @@
 
   /* MARK: Badge sizes (Uxio) — overrides base `.cn-badge` with shell + size tokens */
   .cn-badge {
-    @apply rounded-4xl border border-transparent font-medium transition-all;
+    @apply rounded-2xl border border-transparent font-medium transition-all;
   }
 
   .cn-badge-size-xs {
@@ -77,31 +77,31 @@
   }
 
   .cn-input-group-button-size-2xs {
-    @apply h-5 gap-0.5 rounded-4xl px-1 text-2xs [&>svg:not([class*='size-'])]:size-3;
+    @apply h-5 gap-0.5 rounded-xl px-1 text-2xs [&>svg:not([class*='size-'])]:size-3;
   }
 
   .cn-input-group-button-size-xs {
-    @apply h-6 gap-1 px-2.5 text-xs has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2 [&_svg:not([class*='size-'])]:size-3;
+    @apply h-6 gap-1 rounded-xl px-2 text-xs has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3;
   }
 
   .cn-input-group-button-size-sm {
-    @apply h-7 gap-1 px-3 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2;
+    @apply h-7 gap-1 rounded-xl px-2.5 has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5;
   }
 
   .cn-input-group-size-default {
-    @apply h-9 rounded-4xl;
+    @apply h-8 rounded-2xl;
   }
 
   .cn-input-group-size-lg {
-    @apply h-10 rounded-4xl;
+    @apply h-9 rounded-2xl;
   }
 
   .cn-input-group-size-sm {
-    @apply h-8 rounded-4xl;
+    @apply h-7 rounded-2xl;
   }
 
   .cn-input-group-size-xs {
-    @apply h-6 rounded-4xl;
+    @apply h-6 rounded-xl;
   }
 
   .cn-input-group-addon-align-inline-start {
@@ -113,27 +113,27 @@
   }
 
   .cn-input-group-custom-control {
-    @apply flex h-full min-h-0 min-w-0 flex-1 flex-wrap items-center gap-0.5 group-data-[size=default]/input-group:px-3 group-data-[size=default]/input-group:py-1 group-data-[size=default]/input-group:text-base group-data-[size=lg]/input-group:px-4 group-data-[size=lg]/input-group:py-1.5 group-data-[size=lg]/input-group:text-base group-data-[size=sm]/input-group:px-3 group-data-[size=sm]/input-group:py-1 group-data-[size=sm]/input-group:text-base group-data-[size=xs]/input-group:px-2.5 group-data-[size=xs]/input-group:py-1 group-data-[size=xs]/input-group:font-mono group-data-[size=xs]/input-group:text-xs group-data-[size=default]/input-group:md:text-sm group-data-[size=lg]/input-group:md:text-sm group-data-[size=sm]/input-group:md:text-sm [data-disabled]:pointer-events-none [data-disabled]:opacity-50;
+    @apply flex h-full min-h-0 min-w-0 flex-1 flex-wrap items-center gap-0.5 group-data-[size=default]/input-group:px-2.5 group-data-[size=default]/input-group:py-1 group-data-[size=default]/input-group:text-sm group-data-[size=lg]/input-group:px-3 group-data-[size=lg]/input-group:py-1.5 group-data-[size=lg]/input-group:text-sm group-data-[size=sm]/input-group:px-2.5 group-data-[size=sm]/input-group:py-1 group-data-[size=sm]/input-group:text-sm group-data-[size=xs]/input-group:px-2.5 group-data-[size=xs]/input-group:py-0.5 group-data-[size=xs]/input-group:font-mono group-data-[size=xs]/input-group:text-xs [data-disabled]:pointer-events-none [data-disabled]:opacity-50;
   }
 
   .cn-input-size-default {
-    @apply h-9 rounded-4xl px-3 py-1 text-base file:h-7 file:text-sm file:font-medium md:text-sm;
+    @apply h-8 rounded-2xl px-2.5 py-1 text-sm file:h-6 file:text-sm md:text-sm;
   }
 
   .cn-input-size-lg {
-    @apply h-10 rounded-4xl px-4 py-1.5 text-base file:h-8 file:text-sm file:font-medium md:text-sm;
+    @apply h-9 rounded-2xl px-3 py-1.5 text-sm file:h-7 file:text-sm md:text-sm;
   }
 
   .cn-input-size-sm {
-    @apply h-8 rounded-4xl px-3 py-1 text-base file:h-6 file:text-sm file:font-medium md:text-sm;
+    @apply h-7 rounded-2xl px-2.5 py-1 text-sm file:h-6 file:text-sm md:text-sm;
   }
 
   .cn-input-size-xs {
-    @apply h-6 rounded-4xl px-2.5 py-1 text-xs file:h-5 file:text-xs file:font-medium md:text-xs;
+    @apply h-6 rounded-xl px-2 py-0.5 text-xs file:h-5 file:text-xs md:text-xs;
   }
 
   .cn-combobox-trigger {
-    @apply h-9 min-h-0 rounded-4xl border border-input bg-input/30 bg-clip-padding px-3 py-1.5 text-sm font-medium transition-colors outline-none hover:bg-input/50 hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-expanded:bg-muted aria-expanded:text-foreground aria-invalid:border-destructive aria-invalid:ring-[3px] aria-invalid:ring-destructive/20 data-placeholder:text-muted-foreground dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground;
+    @apply h-8 min-h-0 rounded-2xl border border-transparent bg-input/50 bg-clip-padding px-2.5 py-1 text-sm font-medium transition-[color,box-shadow,background-color] outline-none hover:bg-muted/50 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/30 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 data-placeholder:text-muted-foreground dark:bg-input/50 dark:hover:bg-input/30 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground;
   }
 
   .cn-input-segment {
@@ -142,11 +142,11 @@
 
   /* MARK: Tabs (Uxio) — size variants */
   .cn-tabs-list {
-    @apply group-data-[size=lg]/tabs:p-0.5 group-data-[size=sm]/tabs:p-[3px] group-data-[size=lg]/tabs:group-data-horizontal/tabs:h-11 group-data-[size=sm]/tabs:group-data-horizontal/tabs:h-7;
+    @apply group-data-[size=lg]/tabs:p-0.5 group-data-[size=sm]/tabs:p-[3px] group-data-[size=lg]/tabs:group-data-horizontal/tabs:h-10 group-data-[size=sm]/tabs:group-data-horizontal/tabs:h-7;
   }
 
   .cn-tabs-trigger {
-    @apply group-data-[size=lg]/tabs:gap-1.5 group-data-[size=lg]/tabs:rounded-xl group-data-[size=lg]/tabs:px-4 group-data-[size=lg]/tabs:py-1.5 group-data-[size=lg]/tabs:text-base group-data-[size=lg]/tabs:font-medium group-data-[size=sm]/tabs:gap-1.5 group-data-[size=sm]/tabs:rounded-xl group-data-[size=sm]/tabs:px-2 group-data-[size=sm]/tabs:py-0 group-data-[size=sm]/tabs:text-xs group-data-[size=sm]/tabs:font-medium group-data-[size=lg]/tabs:group-data-vertical/tabs:px-4 group-data-[size=lg]/tabs:group-data-vertical/tabs:py-2 group-data-[size=sm]/tabs:group-data-vertical/tabs:px-2 group-data-[size=sm]/tabs:group-data-vertical/tabs:py-0.5 group-data-[size=lg]/tabs:has-data-[icon=inline-end]:pr-3 group-data-[size=sm]/tabs:has-data-[icon=inline-end]:pr-1.5 group-data-[size=lg]/tabs:has-data-[icon=inline-start]:pl-3 group-data-[size=sm]/tabs:has-data-[icon=inline-start]:pl-1.5 group-data-[size=lg]/tabs:[&_svg:not([class*='size-'])]:size-4 group-data-[size=sm]/tabs:[&_svg:not([class*='size-'])]:size-3.5;
+    @apply group-data-[size=lg]/tabs:gap-2 group-data-[size=lg]/tabs:px-4 group-data-[size=lg]/tabs:py-1.5 group-data-[size=lg]/tabs:text-base group-data-[size=sm]/tabs:gap-1.5 group-data-[size=sm]/tabs:px-2 group-data-[size=sm]/tabs:py-0 group-data-[size=sm]/tabs:text-xs group-data-[size=lg]/tabs:has-data-[icon=inline-end]:pr-3 group-data-[size=sm]/tabs:has-data-[icon=inline-end]:pr-1.5 group-data-[size=lg]/tabs:has-data-[icon=inline-start]:pl-3 group-data-[size=sm]/tabs:has-data-[icon=inline-start]:pl-1.5 group-data-[size=lg]/tabs:[&_svg:not([class*='size-'])]:size-4 group-data-[size=sm]/tabs:[&_svg:not([class*='size-'])]:size-3.5;
   }
 
   /* MARK: Accordion (Uxio) — app shell + leading chevron */
@@ -160,11 +160,11 @@
 
   /* MARK: Alert Dialog footer — `border-t` strip (matches dialog `p-6` from base style) */
   .cn-alert-dialog-footer {
-    @apply [.border-t]:-mx-6 [.border-t]:-mb-6 [.border-t]:rounded-b-4xl [.border-t]:bg-muted/5 [.border-t]:px-6 [.border-t]:pt-6 [.border-t]:pb-6;
+    @apply [.border-t]:-mx-6 [.border-t]:-mb-6 [.border-t]:rounded-b-[min(var(--radius-4xl),24px)] [.border-t]:bg-muted/5 [.border-t]:px-6 [.border-t]:pt-6 [.border-t]:pb-6;
   }
 
   /* MARK: Dialog footer — `border-t` strip (matches `cn-dialog-content` `p-6` from base style) */
   .cn-dialog-footer {
-    @apply [.border-t]:-mx-6 [.border-t]:-mb-6 [.border-t]:rounded-b-4xl [.border-t]:bg-muted/5 [.border-t]:px-6 [.border-t]:pt-6 [.border-t]:pb-6;
+    @apply [.border-t]:-mx-6 [.border-t]:-mb-6 [.border-t]:rounded-b-[min(var(--radius-4xl),24px)] [.border-t]:bg-muted/5 [.border-t]:px-6 [.border-t]:pt-6 [.border-t]:pb-6;
   }
 }
