@@ -385,7 +385,13 @@
     "description": "Card with destructive variant and asChild/render composition.",
     "categories": ["overrides"],
     "dependencies": {
-      "base": ["class-variance-authority", "clsx", "tailwind-merge"],
+      "base": [
+        "@base-ui/react/merge-props",
+        "@base-ui/react/use-render",
+        "class-variance-authority",
+        "clsx",
+        "tailwind-merge"
+      ],
       "radix": ["radix-ui", "class-variance-authority", "clsx", "tailwind-merge"]
     }
   },

@@ -1,7 +1,11 @@
 import * as React from "react"
+import { mergeProps } from "@base-ui/react/merge-props"
+import { useRender } from "@base-ui/react/use-render"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
+
+import type { ComponentPropsWithoutRef } from "react"
 
 const cardVariants = cva("cn-card group/card flex flex-col", {
   variants: {
@@ -19,17 +23,29 @@ function Card({
   className,
   size = "default",
   variant = "default",
+  render,
   ...props
-}: React.ComponentProps<"div"> & VariantProps<typeof cardVariants> & { size?: "default" | "sm" }) {
-  return (
-    <div
-      data-slot="card"
-      data-size={size}
-      data-variant={variant}
-      className={cn(cardVariants({ variant }), className)}
-      {...props}
-    />
-  )
+}: useRender.ComponentProps<"div"> &
+  VariantProps<typeof cardVariants> & {
+    size?: "default" | "sm"
+  }) {
+  return useRender({
+    defaultTagName: "div",
+    props: mergeProps<"div">(
+      {
+        className: cn(cardVariants({ variant }), className),
+        "data-size": size,
+        "data-variant": variant,
+      } as ComponentPropsWithoutRef<"div">,
+      props,
+    ),
+    render,
+    state: {
+      slot: "card",
+      size,
+      variant,
+    },
+  })
 }
 
 function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
