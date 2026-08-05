@@ -382,11 +382,11 @@
     "name": "card",
     "type": "registry:ui",
     "title": "Card",
-    "description": "Card component with destructive variant.",
+    "description": "Card with destructive variant and asChild/render composition.",
     "categories": ["overrides"],
     "dependencies": {
       "base": ["class-variance-authority", "clsx", "tailwind-merge"],
-      "radix": ["class-variance-authority", "clsx", "tailwind-merge"]
+      "radix": ["radix-ui", "class-variance-authority", "clsx", "tailwind-merge"]
     }
   },
   {
