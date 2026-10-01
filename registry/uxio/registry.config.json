@@ -217,7 +217,8 @@
     "dependencies": {
       "base": ["@tanstack/react-form", "clsx", "tailwind-merge", "zod"],
       "radix": ["@tanstack/react-form", "clsx", "tailwind-merge", "zod"]
-    }
+    },
+    "registryDependencies": ["field"]
   },
   {
     "name": "input",

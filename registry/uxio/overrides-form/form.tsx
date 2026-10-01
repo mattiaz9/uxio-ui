@@ -4,6 +4,7 @@
 
 import * as React from "react"
 
+import { FieldError } from "@/components/ui/field"
 import { cn } from "@/lib/utils"
 
 import type {
@@ -142,4 +143,20 @@ function useFormContext<TSchema extends z.ZodType>() {
   >
 }
 
-export { Form, useFormContext }
+function FormSubmitError({ className }: { className?: string }) {
+  const form = useFormContext<z.ZodType>()
+
+  return (
+    <form.Subscribe
+      selector={(state): string | undefined => {
+        const onSubmitError: unknown = state.errorMap.onSubmit
+        return typeof onSubmitError === "string" ? onSubmitError : undefined
+      }}
+      children={(onSubmitError) =>
+        onSubmitError ? <FieldError className={className}>{onSubmitError}</FieldError> : null
+      }
+    />
+  )
+}
+
+export { Form, FormSubmitError, useFormContext }

@@ -94,7 +94,7 @@ const registryComponents: RegistryComponentItem[] = [
   {
     title: "Form (Tanstack)",
     description:
-      "Form element with TanStack Form context: prevents default submit, calls `form.handleSubmit()`, and exposes `useFormContext` for nested components.",
+      "Form element with TanStack Form context: prevents default submit, calls `form.handleSubmit()`, exposes `useFormContext` for nested components, and renders form-level submit errors with `FormSubmitError`.",
     category: "Overrides",
     docsSplat: "overrides/base/form",
   },

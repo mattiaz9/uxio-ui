@@ -7,6 +7,7 @@ title: Form (TanStack)
 - **`Form`** wraps TanStack’s `useForm` instance in a native `<form>` and handles
   `form.handleSubmit()` for you.
 - **`useFormContext`** exposes the generic form instance.
+- **`FormSubmitError`** shows a string form-level `onSubmit` error.
 
 ## Install
 
@@ -26,7 +27,7 @@ Then run:
 npx shadcn@latest add @uxio/form
 ```
 
-This installs `@tanstack/react-form` and `zod` as well.
+This installs `@tanstack/react-form`, `zod`, and `field` as well.
 
 ## Usage
 
@@ -89,6 +90,14 @@ function FormSubmit() {
       Login
     </Button>
   )
+}
+```
+
+```tsx
+import { FormSubmitError } from "@/components/ui/form"
+
+function FormError() {
+  return <FormSubmitError />
 }
 ```
 
