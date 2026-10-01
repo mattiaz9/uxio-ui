@@ -5,6 +5,7 @@ title: Combobox
 ## Extended Features
 
 - Rewrite inspired by Select to use only Popover, Command, and Button.
+- `onSearchChange` on `ComboboxContent` reports filter input changes.
 
 ## Install
 
@@ -36,6 +37,8 @@ npx shadcn@latest add @uxio/combobox
 ```tsx
 "use client"
 
+import * as React from "react"
+
 import {
   Combobox,
   ComboboxContent,
@@ -52,12 +55,19 @@ const options = [
 ]
 
 export function FrameworkCombobox() {
+  const [open, setOpen] = React.useState(false)
+
   return (
-    <Combobox>
+    <Combobox open={open} onOpenChange={setOpen}>
       <ComboboxTrigger>
         <ComboboxValue placeholder="Select framework..." />
       </ComboboxTrigger>
-      <ComboboxContent search={{ placeholder: "Filter...", emptyMessage: "No framework found." }}>
+      <ComboboxContent
+        search={{ placeholder: "Filter...", emptyMessage: "No framework found." }}
+        onSearchChange={(query) => {
+          // `query` is the current filter text
+        }}
+      >
         <ComboboxGroup>
           {options.map((opt) => (
             <ComboboxItem key={opt.value} value={opt.value}>

@@ -45,16 +45,28 @@ function Combobox({
   value,
   defaultValue,
   onValueChange,
+  open: openProp,
+  onOpenChange,
 }: {
   children: React.ReactNode
   value?: string
   defaultValue?: string
   onValueChange?: (value: string) => void
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
 }) {
-  const [open, setOpen] = React.useState(false)
+  const [uncontrolledOpen, setUncontrolledOpen] = React.useState(false)
+  const open = openProp ?? uncontrolledOpen
   const [internalValue, setInternalValue] = React.useState(value ?? defaultValue ?? "")
   const currentValue = value ?? internalValue
   const [items, setItems] = React.useState(new Map<string, React.ReactNode>())
+
+  function setOpen(nextOpen: boolean) {
+    if (openProp === undefined) {
+      setUncontrolledOpen(nextOpen)
+    }
+    onOpenChange?.(nextOpen)
+  }
 
   function setValue(newValue: string) {
     setInternalValue(newValue)
@@ -146,10 +158,12 @@ function ComboboxValue({
 function ComboboxContent({
   className,
   search = true,
+  onSearchChange,
   children,
   ...props
 }: React.ComponentProps<typeof Command> & {
   search?: boolean | { placeholder?: string; emptyMessage?: string }
+  onSearchChange?: (value: string) => void
 }) {
   const canSearch = typeof search === "object" ? true : search
 
@@ -166,6 +180,7 @@ function ComboboxContent({
             <CommandInput
               className="w-0 grow"
               placeholder={typeof search === "object" ? search.placeholder : undefined}
+              onValueChange={onSearchChange}
             />
           ) : (
             <button autoFocus className="sr-only" />
