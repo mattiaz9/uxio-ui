@@ -118,20 +118,19 @@ function AutoTooltip({
     <TooltipProvider delay={delay}>
       <Tooltip disabled={disabled || !canOpen}>
         <TooltipTrigger
-          {...({
-            render: (
-              props: React.ComponentPropsWithoutRef<"span"> & {
-                ref?: React.Ref<HTMLElement | null>
-              },
-            ) =>
-              React.cloneElement(
-                children as React.ReactElement<Record<string, unknown>>,
-                {
-                  ...props,
-                  ref: mergeRefs(props.ref, (el) => setContentRef(el), childDomRef(children)),
-                } as Record<string, unknown>,
-              ),
-          } as React.ComponentProps<typeof TooltipPrimitive.Trigger>)}
+          render={(
+            props: React.ComponentPropsWithoutRef<"span"> & {
+              ref?: React.Ref<HTMLElement | null>
+            },
+          ) =>
+            React.cloneElement(
+              children as React.ReactElement<Record<string, unknown>>,
+              {
+                ...props,
+                ref: mergeRefs(props.ref, (el) => setContentRef(el), childDomRef(children)),
+              } as Record<string, unknown>,
+            )
+          }
         />
         <TooltipContent
           className={cn("max-w-xs", className)}

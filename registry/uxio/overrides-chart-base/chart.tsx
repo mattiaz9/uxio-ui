@@ -318,8 +318,8 @@ function getPayloadConfigFromPayload(config: ChartConfig, payload: unknown, key:
 
   const payloadPayload =
     "payload" in payload &&
-    typeof (payload as { payload: unknown }).payload === "object" &&
-    (payload as { payload: unknown }).payload !== null
+    typeof payload.payload === "object" &&
+    payload.payload !== null
       ? (payload as { payload: Record<string, unknown> }).payload
       : undefined
 
