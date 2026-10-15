@@ -1,17 +1,21 @@
 "use client"
 
 import * as React from "react"
+import { Command as CommandPrimitive } from "cmdk"
 import { motion } from "motion/react"
+
+import { SearchIcon } from "lucide-react"
 
 import { IconPlaceholder } from "../shared/icon-placeholder/icon-placeholder"
 import { cn } from "@/lib/utils"
 import {
   Command,
   CommandEmpty,
-  CommandInput,
   CommandItem,
   CommandList,
 } from "@/registry/uxio/overrides-command-base/command"
+import { InputGroup, InputGroupAddon } from "@/registry/uxio/overrides-input-group-base/input-group"
+import { Kbd } from "@/registry/uxio/overrides-kbd-base/kbd"
 import {
   Popover,
   PopoverContent,
@@ -282,24 +286,28 @@ function VercelSidebarSearchPopover({
         align={align}
         sideOffset={sideOffset}
         className={cn(
-          "cn-vercel-sidebar-search-popover z-50 flex w-(--anchor-width,min(20rem,calc(100vw-2rem))) max-w-[min(24rem,calc(100vw-1rem))] flex-col overflow-hidden border border-border bg-popover p-0 text-popover-foreground shadow-lg",
+          "cn-vercel-sidebar-search-popover z-50 flex w-(--anchor-width,min(20rem,calc(100vw-2rem))) max-w-[min(24rem,calc(100vw-1rem))] flex-col overflow-hidden border border-border bg-popover p-0 text-popover-foreground shadow-lg transition-none",
           className,
         )}
       >
         <p className="sr-only">{title}</p>
         <Command shouldFilter={false} loop className="bg-transparent">
-          <div className="flex items-center gap-2 border-b border-border px-2 py-1.5">
-            <div className="min-w-0 flex-1">
-              <CommandInput
+          <div className="cn-command-input-wrapper border-b border-border">
+            <InputGroup className="cn-command-input-group">
+              <CommandPrimitive.Input
+                data-slot="input-group-control"
                 value={search}
                 onValueChange={setSearch}
                 placeholder="Find…"
-                className="h-9 border-0"
+                className="cn-command-input cn-input-group-input flex-1 outline-hidden disabled:cursor-not-allowed disabled:opacity-50"
               />
-            </div>
-            <kbd className="hidden h-5 shrink-0 items-center rounded border border-border/80 bg-muted/50 px-1.5 font-mono text-[10px] leading-none text-muted-foreground sm:inline-flex">
-              Esc
-            </kbd>
+              <InputGroupAddon>
+                <SearchIcon className="cn-command-input-icon size-4 shrink-0 opacity-50" />
+              </InputGroupAddon>
+              <InputGroupAddon align="inline-end" className="hidden sm:flex">
+                <Kbd>Esc</Kbd>
+              </InputGroupAddon>
+            </InputGroup>
           </div>
           <CommandList className="max-h-64 p-1">
             <CommandEmpty className="py-6 text-center text-sm text-muted-foreground">
@@ -347,7 +355,10 @@ function VercelSidebarSearchTrigger({ className, ref, ...props }: VercelSidebarS
       ref={ref}
       type="button"
       data-slot="vercel-sidebar-search-trigger"
-      className={cn("cn-vercel-sidebar-search-trigger", className)}
+      className={cn(
+        "cn-vercel-sidebar-search-trigger cn-input cn-sidebar-input flex w-full cursor-pointer items-center gap-2 text-left text-muted-foreground",
+        className,
+      )}
       {...props}
     />
   )

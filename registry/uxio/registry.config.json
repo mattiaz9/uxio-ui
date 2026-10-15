@@ -482,10 +482,17 @@
     "description": "Sidebar with drill-down panels: root nav swaps to sub-links with back + title; header/footer stay fixed. SSR-safe via defaultPanel or controlled panel.",
     "categories": ["layout"],
     "dependencies": {
-      "base": ["clsx", "lucide-react", "motion", "tailwind-merge"],
-      "radix": ["clsx", "lucide-react", "motion", "tailwind-merge"]
+      "base": ["clsx", "cmdk", "lucide-react", "motion", "tailwind-merge"],
+      "radix": ["clsx", "cmdk", "lucide-react", "motion", "tailwind-merge"]
     },
-    "registryDependencies": ["sidebar", "command", "@uxio/popover", "@uxio/tooltip"]
+    "registryDependencies": [
+      "sidebar",
+      "command",
+      "kbd",
+      "@uxio/popover",
+      "@uxio/tooltip",
+      "@uxio/input-group"
+    ]
   },
   {
     "name": "combobox",
