@@ -57,14 +57,18 @@ function DialogContent({
         )}
         {...props}
       >
-        {children}
-        {showCloseButton && (
-          <DialogPrimitive.Close data-slot="dialog-close" asChild>
-            <Button variant="ghost" className="cn-dialog-close" size="icon-sm">
-              <XIcon className="size-4" />
-              <span className="sr-only">Close</span>
-            </Button>
-          </DialogPrimitive.Close>
+        {showCloseButton ? (
+          <>
+            {children}
+            <DialogPrimitive.Close data-slot="dialog-close" asChild>
+              <Button variant="ghost" className="cn-dialog-close" size="icon-sm">
+                <XIcon className="size-4" />
+                <span className="sr-only">Close</span>
+              </Button>
+            </DialogPrimitive.Close>
+          </>
+        ) : (
+          children
         )}
       </DialogPrimitive.Content>
     </DialogPortal>
