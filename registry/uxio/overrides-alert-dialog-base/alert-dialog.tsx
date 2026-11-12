@@ -91,7 +91,7 @@ function AlertDialogTitle({
   return (
     <AlertDialogPrimitive.Title
       data-slot="alert-dialog-title"
-      className={cn("cn-alert-dialog-title", className)}
+      className={cn("cn-alert-dialog-title cn-font-heading", className)}
       {...props}
     />
   )
@@ -110,18 +110,11 @@ function AlertDialogDescription({
   )
 }
 
-function AlertDialogAction({
-  className,
-  variant = "default",
-  size = "default",
-  ...props
-}: AlertDialogPrimitive.Close.Props &
-  Pick<React.ComponentProps<typeof Button>, "variant" | "size">) {
+function AlertDialogAction({ className, ...props }: React.ComponentProps<typeof Button>) {
   return (
-    <AlertDialogPrimitive.Close
+    <Button
       data-slot="alert-dialog-action"
       className={cn("cn-alert-dialog-action", className)}
-      render={<Button variant={variant} size={size} />}
       {...props}
     />
   )

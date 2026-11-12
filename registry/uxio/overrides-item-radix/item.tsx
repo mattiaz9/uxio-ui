@@ -1,8 +1,9 @@
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
-import { Separator as SeparatorPrimitive, Slot } from "radix-ui"
+import { Slot } from "radix-ui"
 
 import { cn } from "@/lib/utils"
+import { Separator } from "@/registry/uxio/overrides-separator-radix/separator"
 
 const itemGroupVariants = cva("cn-item-group group/item-group flex w-full flex-col", {
   variants: {
@@ -36,16 +37,12 @@ function ItemGroup({
 function ItemSeparator({
   className,
   ...props
-}: React.ComponentProps<typeof SeparatorPrimitive.Root>) {
+}: React.ComponentProps<typeof Separator>) {
   return (
-    <SeparatorPrimitive.Root
+    <Separator
       data-slot="item-separator"
-      decorative
       orientation="horizontal"
-      className={cn(
-        "cn-item-separator shrink-0 bg-border data-horizontal:h-px data-horizontal:w-full data-vertical:w-px data-vertical:self-stretch",
-        className,
-      )}
+      className={cn("cn-item-separator", className)}
       {...props}
     />
   )

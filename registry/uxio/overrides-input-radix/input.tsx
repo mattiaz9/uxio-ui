@@ -67,6 +67,7 @@ function Input({
   return (
     <input
       type={type}
+      data-slot="input"
       data-size={size}
       ref={inputRef}
       disabled={disabled}

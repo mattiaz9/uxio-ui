@@ -48,6 +48,7 @@ function Badge({
       {
         className: cn(badgeVariants({ variant, size }), className),
         "data-size": size,
+        "data-variant": variant,
       } as ComponentPropsWithoutRef<"span">,
       props,
     ),

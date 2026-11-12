@@ -1,10 +1,10 @@
 import * as React from "react"
 import { mergeProps } from "@base-ui/react/merge-props"
-import { Separator as SeparatorPrimitive } from "@base-ui/react/separator"
 import { useRender } from "@base-ui/react/use-render"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
+import { Separator } from "@/registry/uxio/overrides-separator-base/separator"
 
 const itemGroupVariants = cva("cn-item-group group/item-group flex w-full flex-col", {
   variants: {
@@ -35,15 +35,12 @@ function ItemGroup({
   )
 }
 
-function ItemSeparator({ className, ...props }: SeparatorPrimitive.Props) {
+function ItemSeparator({ className, ...props }: React.ComponentProps<typeof Separator>) {
   return (
-    <SeparatorPrimitive
+    <Separator
       data-slot="item-separator"
       orientation="horizontal"
-      className={cn(
-        "cn-item-separator shrink-0 bg-border data-horizontal:h-px data-horizontal:w-full data-vertical:w-px data-vertical:self-stretch",
-        className,
-      )}
+      className={cn("cn-item-separator", className)}
       {...props}
     />
   )

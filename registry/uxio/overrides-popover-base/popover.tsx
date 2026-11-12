@@ -24,7 +24,7 @@ function PopoverContent({
   align = "center",
   alignOffset = 0,
   side = "bottom",
-  sideOffset = 8,
+  sideOffset,
   children,
   arrow = false,
   ...props
@@ -35,7 +35,7 @@ function PopoverContent({
         align={align}
         alignOffset={alignOffset}
         side={side}
-        sideOffset={sideOffset}
+        sideOffset={sideOffset ?? (arrow ? 8 : 4)}
         className="isolate z-50"
       >
         <PopoverPrimitive.Popup

@@ -2,16 +2,17 @@
 
 ## Goal
 
-Allow the root `Card` to morph onto a child element (e.g. an `<a>` or Next.js `Link`) so interactive cards avoid an extra wrapper `div`. Subcomponents stay as plain `div`s.
+Allow the root `Card` to morph onto a child element (e.g. an `<a>` or Next.js `Link`) so interactive
+cards avoid an extra wrapper `div`. Subcomponents stay as plain `div`s.
 
 ## Scope
 
-| In scope | Out of scope |
-| --- | --- |
-| Root `Card` only | `CardHeader`, `CardTitle`, `CardDescription`, `CardAction`, `CardContent`, `CardFooter` |
-| Radix: `asChild` + `Slot` | Shared composition helper abstraction |
-| Base: `render` + `useRender` | Stylesheet / CVA changes |
-| Docs + examples for both bases | Homepage / bundles updates (existing card already documented) |
+| In scope                       | Out of scope                                                                            |
+| ------------------------------ | --------------------------------------------------------------------------------------- |
+| Root `Card` only               | `CardHeader`, `CardTitle`, `CardDescription`, `CardAction`, `CardContent`, `CardFooter` |
+| Radix: `asChild` + `Slot`      | Shared composition helper abstraction                                                   |
+| Base: `render` + `useRender`   | Stylesheet / CVA changes                                                                |
+| Docs + examples for both bases | Homepage / bundles updates (existing card already documented)                           |
 
 ## API
 
@@ -93,7 +94,8 @@ Usage:
 <Card render={<a href="/docs" />}>…</Card>
 ```
 
-`data-slot`, `data-size`, `data-variant`, and existing CVA classes must continue to apply when composing.
+`data-slot`, `data-size`, `data-variant`, and existing CVA classes must continue to apply when
+composing.
 
 ## Docs
 
@@ -111,17 +113,21 @@ Keep copy brief (same tone as Destructive Variant). Do not enumerate every inter
 
 ## Examples
 
-| File | Content |
-| --- | --- |
+| File                                   | Content                                                                   |
+| -------------------------------------- | ------------------------------------------------------------------------- |
 | `src/examples/radix/card-as-child.tsx` | `Card asChild` wrapping an `<a>` with standard header/content composition |
-| `src/examples/base/card-render.tsx` | `Card render={<a … />}` with the same composition |
+| `src/examples/base/card-render.tsx`    | `Card render={<a … />}` with the same composition                         |
 
-Examples should reuse the existing example import style (`./ui/card`, etc.) and stay visually simple (link card with title + description).
+Examples should reuse the existing example import style (`./ui/card`, etc.) and stay visually simple
+(link card with title + description).
 
 ## Non-goals
 
 - No new card variants or CSS in `registry/styles/style-*-uxio.css`
-- No changes to `registry.config.json` dependencies unless `radix-ui` / `@base-ui/react` imports require it (they should already be present via other overrides; Card itself currently has no Slot dependency on radix — adding `import { Slot } from "radix-ui"` may need a registry dependency check)
+- No changes to `registry.config.json` dependencies unless `radix-ui` / `@base-ui/react` imports
+  require it (they should already be present via other overrides; Card itself currently has no Slot
+  dependency on radix — adding `import { Slot } from "radix-ui"` may need a registry dependency
+  check)
 - No homepage/bundles updates (card already listed)
 
 ## Acceptance
@@ -130,4 +136,5 @@ Examples should reuse the existing example import style (`./ui/card`, etc.) and 
 2. Base `Card` accepts `render` and merges props/classes via `useRender` / `mergeProps`.
 3. Subcomponents unchanged.
 4. Docs list the feature and show a working preview for each base.
-5. Destructive variant and existing card behavior remain unchanged when `asChild`/`render` are omitted.
+5. Destructive variant and existing card behavior remain unchanged when `asChild`/`render` are
+   omitted.

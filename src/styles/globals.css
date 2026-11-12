@@ -46,11 +46,11 @@
     --container-padding: 1rem;
     --container-inset: var(--container-padding);
 
-    @media (width >=theme(--breakpoint-sm)) {
+    @media (width >= theme(--breakpoint-sm)) {
       --container-padding: 1.5rem;
     }
 
-    @media (width >=theme(--breakpoint-2xl)) {
+    @media (width >= theme(--breakpoint-2xl)) {
       --container-max-width: 97rem;
       --container-inset: calc(
         50vw - min(100vw, var(--container-max-width)) / 2 + var(--container-padding)

@@ -87,7 +87,7 @@ colors or typography. To change colors, use semantic tokens, built-in variants, 
 **Incorrect:**
 
 ```tsx
-<Card className="bg-blue-100 text-blue-900 font-bold">
+<Card className="bg-blue-100 font-bold text-blue-900">
   <CardContent>Dashboard</CardContent>
 </Card>
 ```
@@ -95,7 +95,7 @@ colors or typography. To change colors, use semantic tokens, built-in variants, 
 **Correct:**
 
 ```tsx
-<Card className="max-w-md mx-auto">
+<Card className="mx-auto max-w-md">
   <CardContent>Dashboard</CardContent>
 </Card>
 ```

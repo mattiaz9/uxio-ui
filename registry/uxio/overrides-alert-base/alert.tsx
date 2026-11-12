@@ -34,14 +34,26 @@ function Alert({
 }
 
 function AlertTitle({ className, ...props }: React.ComponentProps<"div">) {
-  return <div data-slot="alert-title" className={cn("cn-alert-title", className)} {...props} />
+  return (
+    <div
+      data-slot="alert-title"
+      className={cn(
+        "cn-alert-title [&_a]:underline [&_a]:underline-offset-3 [&_a]:hover:text-foreground",
+        className,
+      )}
+      {...props}
+    />
+  )
 }
 
 function AlertDescription({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="alert-description"
-      className={cn("cn-alert-description", className)}
+      className={cn(
+        "cn-alert-description [&_a]:underline [&_a]:underline-offset-3 [&_a]:hover:text-foreground",
+        className,
+      )}
       {...props}
     />
   )

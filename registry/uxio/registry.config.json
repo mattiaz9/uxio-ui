@@ -335,14 +335,14 @@
     "dependencies": {
       "base": [
         "@base-ui/react/merge-props",
-        "@base-ui/react/separator",
         "@base-ui/react/use-render",
         "class-variance-authority",
         "clsx",
         "tailwind-merge"
       ],
       "radix": ["radix-ui", "class-variance-authority", "clsx", "tailwind-merge"]
-    }
+    },
+    "registryDependencies": ["separator"]
   },
   {
     "name": "popover",
@@ -371,7 +371,7 @@
     "name": "chart",
     "type": "registry:ui",
     "title": "Chart",
-    "description": "Same code as the original, but with some fixes for stricter linting rules",
+    "description": "Tooltip uses the popover background.",
     "categories": ["overrides"],
     "dependencies": {
       "base": ["recharts@3.8.0"],

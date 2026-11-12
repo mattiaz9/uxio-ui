@@ -3,10 +3,9 @@
 import * as React from "react"
 import { Dialog as SheetPrimitive } from "@base-ui/react/dialog"
 
-import { XIcon } from "lucide-react"
-
 import { cn } from "@/lib/utils"
 import { Button } from "@/registry/uxio/overrides-button-base/button"
+import { IconPlaceholder } from "@/registry/uxio/shared/icon-placeholder/icon-placeholder"
 
 function Sheet({ ...props }: SheetPrimitive.Root.Props) {
   return <SheetPrimitive.Root data-slot="sheet" {...props} />
@@ -65,7 +64,13 @@ function SheetContent({
             data-slot="sheet-close"
             render={<Button variant="ghost" className="cn-sheet-close" size="icon-sm" />}
           >
-            <XIcon className="size-4" />
+            <IconPlaceholder
+              lucide="XIcon"
+              tabler="IconX"
+              hugeicons="Cancel01Icon"
+              phosphor="XIcon"
+              remixicon="RiCloseLine"
+            />
             <span className="sr-only">Close</span>
           </SheetPrimitive.Close>
         )}

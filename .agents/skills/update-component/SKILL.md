@@ -14,9 +14,18 @@ user-invocable: true
   requested
 
 - If exists:
-  - Navigate to each compoennt page, copy the code for both frameworks and paste it in
-    `registry/uxio/overrides-{name}-{base}/{name}.tsx` (Make sure to copy exactly as it is,
-    including all the classes)
+  - First look at the docs (`/content/docs/overrides/*`) and look at the docs for the updating
+    component, specifically the 'extended features' part.
+  - If there are extended features:
+    - Navigate to each component page in`registry/uxio/overrides-{name}-{base}/{name}.tsx`, copy the
+      code for both frameworks from shadcn, but cross references the changes between local and
+      shadcn code. Apply the shadcn changes without breaking the customizations.
+    - In case an extended feature was implemented by shadcn, apply the shadcn version entirely (for
+      that specific feature) and remove that feature from docs (and examples if there are any).
+  - If not:
+    - Navigate to each component page, copy the code for both frameworks from shadcn and paste it in
+      `registry/uxio/overrides-{name}-{base}/{name}.tsx` (Make sure to copy exactly as it is,
+      including all the classes)
 - If doesn't exist:
   - If the user provided the code in the promp copy it to the file
     `registry/uxio/overrides-{name}-{base}/{name}.tsx` otherwise ask the user for the code.
